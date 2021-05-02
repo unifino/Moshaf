@@ -72,8 +72,8 @@ init (): void {
 
     let kalam = "";
     let folk: string[];
-    let saheb = new Date();
-    let taghdir = saheb.getTime() % quran.length;
+    let saat = new Date();
+    let taghdir = saat.getTime() % quran.length;
     const sura = quran[ taghdir ].sura;
 
     // .. loop until end of sura

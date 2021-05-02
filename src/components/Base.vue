@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Saheb ref="saheb" />
+    <Ghertas ref="ghertas" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -21,7 +21,7 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
-import Saheb                            from "@/components/Ghertas.vue"
+import Ghertas                          from "@/components/Ghertas.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
@@ -31,7 +31,7 @@ import * as tools                       from "@/mixins/tools"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Saheb }
+    components: { Ghertas }
 } )
 
 // -- =====================================================================================
@@ -111,8 +111,8 @@ init (): void {
     // .. just applying default theme
     TM.themeApplier( "DarkGreen", this.$refs );
 
-    // .. saheb
-    ( this.$refs.saheb as Saheb ).init();
+    // .. Ghertas
+    ( this.$refs.ghertas as Ghertas ).init();
 
     // .. after granting storage permission further steps should be taken
     // this.permissionApplier()
@@ -286,10 +286,5 @@ destroyed () {
 <style scoped>
 
 /*                                          */
-    .fx {
-        height: 100%;
-        width: 100%;
-        background-color: #0a1c20;
-    }
 
 </style>

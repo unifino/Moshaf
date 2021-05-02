@@ -1,2 +1,14 @@
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
+
+// .. GSS: Global Solid Settings
+Frame { 
+    action-bar-visibility: never; 
+    background-color: transparent;
+}
+Page { background-color: transparent; }
+
+.fx {
+    height: 100%;
+    width: 100%;
+}
