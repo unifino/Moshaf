@@ -1,7 +1,7 @@
 <template>
 <GridLayout class="fx" rows="40,*,40">
 
-    <Label :text="sura" class="esm" row=2 />
+    <Label :text="name" class="esm" row=2 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -46,6 +46,7 @@
 import { Vue, Component }               from "vue-property-decorator"
 import { asma, quran }                  from "@/db/quran"
 import Kalameh                          from "@/components/Kalameh.vue"
+import * as storage                     from "@/mixins/storage"
 
 // -- =====================================================================================
 
@@ -59,8 +60,8 @@ export default class Ghertas extends Vue {
 
 // -- =====================================================================================
 
-vahy: { refId: number, text: string, type: "number"|"string" }[] = [];
-sura: string = "";
+vahy: { text: string, type: "ESM"|"string"|"number" }[] = [];
+name: string = "";
 
 // -- =====================================================================================
 
@@ -70,53 +71,78 @@ mounted () {}
 
 init (): void {
 
-    let kalam = "";
-    let folk: string[];
+    let message: string[];
     let saat = new Date();
     let taghdir = saat.getTime() % quran.length;
+
     const sura = quran[ taghdir ].sura;
 
-    // .. loop until end of sura
-    while ( quran[ taghdir ].sura === sura ) {
+    // .. save trace
+    storage.saveTrace( taghdir, saat.toString() );
 
-        let kalameh = quran[ taghdir ];
-        // .. all new sura except ONE has this...
-        if ( kalameh.ayah === 1 && kalameh.sura !== 9 ) {
-            if ( quran[ taghdir ].sura !== 1 ) kalam += "\n\n";
-            kalam += quran[0].text + "\n";
-        }
-        else kalam += kalameh.text + " " + kalameh.ayah + " ";
+    // .. title of sura
+    this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
+
+    // .. monzal
+    let kalam = this.rouh( taghdir, sura );
+
+    // .. trim & divide the string!
+    message = kalam.trim().split( " " );
+
+    // .. preview
+    this.morsal( message.filter( (x, i) => i < 110 ), false );
+
+    // .. full message
+    setTimeout( () => this.morsal( message ), 3000 );
+
+}
+
+// -- =====================================================================================
+
+rouh ( ayah: number, sura: number ) {
+
+    let kalam = "";
+
+    // .. loop until end of sura
+    while ( quran[ ayah ].sura === sura ) {
+
+        let klm = quran[ ayah ];
+
+        // .. all new sura except ONE has the ESM
+        if ( klm.ayah === 1 && klm.sura !== 9 && klm.sura !== 1 ) kalam += "ESM ";
+
+        kalam += klm.text + " " + klm.ayah + " ";
 
         // .. next one
-        taghdir++;
-
-        // ! check end of the Book!
+        ayah++;
 
     }
 
-    // .. title
-    this.sura = asma[ sura -1 ] + "  ( " + sura + " ) ";
+    return kalam;
 
-    // .. divide the string!
-    folk = kalam.split( " " );
+}
 
-    // .. create the actual data with some limitation
-    this.vahy = folk.map( p => {
+// -- =====================================================================================
+
+morsal ( message: string[], bar=true ) {
+
+    this.vahy = message.map( p => {
         let type: "string" | "number" = isNaN( Number(p) ) ? "string" : "number";
-        return { refId: 0, text: p, type: type }
-    } ).filter( (x, i) => x.text && i < 110 );
+        return { text: p, type: type }
+    } );
 
-    // .. re-create the actual data with-out some limitation
-    setTimeout( () => { 
-        this.vahy = folk.map( p => {
-            let type: "string" | "number" = isNaN( Number(p) ) ? "string" : "number";
-            return { refId: 0, text: p, type: type }
-        } ).filter( (x, i) => x.text );
+    // .. Esm Allah
+    this.allah();
 
-        // .. activate scrollBarIndicatorVisible
-        ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = true;
-    }, 3000 )
+    // .. (de)activate scrollBarIndicatorVisible
+    ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = bar;
 
+}
+
+// -- =====================================================================================
+
+allah () {
+    if ( this.vahy[0].text === "ESM" ) this.vahy[0] = { text: ";", type: "ESM" };
 }
 
 // -- =====================================================================================

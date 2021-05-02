@@ -25,7 +25,7 @@ import Ghertas                          from "@/components/Ghertas.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
-// import * as storage                     from "@/mixins/storageHandler"
+import * as storage                     from "@/mixins/storage"
 // import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
@@ -111,26 +111,24 @@ init (): void {
     // .. just applying default theme
     TM.themeApplier( "DarkGreen", this.$refs );
 
-    // .. Ghertas
-    ( this.$refs.ghertas as Ghertas ).init();
-
     // .. after granting storage permission further steps should be taken
-    // this.permissionApplier()
-    // .then( () => storage.pathCtr() )
-    // .then( () => this.appConfiguration() )
-    // .then( () => Bus.$emit( "BeautyBG_Init" ) )
+    this.permissionApplier()
+    .then( () => storage.db_check() )
+    .then( () => this.setup() )
+    // .. Ghertas
+    .then( () => ( this.$refs.ghertas as Ghertas ).init() )
     // .then( () => Bus.$emit( "Battery_Init" ) )
     // .then( () => myPurchasedItems() )
-    // // .. not resolvable situation
-    // .catch( msg => {
+    // .. not resolvable situation
+    .catch( msg => {
 
-    //     msg = msg + "";
-    //     if ( msg.includes( "java.net.UnknownHostException: Unable to resolve host") ) 
-    //         msg = "Check your Internet Connection!"; 
+        msg = msg + "";
+        if ( msg.includes( "java.net.UnknownHostException: Unable to resolve host") ) 
+            msg = "Check your Internet Connection!"; 
 
-    //     tools.toaster( msg );
+        tools.toaster( msg );
 
-    // } );
+    } );
 
 
 }
@@ -158,47 +156,40 @@ permissionApplier (): Promise<any> {
 
 // -- =====================================================================================
 
-appConfiguration (): Promise<void> {
+setup (): Promise<void> {
 
     return new Promise ( (rs, rx) => { 
 
-        // // .. checking existence && structure of mandatory files
-        // storage.readAppConfig()
-        // .then( async validAppConfig => { 
+        // .. checking existence && structure of mandatory files
+        storage.db_check()
+        .then( async db => { 
 
-        //     // .. register appConfig
-        //     store.state.appConfig = validAppConfig;
+            // .. register appConfig
+            // store.state.appConfig = validAppConfig;
 
-        //     // .. assign user selected theme
-        //     TM.themeApplier( store.state.appConfig.theme, this.$refs );
+            // .. assign user selected theme
+            // TM.themeApplier( store.state.appConfig.theme, this.$refs );
 
-        //     await new Promise( _ => setTimeout( _, 100 ) );
+            await new Promise( _ => setTimeout( _, 100 ) );
 
-        //     // .. basic steps has been resolved!
-        //     rs();
+            // .. basic steps has been resolved!
+            rs();
 
-        //     await new Promise( _ => setTimeout( _, 100 ) );
+            await new Promise( _ => setTimeout( _, 100 ) );
 
-        //     // .. retrieve Lessons
-        //     setTimeout( () => storage.putLessonsInBox(), 0 );
-        //     // .. retrieve Glossaries
-        //     setTimeout( () => storage.putGlossariesInBox(), 0 );
-        //     // .. retrieve FlashCards
-        //     setTimeout( () => storage.putFlashcardsInBox(), 0 );
-        //     // .. retrieve Ribosomes
-        //     setTimeout( () => storage.putRibosomesInBox(), 0 );
+            // .. retrieve Lessons
+            // setTimeout( () => storage.putLessonsInBox(), 0 );
 
-        //     await new Promise( _ => setTimeout( _, 100 ) );
+            await new Promise( _ => setTimeout( _, 100 ) );
 
-        //     // .. setUp app
-        //     this.getRootWindowSize()
-        //     .then( () => ( this.$refs.menu as Menu ).toggleMenu()        )
-        //     .then( () => this.headToInstitute( tools.instituteTravel() ) )
-        //     .then( () => Bus.$emit( "Welcome_Slide", false )             )
-        //     .then( () => ( this.$refs.scope as Scope ).init()            );
+            // // .. setUp app
+            // this.getRootWindowSize()
+            // .then( () => ( this.$refs.menu as Menu ).toggleMenu()        )
+            // .then( () => this.headToInstitute( tools.instituteTravel() ) )
+            // .then( () => Bus.$emit( "Welcome_Slide", false )             )
+            // .then( () => ( this.$refs.scope as Scope ).init()            );
 
-        // } )
-        // .catch( () => ( this.$refs.firstMeet as FirstMeet ).init() );
+        } )
 
     } )
 

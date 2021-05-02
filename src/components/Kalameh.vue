@@ -74,6 +74,17 @@ destroyed () {}
         width: 100%;
     }
 
+    .ESM {
+        font-size: 140;
+        color: #548505;
+        width: 100%;
+        font-family: Besmellah_2;
+        line-height: 7;
+        padding: 8 2;
+        margin-top: -50;
+        text-align: center;
+    }
+
     .string {
         color: #888888;
         text-align: center;
