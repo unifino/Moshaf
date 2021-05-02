@@ -36,7 +36,7 @@ new Vue( {
 
   template: `
 
-      <GridLayout backgroundColor="#0a1c20">
+      <GridLayout>
           <Base />
       </GridLayout>` ,
 

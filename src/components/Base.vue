@@ -21,11 +21,10 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
-import Saheb                            from "@/components/Saheb.vue"
-
+import Saheb                            from "@/components/Ghertas.vue"
 // * npm i nativescript-permissions
-// import permissions                      from "nativescript-permissions"
-// import * as tools                       from "@/mixins/tools"
+import permissions                      from "nativescript-permissions"
+import * as tools                       from "@/mixins/tools"
 // import * as storage                     from "@/mixins/storageHandler"
 // import Bus                              from "@/mixins/bus"
 
@@ -110,7 +109,7 @@ mounted () {
 init (): void {
 
     // .. just applying default theme
-    TM.init();
+    TM.themeApplier( "DarkGreen", this.$refs );
 
     // .. saheb
     ( this.$refs.saheb as Saheb ).init();
@@ -138,24 +137,24 @@ init (): void {
 
 // -- =====================================================================================
 
-// permissionApplier (): Promise<any> {
+permissionApplier (): Promise<any> {
 
-//     return new Promise ( (rs,rx) => { 
+    return new Promise ( (rs,rx) => { 
 
-//         // .. setup the Permissions 
-//         permissions.requestPermission ( [
+        // .. setup the Permissions 
+        permissions.requestPermission ( [
 
-//             "android.permission.INTERNET"               ,
-//             "android.permission.READ_EXTERNAL_STORAGE"  ,
-//             "android.permission.WRITE_EXTERNAL_STORAGE" 
+            "android.permission.INTERNET"               ,
+            "android.permission.READ_EXTERNAL_STORAGE"  ,
+            "android.permission.WRITE_EXTERNAL_STORAGE" 
 
-//         ] )
-//         .then ( () => rs( "Access has been granted!" ) )
-//         .catch( () => rx( "No Access to Storage!") );
+        ] )
+        .then ( () => rs( "Access has been granted!" ) )
+        .catch( () => rx( "No Access to Storage!") );
 
-//     } ); 
+    } ); 
 
-// }
+}
 
 // -- =====================================================================================
 
@@ -290,6 +289,7 @@ destroyed () {
     .fx {
         height: 100%;
         width: 100%;
+        background-color: #0a1c20;
     }
 
 </style>

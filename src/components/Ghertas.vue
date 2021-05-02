@@ -55,7 +55,7 @@ import Kalameh                          from "@/components/Kalameh.vue"
 
 // -- =====================================================================================
 
-export default class Base extends Vue {
+export default class Ghertas extends Vue {
 
 // -- =====================================================================================
 
@@ -142,6 +142,7 @@ destroyed () {}
     }
 
     .esm {
+        color: #888888;
         font-family: MADDINA;
         width: 100%;
         text-align: center;

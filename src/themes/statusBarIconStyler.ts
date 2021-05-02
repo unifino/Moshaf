@@ -22,7 +22,6 @@ statusBarIconStyleApplier = ( type: B_W ): void => {
     if ( type === B_W.Black ) flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
     if ( type === B_W.White ) flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
 
-
     // -- apply the settings
     decorView.setSystemUiVisibility( flags );
 

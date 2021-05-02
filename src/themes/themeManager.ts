@@ -6,6 +6,7 @@ import { statusBarIconStyleApplier }    from "./statusBarIconStyler"
 
 interface themeValues {
     name: string,
+    color: string,
     contrast: TS.B_W,
     statusBarIconsColor: {},
 }
@@ -14,6 +15,7 @@ let themeValues = function ( color: string ): themeValues{
 
     return {
         name: color,
+        color: "#0a1c20",
         contrast: TS.contentColorType[ color ],
         statusBarIconsColor: TS.contentColorType[ color ],
     }
@@ -22,38 +24,33 @@ let themeValues = function ( color: string ): themeValues{
 
 // -- =====================================================================================
 
-export function init () {
+export function themeApplier ( colorName: TS.ThemaName, refs ): void {
 
     // .. get values of the Theme and Element(s)
     let palette = themeValues( "Black" );
+
     // .. applying barIcon Color
     statusBarIconStyleApplier( palette.statusBarIconsColor );
+
+    // .. this elements need to be cared of
+    let obj = [ "root" ];
+
+    // .. apply root ClassName
+    refs[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
+ 
+    // .. apply Background values
+    for ( let x of obj ) refs[x].nativeView.backgroundColor = palette.color;
+
+    // .. register Theme
+    // store.state.appConfig.theme = colorName as TS.ThemaName;
+
+    // .. register DarkMode
+    // store.state.darkMode = palette.contrast === "dark" ? true : false;
+
     // .. applying fullScreen Policy
     fullScreenApplier();
 
 }
-
-// -- =====================================================================================
-
-// export function themeApplier ( colorName: TS.ThemaName, refs ): void {
-
-
-    // // .. this elements need to be cared of
-    // let obj = [ "root", "room", "salon_F" ];
-
-    // // .. apply root ClassName
-    // refs[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
- 
-    // // .. apply Background values
-    // for ( let x of obj ) refs[x].nativeView.backgroundColor = palette.rootBG;
-
-    // // .. register Theme
-    // store.state.appConfig.theme = colorName as TS.ThemaName;
-
-    // // .. register DarkMode
-    // store.state.darkMode = palette.contrast === "dark" ? true : false;
-
-// }
 
 // -- =====================================================================================
 

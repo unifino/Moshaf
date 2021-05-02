@@ -25,7 +25,7 @@ import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
-export default class Base extends Vue {
+export default class Kalameh extends Vue {
 
 // -- =====================================================================================
 
@@ -75,6 +75,7 @@ destroyed () {}
     }
 
     .string {
+        color: #888888;
         text-align: center;
         font-size: 19;
         line-height: 7;
