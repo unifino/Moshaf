@@ -1,10 +1,11 @@
 <template>
 <Page>
-<GridLayout class="fehrest">
+<GridLayout class="fehrest" rows="44,*,44">
 
 <!---------------------------------------------------------------------------------------->
 
-    <FlexboxLayout 
+    <FlexboxLayout
+        row=1
         ref="fehrest"
         flexWrap="wrap"
         flexDirection="row-reverse"
@@ -107,7 +108,6 @@ destroyed () {}
     .fehrest {
         height: 72%;
         width: 80%;
-        margin: 14% 10%;
     }
 
     .sura, .saat {
@@ -115,11 +115,11 @@ destroyed () {}
         color: #888888;
         text-align: center;
         font-size: 14;
-        padding: 1 3;
-        margin: 1 .5;
+        padding: 0 3;
+        margin: 0 .5;
         border-radius: 5;
-        border-color: #23ffffff;
-        border-width: 1;
+        border-color: transparent;
+        border-width: 0 1;
     }
 
     .saat {

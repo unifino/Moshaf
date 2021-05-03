@@ -8,7 +8,7 @@ import { asma, quran }                  from "@/db/quran"
 // -- =====================================================================================
 
 export let Quran: { sura: string, ayah: number, text:string }[];
-export let trace: { ayah: number, date: string }[];
+export let trace: { ayah: number, date: string|boolean }[];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 export const SDCard: string = exStorage.getAbsolutePath().toString();
@@ -52,7 +52,7 @@ export function db_check () {
 
 // -- =====================================================================================
 
-export async function saveTrace ( ayah?: number, date?: string ) {
+export async function saveTrace ( ayah?: number, date?: string|boolean ) {
     // .. add new trace
     if ( date ) trace.push( { ayah: ayah, date: date } );
     // .. write down file

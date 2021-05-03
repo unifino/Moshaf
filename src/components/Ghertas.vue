@@ -96,7 +96,7 @@ init ( me?: number ): void {
     const sura = quran[ taghdir ].sura;
 
     // .. save trace
-    // ! storage.saveTrace( taghdir, saat.toString() );
+    storage.saveTrace( taghdir, !me || saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
