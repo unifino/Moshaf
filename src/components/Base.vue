@@ -27,7 +27,8 @@ import Ghertas                          from "@/components/Ghertas.vue"
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storage"
-// import Bus                              from "@/mixins/bus"
+// * npm i nativescript-exit
+import { exit }                         from "nativescript-exit";
 
 // -- =====================================================================================
 
@@ -49,61 +50,28 @@ mounted () {
 
     this.init();
 
-    // // .. back Button Ctl
-    // NS.Application.android.on( 
-    //     NS.AndroidApplication.activityBackPressedEvent, 
-    //     e => this.backButtonCtl(e),
-    // );
-
-    // // .. resume Ctl
-    // NS.Application.android.on( 
-    //     NS.AndroidApplication.activityResumedEvent, 
-    //     () => this.resumeCtl(),
-    // );
-
-    // Bus.$on( "Base_SwipeControl", this.swipeControl );
-    // Bus.$on( "Base_HeadToIPanel", this.headToIPanel );
+    // .. back Button Ctl
+    NS.Application.android.on( 
+        NS.AndroidApplication.activityBackPressedEvent, 
+        e => this.backButtonCtl(e),
+    );
 
 }
 
 // -- =====================================================================================
 
-// backButtonCtl (e) {
+backButtonCtl (e) {
 
-    // switch ( store.state.here ) {
+    switch ( store.state.here ) {
 
-    //     case "Salon_F"          : Bus.$emit( "Salon_F_Exit" );              break;
-    //     case "ClassRoom"        : Bus.$emit( "ClassRoom_BackOrExit" );      break;
-    //     case "ClassRoomEntrance": Bus.$emit( "ClassRoomEntrance_Back" );    break;
-    //     case "Institute"        : Bus.$emit( "Institute_BackOrExit" );      break;
+        case "Fehrest":
+            exit();
+            e.cancel = true;
+        break;
 
-    // }
+    }
 
-    // e.cancel = true;
-    // // .. Entrance | ClassRoomEntrance | ClassRoom_B will | IPanel    be effected!
-
-// }
-
-// -- =====================================================================================
-
-// resumeCtl () {
-
-    // switch ( store.state.here ) {
-
-    //     case "ClassRoom":
-    //         tnsPLY.stop();
-    //         store.state.mode = "reading";
-    //         break;
-
-    //     case "Institute":
-    //         Bus.$emit( "BeautyBG_Next" );
-    //         break;
-
-    //     // .. Entrance | ClassRoom_B | ClassRoomEntrance | Salon_F will be omitted!
-
-    // }
-
-// }
+}
 
 // -- =====================================================================================
 
@@ -140,7 +108,7 @@ permissionApplier (): Promise<any> {
         .then ( () => rs( "Access has been granted!" ) )
         .catch( () => rx( "No Access to Storage!") );
 
-    } ); 
+    } );
 
 }
 
@@ -175,9 +143,6 @@ setup (): Promise<void> {
 
             // // .. setUp app
             // this.getRootWindowSize()
-            // .then( () => ( this.$refs.menu as Menu ).toggleMenu()        )
-            // .then( () => this.headToInstitute( tools.instituteTravel() ) )
-            // .then( () => Bus.$emit( "Welcome_Slide", false )             )
             // .then( () => ( this.$refs.scope as Scope ).init()            );
 
         } )
@@ -194,6 +159,8 @@ fehrest (): void {
         frame : 'base' ,
         backstackVisible : true ,
     } );
+
+    store.state.here = "Fehrest";
 
 }
 
@@ -259,8 +226,6 @@ destroyed () {
     NS.Application.android.off( NS.AndroidApplication.activityBackPressedEvent );
     NS.Application.android.off( NS.AndroidApplication.activityPausedEvent );
     NS.Application.android.off( NS.AndroidApplication.activityResumedEvent );
-    // Bus.$off( "Base_SwipeControl" );
-    // Bus.$off( "Base_HeadToIPanel" );
 }
 
 // -- =====================================================================================

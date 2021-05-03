@@ -18,6 +18,12 @@
             class="sura"
             @tap="open(i)"
         />
+        <Label 
+            ref="-1"
+            text="صاحب‌الزمان"
+            class="saat"
+            @tap="open(-1)"
+        />
     </FlexboxLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -35,7 +41,8 @@
 import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/Ghertas.vue"
 import Kalameh                          from "@/components/Kalameh.vue"
-import { asma, quran }                  from "@/db/quran"
+import { asma }                         from "@/db/quran"
+import store                            from "@/store/store"
 
 // -- =====================================================================================
 
@@ -76,6 +83,8 @@ open ( num: number ): void {
 
     } );
 
+    store.state.here = "Ghertas";
+
 }
 
 // -- =====================================================================================
@@ -101,7 +110,7 @@ destroyed () {}
         margin: 14% 10%;
     }
 
-    .sura {
+    .sura, .saat {
         font-family: Amiri-Regular;
         color: #888888;
         text-align: center;
@@ -111,6 +120,10 @@ destroyed () {}
         border-radius: 5;
         border-color: #23ffffff;
         border-width: 1;
+    }
+
+    .saat {
+        background-color: #07301d;
     }
 
 </style>

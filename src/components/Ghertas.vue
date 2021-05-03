@@ -56,6 +56,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import { asma, quran }                  from "@/db/quran"
 import Kalameh                          from "@/components/Kalameh.vue"
 import * as storage                     from "@/mixins/storage"
+import store                            from "@/store/store"
 
 // -- =====================================================================================
 
@@ -166,6 +167,7 @@ allah () {
 
 destroyed () {
     clearTimeout( this.morsal_TO );
+    store.state.here = "Fehrest";
 }
 
 // -- =====================================================================================
