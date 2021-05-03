@@ -1,4 +1,5 @@
 <template>
+<Page>
 <GridLayout class="fx" rows="40,*,40">
 
     <Label :text="name" class="esm" row=2 />
@@ -28,6 +29,13 @@
                 :myType=kalameh.type
                 @myTap=true
             />
+            <Label
+                v-for="i in [1,2,3,4,5,6,7,1,2,3,4,5,6,7]"
+                :key=i
+                alignSelf="stretch"
+                height=0
+                text="   "
+            />
         </FlexboxLayout>
 
     </ScrollView>
@@ -35,6 +43,7 @@
 <!---------------------------------------------------------------------------------------->
 
 </GridLayout>
+</Page>
 </template>
 
 // -- =====================================================================================
@@ -43,7 +52,7 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
+import { Vue, Component, Prop }         from "vue-property-decorator"
 import { asma, quran }                  from "@/db/quran"
 import Kalameh                          from "@/components/Kalameh.vue"
 import * as storage                     from "@/mixins/storage"
@@ -60,25 +69,33 @@ export default class Ghertas extends Vue {
 
 // -- =====================================================================================
 
+@Prop() me: number;
+
+// -- =====================================================================================
+
 vahy: { text: string, type: "ESM"|"string"|"number" }[] = [];
 name: string = "";
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    this.init( this.me )
+}
 
 // -- =====================================================================================
 
-init (): void {
+morsal_TO: NodeJS.Timeout | any;
+init ( me?: number ): void {
 
     let message: string[];
     let saat = new Date();
-    let taghdir = saat.getTime() % quran.length;
+    let taghdir = me ? 
+        quran.findIndex( x => x.sura === me ) : saat.getTime() % quran.length;
 
     const sura = quran[ taghdir ].sura;
 
     // .. save trace
-    storage.saveTrace( taghdir, saat.toString() );
+    // ! storage.saveTrace( taghdir, saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
@@ -93,7 +110,7 @@ init (): void {
     this.morsal( message.filter( (x, i) => i < 110 ), false );
 
     // .. full message
-    setTimeout( () => this.morsal( message ), 3000 );
+    this.morsal_TO = setTimeout( () => this.morsal( message ), 3000 );
 
 }
 
@@ -147,7 +164,9 @@ allah () {
 
 // -- =====================================================================================
 
-destroyed () {}
+destroyed () {
+    clearTimeout( this.morsal_TO );
+}
 
 // -- =====================================================================================
 

@@ -1,10 +1,29 @@
 <template>
+<Page>
+<GridLayout class="fehrest">
+
 <!---------------------------------------------------------------------------------------->
 
-    <Label ref="kalameh" :text="myText" :class="myType" @tap="copy" />
+    <FlexboxLayout 
+        ref="fehrest"
+        flexWrap="wrap"
+        flexDirection="row-reverse"
+        justifyContent="space-between"
+    >
+        <Label 
+            v-for="(esm,i) in asma"
+            :key=i
+            :ref="i"
+            :text=esm
+            class="sura"
+            @tap="open(i)"
+        />
+    </FlexboxLayout>
 
 <!---------------------------------------------------------------------------------------->
 
+</GridLayout>
+</Page>
 </template>
 
 // -- =====================================================================================
@@ -13,24 +32,24 @@
 
 // -- =====================================================================================
 
-import { Vue, Component, Prop }         from "vue-property-decorator"
-// * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
+import { Vue, Component }               from "vue-property-decorator"
+import Ghertas                          from "@/components/Ghertas.vue"
+import Kalameh                          from "@/components/Kalameh.vue"
+import { asma, quran }                  from "@/db/quran"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: {}
+    components: { Kalameh, Ghertas }
 } )
 
 // -- =====================================================================================
 
-export default class Kalameh extends Vue {
+export default class Fehrest extends Vue {
 
 // -- =====================================================================================
 
-@Prop() myText: string;
-@Prop() myType: "string"|"number";
+asma = asma;
 
 // -- =====================================================================================
 
@@ -38,17 +57,24 @@ mounted () {}
 
 // -- =====================================================================================
 
-init (): void {}
+open ( num: number ): void {
 
-// -- =====================================================================================
+    Vue.prototype.$navigateTo( Ghertas, {
 
-copy ( args ) {
+        frame : this.$parent.$parent.$refs.base ,
 
-    // .. press effect
-    args.object.className += " pressed";
-    setTimeout( () => args.object.className = this.myType, 100 );
+        backstackVisible : true ,
 
-    setText( this.myText );
+        props : {
+            me : num +1,
+        } , 
+
+        transition : {
+            name         : "slideTop" ,
+            duration     : 300 ,
+        } 
+
+    } );
 
 }
 
@@ -69,48 +95,22 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
-
-    .ESM {
-        font-size: 140;
-        color: #548505;
-        width: 100%;
-        font-family: Besmellah_2;
-        line-height: 7;
-        padding: 8 2;
-        margin-top: -50;
-        text-align: center;
+    .fehrest {
+        height: 72%;
+        width: 80%;
+        margin: 14% 10%;
     }
 
-    .string {
+    .sura {
         font-family: Amiri-Regular;
         color: #888888;
         text-align: center;
-        font-size: 19;
-        line-height: 7;
-        padding: 8 2;
+        font-size: 14;
+        padding: 1 3;
+        margin: 1 .5;
         border-radius: 5;
         border-color: #23ffffff;
-        border-width: 0;
-    }
-
-    .number {
-        font-family: MADDINA;
-        text-align: center;
-        font-size: 14;
-        padding-top: 1.7;
-        margin: 0 2;
-        width: 23;
-        height: 23;
-        align-self: center;
-        border-radius: 99;
-        background-color: #141414;
-        color: #a7a7a7;
-    }
-
-    .pressed {
-        font-weight: bold;
-        color: #000000;
-        border-color: #929497;
+        border-width: 1;
     }
 
 </style>

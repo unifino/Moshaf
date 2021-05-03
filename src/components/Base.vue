@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Ghertas ref="ghertas" />
+    <Frame class="fx" id="base" ref="base" ><Page/></Frame>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -21,6 +21,7 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
+import Fehrest                          from "@/components/Fehrest.vue"
 import Ghertas                          from "@/components/Ghertas.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
@@ -31,7 +32,7 @@ import * as storage                     from "@/mixins/storage"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Ghertas }
+    components: { Fehrest, Ghertas }
 } )
 
 // -- =====================================================================================
@@ -116,20 +117,9 @@ init (): void {
     .then( () => storage.db_check() )
     .then( () => this.setup() )
     // .. Ghertas
-    .then( () => ( this.$refs.ghertas as Ghertas ).init() )
-    // .then( () => Bus.$emit( "Battery_Init" ) )
-    // .then( () => myPurchasedItems() )
+    // .then( () => ( this.$refs.ghertas as Ghertas ).init() )
     // .. not resolvable situation
-    .catch( msg => {
-
-        msg = msg + "";
-        if ( msg.includes( "java.net.UnknownHostException: Unable to resolve host") ) 
-            msg = "Check your Internet Connection!"; 
-
-        tools.toaster( msg );
-
-    } );
-
+    .catch( msg => tools.toaster( msg ) );
 
 }
 
@@ -169,6 +159,7 @@ setup (): Promise<void> {
 
             // .. assign user selected theme
             // TM.themeApplier( store.state.appConfig.theme, this.$refs );
+            this.fehrest();
 
             await new Promise( _ => setTimeout( _, 100 ) );
 
@@ -197,6 +188,14 @@ setup (): Promise<void> {
 
 // -- =====================================================================================
 
+fehrest (): void {
+
+    Vue.prototype.$navigateTo( Fehrest, {
+        frame : 'base' ,
+        backstackVisible : true ,
+    } );
+
+}
 
 // -- =====================================================================================
 
