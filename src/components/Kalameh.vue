@@ -81,7 +81,7 @@ destroyed () {}
         text-align: center;
     }
 
-    .string {
+    .string, .sajdeh {
         font-family: Amiri-Regular;
         color: #888888;
         text-align: center;
@@ -91,6 +91,10 @@ destroyed () {}
         border-radius: 5;
         border-color: #23ffffff;
         border-width: 0;
+    }
+
+    .sajdeh {
+        color: #2b99e2;
     }
 
     .number {

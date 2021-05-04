@@ -42,7 +42,7 @@
 import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/Ghertas.vue"
 import Kalameh                          from "@/components/Kalameh.vue"
-import { asma }                         from "@/db/quran"
+import { asma }                         from "@/db/Quran"
 import store                            from "@/store/store"
 
 // -- =====================================================================================

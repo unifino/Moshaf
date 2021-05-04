@@ -53,9 +53,10 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import { asma, quran }                  from "@/db/quran"
-import Kalameh                          from "@/components/Kalameh.vue"
+import { asma, Quran }                  from "@/db/Quran"
+import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
+import Kalameh                          from "@/components/Kalameh.vue"
 import store                            from "@/store/store"
 
 // -- =====================================================================================
@@ -74,7 +75,7 @@ export default class Ghertas extends Vue {
 
 // -- =====================================================================================
 
-vahy: { text: string, type: "ESM"|"string"|"number" }[] = [];
+vahy: TS.vahy = [];
 name: string = "";
 
 // -- =====================================================================================
@@ -88,30 +89,26 @@ mounted () {
 morsal_TO: NodeJS.Timeout | any;
 init ( me?: number ): void {
 
-    let message: string[];
     let saat = new Date();
     let taghdir = me ? 
-        quran.findIndex( x => x.sura === me ) : saat.getTime() % quran.length;
+        Quran.findIndex( x => x.sura === me ) : saat.getTime() % Quran.length;
 
-    const sura = quran[ taghdir ].sura;
+    // .. get the name
+    const sura = Quran[ taghdir ].sura;
 
     // .. save trace
-    storage.saveTrace( taghdir, !me || saat.toString() );
+    storage.saveTrace( taghdir, !!me || saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
 
-    // .. monzal
-    let kalam = this.rouh( taghdir, sura );
-
-    // .. trim & divide the string!
-    message = kalam.trim().split( " " );
+    let message = this.rouh( taghdir, sura );
 
     // .. preview
-    this.morsal( message.filter( (x, i) => i < 110 ), false );
+    this.morsal( message, 110 );
 
     // .. full message
-    this.morsal_TO = setTimeout( () => this.morsal( message ), 3000 );
+    this.morsal_TO = setTimeout( () => this.morsal( message, 0 ), 3000 );
 
 }
 
@@ -119,48 +116,43 @@ init ( me?: number ): void {
 
 rouh ( ayah: number, sura: number ) {
 
-    let kalam = "";
+    let vahy: TS.vahy = [];
 
     // .. loop until end of sura
-    while ( quran[ ayah ].sura === sura ) {
+    while ( Quran[ ayah ].sura === sura ) {
 
-        let klm = quran[ ayah ];
+        let q = Quran[ ayah ];
 
         // .. all new sura except ONE has the ESM
-        if ( klm.ayah === 1 && klm.sura !== 9 && klm.sura !== 1 ) kalam += "ESM ";
+        if ( q.ayah === 1 && q.sura !== 9 && q.sura !== 1 ) 
+            vahy.push( { text: ";", type: "ESM" } );
 
-        kalam += klm.text + " " + klm.ayah + " ";
+        // .. divide ayah
+        q.text.split( " " ).map( k => 
+            vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } )
+        );
+
+        // .. add number
+        vahy.push( { text: q.ayah.toString(), type: "number" } );
 
         // .. next one
         ayah++;
 
     }
 
-    return kalam;
+    return vahy;
 
 }
 
 // -- =====================================================================================
 
-morsal ( message: string[], bar=true ) {
+morsal ( message: TS.vahy, limit: number ) {
 
-    this.vahy = message.map( p => {
-        let type: "string" | "number" = isNaN( Number(p) ) ? "string" : "number";
-        return { text: p, type: type }
-    } );
-
-    // .. Esm Allah
-    this.allah();
+    this.vahy = message.filter( (x, i) => i < ( limit || Infinity ) );
 
     // .. (de)activate scrollBarIndicatorVisible
-    ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = bar;
+    ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = !limit;
 
-}
-
-// -- =====================================================================================
-
-allah () {
-    if ( this.vahy[0].text === "ESM" ) this.vahy[0] = { text: ";", type: "ESM" };
 }
 
 // -- =====================================================================================

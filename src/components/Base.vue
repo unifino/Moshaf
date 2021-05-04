@@ -18,7 +18,6 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
 import Fehrest                          from "@/components/Fehrest.vue"
@@ -120,7 +119,7 @@ setup (): Promise<void> {
 
         // .. checking existence && structure of mandatory files
         storage.db_check()
-        .then( async db => { 
+        .then( async () => { 
 
             // .. register appConfig
             // store.state.appConfig = validAppConfig;
