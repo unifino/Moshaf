@@ -93,13 +93,11 @@ init ( me?: number ): void {
     let taghdir = me ? 
         Quran.findIndex( x => x.sura === me ) : saat.getTime() % Quran.length;
 
-console.log(taghdir,me);
-
     // .. get the name
     const sura = Quran[ taghdir ].sura;
 
     // .. save trace
-    // storage.saveTrace( taghdir, !!me || saat.toString() );
+    storage.saveTrace( taghdir, !!me || saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";

@@ -69,17 +69,17 @@ open ( num: number ): void {
 
     Vue.prototype.$navigateTo( Ghertas, {
 
-        frame : this.$parent.$parent.$refs.base ,
+        frame : "base",
 
-        backstackVisible : true ,
+        backstackVisible : true,
 
         props : {
             me : num +1,
         } , 
 
         transition : {
-            name         : "slideTop" ,
-            duration     : 300 ,
+            name         : "slideTop",
+            duration     : 300,
         } 
 
     } );

@@ -1,7 +1,7 @@
 <template>
 <!---------------------------------------------------------------------------------------->
 
-    <Label ref="kalameh" :text="myText" :class="myType" @tap="copy" />
+    <Label ref="kalameh" :text="myText" :class="myType" @tap="lookup" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -12,17 +12,17 @@
 <script lang="ts">
 
 // -- =====================================================================================
-declare var android; // required if tns-platform-declarations is not installed
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
-import * as NS                          from "@nativescript/core"
+import Lookup                           from "@/components/Lookup.vue"
+import store                            from "@/store/store"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: {}
+    components: { Lookup }
 } )
 
 // -- =====================================================================================
@@ -44,6 +44,31 @@ init (): void {}
 
 // -- =====================================================================================
 
+lookup (): void {
+
+    Vue.prototype.$navigateTo( Lookup, {
+
+        frame : "base",
+
+        backstackVisible : true,
+
+        props : {
+            word : this.myText,
+        } , 
+
+        transition : {
+            name         : "slideLeft",
+            duration     : 300,
+        } 
+
+    } );
+
+    store.state.here = "Lookup";
+
+}
+
+// -- =====================================================================================
+
 copy ( args ) {
 
     // .. press effect
@@ -51,37 +76,6 @@ copy ( args ) {
     setTimeout( () => args.object.className = this.myType, 100 );
 
     setText( this.myText );
-
-    this.test();
-
-}
-
-test () {
-const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
-
-    NS.Http.request( {
-            url: "https://www.almaany.com/ar/dict/ar-ar/" + this.myText ,
-            method: "GET",
-            headers: { "User-Agent": userAgent }
-        } )
-        .then(
-            res => {
-
-                let x = res.content;
-
-
-const exStorage = android.os.Environment.getExternalStorageDirectory();
-const SDCard: string = exStorage.getAbsolutePath().toString();
-const myFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Moshaf" ) );
-let bp = myFolder.path;
-let traceFile = NS.File.fromPath ( NS.path.join( bp, "test.html"  ) );
-traceFile.writeText( x.toString() );
-
-            },
-            e => console.log(e)
-            
-        )
-        .catch( e => console.log(e)         );
 
 }
 
