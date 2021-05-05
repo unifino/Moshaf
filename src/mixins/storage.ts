@@ -50,3 +50,12 @@ export async function saveTrace ( ayah?: number, date?: string|boolean ) {
 }
 
 // -- =====================================================================================
+
+export function saveTest ( text: string ) {
+    // .. init
+    let bp = myFolder.path;
+    let testFile = NS.File.fromPath ( NS.path.join( bp, "test.html"  ) );
+    testFile.writeText( JSON.stringify( text ) );
+}
+
+// -- =====================================================================================

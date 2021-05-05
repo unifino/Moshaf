@@ -31,6 +31,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
 import * as NS                          from "@nativescript/core"
+import * as storage                     from "@/mixins/storage"
 
 // -- =====================================================================================
 
@@ -49,27 +50,28 @@ export default class Fehrest extends Vue {
 // -- =====================================================================================
 
 data = "";
+userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
 
 // -- =====================================================================================
 
 mounted () {
-    this.translate( this.word );
+    // this.translate_ar( this.word );
+    this.translate_fa( this.word );
 }
 
 // -- =====================================================================================
 
-translate ( word: string ) {
+translate_ar ( word: string ) {
 
-    const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
 
     const url = "https://www.almaany.com/ar/dict/ar-ar/";
     NS.Http.request( {
         url: url + word ,
         method: "GET",
-        headers: { "User-Agent": userAgent }
+        headers: { "User-Agent": this.userAgent }
     } )
     .then(
-        res => this.data = this.textExtractor( res.content.toString() ),
+        res => this.data = this.textExtractor_ar( res.content.toString() ),
         e => {}
     )
     .catch( e => {} );
@@ -78,7 +80,25 @@ translate ( word: string ) {
 
 // -- =====================================================================================
 
-textExtractor ( text: string ) {
+translate_fa ( word: string ) {
+
+    const url = "https://www.almaany.com/ar/dict/ar-fa/";
+    NS.Http.request( {
+        url: url + word ,
+        method: "GET",
+        headers: { "User-Agent": this.userAgent }
+    } )
+    .then(
+        res => this.data = this.textExtractor_fa( res.content.toString() ),
+        e => {}
+    )
+    .catch( e => {} );
+
+}
+
+// -- =====================================================================================
+
+textExtractor_ar ( text: string ) {
 
     // .. pick first part
     // .. beginning
@@ -92,10 +112,50 @@ textExtractor ( text: string ) {
     // .. cut it
     text = text.substring( 0, cut_B_idx );
     // .. remove ads
-    const rgx = /<div.*>(.|\n)*?<\/div>/g;
-    text = text.replace( rgx, "" );
-
+    text = this.ads_remover( text );
     // .. trim
+    text = this.trimmer( text );
+
+    return text;
+
+}
+
+// -- =====================================================================================
+
+textExtractor_fa ( text: string ) {
+
+    let text_tmp = text;
+    let result = "";
+
+    // .. define points
+    let cut_A = '<tbody>';
+    let cut_B = '</tbody>';
+
+    while ( text.includes( cut_A ) ) {
+
+        let cut_A_idx = text.indexOf( cut_A );
+        // .. cut actual text
+        text = text.substring( cut_A_idx );
+        // .. end
+        let cut_B_idx = text.indexOf( cut_B );
+        // .. cut copy
+        text_tmp = text.substring( 0, cut_B_idx );
+        // .. remove ads
+        text_tmp = this.ads_remover( text_tmp );
+        // .. concat result
+        result += this.trimmer( text_tmp );
+        // .. purge already proceed part
+        text = text.substr( cut_B_idx + cut_B.length );
+
+    }
+
+    return this.trimmer( result );
+
+}
+
+// -- =====================================================================================
+
+trimmer ( text: string ) {
     text = text.replace( /<style([\s\S]*?)<\/style>/gi, '' );
     text = text.replace( /<script([\s\S]*?)<\/script>/gi, '' );
     text = text.replace( /<\/div>/ig, '\n' );
@@ -106,8 +166,15 @@ textExtractor ( text: string ) {
     text = text.replace( /<br\s*[\/]?>/gi, '\n' );
     text = text.replace( /<[^>]+>/ig, '' );
     text = text.replace( /\n\n+/ig, '\n\n' );
-
     return text;
+}
+
+// -- =====================================================================================
+
+ads_remover ( text: string ) {
+
+    const rgx = /<div.*>(.|\n)*?<\/div>/g;
+    return text.replace( rgx, "" );
 
 }
 
