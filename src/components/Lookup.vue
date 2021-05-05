@@ -1,18 +1,53 @@
 <template>
 <Page>
-<GridLayout class="fehrest" rows="44,*,44">
+<GridLayout rows="88,*,44,*,44">
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView 
         row=1
-        class="ghertas"
+        orientation="vertical"
+        verticalAlignment="middle"
+        scrollBarIndicatorVisible="false"
+    >
+        <StackLayout>
+
+            <Meaning 
+                v-for="(p,i) in data_ar.split('\n\n')"
+                :key="i"
+                :text="p" 
+                textWrap=true 
+            />
+
+        </StackLayout>
+
+    </ScrollView>
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout row=2 rows="*,3,*" >
+        <GridLayout row=1 class="divider" />
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <ScrollView 
+        row=3
         orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
     >
 
-        <Label class="text" :text="data" textWrap=true />
+        <StackLayout>
+
+            <Meaning 
+                v-for="(p,i) in data_fa.split('\n\n')"
+                :key="i"
+                :text="p" 
+                textWrap=true 
+            />
+
+        </StackLayout>
 
     </ScrollView>
 
@@ -31,17 +66,17 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
 import * as NS                          from "@nativescript/core"
-import * as storage                     from "@/mixins/storage"
+import Meaning                          from "@/components/Meaning.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: {}
+    components: { Meaning }
 } )
 
 // -- =====================================================================================
 
-export default class Fehrest extends Vue {
+export default class Lookup extends Vue {
 
 // -- =====================================================================================
 
@@ -49,13 +84,14 @@ export default class Fehrest extends Vue {
 
 // -- =====================================================================================
 
-data = "";
+data_ar = "";
+data_fa = "";
 userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
 
 // -- =====================================================================================
 
 mounted () {
-    // this.translate_ar( this.word );
+    this.translate_ar( this.word );
     this.translate_fa( this.word );
 }
 
@@ -71,7 +107,7 @@ translate_ar ( word: string ) {
         headers: { "User-Agent": this.userAgent }
     } )
     .then(
-        res => this.data = this.textExtractor_ar( res.content.toString() ),
+        res => this.data_ar = this.textExtractor_ar( res.content.toString() ),
         e => {}
     )
     .catch( e => {} );
@@ -89,7 +125,7 @@ translate_fa ( word: string ) {
         headers: { "User-Agent": this.userAgent }
     } )
     .then(
-        res => this.data = this.textExtractor_fa( res.content.toString() ),
+        res => this.data_fa = this.textExtractor_fa( res.content.toString() ),
         e => {}
     )
     .catch( e => {} );
@@ -166,6 +202,7 @@ trimmer ( text: string ) {
     text = text.replace( /<br\s*[\/]?>/gi, '\n' );
     text = text.replace( /<[^>]+>/ig, '' );
     text = text.replace( /\n\n+/ig, '\n\n' );
+    text = text.trim();
     return text;
 }
 
@@ -198,11 +235,8 @@ destroyed () {
 <style scoped>
 
 /*                                          */
-    .text {
-        color: #888a8a;
-        font-family: Homa;
-        width: 80%;
-        font-size: 14.4;
+    .divider {
+        background-color: #233233;
     }
 
 </style>
