@@ -67,6 +67,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
 import * as NS                          from "@nativescript/core"
 import Meaning                          from "@/components/Meaning.vue"
+import * as storage                     from "@/mixins/storage"
 
 // -- =====================================================================================
 
@@ -168,7 +169,7 @@ textExtractor_fa ( text: string ) {
     let cut_B = '</tbody>';
 
     while ( text.includes( cut_A ) ) {
-
+        
         let cut_A_idx = text.indexOf( cut_A );
         // .. cut actual text
         text = text.substring( cut_A_idx );
@@ -200,6 +201,7 @@ trimmer ( text: string ) {
     text = text.replace( /<\/ul>/ig, '\n' );
     text = text.replace( /<\/p>/ig, '\n' );
     text = text.replace( /<br\s*[\/]?>/gi, '\n' );
+    text = text.replace( /\t/ig, '' );
     text = text.replace( /<[^>]+>/ig, '' );
     text = text.replace( /\n\n+/ig, '\n\n' );
     text = text.trim();

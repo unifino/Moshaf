@@ -1,6 +1,7 @@
 <template>
 <!---------------------------------------------------------------------------------------->
-        <Label ref="meaning" :text="myText" class="meaning" @tap="true" textWrap=true />
+
+    <Label ref="meaning" :text="myText" class="meaning" textWrap=true />
 
 <!---------------------------------------------------------------------------------------->
 

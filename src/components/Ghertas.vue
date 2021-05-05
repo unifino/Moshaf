@@ -124,16 +124,22 @@ rouh ( ayah: number, sura: number ) {
         let q = Quran[ ayah ];
 
         // .. all new sura except ONE has the ESM
-        if ( q.ayah === 1 && q.sura !== 9 && q.sura !== 1 ) 
+        if ( q.ayah === 1 && q.sura !== 9 && q.sura !== 1 )
             vahy.push( { text: ";", type: "ESM" } );
 
-        // .. divide ayah
-        q.text.split( " " ).map( k => 
-            vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } )
-        );
+        if ( q.sura === 1 && q.ayah === 1 ) vahy.push( { text: ";", type: "ESM" } );
+        else {
 
-        // .. add number
-        vahy.push( { text: q.ayah.toString(), type: "number" } );
+            // .. divide ayah
+            q.text.split( " " ).map( k => {
+                vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
+            } );
+
+            // .. add number
+            vahy.push( { text: q.ayah.toString(), type: "number" } );
+
+        }
+
 
         // .. next one
         ayah++;
