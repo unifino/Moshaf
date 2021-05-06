@@ -40,3 +40,16 @@ export function erabTrimmer ( str: string ) {
 }
 
 // -- =====================================================================================
+
+export function asmaUnifier ( str: string ) {
+
+    str = str.replace( /ى/g, 'ي' ).
+        replace( /إ/g, 'ا' ).
+        replace( /أ/g, 'ا' ).
+        replace( /ة/g, 'ه' ); 
+
+    return str;
+
+}
+
+// -- =====================================================================================

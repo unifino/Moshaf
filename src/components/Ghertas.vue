@@ -102,7 +102,7 @@ init ( me?: number ): void {
     storage.saveTrace( taghdir, !!me || saat.toString() );
 
     // .. title of sura
-    this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
+    this.name = asma[ sura -1  ][1] + "  ( " + sura + " ) ";
 
     let message = this.rouh( taghdir, sura );
 
@@ -137,7 +137,7 @@ rouh ( ayah: number, sura: number ) {
                 vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
             } );
 
-            let fullText = q.text+"\n\n"+asma[ q.sura -1 ]+" ("+q.sura+") "+" : "+q.ayah;
+            let fullText = q.text+"\n\n"+asma[ q.sura -1 ][1]+" ("+q.sura+") "+" : "+q.ayah;
 
             // .. add number
             vahy.push( { 
