@@ -2,7 +2,7 @@
 <Page>
 <GridLayout class="fx" rows="40,*,40">
 
-    <Label :text="name" class="esm" row=2 />
+    <Label :text="name" class="esm" row=2 @tap="complete()" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -79,6 +79,7 @@ export default class Ghertas extends Vue {
 
 vahy: TS.vahy = [];
 name: string = "";
+taghdir_point: number;
 
 // -- =====================================================================================
 
@@ -92,19 +93,18 @@ morsal_TO: NodeJS.Timeout | any;
 init ( me?: number ): void {
 
     let saat = new Date();
-    let taghdir = me ? 
-        Quran.findIndex( x => x.sura === me ) : saat.getTime() % Quran.length;
+    this.taghdir_point = me === -1 ? saat.getTime() % Quran.length : me;
 
     // .. get the name
-    const sura = Quran[ taghdir ].sura;
+    const sura = Quran[ this.taghdir_point ].sura;
 
     // .. save trace
-    storage.saveTrace( taghdir, !!me || saat.toString() );
+    // storage.saveTrace( taghdir, !!me || saat.toString() );
 
     // .. title of sura
-    this.name = asma[ sura -1  ][1] + "  ( " + sura + " ) ";
+    this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 
-    let message = this.rouh( taghdir, sura );
+    let message = this.rouh( this.taghdir_point, sura );
 
     // .. preview
     this.morsal( message, 110 );
@@ -169,6 +169,12 @@ morsal ( message: TS.vahy, limit: number ) {
     // .. (de)activate scrollBarIndicatorVisible
     ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = !limit;
 
+}
+
+// -- =====================================================================================
+
+complete () {
+    this.init( asma[ Quran[ this.taghdir_point ].sura -1 ][2] )
 }
 
 // -- =====================================================================================
