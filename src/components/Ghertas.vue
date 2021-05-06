@@ -26,6 +26,7 @@
                 :key=kalameh.refId 
                 :ref="kalameh.refId"
                 :myText=kalameh.text
+                :fullText=kalameh.fullText || null
                 :myType=kalameh.type
                 @myTap=true
             />
@@ -136,7 +137,7 @@ rouh ( ayah: number, sura: number ) {
             } );
 
             // .. add number
-            vahy.push( { text: q.ayah.toString(), type: "number" } );
+            vahy.push( { text: q.ayah.toString(), type: "number", fullText: q.text } );
 
         }
 

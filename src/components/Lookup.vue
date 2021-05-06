@@ -12,7 +12,8 @@
     >
         <StackLayout>
 
-            <Meaning 
+            <Meaning
+                :visibility="data_ar ? 'visible' : 'hidden'"
                 v-for="(p,i) in data_ar.split('\n\n')"
                 :key="i"
                 :text="p" 
@@ -40,7 +41,8 @@
 
         <StackLayout>
 
-            <Meaning 
+            <Meaning
+                :visibility="data_fa ? 'visible' : 'hidden'"
                 v-for="(p,i) in data_fa.split('\n\n')"
                 :key="i"
                 :text="p" 
@@ -169,7 +171,7 @@ textExtractor_fa ( text: string ) {
     let cut_B = '</tbody>';
 
     while ( text.includes( cut_A ) ) {
-        
+
         let cut_A_idx = text.indexOf( cut_A );
         // .. cut actual text
         text = text.substring( cut_A_idx );
@@ -203,6 +205,7 @@ trimmer ( text: string ) {
     text = text.replace( /<br\s*[\/]?>/gi, '\n' );
     text = text.replace( /\t/ig, '' );
     text = text.replace( /<[^>]+>/ig, '' );
+    text = text.replace( /\n\n \n\n/ig, '\n\n' );
     text = text.replace( /\n\n+/ig, '\n\n' );
     text = text.trim();
     return text;

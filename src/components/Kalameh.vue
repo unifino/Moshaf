@@ -18,6 +18,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import { setText }                      from "nativescript-clipboard"
 import Lookup                           from "@/components/Lookup.vue"
 import store                            from "@/store/store"
+import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
@@ -32,7 +33,8 @@ export default class Kalameh extends Vue {
 // -- =====================================================================================
 
 @Prop() myText: string;
-@Prop() myType: "string"|"number";
+@Prop() fullText: string;
+@Prop() myType: "string"|"number"|"ESM";
 
 // -- =====================================================================================
 
@@ -49,24 +51,28 @@ lookup ( args ): void {
     // .. style and copy
     this.copy( args );
 
-    Vue.prototype.$navigateTo( Lookup, {
+    if ( this.myType === "string" ) {
 
-        frame : "base",
+        Vue.prototype.$navigateTo( Lookup, {
 
-        backstackVisible : true,
+            frame : "base",
 
-        props : {
-            word : this.myText,
-        } , 
+            backstackVisible : true,
 
-        transition : {
-            name         : "slideLeft",
-            duration     : 300,
-        } 
+            props : {
+                word : this.myText,
+            } , 
 
-    } );
+            transition : {
+                name         : "slideLeft",
+                duration     : 300,
+            } 
 
-    store.state.here = "Lookup";
+        } );
+
+        store.state.here = "Lookup";
+
+    }
 
 }
 
@@ -78,7 +84,12 @@ copy ( args ) {
     args.object.className += " pressed";
     setTimeout( () => args.object.className = this.myType, 100 );
 
-    setText( this.myText );
+    if ( this.myType === "string" ) setText( this.myText );
+
+    if ( this.myType === "number" ) {
+        setText( this.fullText );
+        tools.toaster( "آیه کپی شد.", "short" );
+    }
 
 }
 

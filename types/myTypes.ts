@@ -71,4 +71,8 @@ export type here =
 
 // -- =====================================================================================
 
-export type vahy = { text: string, type: "ESM"|"string"|"number"|"sajdeh" }[];
+export type vahy = { 
+    text: string, 
+    fullText?: string,
+    type: "ESM"|"string"|"number"|"sajdeh" 
+}[];
