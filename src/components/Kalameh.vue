@@ -60,7 +60,7 @@ lookup ( args ): void {
             backstackVisible : true,
 
             props : {
-                word : this.myText,
+                word : tools.erabTrimmer( this.myText ),
             } , 
 
             transition : {
@@ -84,10 +84,10 @@ copy ( args ) {
     args.object.className += " pressed";
     setTimeout( () => args.object.className = this.myType, 100 );
 
-    if ( this.myType === "string" ) setText( this.myText );
+    if ( this.myType === "string" ) setText( tools.erabTrimmer( this.myText ) );
 
     if ( this.myType === "number" ) {
-        setText( this.fullText );
+        setText( tools.erabTrimmer( this.fullText ) );
         tools.toaster( "آیه کپی شد.", "short" );
     }
 
