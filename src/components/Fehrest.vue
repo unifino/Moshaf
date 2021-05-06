@@ -4,28 +4,42 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <FlexboxLayout
+    <ScrollView 
         row=1
-        ref="fehrest"
-        flexWrap="wrap"
-        flexDirection="row-reverse"
-        justifyContent="space-between"
+        orientation="vertical"
+        verticalAlignment="middle"
+        scrollBarIndicatorVisible="false"
     >
-        <Label 
-            v-for="(esm,i) in asma"
-            :key=i
-            :ref="i"
-            :text=esm
-            class="sura"
-            @tap="open(i)"
-        />
-        <Label 
-            ref="-1"
-            text="صاحب‌الزمان"
-            class="saat"
-            @tap="open(-1)"
-        />
-    </FlexboxLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+        <FlexboxLayout
+            row=1
+            ref="fehrest"
+            flexWrap="wrap"
+            flexDirection="row-reverse"
+            justifyContent="space-around"
+            alignItems="center"
+        >
+            <Label 
+                v-for="(esm,i) in asma"
+                :key=i
+                :ref="i"
+                :text=esm
+                class="sura"
+                @tap="open(i)"
+            />
+            <Label 
+                ref="-1"
+                text="صاحب‌الزمان"
+                class="saat"
+                @tap="open(-1)"
+            />
+        </FlexboxLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
