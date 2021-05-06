@@ -59,6 +59,7 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import Kalameh                          from "@/components/Kalameh.vue"
 import store                            from "@/store/store"
+import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
@@ -98,7 +99,7 @@ init ( me?: number ): void {
     const sura = Quran[ taghdir ].sura;
 
     // .. save trace
-    storage.saveTrace( taghdir, !!me || saat.toString() );
+    // storage.saveTrace( taghdir, !!me || saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ] + "  ( " + sura + " ) ";
@@ -136,11 +137,16 @@ rouh ( ayah: number, sura: number ) {
                 vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
             } );
 
+            let fullText = q.text+"\n\n"+asma[ q.sura -1 ]+" ("+q.sura+") "+" : "+q.ayah;
+
             // .. add number
-            vahy.push( { text: q.ayah.toString(), type: "number", fullText: q.text } );
+            vahy.push( { 
+                text: q.ayah.toString(), 
+                type: "number", 
+                fullText: tools.arabicDigits( fullText )
+            } );
 
         }
-
 
         // .. next one
         ayah++;
