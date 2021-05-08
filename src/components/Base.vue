@@ -1,5 +1,5 @@
 <template>
-<AbsoluteLayout class="fx" ref="root">
+<AbsoluteLayout class="fx" ref="root" @swipe="swipeControl" >
 
 <!---------------------------------------------------------------------------------------->
 
@@ -22,6 +22,7 @@ import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
 import Fehrest                          from "@/components/Fehrest.vue"
 import Ghertas                          from "@/components/Ghertas.vue"
+import Hadis                            from "@/components/Hadis.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
@@ -32,7 +33,7 @@ import { exit }                         from "nativescript-exit";
 // -- =====================================================================================
 
 @Component ( {
-    components: { Fehrest, Ghertas }
+    components: { Fehrest, Ghertas, Hadis }
 } )
 
 // -- =====================================================================================
@@ -83,8 +84,6 @@ init (): void {
     this.permissionApplier()
     .then( () => storage.db_check() )
     .then( () => this.setup() )
-    // .. Ghertas
-    // .then( () => ( this.$refs.ghertas as Ghertas ).init() )
     // .. not resolvable situation
     .catch( msg => tools.toaster( msg ) );
 
@@ -126,23 +125,14 @@ setup (): Promise<void> {
 
             // .. assign user selected theme
             // TM.themeApplier( store.state.appConfig.theme, this.$refs );
-            this.fehrest();
 
-            await new Promise( _ => setTimeout( _, 100 ) );
+            // this.toFehrest();
+            this.toHadis();
 
             // .. basic steps has been resolved!
             rs();
 
             await new Promise( _ => setTimeout( _, 100 ) );
-
-            // .. retrieve Lessons
-            // setTimeout( () => storage.putLessonsInBox(), 0 );
-
-            await new Promise( _ => setTimeout( _, 100 ) );
-
-            // // .. setUp app
-            // this.getRootWindowSize()
-            // .then( () => ( this.$refs.scope as Scope ).init()            );
 
         } )
 
@@ -152,11 +142,15 @@ setup (): Promise<void> {
 
 // -- =====================================================================================
 
-fehrest (): void {
+toFehrest (): void {
 
     Vue.prototype.$navigateTo( Fehrest, {
-        frame : 'base' ,
-        backstackVisible : true ,
+        frame : 'base',
+        backstackVisible : true,
+        transition : {
+            name         : "slideLeft",
+            duration     : 300,
+        } 
     } );
 
     store.state.here = "Fehrest";
@@ -165,58 +159,31 @@ fehrest (): void {
 
 // -- =====================================================================================
 
-swipeControl ( args: NS.SwipeGestureEventData ) {
+toHadis (): void {
 
-    // if ( store.state.mode === "setting" ) return 0;
-
-    // let ins = store.state.inHand.institute,
-    //     actives = store.state.appConfig.activeInstitutes;
-
-    // if ( actives.length === 1 && actives[0] === store.state.inHand.institute ) return 0;
-
-    // if ( store.state.here === "Institute" ) {
-
-    //     switch ( args.direction ) {
-
-    //         case NS.SwipeDirection.right:
-    //         case NS.SwipeDirection.left: 
-    //             if ( store.state.mode === "shopping" ) shopping.backOrExitShop( ins );
-    //             this.headToInstitute( tools.instituteTravel( args.direction ) ); 
-    //             break;
-
-    //     }
-
-    // }
-
-}
-
-// -- =====================================================================================
-
-getRootWindowSize (): Promise<void> {
-
-    return new Promise ( rs => {
-
-    //     let root = this.$refs.root as any;
-    //     if ( !store.state.windowSize ) store.state.windowSize = {} as any;
-
-    //     store.state.windowSize.height = root.nativeView.getActualSize().height | 0;
-    //     store.state.windowSize.width = root.nativeView.getActualSize().width | 0;
-
-    //     if ( !store.state.windowSize.width || !store.state.windowSize.height ) {
-    //         setTimeout ( () => rs( this.getRootWindowSize() ) , 10 );
-    //     }
-
-    //     else return rs();
-
+    Vue.prototype.$navigateTo( Hadis, {
+        frame : 'base' ,
+        backstackVisible : true ,
+        transition : {
+            name         : "slideRight",
+            duration     : 300,
+        } 
     } );
 
+    store.state.here = "Hadis";
+
 }
 
 // -- =====================================================================================
 
-updated () {
-    // .. getting and registering root Size
-    // this.getRootWindowSize();
+swipeControl ( args: NS.SwipeGestureEventData ) {
+
+    if ( store.state.here === "Fehrest" && args.direction === NS.SwipeDirection.right ) 
+        this.toHadis();
+
+    if ( store.state.here === "Hadis" && args.direction === NS.SwipeDirection.left ) 
+        this.toFehrest();
+
 }
 
 // -- =====================================================================================

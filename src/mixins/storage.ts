@@ -51,11 +51,11 @@ export async function saveTrace ( ayah?: number, date?: string|boolean ) {
 
 // -- =====================================================================================
 
-export function saveTest ( text: string ) {
+export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string ) {
     // .. init
     let bp = myFolder.path;
-    let testFile = NS.File.fromPath ( NS.path.join( bp, "test.html"  ) );
-    testFile.writeText( JSON.stringify( text ) );
+    let testFile = NS.File.fromPath ( NS.path.join( bp, name + "." + ext  ) );
+    testFile.writeText( text );
 }
 
 // -- =====================================================================================

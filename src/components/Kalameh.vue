@@ -61,12 +61,12 @@ lookup ( args ): void {
 
             props : {
                 word : tools.erabTrimmer( this.myText ),
-            } , 
+            },
 
             transition : {
                 name         : "slideLeft",
                 duration     : 300,
-            } 
+            }
 
         } );
 

@@ -126,13 +126,7 @@ found = [];
 
 // -- =====================================================================================
 
-mounted () {
-    asma.forEach( x => { 
-        x.push( Quran.findIndex( y => y.sura === x[0] ) );
-    } );
-
-    storage.saveTest(JSON.stringify(asma))
-}
+mounted () {}
 
 // -- =====================================================================================
 
@@ -147,12 +141,12 @@ open ( num: number ): void {
 
         props : {
             me : num,
-        } , 
+        },
 
         transition : {
             name         : "slideTop",
             duration     : 300,
-        } 
+        }
 
     } );
 
@@ -215,7 +209,7 @@ destroyed () {}
 
 /*                                          */
     .fehrest {
-        padding: 0 40%;
+        padding: 0 48%;
     }
 
     .sura, .saat {
@@ -225,13 +219,11 @@ destroyed () {}
         font-size: 14;
         padding: 0 3;
         margin: 0 .5;
-        border-radius: 5;
-        border-color: transparent;
-        border-width: 0 1;
     }
 
     .saat {
         background-color: #07301d;
+        border-radius: 5;
     }
 
     .search {
