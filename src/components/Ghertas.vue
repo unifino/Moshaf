@@ -16,7 +16,6 @@
     >
 
         <FlexboxLayout 
-            ref="page"
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="space-between"
@@ -24,7 +23,6 @@
             <Kalameh 
                 v-for="kalameh in vahy"
                 :key=kalameh.refId 
-                :ref="kalameh.refId"
                 :myText=kalameh.text
                 :fullText=kalameh.fullText || null
                 :myType=kalameh.type
@@ -84,7 +82,8 @@ taghdir_point: number;
 // -- =====================================================================================
 
 mounted () {
-    this.init( this.me )
+    store.state.here = "Ghertas";
+    this.init( this.me );
 }
 
 // -- =====================================================================================

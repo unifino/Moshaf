@@ -70,6 +70,7 @@ import store                            from "@/store/store"
 import * as NS                          from "@nativescript/core"
 import Meaning                          from "@/components/Meaning.vue"
 import * as storage                     from "@/mixins/storage"
+import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
@@ -90,10 +91,13 @@ export default class Lookup extends Vue {
 data_ar = "";
 data_fa = "";
 userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
+loadedFrom: TS.here;
 
 // -- =====================================================================================
 
 mounted () {
+    this.loadedFrom = store.state.here;
+    store.state.here = "Lookup";
     this.translate_ar( this.word );
     this.translate_fa( this.word );
 }
@@ -223,8 +227,7 @@ ads_remover ( text: string ) {
 // -- =====================================================================================
 
 destroyed () {
-    // ! caution
-    store.state.here = "Ghertas";
+    store.state.here = this.loadedFrom;
 }
 
 // -- =====================================================================================

@@ -153,8 +153,6 @@ toFehrest (): void {
         } 
     } );
 
-    store.state.here = "Fehrest";
-
 }
 
 // -- =====================================================================================
@@ -169,8 +167,6 @@ toHadis (): void {
             duration     : 300,
         } 
     } );
-
-    store.state.here = "Hadis";
 
 }
 

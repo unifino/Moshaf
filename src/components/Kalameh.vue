@@ -34,7 +34,7 @@ export default class Kalameh extends Vue {
 
 @Prop() myText: string;
 @Prop() fullText: string;
-@Prop() myType: "string"|"number"|"ESM";
+@Prop() myType: "string"|"number"|"ESM"|"hadis";
 
 // -- =====================================================================================
 
@@ -51,7 +51,7 @@ lookup ( args ): void {
     // .. style and copy
     this.copy( args );
 
-    if ( this.myType === "string" ) {
+    if ( this.myType === "string" || this.myType === "hadis" ) {
 
         Vue.prototype.$navigateTo( Lookup, {
 
@@ -69,8 +69,6 @@ lookup ( args ): void {
             }
 
         } );
-
-        store.state.here = "Lookup";
 
     }
 
@@ -150,6 +148,16 @@ destroyed () {}
         border-radius: 99;
         background-color: #141414;
         color: #a7a7a7;
+    }
+
+    .hadis {
+        font-family: Amiri-Regular;
+        color: #888888;
+        text-align: center;
+        font-size: 15.5;
+        line-height: 7;
+        padding: 3;
+        border-radius: 5;
     }
 
     .pressed {

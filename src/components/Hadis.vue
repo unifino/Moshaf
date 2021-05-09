@@ -1,15 +1,36 @@
 <template>
 <Page>
-<GridLayout
-    ref="fehrest"
-    rows="*,auto,*"
->
+<GridLayout class="fx" rows="40,*,40">
 
 <!---------------------------------------------------------------------------------------->
 
-    <StackLayout row=1>
-        <Label :text="test" textWrap=true class="hadis" />
-    </StackLayout>
+    <ScrollView 
+        row=1
+        class="ghertas"
+        orientation="vertical"
+        verticalAlignment="middle"
+        scrollBarIndicatorVisible="false"
+    >
+
+        <FlexboxLayout 
+            flexWrap="wrap"
+            flexDirection="row-reverse"
+            justifyContent="center"
+        >
+            <Label :text=hadis.c textWrap=true class="name" />
+            <Label :text=hadis.e textWrap=true class="name_e" />
+            <Kalameh 
+                v-for="(kalameh, i) in hadis.a"
+                :key=i 
+                :myText=kalameh
+                :fullText=kalameh
+                myType="hadis"
+                @myTap=true
+            />
+            <Label :text=hadis.b textWrap=true class="farsi" />
+        </FlexboxLayout>
+
+    </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -26,7 +47,7 @@
 import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/Ghertas.vue"
 import Kalameh                          from "@/components/Kalameh.vue"
-import { collection }                   from "@/db/Hadis"
+import { c_map, collection }            from "@/db/Hadis"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -43,35 +64,33 @@ export default class Fehrest extends Vue {
 
 // -- =====================================================================================
 
-test ="";
+hadis: { a: string[], b:string, c: string, e: string } = { 
+    a: null, 
+    b: null, 
+    c: null, 
+    e: null 
+};
 
 // -- =====================================================================================
 
 mounted () {
+    store.state.here = "Hadis";
+    this.init();
+}
 
-    // let h = "الإمامُ الصّادقُ عليه السلام";
-    // let ok = JSON.stringify( 
-    //     collection.filter( x => x.ar === x.fa && x.fa === h ) , null, "\t"
-    // );
+// -- =====================================================================================
 
-    // let some = JSON.stringify( 
-    //     collection.filter( x => x.ar !== x.fa && ( x.ar === h || x.fa === h ) ), null, "\t"
-    // );
-
-    // let other = JSON.stringify( 
-    //     collection.filter( x => x.ar !== h && x.fa !== h ), null, "\t"
-    // );
-
-    // storage.saveTest( "ok", "ts" , ok )
-    // storage.saveTest( "some", "ts" , some )
-    // storage.saveTest( "other", "ts" , other )
-
+init () {
+    // .. get a random one
     let saat = new Date();
     let rand = saat.getTime() % collection.length;
-    this.test = collection[ rand ].ar + "\n\n" + collection[ rand ].arabi;
-    this.test += "\n\n\n";
-    this.test += collection[ rand ].fa + "\n\n";
-    this.test += collection[ rand ].farsi;
+    // .. assign the Name
+    this.hadis.c = c_map[ collection[ rand ].c ][0];
+    this.hadis.e = c_map[ collection[ rand ].c ][1];
+    // .. assign arabic part
+    this.hadis.a = collection[ rand ].a.trim().split( ' ' );
+    // .. assign farsi part
+    this.hadis.b = collection[ rand ].b;
 }
 
 // -- =====================================================================================
@@ -95,8 +114,6 @@ open ( num: number ): void {
         }
 
     } );
-
-    store.state.here = "Ghertas";
 
 }
 
@@ -154,17 +171,31 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
-    .hadis {
+    .ghertas {
+        width: 72%;
+        height: 63%;
+    }
+
+    .farsi {
+        margin: 20;
         font-family: Amiri-Regular;
         color: #888888;
         text-align: center;
-        font-size: 14;
-        padding: 20 30;
-        margin: 0 .5;
-        border-radius: 5;
-        border-color: white;
-        /* border-width: 1; */
-        width: 80%;
+        font-size: 13;
+    }
+
+    .name, .name_e {
+        width: 100%;
+        font-family: Amiri-Regular;
+        color: #5b8814;
+        text-align: center;
+        font-size: 18;
+    }
+
+    .name_e {
+        font-size: 12;
+        margin-bottom: 30;
+        color: #436311;
     }
 
 </style>
