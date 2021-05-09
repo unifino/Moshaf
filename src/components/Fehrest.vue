@@ -226,34 +226,4 @@ destroyed () {}
         border-radius: 5;
     }
 
-    .search {
-        color: white;
-        placeholder-color: #57554a;
-        border-bottom-width: 1;
-        border-color: #726d4f; 
-        color: #a8a8a8;
-    }
-
-    .result {
-        background-color: #0f1616;
-        padding: 20 24;
-        margin-bottom: 44;
-        border-radius: 0 0 7 7;
-    }
-
-    .item {
-        font-family: Amiri-Regular;
-        font-family: 12;
-        color: #888888;
-        padding: 10;
-    }
-
-    .button {
-        color: #727779;
-        font-size: 20;
-        width: 44;
-        height: 44;
-        padding: 10 5;
-    }
-
 </style>

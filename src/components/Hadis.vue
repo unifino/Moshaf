@@ -1,36 +1,94 @@
 <template>
 <Page>
-<GridLayout class="fx" rows="40,*,40">
+<GridLayout class="myPage" rows="44,44,44,*,7" columns="auto,*" >
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView 
-        row=1
-        class="ghertas"
-        orientation="vertical"
-        verticalAlignment="middle"
-        scrollBarIndicatorVisible="false"
+    <TextField row=2 ref="fakeSearch" opacity=0 />
+    <TextField
+        ref="search"
+        row=2
+        colSpan=2
+        hint="بحث"
+        class="search"
+        @textChange="search()"
+    />
+
+    <Label
+        row=2
+        :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
+        @tap="found.length ? dismiss( true ) : search( true )"
+        class="fas button" 
+    />
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout row=3 rowSpan=3 colSpan=2 rows="44,auto,*" class="paper" >
+
+        <ScrollView
+            row=1
+            orientation="vertical"
+            verticalAlignment="middle"
+            scrollBarIndicatorVisible="false"
+        >
+
+            <FlexboxLayout 
+                flexWrap="wrap"
+                flexDirection="row-reverse"
+                justifyContent="center"
+            >
+
+                <Label :text=hadis.c textWrap=true class="name" @tap="copy()" />
+                <Label :text=hadis.e textWrap=true class="name_e" @tap="copy()" />
+
+                <Label class="divider" />
+
+                <Kalameh 
+                    v-for="(kalameh, i) in hadis.a"
+                    :key=i 
+                    :myText=kalameh
+                    :fullText=kalameh
+                    myType="hadis"
+                    @myTap=true
+                />
+
+                <Label class="divider" />
+
+                <Label :text=hadis.b textWrap=true class="farsi" />
+
+            </FlexboxLayout>
+
+        </ScrollView>
+
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout
+        v-if=found.length
+        class="result"
+        row=3
+        colSpan=2
     >
 
-        <FlexboxLayout 
-            flexWrap="wrap"
-            flexDirection="row-reverse"
-            justifyContent="center"
-        >
-            <Label :text=hadis.c textWrap=true class="name" />
-            <Label :text=hadis.e textWrap=true class="name_e" />
-            <Kalameh 
-                v-for="(kalameh, i) in hadis.a"
-                :key=i 
-                :myText=kalameh
-                :fullText=kalameh
-                myType="hadis"
-                @myTap=true
-            />
-            <Label :text=hadis.b textWrap=true class="farsi" />
-        </FlexboxLayout>
+        <ListView for="item in found" >
+            <v-template>
+                <Label
+                    :text="item.text"
+                    textWrap=true
+                    class="item"
+                    @tap="show( item.idx, true );dismiss( true )" 
+                />
+            </v-template>
+        </ListView>
 
-    </ScrollView>
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout colSpan=2 rowSpan=5 rows="*,110" >
+        <GridLayout row=1 @tap="init()" />
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -51,6 +109,8 @@ import { c_map, collection }            from "@/db/Hadis"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
+// * tns plugin add nativescript-clipboard
+import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
@@ -64,12 +124,14 @@ export default class Fehrest extends Vue {
 
 // -- =====================================================================================
 
-hadis: { a: string[], b:string, c: string, e: string } = { 
+hadis: { a: string[], b:string, c: string, d: string, e: string } = { 
     a: null, 
     b: null, 
     c: null, 
+    d: null, 
     e: null 
 };
+found = [];
 
 // -- =====================================================================================
 
@@ -84,13 +146,46 @@ init () {
     // .. get a random one
     let saat = new Date();
     let rand = saat.getTime() % collection.length;
+    // .. it has been read already
+    while ( storage.trace_h.find( x => x.hadis === rand ) )
+        rand = saat.getTime() % collection.length;
+    // .. show it
+    this.show( rand );
+}
+
+// -- =====================================================================================
+
+show ( id: number, force=false ) {
+
     // .. assign the Name
-    this.hadis.c = c_map[ collection[ rand ].c ][0];
-    this.hadis.e = c_map[ collection[ rand ].c ][1];
+    this.hadis.c = c_map[ collection[ id ].c ][0];
+    this.hadis.e = c_map[ collection[ id ].c ][1];
     // .. assign arabic part
-    this.hadis.a = collection[ rand ].a.trim().split( ' ' );
+    this.hadis.a = collection[ id ].a.trim().split( ' ' );
     // .. assign farsi part
-    this.hadis.b = collection[ rand ].b;
+    this.hadis.b = collection[ id ].b;
+    this.hadis.d = collection[ id ].d;
+
+    // .. save trace
+    storage.saveTrace_Hadis( id, !!force || new Date().toString() );
+}
+
+// -- =====================================================================================
+
+copy () {
+
+    let full = "";
+    full += this.hadis.c;
+    full += " (" + this.hadis.e + "):\n\n";
+    full += this.hadis.a.join( " " );
+    full += "\n\n";
+    full += this.hadis.b;
+    full += "\n\n";
+    full += this.hadis.d;
+
+    setText( full );
+    tools.toaster( "حدیث کپی شد.", "short" );
+
 }
 
 // -- =====================================================================================
@@ -121,27 +216,25 @@ open ( num: number ): void {
 
 search ( force=false ) {
 
-    // // let text = event.object.text;
-    // let text = ( this.$refs.search as any ).nativeView.text;
-    // // .. input must be unified!
-    // text = text.replace( /ی/g, 'ي' );
-    // text = text.replace( /ک/g, 'ك' );
+    // let text = event.object.text;
+    let text = ( this.$refs.search as any ).nativeView.text;
+    // .. input must be unified!
+    text = text.replace( /ی/g, 'ي' );
+    text = text.replace( /ک/g, 'ك' );
+    text = tools.erabTrimmer( text );
 
-    // // .. reset asma
-    // this.asma = asma;
-    // this.found = [];
+    // .. reset
+    this.found = [];
 
-    // // .. filter asma + unifying asma
-    // this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( text ) );
-
-    // // .. search in ayat
-    // if ( text.length > 2 || force ) {
-    //     Quran.forEach( (q, i) => {
-    //         if ( tools.asmaUnifier( q.simple ).includes( text ) ) {
-    //             this.found.push( { text: q.simple, idx: i } );
-    //         }
-    //     } );
-    // }
+    // .. search in ayat
+    if ( text.length > 2 || force ) {
+        collection.forEach( (q, i) => {
+            if ( tools.asmaUnifier( tools.erabTrimmer( q.a ) ).includes( text ) )
+                this.found.push( { text: q.a, idx: i } );
+            if ( tools.asmaUnifier( q.b ).includes( text ) )
+                this.found.push( { text: q.b, idx: i } );
+        } );
+    }
 
 }
 
@@ -171,9 +264,13 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
-    .ghertas {
+    .myPage {
+        padding: 0 48%;
+    }
+
+    .paper {
         width: 72%;
-        height: 63%;
+        height: auto;
     }
 
     .farsi {
@@ -196,6 +293,11 @@ destroyed () {}
         font-size: 12;
         margin-bottom: 30;
         color: #436311;
+    }
+
+    .divider {
+        width: 100%;
+        height: 1;
     }
 
 </style>

@@ -84,6 +84,8 @@ copy ( args ) {
 
     if ( this.myType === "string" ) setText( tools.erabTrimmer( this.myText ) );
 
+    if ( this.myType === "hadis" ) setText( this.myText );
+
     if ( this.myType === "number" ) {
         setText( tools.erabTrimmer( this.fullText ) );
         tools.toaster( "آیه کپی شد.", "short" );

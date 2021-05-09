@@ -6,13 +6,15 @@ import * as NS                          from "@nativescript/core"
 
 // -- =====================================================================================
 
-export let trace: { ayah: number, date: string|boolean }[];
+export let trace_q: { ayah: number, date: string|boolean }[];
+export let trace_h: { hadis: number, date: string|boolean }[];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 export const SDCard: string = exStorage.getAbsolutePath().toString();
 
 export let myFolder : NS.Folder; // * do not initiate it
-export let traceFile: NS.File;   // * do not initiate it
+export let trace_q_File: NS.File;   // * do not initiate it
+export let trace_h_File: NS.File;   // * do not initiate it
 
 // -- =====================================================================================
 
@@ -25,13 +27,16 @@ export function db_check (): Promise<void> {
 
         // .. init
         let bp = myFolder.path;
-        traceFile = NS.File.fromPath ( NS.path.join( bp, "trace.json"  ) );
+        trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
+        trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
 
         // .. get Contents
-        try { trace = JSON.parse( traceFile.readTextSync() ) } catch { trace = [] }
+        try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
+        try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
 
         // .. check integrity 
-        if ( !trace ) saveTrace();
+        if ( !trace_q ) saveTrace_Quran();
+        if ( !trace_h ) saveTrace_Hadis();
 
         // .. resolve
         rs();
@@ -42,11 +47,20 @@ export function db_check (): Promise<void> {
 
 // -- =====================================================================================
 
-export async function saveTrace ( ayah?: number, date?: string|boolean ) {
+export async function saveTrace_Quran ( ayah?: number, date?: string|boolean ) {
     // .. add new trace
-    if ( date ) trace.push( { ayah: ayah, date: date } );
+    if ( date ) trace_q.push( { ayah: ayah, date: date } );
     // .. write down file
-    traceFile.writeText( JSON.stringify( trace ) );
+    trace_q_File.writeText( JSON.stringify( trace_q ) );
+}
+
+// -- =====================================================================================
+
+export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean ) {
+    // .. add new trace
+    if ( date ) trace_h.push( { hadis: hadis, date: date } );
+    // .. write down file
+    trace_h_File.writeText( JSON.stringify( trace_h ) );
 }
 
 // -- =====================================================================================
@@ -60,7 +74,7 @@ export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string )
 
 // -- =====================================================================================
 
-export function uniqefiy ( collection: { a: string, b: string, c: number, d?: string }[] ) {
+export function unique ( collection: { a: string, b: string, c: number, d?: string }[] ) {
 
     console.log(collection.length);
 
@@ -76,10 +90,10 @@ export function uniqefiy ( collection: { a: string, b: string, c: number, d?: st
             x.d === y.d
         );
 
-        if ( dk ) {
-            console.log( x.a );
-            console.log( dk.a );
-        }
+        // if ( dk ) {
+        //     console.log( x.a );
+        //     console.log( dk.a );
+        // }
 
         return !dk ? f.concat([x]) : f;
 
@@ -94,7 +108,7 @@ export function uniqefiy ( collection: { a: string, b: string, c: number, d?: st
 
 // -- =====================================================================================
 
-export function sometool ( data: {
+export function some_tool ( data: {
     a: string, 
     b: string, 
     c: number, 
