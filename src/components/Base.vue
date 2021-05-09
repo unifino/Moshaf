@@ -126,8 +126,8 @@ setup (): Promise<void> {
             // .. assign user selected theme
             // TM.themeApplier( store.state.appConfig.theme, this.$refs );
 
-            // this.toFehrest();
-            this.toHadis();
+            this.toFehrest();
+            // this.toHadis();
 
             // .. basic steps has been resolved!
             rs();

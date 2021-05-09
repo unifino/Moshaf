@@ -49,22 +49,22 @@ test ="";
 
 mounted () {
 
-    let h = "الإمامُ الصّادقُ عليه السلام";
-    let ok = JSON.stringify( 
-        collection.filter( x => x.ar === x.fa && x.fa === h ) , null, "\t"
-    );
+    // let h = "الإمامُ الصّادقُ عليه السلام";
+    // let ok = JSON.stringify( 
+    //     collection.filter( x => x.ar === x.fa && x.fa === h ) , null, "\t"
+    // );
 
-    let some = JSON.stringify( 
-        collection.filter( x => x.ar !== x.fa && ( x.ar === h || x.fa === h ) ), null, "\t"
-    );
+    // let some = JSON.stringify( 
+    //     collection.filter( x => x.ar !== x.fa && ( x.ar === h || x.fa === h ) ), null, "\t"
+    // );
 
-    let other = JSON.stringify( 
-        collection.filter( x => x.ar !== h && x.fa !== h ), null, "\t"
-    );
+    // let other = JSON.stringify( 
+    //     collection.filter( x => x.ar !== h && x.fa !== h ), null, "\t"
+    // );
 
-    storage.saveTest( "ok", "ts" , ok )
-    storage.saveTest( "some", "ts" , some )
-    storage.saveTest( "other", "ts" , other )
+    // storage.saveTest( "ok", "ts" , ok )
+    // storage.saveTest( "some", "ts" , some )
+    // storage.saveTest( "other", "ts" , other )
 
     let saat = new Date();
     let rand = saat.getTime() % collection.length;
