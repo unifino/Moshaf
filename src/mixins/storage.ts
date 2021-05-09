@@ -56,9 +56,11 @@ export async function saveTrace_Quran ( ayah?: number, date?: string|boolean ) {
 
 // -- =====================================================================================
 
-export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean ) {
+export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean, rev? ) {
     // .. add new trace
-    if ( date ) trace_h.push( { hadis: hadis, date: date } );
+    if ( date && !rev ) trace_h.push( { hadis: hadis, date: date } );
+    // .. remove lat trace
+    if ( rev ) trace_h.pop();
     // .. write down file
     trace_h_File.writeText( JSON.stringify( trace_h ) );
 }

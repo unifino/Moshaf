@@ -18,49 +18,51 @@
         row=2
         :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
         @tap="found.length ? dismiss( true ) : search( true )"
+        @longPress="popLastTrace()"
         class="fas button" 
     />
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=3 rowSpan=3 colSpan=2 rows="44,auto,*" class="paper" >
+    <ScrollView
+        row=3
+        colSpan=2
+        rowSpan=3
+        class="paper"
+        orientation="vertical"
+        verticalAlignment="middle"
+        scrollBarIndicatorVisible="false"
+        @swipe="swipePass=true"
+    >
 
-        <ScrollView
-            row=1
-            orientation="vertical"
-            verticalAlignment="middle"
-            scrollBarIndicatorVisible="false"
+        <FlexboxLayout 
+            flexWrap="wrap"
+            flexDirection="row-reverse"
+            justifyContent="center"
         >
 
-            <FlexboxLayout 
-                flexWrap="wrap"
-                flexDirection="row-reverse"
-                justifyContent="center"
-            >
+            <Label :text=hadis.c textWrap=true class="name" @tap="copy()" />
+            <Label :text=hadis.e textWrap=true class="name_e" @tap="copy()" />
 
-                <Label :text=hadis.c textWrap=true class="name" @tap="copy()" />
-                <Label :text=hadis.e textWrap=true class="name_e" @tap="copy()" />
+            <Label class="divider" />
 
-                <Label class="divider" />
+            <Kalameh 
+                v-for="(kalameh, i) in hadis.a"
+                :key=i 
+                :myText=kalameh
+                :fullText=kalameh
+                myType="hadis"
+                @myTap=true
+            />
 
-                <Kalameh 
-                    v-for="(kalameh, i) in hadis.a"
-                    :key=i 
-                    :myText=kalameh
-                    :fullText=kalameh
-                    myType="hadis"
-                    @myTap=true
-                />
+            <Label class="divider" />
 
-                <Label class="divider" />
+            <Label :text=hadis.b textWrap=true class="farsi" />
 
-                <Label :text=hadis.b textWrap=true class="farsi" />
+        </FlexboxLayout>
 
-            </FlexboxLayout>
+    </ScrollView>
 
-        </ScrollView>
-
-    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -132,6 +134,7 @@ hadis: { a: string[], b:string, c: string, d: string, e: string } = {
     e: null 
 };
 found = [];
+swipePass;
 
 // -- =====================================================================================
 
@@ -143,14 +146,18 @@ mounted () {
 // -- =====================================================================================
 
 init () {
+
     // .. get a random one
     let saat = new Date();
     let rand = saat.getTime() % collection.length;
+
     // .. it has been read already
     while ( storage.trace_h.find( x => x.hadis === rand ) )
         rand = saat.getTime() % collection.length;
+
     // .. show it
     this.show( rand );
+
 }
 
 // -- =====================================================================================
@@ -168,6 +175,7 @@ show ( id: number, force=false ) {
 
     // .. save trace
     storage.saveTrace_Hadis( id, !!force || new Date().toString() );
+
 }
 
 // -- =====================================================================================
@@ -240,6 +248,13 @@ search ( force=false ) {
 
 // -- =====================================================================================
 
+popLastTrace () {
+    storage.saveTrace_Hadis( null, null, true );
+    tools.toaster( "pop!", "short" );
+}
+
+// -- =====================================================================================
+
 dismiss ( force=false ) {
     if ( force ) ( this.$refs.search as any ).nativeView.text = "";
     ( this.$refs.search as any ).nativeView.dismissSoftInput();
@@ -270,7 +285,7 @@ destroyed () {}
 
     .paper {
         width: 72%;
-        height: auto;
+        height: 72%;
     }
 
     .farsi {
