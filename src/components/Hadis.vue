@@ -122,7 +122,7 @@ import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
-export default class Fehrest extends Vue {
+export default class Hadis extends Vue {
 
 // -- =====================================================================================
 
@@ -237,7 +237,7 @@ search ( force=false ) {
     // .. search in ayat
     if ( text.length > 2 || force ) {
         collection.forEach( (q, i) => {
-            if ( tools.asmaUnifier( tools.erabTrimmer( q.a ) ).includes( text ) )
+            if ( tools.asmaUnifier( tools.erabTrimmer( q.a || "" ) ).includes( text ) )
                 this.found.push( { text: q.a, idx: i } );
             if ( tools.asmaUnifier( q.b ).includes( text ) )
                 this.found.push( { text: q.b, idx: i } );

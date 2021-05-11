@@ -23,6 +23,7 @@ import store                            from "@/store/store"
 import Fehrest                          from "@/components/Fehrest.vue"
 import Ghertas                          from "@/components/Ghertas.vue"
 import Hadis                            from "@/components/Hadis.vue"
+import Adeiyeh                          from "@/components/Adeiyeh.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
@@ -33,7 +34,7 @@ import { exit }                         from "nativescript-exit";
 // -- =====================================================================================
 
 @Component ( {
-    components: { Fehrest, Ghertas, Hadis }
+    components: { Fehrest, Ghertas, Hadis, Adeiyeh }
 } )
 
 // -- =====================================================================================
@@ -126,7 +127,7 @@ setup (): Promise<void> {
             // .. assign user selected theme
             // TM.themeApplier( store.state.appConfig.theme, this.$refs );
 
-            this.toFehrest();
+            this.toFehrest( null );
             // this.toHadis();
 
             // .. basic steps has been resolved!
@@ -142,14 +143,16 @@ setup (): Promise<void> {
 
 // -- =====================================================================================
 
-toFehrest (): void {
+toFehrest ( direction: NS.SwipeDirection|null ): void {
+
+    let dir = direction === NS.SwipeDirection.left ? "slideLeft" : "slideRight";
 
     Vue.prototype.$navigateTo( Fehrest, {
         frame : 'base',
         backstackVisible : true,
         transition : {
-            name         : "slideLeft",
-            duration     : 300,
+            name         : dir,
+            duration     : direction ? 300 : 1,
         } 
     } );
 
@@ -172,13 +175,33 @@ toHadis (): void {
 
 // -- =====================================================================================
 
+toAdeiyeh (): void {
+
+    Vue.prototype.$navigateTo( Adeiyeh, {
+        frame : 'base' ,
+        backstackVisible : true ,
+        transition : {
+            name         : "slideLeft",
+            duration     : 300,
+        } 
+    } );
+
+}
+
+// -- =====================================================================================
+
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    if ( store.state.here === "Fehrest" && args.direction === NS.SwipeDirection.right ) 
-        this.toHadis();
+    if ( store.state.here === "Fehrest" ) {
+        if ( args.direction === NS.SwipeDirection.right ) this.toHadis();
+        if ( args.direction === NS.SwipeDirection.left ) this.toAdeiyeh();
+    }
 
-    if ( store.state.here === "Hadis" && args.direction === NS.SwipeDirection.left ) 
-        this.toFehrest();
+    else if ( store.state.here === "Hadis" && args.direction === NS.SwipeDirection.left )
+        this.toFehrest( args.direction );
+    
+    else if ( store.state.here === "Adeiyeh" && args.direction === NS.SwipeDirection.right )
+        this.toFehrest( args.direction );
 
 }
 
