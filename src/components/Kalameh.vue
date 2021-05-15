@@ -113,7 +113,6 @@ destroyed () {}
 
     .ESM {
         font-size: 140;
-        color: #548505;
         width: 100%;
         font-family: Besmellah_2;
         line-height: 7;
@@ -122,50 +121,53 @@ destroyed () {}
         text-align: center;
     }
 
+    .CoolGreen .ESM {
+        color: #548505;
+    }
+
     .string, .sajdeh {
         font-family: Amiri-Regular;
-        color: #888888;
         text-align: center;
         font-size: 19;
         line-height: 7;
         padding: 8 2;
         border-radius: 5;
-        border-color: #23ffffff;
-        border-width: 0;
     }
 
-    .sajdeh {
+    .CoolGreen .string {
+        color: #e6e6e6;
+    }
+
+    .CoolGreen .sajdeh {
         color: #2b99e2;
+        /* border-color: #23ffffff; */
     }
 
     .number {
         font-family: MADDINA;
         text-align: center;
-        font-size: 14;
-        padding-top: 1.7;
+        font-size: 16;
+        padding-top: 1.4;
         margin: 0 2;
         width: 23;
         height: 23;
         align-self: center;
         border-radius: 99;
-        background-color: #141414;
-        color: #a7a7a7;
     }
 
-    .hadis {
-        font-family: Amiri-Regular;
-        color: #888888;
-        text-align: center;
-        font-size: 15.5;
-        line-height: 7;
-        padding: 3;
-        border-radius: 5;
+    .CoolGreen .number {
+        background-color: #4dbae6;
+        font-weight: bold;
+        color: #031a1d;
     }
 
     .pressed {
         font-weight: bold;
-        color: #000000;
-        border-color: #929497;
+    }
+
+    .CoolGreen .pressed {
+        background-color: #072529;
+        color: #a7a7a7;
     }
 
 </style>

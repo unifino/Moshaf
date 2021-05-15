@@ -2,7 +2,7 @@
 <Page>
 <GridLayout class="fx" rows="40,*,40">
 
-    <Label :text="name" class="esm" row=2 @tap="complete()" />
+    <Label :text="name" class="suraName" row=2 @tap="complete()" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -201,9 +201,10 @@ destroyed () {
         height: 63%;
     }
 
-    .esm {
-        color: #888888;
+    .suraName {
+        color: #bebebe;
         font-family: MADDINA;
+        font-size: 15;
         width: 100%;
         text-align: center;
     }

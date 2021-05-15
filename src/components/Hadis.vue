@@ -1,6 +1,6 @@
 <template>
 <Page>
-<GridLayout class="myPage" rows="44,44,44,*,7" columns="auto,*" >
+<GridLayout class="myPage" rows="44,44,44,*,7" >
 
 <!---------------------------------------------------------------------------------------->
 
@@ -8,7 +8,6 @@
     <TextField
         ref="search"
         row=2
-        colSpan=2
         hint="بحث"
         class="search"
         @textChange="search()"
@@ -16,6 +15,7 @@
 
     <Label
         row=2
+        horizontalAlignment="left"
         :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
         @tap="found.length ? dismiss( true ) : search( true )"
         @longPress="popLastTrace()"
@@ -26,7 +26,6 @@
 
     <ScrollView
         row=3
-        colSpan=2
         rowSpan=3
         class="paper"
         orientation="vertical"
@@ -66,12 +65,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout
-        v-if=found.length
-        class="result"
-        row=3
-        colSpan=2
-    >
+    <GridLayout v-if=found.length class="result" row=3 >
 
         <ListView for="item in found" >
             <v-template>
@@ -88,7 +82,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout colSpan=2 rowSpan=5 rows="*,110" >
+    <GridLayout rowSpan=5 rows="*,110" >
         <GridLayout row=1 @tap="init()" />
     </GridLayout>
 
@@ -126,7 +120,7 @@ export default class Hadis extends Vue {
 
 // -- =====================================================================================
 
-hadis: { a: string[], b:string, c: string, d: string, e: string } = { 
+hadis: { a: string[], b:string, c: string, d: string|number, e: string } = { 
     a: null, 
     b: null, 
     c: null, 
@@ -237,10 +231,12 @@ search ( force=false ) {
     // .. search in ayat
     if ( text.length > 2 || force ) {
         collection.forEach( (q, i) => {
-            if ( tools.asmaUnifier( tools.erabTrimmer( q.a || "" ) ).includes( text ) )
-                this.found.push( { text: q.a, idx: i } );
-            if ( tools.asmaUnifier( q.b ).includes( text ) )
-                this.found.push( { text: q.b, idx: i } );
+            if ( q.a ) 
+                if ( tools.asmaUnifier( tools.erabTrimmer( q.a || "" ) ).includes( text ) )
+                    this.found.push( { text: q.a, idx: i } );
+            if ( q.b )
+                if ( tools.asmaUnifier( q.b ).includes( text ) )
+                    this.found.push( { text: q.b, idx: i } );
         } );
     }
 
@@ -280,34 +276,53 @@ destroyed () {}
 
 /*                                          */
     .myPage {
-        padding: 0 48%;
+        width: 300;
     }
 
     .paper {
-        width: 72%;
         height: 72%;
+    }
+
+    .hadis {
+        font-family: Amiri-Regular;
+        text-align: center;
+        font-size: 15.5;
+        line-height: 7;
+        padding: 3;
+        border-radius: 5;
+    }
+
+    .CoolGreen .hadis {
+        color: #d8d8d8;
     }
 
     .farsi {
         margin: 20;
         font-family: Amiri-Regular;
-        color: #888888;
         text-align: center;
         font-size: 13;
     }
 
+    .CoolGreen .farsi {
+        color: #c5c5c5;
+    }
+
     .name, .name_e {
-        width: 100%;
         font-family: Amiri-Regular;
-        color: #5b8814;
+        color: #498c29;
         text-align: center;
         font-size: 18;
+        margin-bottom: 30;
+        height: 50;
     }
 
     .name_e {
-        font-size: 12;
-        margin-bottom: 30;
-        color: #436311;
+        height: 20;
+        margin-top: 14.4;
+        margin-right: 3;
+        font-size: 23;
+        font-family: Alaem;
+        color: #5b8814;
     }
 
     .divider {

@@ -2,6 +2,8 @@ import Vue                              from 'nativescript-vue'
 import Base                             from './components/Base.vue'
 import store                            from './store/store'
 import * as NS                          from "@nativescript/core"
+// import RadListView from 'nativescript-ui-listview/vue';
+// Vue.use(RadListView);
 
 declare var android; // required if tns-platform-declarations is not installed
 

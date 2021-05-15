@@ -62,7 +62,6 @@ destroyed () {}
 
 /*                                          */
     .meaning {
-        color: #888a8a;
         font-family: Homa;
         width: 88%;
         padding: 14;
@@ -70,7 +69,11 @@ destroyed () {}
         font-size: 14.4;
         border-radius: 7;
         border-width: 1;
-        border-color: #4c5152;
+    }
+
+    .CoolGreen .meaning {
+        color: #d3d3d3;
+        border-color: #888675;
     }
 
 </style>

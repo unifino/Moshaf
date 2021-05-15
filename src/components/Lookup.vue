@@ -244,7 +244,7 @@ destroyed () {
 
 /*                                          */
     .divider {
-        background-color: #233233;
+        background-color: #2a4c4e;
     }
 
 </style>

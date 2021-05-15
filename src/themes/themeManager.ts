@@ -15,7 +15,7 @@ let themeValues = function ( color: string ): themeValues{
 
     return {
         name: color,
-        color: "#0a1c20",
+        color: TS.BGColors[ color ],
         contrast: TS.contentColorType[ color ],
         statusBarIconsColor: TS.contentColorType[ color ],
     }
@@ -27,7 +27,7 @@ let themeValues = function ( color: string ): themeValues{
 export function themeApplier ( colorName: TS.ThemaName, refs ): void {
 
     // .. get values of the Theme and Element(s)
-    let palette = themeValues( "Black" );
+    let palette = themeValues( colorName );
 
     // .. applying barIcon Color
     statusBarIconStyleApplier( palette.statusBarIconsColor );

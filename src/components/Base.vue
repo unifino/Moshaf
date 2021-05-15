@@ -78,9 +78,6 @@ backButtonCtl (e) {
 
 init (): void {
 
-    // .. just applying default theme
-    TM.themeApplier( "DarkGreen", this.$refs );
-
     // .. after granting storage permission further steps should be taken
     this.permissionApplier()
     .then( () => storage.db_check() )
@@ -124,8 +121,8 @@ setup (): Promise<void> {
             // .. register appConfig
             // store.state.appConfig = validAppConfig;
 
-            // .. assign user selected theme
-            // TM.themeApplier( store.state.appConfig.theme, this.$refs );
+            // .. just applying default theme
+            TM.themeApplier( "CoolGreen", this.$refs );
 
             this.toFehrest( null );
             // this.toHadis();
@@ -199,7 +196,7 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
 
     else if ( store.state.here === "Hadis" && args.direction === NS.SwipeDirection.left )
         this.toFehrest( args.direction );
-    
+
     else if ( store.state.here === "Adeiyeh" && args.direction === NS.SwipeDirection.right )
         this.toFehrest( args.direction );
 

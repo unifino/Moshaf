@@ -4,7 +4,6 @@
     ref="fehrest"
     class="fehrest"
     rows="44,44,44,*,7"
-    columns="auto,*"
     @tap="dismiss()"
 >
 
@@ -14,7 +13,6 @@
     <TextField
         ref="search"
         row=2
-        colSpan=2
         hint="بحث"
         class="search"
         @textChange="search()"
@@ -22,6 +20,7 @@
 
     <Label
         row=2
+        horizontalAlignment="left"
         :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
         @tap="found.length ? dismiss( true ) : search( true )"
         class="fas button" 
@@ -32,7 +31,6 @@
     <ScrollView 
         row=1
         rowSpan=3
-        colSpan=2
         orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
@@ -69,12 +67,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout
-        v-if=found.length
-        class="result"
-        row=3
-        colSpan=2
-    >
+    <GridLayout v-if=found.length class="result" row=3 >
 
         <ListView for="item in found" >
             <v-template>
@@ -209,21 +202,32 @@ destroyed () {}
 
 /*                                          */
     .fehrest {
-        padding: 0 48%;
+        width: 300;
     }
 
     .sura, .saat {
         font-family: Amiri-Regular;
-        color: #888888;
         text-align: center;
         font-size: 14;
-        padding: 0 3;
-        margin: 0 .5;
+        padding: -4 3 0 3;
+        margin: 2 .5;
+        height: 35;
+        border-radius: 5;
     }
 
-    .saat {
-        background-color: #07301d;
-        border-radius: 5;
+    .CoolGreen .sura {
+        color: #cccccc;
+    }
+
+    .CoolGreen .saat {
+        background-color: #498c29;
+        background-color: #086439;
+        color: #cccccc;
+    }
+
+    .DarkGreen .saat {
+        background-color: #2c3007;
+        color: #cccccc;
     }
 
 </style>

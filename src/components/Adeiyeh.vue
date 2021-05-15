@@ -1,6 +1,6 @@
 <template>
 <Page>
-<GridLayout class="myPage" rows="44,44,44,*,2*,*,7" columns="auto,*" >
+<GridLayout class="myPage" rows="44,44,44,*,2*,*,7" >
 
 <!---------------------------------------------------------------------------------------->
 
@@ -8,7 +8,6 @@
     <TextField
         ref="search"
         row=2
-        colSpan=2
         hint="بحث"
         class="search"
         @textChange="search()"
@@ -16,6 +15,7 @@
 
     <Label
         row=2
+        horizontalAlignment="left"
         :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
         @tap="found.length ? dismiss( true ) : search( true )"
         @longPress="popLastTrace()"
@@ -24,7 +24,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView row=4 colSpan=2 for="(doa, idx) in adeiyeh" >
+    <ListView row=4 for="(doa, idx) in adeiyeh" >
         <v-template>
             <Label
                 :text="doa.title"
@@ -146,12 +146,12 @@ destroyed () {}
 
 /*                                          */
     .myPage {
-        padding: 0 48%;
+        width: 300;
     }
 
     .doa {
         margin: 20;
-        font-family: Homa;
+        font-family: JF Flat;
         color: #888888;
         text-align: center;
         font-size: 16;

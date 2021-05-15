@@ -5,6 +5,7 @@ export type ThemaName =
     | 'Smoky' 
     | 'Milky' 
     | 'Black' 
+    | 'CoolGreen' 
     | 'DarkGreen' 
     | 'WarmBlue' 
     | 'CozyBlue' 
@@ -19,6 +20,7 @@ export type ThemaName_Light =
 
 export type ThemaName_Dark = 
       'Black'
+    | 'CoolGreen' 
     | 'DarkGreen' 
     | 'GreatGray' 
     | 'WarmBlue' 
@@ -32,6 +34,7 @@ export enum BGColors {
     Smoky       = "#e6e6e6" ,
     Milky       = "#fcefe6" ,
     Black       = "#000000" ,
+    CoolGreen   = "#08332f" ,
     DarkGreen   = "#0a1c20" ,
     GreatGray   = "#1e2c2f" ,
     WarmBlue    = "#125689" ,
@@ -52,6 +55,7 @@ export enum contentColorType {
     Smoky       = B_W.Black ,
     Milky       = B_W.Black ,
     Black       = B_W.White ,
+    CoolGreen   = B_W.White ,
     DarkGreen   = B_W.White ,
     GreatGray   = B_W.White ,
     WarmBlue    = B_W.White ,
