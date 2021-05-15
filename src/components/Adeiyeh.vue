@@ -152,17 +152,23 @@ destroyed () {}
     .doa {
         margin: 20;
         font-family: JF Flat;
-        color: #888888;
         text-align: center;
         font-size: 16;
+    }
+
+    .CoolGreen .doa {
+        color: #d8dfe2;
     }
 
     .name {
         width: 100%;
         font-family: Amiri-Regular;
-        color: #5b8814;
         text-align: center;
         font-size: 18;
+    }
+
+    .CoolGreen .name {
+        color: #5b8814;
     }
 
 </style>

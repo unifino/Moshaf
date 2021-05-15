@@ -113,7 +113,7 @@ destroyed () {
 
     .doa {
         font-family: Amiri-Regular;
-        color: #888888;
+        color: #d8d8d8;
         text-align: left;
         font-size: 17;
         line-height: 23;

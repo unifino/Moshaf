@@ -158,14 +158,20 @@ init () {
 
 show ( id: number, force=false ) {
 
+    // .. mini patch
+    if ( collection[ id ].c === null ) {
+        console.log( collection[ id ] );
+        collection[ id ].c = 19;
+    }
+
     // .. assign the Name
     this.hadis.c = c_map[ collection[ id ].c ][0];
     this.hadis.e = c_map[ collection[ id ].c ][1];
     // .. assign arabic part
     this.hadis.a = collection[ id ].a.trim().split( ' ' );
     // .. assign farsi part
-    this.hadis.b = collection[ id ].b;
-    this.hadis.d = collection[ id ].d;
+    this.hadis.b = collection[ id ].b || "";
+    this.hadis.d = collection[ id ].d || "";
 
     // .. save trace
     storage.saveTrace_Hadis( id, !!force || new Date().toString() );
@@ -180,10 +186,16 @@ copy () {
     full += this.hadis.c;
     full += " (" + this.hadis.e + "):\n\n";
     full += this.hadis.a.join( " " );
-    full += "\n\n";
-    full += this.hadis.b;
-    full += "\n\n";
-    full += this.hadis.d;
+
+    if ( this.hadis.b ) {
+        full += "\n\n";
+        full += this.hadis.b;
+    }
+
+    if ( this.hadis.d ) {
+        full += "\n\n";
+        full += this.hadis.d;
+    }
 
     setText( full );
     tools.toaster( "حدیث کپی شد.", "short" );

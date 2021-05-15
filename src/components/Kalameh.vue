@@ -1,7 +1,7 @@
 <template>
 <!---------------------------------------------------------------------------------------->
 
-    <Label ref="kalameh" :text="myText" :class="myType" @tap="lookup" />
+    <Label ref="kalameh" :text="myText" :class="theType" @tap="lookup" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -34,7 +34,7 @@ export default class Kalameh extends Vue {
 
 @Prop() myText: string;
 @Prop() fullText: string;
-@Prop() myType: "string"|"number"|"ESM"|"hadis";
+@Prop() myType: "string"|"number"|"ESM"|"hadis"|"salam";
 
 // -- =====================================================================================
 
@@ -42,7 +42,22 @@ mounted () {}
 
 // -- =====================================================================================
 
-init (): void {}
+get theType (): "string"|"number"|"ESM"|"hadis"|"salam" {
+
+    let salam = [
+        "عليها‌السلام",
+        "عليه‌السلام",
+        "صلى‌الله‌عليه‌وآله‌وسلم",
+        "عليهما‌السلام"
+    ];
+
+    for ( const x of salam ) 
+        if ( x === this.myText ) 
+            this.myType = "salam";
+
+    return this.myType;
+
+}
 
 // -- =====================================================================================
 
@@ -115,9 +130,9 @@ destroyed () {}
         font-size: 140;
         width: 100%;
         font-family: Besmellah_2;
-        line-height: 7;
         padding: 8 2;
-        margin-top: -50;
+        margin-top: -52;
+        height: 140;
         text-align: center;
     }
 
@@ -141,6 +156,15 @@ destroyed () {}
     .CoolGreen .sajdeh {
         color: #2b99e2;
         /* border-color: #23ffffff; */
+    }
+
+    .salam {
+        font-family: Alaem;
+        padding-top: 20;
+    }
+
+    .CoolGreen .salam {
+        color: #4dbae6;
     }
 
     .number {

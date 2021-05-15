@@ -197,8 +197,8 @@ destroyed () {
 
 /*                                          */
     .ghertas {
-        width: 72%;
-        height: 63%;
+        width: 300;
+        height: 550;
     }
 
     .suraName {
