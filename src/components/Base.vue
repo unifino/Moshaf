@@ -193,8 +193,6 @@ toAdeiyeh (): void {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    console.log(store.state.here);
-    
     if ( store.state.here === "Fehrest" ) {
         if ( args.direction === NS.SwipeDirection.right ) this.toHadis();
         if ( args.direction === NS.SwipeDirection.left ) this.toAdeiyeh();

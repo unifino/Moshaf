@@ -169,7 +169,6 @@ show ( id: number, force=false ) {
 
     // .. mini patch
     if ( collection[ id ].c === null ) {
-        console.log( collection[ id ] );
         collection[ id ].c = 19;
     }
 
@@ -214,7 +213,7 @@ copy () {
     let full = "";
     full += this.hadis.c;
     full += " (" + this.hadis.e + "):\n\n";
-    full += this.hadis.a.reduce( (f,x) => f + " " + x , "" ).trim();
+    full += this.hadis.a.reduce( (f,x) => f + " " + x.text , "" ).trim();
 
     if ( this.hadis.b ) {
         full += "\n\n";
