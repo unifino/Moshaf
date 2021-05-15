@@ -142,6 +142,10 @@ destroyed () {}
         color: #548505;
     }
 
+    .Smoky .ESM {
+        color: #548505;
+    }
+
     .string, .sajdeh {
         font-family: Amiri-Regular;
         text-align: center;
@@ -157,7 +161,10 @@ destroyed () {}
 
     .CoolGreen .sajdeh {
         color: #2b99e2;
-        /* border-color: #23ffffff; */
+    }
+
+    .Smoky .sajdeh {
+        color: #1a6fa8;
     }
 
     .salam {
@@ -167,6 +174,10 @@ destroyed () {}
 
     .CoolGreen .salam {
         color: #4dbae6;
+    }
+
+    .Smoky .salam {
+        color: #1d80a7;
     }
 
     .number {
@@ -179,12 +190,17 @@ destroyed () {}
         height: 23;
         align-self: center;
         border-radius: 99;
+        font-weight: bold;
     }
 
     .CoolGreen .number {
         background-color: #4dbae6;
-        font-weight: bold;
         color: #031a1d;
+    }
+
+    .Smoky .number {
+        background-color: #3a9ec5;
+        color: #e6e6e6;
     }
 
     .pressed {
@@ -192,7 +208,12 @@ destroyed () {}
     }
 
     .CoolGreen .pressed {
-        background-color: #072529;
+        background-color: #123b41;
+        color: #a7a7a7;
+    }
+
+    .Smoky .pressed {
+        background-color: #123b41;
         color: #a7a7a7;
     }
 

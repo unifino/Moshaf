@@ -160,15 +160,8 @@ destroyed () {}
         color: #d8dfe2;
     }
 
-    .name {
-        width: 100%;
-        font-family: Amiri-Regular;
-        text-align: center;
-        font-size: 18;
-    }
-
-    .CoolGreen .name {
-        color: #5b8814;
+    .Smoky .doa {
+        color: #222324;
     }
 
 </style>

@@ -126,7 +126,7 @@ setup (): Promise<void> {
             // store.state.appConfig = validAppConfig;
 
             // .. just applying default theme
-            TM.themeApplier( "CoolGreen", this.$refs );
+            TM.themeApplier( "Smoky", this.$refs );
 
             this.toFehrest( null );
             // this.toHadis();

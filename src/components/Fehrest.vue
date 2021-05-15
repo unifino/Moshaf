@@ -219,10 +219,19 @@ destroyed () {}
         color: #cccccc;
     }
 
+    .Smoky .sura {
+        color: #222324;
+    }
+
     .CoolGreen .saat {
         background-color: #498c29;
         background-color: #086439;
         color: #cccccc;
+    }
+
+    .Smoky .saat {
+        background-color: #75aa1f;
+        color: #eeeeee;
     }
 
     .DarkGreen .saat {

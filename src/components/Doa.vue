@@ -113,11 +113,18 @@ destroyed () {
 
     .doa {
         font-family: Amiri-Regular;
-        color: #d8d8d8;
         text-align: left;
         font-size: 17;
         line-height: 23;
         padding: 14 7;
+    }
+
+    .CoolGreen .doa {
+        color: #d8d8d8;
+    }
+
+    .CoolGreen .doa {
+        color: #1e1e1f;
     }
 
 </style>

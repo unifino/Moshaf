@@ -45,13 +45,13 @@ Page { background-color: transparent; }
     border-radius: 0 0 7 7;
 }
 
-.CoolGreen .item {
+.item {
     font-family: Amiri-Regular;
     font-family: 12;
     padding: 10;
 }
 
-.CoolGreen .button {
+.button {
     // font-family: noorehira; 
     // font-family: Al Qalam Quran Majeed 2; 
     // font-family: Al Qalam Quran Majeed 1; 
@@ -80,10 +80,20 @@ Page { background-color: transparent; }
     border-color: #a19b77; 
     color: #a8a8a8;
 }
+.Smoky .search {
+    color: white;
+    placeholder-color: #8f875d;
+    border-bottom-width: 1;
+    border-color: #a19b77; 
+    color: #a8a8a8;
+}
 
 
 .CoolGreen .result {
     background-color: #0f1616;
+}
+.Smoky .result {
+    background-color: #dbdbdb;
 }
 
 .CoolGreen .item {

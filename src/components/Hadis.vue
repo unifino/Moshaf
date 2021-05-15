@@ -336,6 +336,10 @@ destroyed () {}
         color: #d8d8d8;
     }
 
+    .Smoky .hadis {
+        color: #1e2224;
+    }
+
     .CoolGreen .green {
         color: #498c29;
     }
@@ -353,11 +357,18 @@ destroyed () {}
 
     .name, .name_e {
         font-family: Amiri-Regular;
-        color: #498c29;
         text-align: center;
         font-size: 18;
         margin-bottom: 30;
         height: 50;
+    }
+
+    .CoolGreen .name {
+        color: #498c29;
+    }
+
+    .Smoky .name {
+        color: #62922b;
     }
 
     .name_e {
@@ -367,6 +378,14 @@ destroyed () {}
         font-size: 23;
         font-family: Alaem;
         color: #5b8814;
+    }
+
+    .CoolGreen .name_e {
+        color: #498c29;
+    }
+
+    .Smoky .name_e {
+        color: #4e791d;
     }
 
     .divider {

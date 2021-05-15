@@ -202,11 +202,18 @@ destroyed () {
     }
 
     .suraName {
-        color: #bebebe;
         font-family: MADDINA;
         font-size: 15;
         width: 100%;
         text-align: center;
+    }
+
+    .CoolGreen .suraName {
+        color: #bebebe;
+    }
+
+    .Smoky .suraName {
+        color: #2b2b2b;
     }
 
 </style>
