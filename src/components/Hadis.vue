@@ -47,10 +47,10 @@
 
             <Kalameh 
                 v-for="(kalameh, i) in hadis.a"
-                :key=i 
-                :myText=kalameh
-                :fullText=kalameh
-                myType="hadis"
+                :key=i
+                :myText=kalameh.text
+                :fullText=kalameh.text
+                :myType=kalameh.type
                 @myTap=true
             />
 
@@ -120,12 +120,21 @@ export default class Hadis extends Vue {
 
 // -- =====================================================================================
 
-hadis: { a: string[], b:string, c: string, d: string|number, e: string } = { 
-    a: null, 
-    b: null, 
-    c: null, 
-    d: null, 
-    e: null 
+hadis: {
+    a: {
+        text: string, 
+        type: "hadis"|"hadis green"
+    }[],
+    b:string,
+    c: string,
+    d: string|number,
+    e: string
+} = {
+    a: null,
+    b: null,
+    c: null,
+    d: null,
+    e: null
 };
 found = [];
 swipePass;
@@ -168,7 +177,27 @@ show ( id: number, force=false ) {
     this.hadis.c = c_map[ collection[ id ].c ][0];
     this.hadis.e = c_map[ collection[ id ].c ][1];
     // .. assign arabic part
-    this.hadis.a = collection[ id ].a.trim().split( ' ' );
+    this.hadis.a = [];
+    let tmpBox = collection[ id ].a.trim().split( ' ' );
+    let green = false;
+    for ( let tmp of tmpBox ) {
+
+        if ( tmp.includes( "<Q>" ) || tmp.includes( "</Q>" ) ) {
+            green = !green;
+            tmp = tmp.replace( "<Q>", "" );
+            tmp = tmp.replace( "</Q>", "" );
+        }
+
+        if ( tmp ) {
+            this.hadis.a.push( 
+                {
+                    text: tmp,
+                    type: green ? "hadis green" : "hadis"
+                }
+            );
+        }
+
+    }
     // .. assign farsi part
     this.hadis.b = collection[ id ].b || "";
     this.hadis.d = collection[ id ].d || "";
@@ -185,7 +214,7 @@ copy () {
     let full = "";
     full += this.hadis.c;
     full += " (" + this.hadis.e + "):\n\n";
-    full += this.hadis.a.join( " " );
+    full += this.hadis.a.reduce( (f,x) => f + " " + x , "" ).trim();
 
     if ( this.hadis.b ) {
         full += "\n\n";
@@ -306,6 +335,10 @@ destroyed () {}
 
     .CoolGreen .hadis {
         color: #d8d8d8;
+    }
+
+    .CoolGreen .green {
+        color: #498c29;
     }
 
     .farsi {

@@ -1,7 +1,7 @@
 <template>
 <!---------------------------------------------------------------------------------------->
 
-    <Label ref="kalameh" :text="myText" :class="theType" @tap="lookup" />
+    <Label ref="kalameh" :text="myText" :class=theType @tap="lookup" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -34,15 +34,18 @@ export default class Kalameh extends Vue {
 
 @Prop() myText: string;
 @Prop() fullText: string;
-@Prop() myType: "string"|"number"|"ESM"|"hadis"|"salam";
+@Prop() myType: "string"|"number"|"ESM"|"hadis"|"salam"|"green";
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    console.log(this.myType);
+    
+}
 
 // -- =====================================================================================
 
-get theType (): "string"|"number"|"ESM"|"hadis"|"salam" {
+get theType (): "string"|"number"|"ESM"|"hadis"|"salam"|"green" {
 
     let salam = [
         "عليها‌السلام",
@@ -66,7 +69,7 @@ lookup ( args ): void {
     // .. style and copy
     this.copy( args );
 
-    if ( this.myType === "string" || this.myType === "hadis" ) {
+    if ( this.myType === "string" || this.myType.includes( "hadis" ) ) {
 
         Vue.prototype.$navigateTo( Lookup, {
 
@@ -99,7 +102,7 @@ copy ( args ) {
 
     if ( this.myType === "string" ) setText( tools.erabTrimmer( this.myText ) );
 
-    if ( this.myType === "hadis" ) setText( this.myText );
+    if ( this.myType.includes( "hadis" ) ) setText( this.myText );
 
     if ( this.myType === "number" ) {
         setText( tools.erabTrimmer( this.fullText ) );

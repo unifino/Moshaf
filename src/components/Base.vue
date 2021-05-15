@@ -31,6 +31,10 @@ import * as storage                     from "@/mixins/storage"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
 
+// import VueDevtools                      from 'nativescript-vue-devtools'
+// if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ) }
+// Vue.config.silent = (TNS_ENV === 'production')
+
 // -- =====================================================================================
 
 @Component ( {
