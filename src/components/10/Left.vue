@@ -83,7 +83,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rowSpan=5 rows="*,110" >
-        <GridLayout row=1 @tap="init()" />
+        <GridLayout row=1 @tap="init()" @doubleTap="favorite()" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -121,21 +121,15 @@ export default class Hadis extends Vue {
 // -- =====================================================================================
 
 hadis: {
-    a: {
-        text: string, 
-        type: "hadis"|"hadis green"
-    }[],
-    b:string,
+    a: { text: string, type: "hadis"|"hadis green" }[],
+    b: string,
     c: string,
     d: string|number,
     e: string
-} = {
-    a: null,
-    b: null,
-    c: null,
-    d: null,
-    e: null
+} = { 
+    a: null, b: null, c: null, d: null, e: null 
 };
+currentId = -1;
 found = [];
 swipePass;
 
@@ -157,6 +151,9 @@ init () {
     // .. it has been read already
     while ( storage.trace_h.find( x => x.hadis === rand ) )
         rand = saat.getTime() % collection.length;
+
+    // .. register the ID
+    this.currentId = rand;
 
     // .. show it
     this.show( rand );
@@ -228,6 +225,19 @@ copy () {
     setText( full );
     tools.toaster( "حدیث کپی شد.", "short" );
 
+}
+
+// -- =====================================================================================
+
+favorite () {
+    let trace = storage.fav_h.indexOf( this.currentId );
+    // .. add to Favorite
+    if ( !~trace ) storage.fav_h.push( this.currentId );
+    // .. pop out of Favorite
+    else storage.fav_h.splice( trace, 1 );
+    // .. Toast it
+    tools.toaster( !~trace ? "💚" : "💔" );
+    storage.saveFav_Hadis();
 }
 
 // -- =====================================================================================

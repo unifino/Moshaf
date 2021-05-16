@@ -220,12 +220,12 @@ destroyed () {}
     }
 
     .CoolGreen .pressed {
-        background-color: #123b41;
+        background-color: #17636e;
         color: #a7a7a7;
     }
 
     .Smoky .pressed {
-        background-color: #123b41;
+        background-color: #93c47f;
         color: #a7a7a7;
     }
 

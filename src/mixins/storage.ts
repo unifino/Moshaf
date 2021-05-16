@@ -8,6 +8,7 @@ import * as NS                          from "@nativescript/core"
 
 export let trace_q: { ayah: number, date: string|boolean }[];
 export let trace_h: { hadis: number, date: string|boolean }[];
+export let fav_h: number[];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 export const SDCard: string = exStorage.getAbsolutePath().toString();
@@ -15,6 +16,7 @@ export const SDCard: string = exStorage.getAbsolutePath().toString();
 export let myFolder : NS.Folder; // * do not initiate it
 export let trace_q_File: NS.File;   // * do not initiate it
 export let trace_h_File: NS.File;   // * do not initiate it
+export let fav_h_File: NS.File;   // * do not initiate it
 
 // -- =====================================================================================
 
@@ -29,14 +31,17 @@ export function db_check (): Promise<void> {
         let bp = myFolder.path;
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
+        fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"  ) );
 
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
+        try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
 
         // .. check integrity 
         if ( !trace_q ) saveTrace_Quran();
         if ( !trace_h ) saveTrace_Hadis();
+        if ( !fav_h   ) saveFav_Hadis();
 
         // .. resolve
         rs();
@@ -59,10 +64,17 @@ export async function saveTrace_Quran ( ayah?: number, date?: string|boolean ) {
 export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean, rev? ) {
     // .. add new trace
     if ( date && !rev ) trace_h.push( { hadis: hadis, date: date } );
-    // .. remove lat trace
+    // .. remove last trace
     if ( rev ) trace_h.pop();
     // .. write down file
     trace_h_File.writeText( JSON.stringify( trace_h ) );
+}
+
+// -- =====================================================================================
+
+export async function saveFav_Hadis ( hadis?: number ) {
+    // .. write down file
+    fav_h_File.writeText( JSON.stringify( fav_h ) );
 }
 
 // -- =====================================================================================
@@ -91,11 +103,6 @@ export function unique ( collection: { a: string, b: string, c: number, d?: stri
             &&
             x.d === y.d
         );
-
-        // if ( dk ) {
-        //     console.log( x.a );
-        //     console.log( dk.a );
-        // }
 
         return !dk ? f.concat([x]) : f;
 
