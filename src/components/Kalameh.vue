@@ -144,8 +144,8 @@ destroyed () {}
         width: 100%;
         font-family: Besmellah_2;
         padding: 8 2;
-        margin-top: -52;
-        height: 140;
+        margin-top: -62.9;
+        height: 125.8;
         text-align: center;
     }
 
@@ -164,6 +164,7 @@ destroyed () {}
         line-height: 7;
         padding: 7 2;
         border-radius: 5;
+        height: 63;
     }
 
     .CoolGreen .string {

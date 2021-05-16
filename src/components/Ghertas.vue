@@ -1,6 +1,6 @@
 <template>
 <Page>
-<GridLayout class="fx" rows="40,*,40">
+<GridLayout class="fx" rows="40,*,40" @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)">
 
     <Label :text="name" class="suraName" row=2 @tap="complete()" />
 
@@ -21,8 +21,9 @@
             justifyContent="space-between"
         >
             <Kalameh 
-                v-for="kalameh in vahy"
-                :key=kalameh.refId 
+                v-for="(kalameh,i) in vahy"
+                ref="Kalameh"
+                :key=i 
                 :myText=kalameh.text
                 :fullText=kalameh.fullText || null
                 :myType=kalameh.type
@@ -213,6 +214,30 @@ async complete () {
 
 // -- =====================================================================================
 
+scrollStep = 0;
+scrollTo ( step: 1|-1 ) {
+
+    let h = 63;
+
+    for ( let k of this.$refs.Kalameh as any[] ) {
+        let h0 = k.nativeView.getActualSize().height;
+        if ( h0 < 100 && h0 > 30 ) {
+            h = h0;
+            break;
+        }
+    }
+
+    this.scrollStep += step;
+    if ( this.scrollStep < 0 ) this.scrollStep = 0;
+
+    let ghertas = ( this.$refs as any ).ghertas.nativeView;
+    ghertas.height = h *8;
+    ghertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
+
+}
+
+// -- =====================================================================================
+
 destroyed () {
     clearTimeout( this.morsal_TO );
     store.state.here = "Fehrest";
@@ -233,7 +258,7 @@ destroyed () {
 /*                                          */
     .ghertas {
         width: 300;
-        height: 530;
+        height: 504;
     }
 
     .suraName {
@@ -248,7 +273,7 @@ destroyed () {
     }
 
     .Smoky .suraName {
-        color: #2b2b2b;
+        color: #4b4b4b;
     }
 
 </style>
