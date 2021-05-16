@@ -9,32 +9,23 @@
         class="ghertas"
         orientation="vertical"
         verticalAlignment="middle"
-        scrollBarIndicatorVisible="false"
+        scrollBarIndicatorVisible="true"
     >
 
-        <!-- <FlexboxLayout 
+        <FlexboxLayout 
             flexWrap="wrap"
             flexDirection="row-reverse"
-            justifyContent="space-between"
+            justifyContent="flex-start"
         >
             <Kalameh 
                 v-for="(kalameh,i) in doa"
                 :key=i 
                 :myText=kalameh
                 :fullText=kalameh || null
-                myType="hadis"
+                myType="string"
                 @myTap=true
             />
-            <Label
-                v-for="i in [1,2,3,4,5,6,7,1,2,3,4,5,6,7]"
-                :key=i
-                alignSelf="stretch"
-                height=0
-                text="   "
-            />
-        </FlexboxLayout> -->
-
-        <Label row=2 :text="doa" class="doa" textWrap=true />
+        </FlexboxLayout>
 
     </ScrollView>
 
@@ -77,15 +68,41 @@ export default class Doa extends Vue {
 
 // -- =====================================================================================
 
-// doa: string[] = [];
-doa: string = "";
+doa: string[] = [];
 
 // -- =====================================================================================
 
 mounted () {
     store.state.here = "Doa";
-    // this.doa = adeiyeh[ this.doaID ].content.split( " " );
-    this.doa = adeiyeh[ this.doaID ].content;
+    this.morsal();
+}
+
+// -- =====================================================================================
+
+async morsal () {
+
+    let doa = adeiyeh[ this.doaID ].content;
+    doa = doa.replace( /\n\n/g, " !BIG_BREAKLINE! " );
+    doa = doa.replace( /\n/g, " !BREAKLINE! " );
+
+    // .. preview
+    let kalamat = doa.split( " " );
+
+    // for( let x of kalamat.filter( (x, i) => i < 50 ) ) console.log(x);
+
+    this.doa = kalamat.filter( (x, i) => i < 100 );
+
+    await new Promise( _ => setTimeout( _, 700 ) );
+
+    for ( let x=100; x < kalamat.length; x++ ) {
+
+        this.doa.push( kalamat[ x ] );
+
+        // .. prevent freezing
+        if ( !(Number(x) % 7) ) await new Promise( _ => setTimeout( _, 7 ) );
+
+    }
+
 }
 
 // -- =====================================================================================
@@ -108,22 +125,22 @@ destroyed () {
 
 /*                                          */
     .myPage {
-        padding: 5% 25% 20% 25%;
+        padding: 12% 25% 27% 25%;
     }
 
-    .doa {
+    .string {
         font-family: Amiri-Regular;
-        text-align: left;
+        /* text-align: left; */
         font-size: 17;
-        line-height: 23;
-        padding: 14 7;
+        /* line-height: 23; */
+        /* padding: 14 7; */
     }
 
-    .CoolGreen .doa {
+    .CoolGreen .string {
         color: #d8d8d8;
     }
 
-    .CoolGreen .doa {
+    .CoolGreen .string {
         color: #1e1e1f;
     }
 

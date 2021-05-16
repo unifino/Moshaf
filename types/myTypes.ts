@@ -81,5 +81,21 @@ export type here =
 export type vahy = { 
     text: string, 
     fullText?: string,
-    type: "ESM"|"string"|"number"|"sajdeh" 
+    type: Kalameh
 }[];
+
+// -- =====================================================================================
+
+export type Kalameh =
+     "string"
+    | "number"
+    | "ESM"
+    | "sajdeh"
+    | "hadis"
+    | "salam"
+    | "green"
+    | "BREAKLINE"
+    | "BIG_BREAKLINE"
+    ;
+
+// -- =====================================================================================

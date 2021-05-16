@@ -70,8 +70,16 @@ backButtonCtl (e) {
     switch ( store.state.here ) {
 
         case "Fehrest":
-            exit();
+
+            let base = this.$root.$children[0].$refs.base as any;
+            let fehrest = base.$children[1] as Fehrest;
+            // ..  just clear search
+            if ( fehrest.frase ) fehrest.dismiss(true);
+            // .. exit
+            else exit();
+
             e.cancel = true;
+
         break;
 
     }

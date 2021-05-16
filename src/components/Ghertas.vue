@@ -12,7 +12,7 @@
         class="ghertas"
         orientation="vertical"
         verticalAlignment="middle"
-        scrollBarIndicatorVisible="false"
+        scrollBarIndicatorVisible="true"
     >
 
         <FlexboxLayout 
@@ -105,11 +105,8 @@ init ( me?: number ): void {
 
     let message = this.rouh( this.taghdir_point, sura );
 
-    // .. preview
-    this.morsal( message, 110 );
-
-    // .. full message
-    this.morsal_TO = setTimeout( () => this.morsal( message, 0 ), 3000 );
+    // .. delivering ...
+    this.morsal( message );
 
 }
 
@@ -161,19 +158,57 @@ rouh ( ayah: number, sura: number ) {
 
 // -- =====================================================================================
 
-morsal ( message: TS.vahy, limit: number ) {
+async morsal ( message: TS.vahy ) {
 
-    this.vahy = message.filter( (x, i) => i < ( limit || Infinity ) );
+    // .. preview
+    this.vahy = message.filter( (x, i) => i < 100 );
 
-    // .. (de)activate scrollBarIndicatorVisible
-    ( this.$refs.ghertas as any ).nativeView.scrollBarIndicatorVisible = !limit;
+    await new Promise( _ => setTimeout( _, 700 ) );
+
+    for ( let x=100; x < message.length; x++ ) {
+
+        this.vahy.push( message[ x ] );
+
+        // .. prevent freezing
+        if ( !(Number(x) % 7) ) await new Promise( _ => setTimeout( _, 7 ) );
+
+    }
 
 }
 
 // -- =====================================================================================
 
-complete () {
-    this.init( asma[ Quran[ this.taghdir_point ].sura -1 ][2] )
+async complete () {
+
+    this.init( asma[ Quran[ this.taghdir_point ].sura -1 ][2] );
+
+    // let current_sura = Quran[ this.taghdir_point ].sura;
+    // let p = this.taghdir_point -1;
+
+    // while ( current_sura === Quran[ p ].sura ) {
+
+    //     let q = Quran[ p ];
+
+    //     // .. divide ayah
+    //     q.text.split( " " ).map( k => {
+    //         this.vahy.unshift( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
+    //     } );
+
+    //     let fullText = q.text+"\n\n"+asma[ q.sura -1 ][1]+" ("+q.sura+") "+" : "+q.ayah;
+
+    //     // .. add number
+    //     this.vahy.unshift( { 
+    //         text: q.ayah.toString(), 
+    //         type: "number", 
+    //         fullText: tools.arabicDigits( fullText )
+    //     } );
+
+    //     await new Promise( _ => setTimeout( _, 7 ) );
+
+    //     p--;
+
+    // }
+
 }
 
 // -- =====================================================================================
@@ -198,7 +233,7 @@ destroyed () {
 /*                                          */
     .ghertas {
         width: 300;
-        height: 550;
+        height: 530;
     }
 
     .suraName {

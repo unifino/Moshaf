@@ -19,6 +19,7 @@ import { setText }                      from "nativescript-clipboard"
 import Lookup                           from "@/components/Lookup.vue"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
+import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
@@ -34,15 +35,22 @@ export default class Kalameh extends Vue {
 
 @Prop() myText: string;
 @Prop() fullText: string;
-@Prop() myType: "string"|"number"|"ESM"|"hadis"|"salam"|"green";
+@Prop() myType: TS.Kalameh;
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    // setTimeout(() => {
+    //     let h = ( this.$refs.kalameh as any ).nativeView.getActualSize().height;
+    //     console.log(h);
+    // }, 1000);
+}
 
 // -- =====================================================================================
 
-get theType (): "string"|"number"|"ESM"|"hadis"|"salam"|"green" {
+get theType (): TS.Kalameh {
+
+    let theType = this.myType;
 
     let salam = [
         "عليها‌السلام",
@@ -55,9 +63,12 @@ get theType (): "string"|"number"|"ESM"|"hadis"|"salam"|"green" {
 
     for ( const x of salam ) 
         if ( x === this.myText ) 
-            this.myType = "salam";
+            theType = "salam";
 
-    return this.myType;
+    if ( this.myText === "!BREAKLINE!" ) theType = "BREAKLINE";
+    if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";
+
+    return theType;
 
 }
 
@@ -151,7 +162,7 @@ destroyed () {}
         text-align: center;
         font-size: 19;
         line-height: 7;
-        padding: 8 2;
+        padding: 7 2;
         border-radius: 5;
     }
 
@@ -215,6 +226,20 @@ destroyed () {}
     .Smoky .pressed {
         background-color: #123b41;
         color: #a7a7a7;
+    }
+
+    .BREAKLINE, .BIG_BREAKLINE {
+        width: 100%;
+        opacity: 0;
+    }
+
+    .BREAKLINE {
+        height: 1;
+        margin-top: -1;
+    }
+
+    .BIG_BREAKLINE {
+        height: 25;
     }
 
 </style>
