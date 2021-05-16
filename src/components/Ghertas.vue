@@ -273,7 +273,7 @@ destroyed () {
     }
 
     .Smoky .suraName {
-        color: #4b4b4b;
+        color: #7c7c7c;
     }
 
 </style>

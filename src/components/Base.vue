@@ -212,6 +212,12 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
     else if ( store.state.here === "Adeiyeh" && args.direction === NS.SwipeDirection.right )
         this.toFehrest( args.direction );
 
+    if ( args.direction === NS.SwipeDirection.down )
+        TM.themeApplier( "CoolGreen", this.$refs );
+    if ( args.direction === NS.SwipeDirection.up )
+        TM.themeApplier( "Smoky", this.$refs );
+
+
 }
 
 // -- =====================================================================================
