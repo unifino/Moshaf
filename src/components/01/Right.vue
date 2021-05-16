@@ -48,8 +48,8 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Doa                              from "@/components/Doa.vue"
-import Kalameh                          from "@/components/Kalameh.vue"
+import Doa                              from "@/components/01/Doa.vue"
+import Kalameh                          from "@/components/m/Kalameh.vue"
 import { adeiyeh }                      from "@/db/Adeiyeh"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"

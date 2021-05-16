@@ -99,8 +99,8 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Ghertas                          from "@/components/Ghertas.vue"
-import Kalameh                          from "@/components/Kalameh.vue"
+import Ghertas                          from "@/components/00/Ghertas.vue"
+import Kalameh                          from "@/components/m/Kalameh.vue"
 import { c_map, collection }            from "@/db/Hadis"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"

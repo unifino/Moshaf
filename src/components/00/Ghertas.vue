@@ -56,7 +56,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import { asma, Quran }                  from "@/db/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
-import Kalameh                          from "@/components/Kalameh.vue"
+import Kalameh                          from "@/components/m/Kalameh.vue"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 

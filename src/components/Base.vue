@@ -20,10 +20,10 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
-import Fehrest                          from "@/components/Fehrest.vue"
-import Ghertas                          from "@/components/Ghertas.vue"
-import Hadis                            from "@/components/Hadis.vue"
-import Adeiyeh                          from "@/components/Adeiyeh.vue"
+import Fehrest                          from "@/components/00/Center.vue"
+import Ghertas                          from "@/components/00/Ghertas.vue"
+import Hadis                            from "@/components/10/Left.vue"
+import Adeiyeh                          from "@/components/01/Right.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
@@ -212,6 +212,7 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
     else if ( store.state.here === "Adeiyeh" && args.direction === NS.SwipeDirection.right )
         this.toFehrest( args.direction );
 
+    // .. theme changer
     if ( args.direction === NS.SwipeDirection.down )
         TM.themeApplier( "CoolGreen", this.$refs );
     if ( args.direction === NS.SwipeDirection.up )
