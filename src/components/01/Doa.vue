@@ -140,7 +140,7 @@ destroyed () {
         color: #d8d8d8;
     }
 
-    .CoolGreen .string {
+    .Smoky .string {
         color: #1e1e1f;
     }
 
