@@ -1,6 +1,6 @@
 <template>
 <Page>
-<GridLayout class="fx" rows="40,*,40" @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)">
+<GridLayout class="fx" rows="40,*,40">
 
     <Label :text="name" class="suraName" row=2 @tap="complete()" />
 
@@ -39,6 +39,12 @@
         </FlexboxLayout>
 
     </ScrollView>
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout row=1 rows="*,110">
+        <Label row=1 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 

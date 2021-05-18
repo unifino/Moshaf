@@ -74,7 +74,7 @@ backButtonCtl (e) {
             let base = this.$root.$children[0].$refs.base as any;
             let fehrest = base.$children[1] as Fehrest;
             // ..  just clear search
-            if ( fehrest.frase ) fehrest.dismiss(true);
+            if ( fehrest.phrase ) fehrest.dismiss(true);
             // .. exit
             else exit();
 

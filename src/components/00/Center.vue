@@ -116,7 +116,7 @@ export default class Fehrest extends Vue {
 
 asma = asma;
 found = [];
-frase = ""
+phrase = ""
 
 // -- =====================================================================================
 
@@ -153,22 +153,22 @@ open ( num: number ): void {
 search ( force=false ) {
 
     // let text = event.object.text;
-    this.frase = ( this.$refs.search as any ).nativeView.text;
+    this.phrase = ( this.$refs.search as any ).nativeView.text;
     // .. input must be unified!
-    this.frase = this.frase.replace( /ی/g, 'ي' );
-    this.frase = this.frase.replace( /ک/g, 'ك' );
+    this.phrase = this.phrase.replace( /ی/g, 'ي' );
+    this.phrase = this.phrase.replace( /ک/g, 'ك' );
 
     // .. reset asma
     this.asma = asma;
     this.found = [];
 
     // .. filter asma + unifying asma
-    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( this.frase ) );
+    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( this.phrase ) );
 
     // .. search in ayat
-    if ( this.frase.length > 2 || force ) {
+    if ( this.phrase.length > 2 || force ) {
         Quran.forEach( (q, i) => {
-            if ( tools.asmaUnifier( q.simple ).includes( this.frase ) ) {
+            if ( tools.asmaUnifier( q.simple ).includes( this.phrase ) ) {
                 this.found.push( { text: q.simple, idx: i } );
             }
         } );
