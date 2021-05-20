@@ -21,7 +21,6 @@
                 v-for="(kalameh,i) in doa"
                 :key=i 
                 :myText=kalameh
-                :fullText=kalameh || null
                 myType="string"
                 @myTap=true
             />

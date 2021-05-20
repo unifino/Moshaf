@@ -49,7 +49,6 @@
                 v-for="(kalameh, i) in hadis.a"
                 :key=i
                 :myText=kalameh.text
-                :fullText=kalameh.text
                 :myType=kalameh.type
                 @myTap=true
             />

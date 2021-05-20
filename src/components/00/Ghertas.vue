@@ -24,8 +24,8 @@
                 v-for="(kalameh,i) in vahy"
                 ref="Kalameh"
                 :key=i 
+                :aID=kalameh.aID
                 :myText=kalameh.text
-                :fullText=kalameh.fullText || null
                 :myType=kalameh.type
                 @myTap=true
             />
@@ -46,6 +46,8 @@
         <Label row=1 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
     </GridLayout>
 
+    <Menu rowSpan=3 />
+
 <!---------------------------------------------------------------------------------------->
 
 </GridLayout>
@@ -63,13 +65,14 @@ import { asma, Quran }                  from "@/db/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import Kalameh                          from "@/components/m/Kalameh.vue"
+import Menu                             from "@/components/00/ToolBar.vue"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh }
+    components: { Kalameh, Menu }
 } )
 
 // -- =====================================================================================
@@ -84,7 +87,7 @@ export default class Ghertas extends Vue {
 
 vahy: TS.vahy = [];
 name: string = "";
-taghdir_point: number;
+taghdir_aID: number;
 
 // -- =====================================================================================
 
@@ -99,18 +102,18 @@ morsal_TO: NodeJS.Timeout | any;
 init ( me?: number ): void {
 
     let saat = new Date();
-    this.taghdir_point = me === -1 ? saat.getTime() % Quran.length : me;
+    this.taghdir_aID = me === -1 ? saat.getTime() % Quran.length : me;
 
     // .. get the name
-    const sura = Quran[ this.taghdir_point ].sura;
+    const sura = Quran[ this.taghdir_aID ].sura;
 
     // .. save trace
-    storage.saveTrace_Quran( this.taghdir_point, !!me || saat.toString() );
+    storage.saveTrace_Quran( this.taghdir_aID, !!me || saat.toString() );
 
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 
-    let message = this.rouh( this.taghdir_point, sura );
+    let message = this.rouh( this.taghdir_aID, sura );
 
     // .. delivering ...
     this.morsal( message );
@@ -119,43 +122,40 @@ init ( me?: number ): void {
 
 // -- =====================================================================================
 
-rouh ( ayah: number, sura: number ) {
+rouh ( aID: number, sura: number ) {
 
     let vahy: TS.vahy = [];
 
     // .. loop until end of sura
-    while ( Quran[ ayah ].sura === sura ) {
+    while ( Quran[ aID ].sura === sura ) {
 
-        let q = Quran[ ayah ];
+        let q = Quran[ aID ];
 
         // .. all new sura except ONE has the ESM
         if ( q.ayah === 1 && q.sura !== 9 && q.sura !== 1 )
-            vahy.push( { text: ";", type: "ESM" } );
+            vahy.push( { aID: aID, text: ";", type: "ESM" } );
 
-        if ( q.sura === 1 && q.ayah === 1 ) vahy.push( { text: ";", type: "ESM" } );
+        // .. handling ...
+        if ( q.sura === 1 && q.ayah === 1 ) 
+            vahy.push( { aID: aID, text: ";", type: "ESM" } );
+
         else {
 
             // .. divide ayah
             q.text.split( " " ).map( k => {
-                vahy.push( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
+                vahy.push( { aID: aID, text: k, type: q.sajdeh ? "sajdeh" : "string" } );
             } );
-
-            let fullText = q.text+"\n\n"+asma[ q.sura -1 ][1]+" ("+q.sura+") "+" : "+q.ayah;
 
             // .. add number
-            vahy.push( { 
-                text: q.ayah.toString(), 
-                type: "number", 
-                fullText: tools.arabicDigits( fullText )
-            } );
+            vahy.push( { aID: aID, text: q.ayah.toString(), type: "number" } );
 
         }
 
         // .. next one
-        ayah++;
+        aID++;
 
         // .. break
-        if ( ayah >= Quran.length ) break;
+        if ( aID >= Quran.length ) break;
 
     }
 
@@ -187,10 +187,10 @@ async morsal ( message: TS.vahy ) {
 
 async complete () {
 
-    this.init( asma[ Quran[ this.taghdir_point ].sura -1 ][2] );
+    this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] );
 
-    // let current_sura = Quran[ this.taghdir_point ].sura;
-    // let p = this.taghdir_point -1;
+    // let current_sura = Quran[ this.taghdir_aID ].sura;
+    // let p = this.taghdir_aID -1;
 
     // while ( current_sura === Quran[ p ].sura ) {
 

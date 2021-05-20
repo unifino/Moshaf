@@ -11,6 +11,7 @@ export default new Vuex.Store( {
 
         darkMode    : true      ,
         here        : "Base"    ,
+        activeAyah  : -1        ,
 
     } as state,
 
@@ -22,6 +23,7 @@ export interface state {
 
         darkMode    : boolean   ,
         here        : TS.here   ,
+        activeAyah  : number    ,
 
 }
 

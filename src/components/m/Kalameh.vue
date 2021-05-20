@@ -20,6 +20,7 @@ import Lookup                           from "@/components/xx/Lookup.vue"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
+import { asma, Quran }                  from "@/db/Quran"
 
 // -- =====================================================================================
 
@@ -33,8 +34,8 @@ export default class Kalameh extends Vue {
 
 // -- =====================================================================================
 
+@Prop() aID: number;
 @Prop() myText: string;
-@Prop() fullText: string;
 @Prop() myType: TS.Kalameh;
 
 // -- =====================================================================================
@@ -118,9 +119,19 @@ copy ( args ) {
 
     if ( this.myType.includes( "hadis" ) ) setText( this.myText );
 
-    if ( this.myType === "number" ) {
-        setText( tools.erabTrimmer( this.fullText ) );
+    if ( this.myType === "number" && store.state.here === "Ghertas" ) {
+
+        // .. register it
+        store.state.activeAyah = this.aID;
+
+        // .. copy fullText
+        let q = Quran[ this.aID ];
+        let f = q.text +"\n\n" +asma[ q.sura -1 ][1] +" (" +q.sura +") " +" : " +q.ayah;
+        setText( tools.arabicDigits( f ) );
+
+        // .. notify the succession
         tools.toaster( "آیه کپی شد.", "short" );
+
     }
 
 }

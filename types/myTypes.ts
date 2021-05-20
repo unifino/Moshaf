@@ -78,9 +78,9 @@ export type here =
 
 // -- =====================================================================================
 
-export type vahy = { 
+export type vahy = {
+    aID: number,
     text: string, 
-    fullText?: string,
     type: Kalameh
 }[];
 
