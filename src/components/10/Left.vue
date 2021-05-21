@@ -13,14 +13,30 @@
         @textChange="search()"
     />
 
-    <Label
-        row=2
-        horizontalAlignment="left"
-        :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
-        @tap="found.length ? dismiss( true ) : search( true )"
-        @longPress="popLastTrace()"
-        class="fas button" 
-    />
+<!---------------------------------------------------------------------------------------->
+
+    <StackLayout row=2 horizontalAlignment="left" orientation="horizontal">
+
+        <Label
+            :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
+            @tap="found.length ? dismiss( true ) : search( true )"
+            @longPress="popLastTrace()"
+            class="fas button" 
+        />
+
+        <Label
+            :text="String.fromCharCode( '0x' + 'f1da' )"
+            @tap="history()"
+            class="fas button" 
+        />
+
+        <Label
+            :text="String.fromCharCode( '0x' + 'f004' )"
+            @tap="favorite()"
+            class="fas button" 
+        />
+
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -81,7 +97,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rowSpan=5 rows="*,110" >
-        <GridLayout row=1 @tap="init()" @doubleTap="favorite()" />
+        <GridLayout row=1 @tap="init()" @doubleTap="addToFavorite()" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -227,7 +243,7 @@ copy () {
 
 // -- =====================================================================================
 
-favorite () {
+addToFavorite () {
     let trace = storage.fav_h.indexOf( this.currentId );
     // .. add to Favorite
     if ( !~trace ) storage.fav_h.push( this.currentId );
@@ -299,8 +315,31 @@ popLastTrace () {
 
 // -- =====================================================================================
 
+history () {
+    let history = storage.trace_h;
+    history.forEach( h => {
+        const ref = collection[ h.hadis ];
+        this.found.unshift( { text: ref.a, idx: h.hadis } )
+    } );
+}
+
+// -- =====================================================================================
+
+favorite () {
+    let history = storage.fav_h;
+    history.forEach( f => {
+        const ref = collection[ f ];
+        this.found.unshift( { text: ref.a, idx: f } )
+    } );
+}
+
+// -- =====================================================================================
+
 dismiss ( force=false ) {
-    if ( force ) ( this.$refs.search as any ).nativeView.text = "";
+    if ( force ) {
+        this.found = [];
+        ( this.$refs.search as any ).nativeView.text = "";
+    }
     ( this.$refs.search as any ).nativeView.dismissSoftInput();
     ( this.$refs.fakeSearch as any ).nativeView.focus();
     ( this.$refs.fakeSearch as any ).nativeView.dismissSoftInput();

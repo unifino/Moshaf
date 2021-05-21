@@ -18,13 +18,23 @@
         @textChange="search()"
     />
 
-    <Label
-        row=2
-        horizontalAlignment="left"
-        :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
-        @tap="found.length ? dismiss( true ) : search( true )"
-        class="fas button" 
-    />
+<!---------------------------------------------------------------------------------------->
+
+    <StackLayout row=2 horizontalAlignment="left" orientation="horizontal">
+
+        <Label
+            :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
+            @tap="found.length ? dismiss( true ) : search( true )"
+            class="fas button" 
+        />
+
+        <Label
+            :text="String.fromCharCode( '0x' + 'f1da' )"
+            @tap="history()"
+            class="fas button" 
+        />
+
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -178,8 +188,24 @@ search ( force=false ) {
 
 // -- =====================================================================================
 
+history () {
+    let history = storage.trace_q;
+    history.forEach( h => {
+        const ref = Quran[ h.ayah ];
+        const suraName = asma[ ref.sura -1 ][1];
+        this.found.unshift( { 
+            text: ref.text + " ( " + suraName + " : " + ref.ayah + " )", 
+            idx: h.ayah } )
+    } );
+}
+
+// -- =====================================================================================
+
 dismiss ( force=false ) {
-    if ( force ) ( this.$refs.search as any ).nativeView.text = "";
+    if ( force ) {
+        this.found = [];
+        ( this.$refs.search as any ).nativeView.text = "";
+    }
     ( this.$refs.search as any ).nativeView.dismissSoftInput();
     ( this.$refs.fakeSearch as any ).nativeView.focus();
     ( this.$refs.fakeSearch as any ).nativeView.dismissSoftInput();
