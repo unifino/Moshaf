@@ -70,6 +70,7 @@ import store                            from "@/store/store"
 import * as NS                          from "@nativescript/core"
 import Meaning                          from "@/components/xx/Meaning.vue"
 import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
@@ -96,6 +97,7 @@ loadedFrom: TS.here;
 // -- =====================================================================================
 
 mounted () {
+    this.word = tools.erabTrimmer( this.word );
     this.loadedFrom = store.state.here;
     store.state.here = "Lookup";
     this.translate_ar( this.word );

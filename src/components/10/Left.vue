@@ -50,7 +50,6 @@
                 :key=i
                 :myText=kalameh.text
                 :myType=kalameh.type
-                @myTap=true
             />
 
             <Label class="divider" />

@@ -27,7 +27,7 @@
                 :aID=kalameh.aID
                 :myText=kalameh.text
                 :myType=kalameh.type
-                @myTap=true
+                @tap=kalamehTapped
             />
             <Label
                 v-for="i in [1,2,3,4,5,6,7,1,2,3,4,5,6,7]"
@@ -64,10 +64,10 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import { asma, Quran }                  from "@/db/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import Menu                             from "@/components/00/ToolBar.vue"
 import store                            from "@/store/store"
-import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
@@ -185,36 +185,17 @@ async morsal ( message: TS.vahy ) {
 
 // -- =====================================================================================
 
+kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
+
+    if ( type === "number" ) store.state.activeAyah = aID;
+
+}
+
+// -- =====================================================================================
+
 async complete () {
 
     this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] );
-
-    // let current_sura = Quran[ this.taghdir_aID ].sura;
-    // let p = this.taghdir_aID -1;
-
-    // while ( current_sura === Quran[ p ].sura ) {
-
-    //     let q = Quran[ p ];
-
-    //     // .. divide ayah
-    //     q.text.split( " " ).map( k => {
-    //         this.vahy.unshift( { text: k, type: q.sajdeh ? "sajdeh" : "string" } );
-    //     } );
-
-    //     let fullText = q.text+"\n\n"+asma[ q.sura -1 ][1]+" ("+q.sura+") "+" : "+q.ayah;
-
-    //     // .. add number
-    //     this.vahy.unshift( { 
-    //         text: q.ayah.toString(), 
-    //         type: "number", 
-    //         fullText: tools.arabicDigits( fullText )
-    //     } );
-
-    //     await new Promise( _ => setTimeout( _, 7 ) );
-
-    //     p--;
-
-    // }
 
 }
 

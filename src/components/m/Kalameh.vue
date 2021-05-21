@@ -1,7 +1,13 @@
 <template>
 <!---------------------------------------------------------------------------------------->
 
-    <Label ref="kalameh" :text="myText" :class=theType @tap="lookup" />
+    <Label 
+        ref="kalameh"
+        :text="myText"
+        :class=theType
+        @tap="autoTranslate();$emit( 'tap', myText, myType, aID );"
+        @touch=touched
+    />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -15,17 +21,15 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 // * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
-import Lookup                           from "@/components/xx/Lookup.vue"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { asma, Quran }                  from "@/db/Quran"
+import Lookup                           from "@/components/xx/Lookup.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Lookup }
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -75,33 +79,15 @@ get theType (): TS.Kalameh {
 
 // -- =====================================================================================
 
-lookup ( args ): void {
+touched ( args ) {
 
-    // .. style and copy
-    this.copy( args );
+    // .. press effect
+    switch ( args.action ) {
 
-    if ( this.myType === "string" || this.myType.includes( "hadis" ) ) {
+        case "down": args.object.className += " pressed";    break;
 
-        Vue.prototype.$navigateTo( Lookup, {
-
-            frame : "base",
-
-            backstackVisible : true,
-
-            props : {
-                word : tools.erabTrimmer( this.myText ),
-            },
-
-            transition : {
-                name         : "slideLeft",
-                duration     : 300,
-            }
-
-        } );
-
-    }
-
-    if ( this.myType === "number" ) {
+        case "move":
+        case "up":   args.object.className = this.myType;   break;
 
     }
 
@@ -109,30 +95,30 @@ lookup ( args ): void {
 
 // -- =====================================================================================
 
-copy ( args ) {
+autoTranslate () {
+    if ( this.myType === "string" ) this.lookup( this.myText );
+}
 
-    // .. press effect
-    args.object.className += " pressed";
-    setTimeout( () => args.object.className = this.myType, 100 );
+// -- =====================================================================================
 
-    if ( this.myType === "string" ) setText( tools.erabTrimmer( this.myText ) );
+lookup ( text: string ): void {
 
-    if ( this.myType.includes( "hadis" ) ) setText( this.myText );
+    Vue.prototype.$navigateTo( Lookup, {
 
-    if ( this.myType === "number" && store.state.here === "Ghertas" ) {
+        frame : "base",
 
-        // .. register it
-        store.state.activeAyah = this.aID;
+        backstackVisible : true,
 
-        // .. copy fullText
-        let q = Quran[ this.aID ];
-        let f = q.text +"\n\n" +asma[ q.sura -1 ][1] +" (" +q.sura +") " +" : " +q.ayah;
-        setText( tools.arabicDigits( f ) );
+        props : {
+            word : text,
+        },
 
-        // .. notify the succession
-        tools.toaster( "آیه کپی شد.", "short" );
+        transition : {
+            name         : "slideLeft",
+            duration     : 300,
+        }
 
-    }
+    } );
 
 }
 
@@ -230,18 +216,14 @@ destroyed () {}
         color: #e6e6e6;
     }
 
-    .pressed {
-        font-weight: bold;
-    }
-
     .CoolGreen .pressed {
-        background-color: #17636e;
-        color: #a7a7a7;
+        background-color: #212525;
+        color: #fafafa;
     }
 
     .Smoky .pressed {
-        background-color: #93c47f;
-        color: #a7a7a7;
+        background-color: #3a9ec5;
+        color: #e6e6e6;
     }
 
     .BREAKLINE, .BIG_BREAKLINE {

@@ -83,9 +83,9 @@ buttonTouched ( args ) {
     }
 
     .Smoky .toolButton {
-        color:#1f4a52;
-        border-color: #7a8113;
-        background-color: #b4bd12;
+        color:#cfe9f0;
+        border-color: #1f4a52;
+        background-color: #1a848b;
     }
 
     .CoolGreen .toolButton {

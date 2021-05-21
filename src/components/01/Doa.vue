@@ -22,7 +22,6 @@
                 :key=i 
                 :myText=kalameh
                 myType="string"
-                @myTap=true
             />
         </FlexboxLayout>
 
