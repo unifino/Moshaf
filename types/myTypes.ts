@@ -87,7 +87,7 @@ export type vahy = {
 // -- =====================================================================================
 
 export type Kalameh =
-     "string"
+      "quran"
     | "number"
     | "ESM"
     | "sajdeh"

@@ -1,13 +1,13 @@
 <template>
 <Page>
-<GridLayout class="fx" rows="40,*,40">
+<GridLayout class="fx" rows="40,*,auto,*,40">
 
-    <Label :text="name" class="suraName" row=2 @tap="complete()" />
+    <Label :text="name" class="suraName" row=4 @tap="complete()" />
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView 
-        row=1
+        row=2
         ref="ghertas"
         class="ghertas"
         orientation="vertical"
@@ -42,11 +42,9 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 rows="*,110">
-        <Label row=1 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
-    </GridLayout>
+    <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
 
-    <Menu rowSpan=3 />
+    <Menu rowSpan=5 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -143,7 +141,7 @@ rouh ( aID: number, sura: number ) {
 
             // .. divide ayah
             q.text.split( " " ).map( k => {
-                vahy.push( { aID: aID, text: k, type: q.sajdeh ? "sajdeh" : "string" } );
+                vahy.push( { aID: aID, text: k, type: q.sajdeh ? "sajdeh" : "quran" } );
             } );
 
             // .. add number

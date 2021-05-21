@@ -96,7 +96,7 @@ touched ( args ) {
 // -- =====================================================================================
 
 autoTranslate () {
-    if ( this.myType === "string" || this.myType === "hadis" ) this.lookup( this.myText );
+    if ( this.myType === "quran" || this.myType === "hadis" ) this.lookup( this.myText );
 }
 
 // -- =====================================================================================
@@ -158,7 +158,7 @@ destroyed () {}
         color: #548505;
     }
 
-    .string, .sajdeh {
+    .quran, .sajdeh {
         font-family: Amiri-Regular;
         text-align: center;
         font-size: 19;
@@ -168,7 +168,7 @@ destroyed () {}
         height: 63;
     }
 
-    .CoolGreen .string {
+    .CoolGreen .quran {
         color: #e6e6e6;
     }
 
@@ -222,7 +222,7 @@ destroyed () {}
     }
 
     .Smoky .pressed {
-        background-color: #3a9ec5;
+        background-color: #71c8eb;
         color: #e6e6e6;
     }
 
