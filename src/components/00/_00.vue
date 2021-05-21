@@ -179,7 +179,7 @@ search ( force=false ) {
     if ( this.phrase.length > 2 || force ) {
         Quran.forEach( (q, i) => {
             if ( tools.asmaUnifier( q.simple ).includes( this.phrase ) ) {
-                this.found.push( { text: q.simple, idx: i } );
+                this.found.push( { text: tools.textPreviwer( i ), idx: i } );
             }
         } );
     }
@@ -191,11 +191,7 @@ search ( force=false ) {
 history () {
     let history = storage.trace_q;
     history.forEach( h => {
-        const ref = Quran[ h.ayah ];
-        const suraName = asma[ ref.sura -1 ][1];
-        this.found.unshift( { 
-            text: ref.text + " ( " + suraName + " : " + ref.ayah + " )", 
-            idx: h.ayah } )
+        this.found.unshift( { text: tools.textPreviwer( h.ayah ), idx: h.ayah } );
     } );
 }
 

@@ -96,7 +96,7 @@ touched ( args ) {
 // -- =====================================================================================
 
 autoTranslate () {
-    if ( this.myType === "string" ) this.lookup( this.myText );
+    if ( this.myType === "string" || this.myType === "hadis" ) this.lookup( this.myText );
 }
 
 // -- =====================================================================================

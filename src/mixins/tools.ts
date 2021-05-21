@@ -1,5 +1,6 @@
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
+import { asma, Quran }                  from "@/db/Quran"
 
 // -- =====================================================================================
 
@@ -36,6 +37,16 @@ export function erabTrimmer ( str: string ) {
     const erabs = [ "َ", "ٕ", "ُ", "ِ", "ٓ", "ٰ", "ٖ", "ً", "ّ", "ۡ", "ۚ", "ۢ", "ۖ", "ۗ", "ٌۚ", "ۥ", " ٌ" ];
     for ( const erab of erabs ) str = str.replace( new RegExp( erab, 'g' ), "" );
     str = str.replace( /ٱ/g, 'ا' );
+    return str;
+}
+
+// -- =====================================================================================
+
+export function textPreviwer ( id: number ) {
+    const ref = Quran[ id ];
+    const suraName = asma[ ref.sura -1 ][1];
+    const suraID = asma[ ref.sura -1 ][0];
+    const str = ref.text + "\n[ " + suraName + "(" + suraID + ") : " + ref.ayah + " ]";
     return str;
 }
 
