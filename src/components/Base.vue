@@ -20,7 +20,8 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
-import Fehrest                          from "@/components/00/_00.vue"
+import Base_00                          from "@/components/00/_00.vue"
+import ToolBar                          from "@/components/00/ToolBar.vue"
 import Ghertas                          from "@/components/00/Ghertas.vue"
 import Hadis                            from "@/components/10/_10.vue"
 import Adeiyeh                          from "@/components/01/_01.vue"
@@ -38,7 +39,7 @@ import { exit }                         from "nativescript-exit";
 // -- =====================================================================================
 
 @Component ( {
-    components: { Fehrest, Ghertas, Hadis, Adeiyeh }
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -67,19 +68,31 @@ mounted () {
 
 backButtonCtl (e) {
 
+    let base = this.$root.$children[0].$refs.base as any;
+    
     switch ( store.state.here ) {
 
-        case "Fehrest":
-
-            let base = this.$root.$children[0].$refs.base as any;
-            let fehrest = base.$children[1] as Fehrest;
+        case "Base_00":
+            // .. get elemente(s)
+            let _00 = base.$children[1] as Base_00;
             // ..  just clear search
-            if ( fehrest.phrase ) fehrest.dismiss(true);
+            if ( _00.phrase ) _00.dismiss( true );
             // .. exit
             else exit();
-
+            // .. prevent more actions
             e.cancel = true;
+        break;
 
+        case "Ghertas":
+            // .. get elemente(s)
+            let Ghertas = base.$children[2] as Ghertas;
+            let ToolBar = Ghertas.$refs[ "ToolBar" ] as ToolBar;
+            if ( ToolBar.active ) {
+                // ..  just close ToolBar by resetting activeAyah
+                store.state.activeAyah = -1;
+                // .. prevent more actions
+                e.cancel = true;
+            }
         break;
 
     }
@@ -156,7 +169,7 @@ toFehrest ( direction: NS.SwipeDirection|null ): void {
 
     let dir = direction === NS.SwipeDirection.left ? "slideLeft" : "slideRight";
 
-    Vue.prototype.$navigateTo( Fehrest, {
+    Vue.prototype.$navigateTo( Base_00, {
         frame : 'base',
         backstackVisible : true,
         transition : {
@@ -201,7 +214,7 @@ toAdeiyeh (): void {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    if ( store.state.here === "Fehrest" ) {
+    if ( store.state.here === "Base_00" ) {
         if ( args.direction === NS.SwipeDirection.right ) this.toHadis();
         if ( args.direction === NS.SwipeDirection.left ) this.toAdeiyeh();
     }

@@ -44,7 +44,7 @@
 
     <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
 
-    <Menu rowSpan=5 />
+    <ToolBar ref="ToolBar" rowSpan=5 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -64,13 +64,13 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import Menu                             from "@/components/00/ToolBar.vue"
+import ToolBar                          from "@/components/00/ToolBar.vue"
 import store                            from "@/store/store"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, Menu }
+    components: { Kalameh, ToolBar }
 } )
 
 // -- =====================================================================================
@@ -225,7 +225,7 @@ scrollTo ( step: 1|-1 ) {
 
 destroyed () {
     clearTimeout( this.morsal_TO );
-    store.state.here = "Fehrest";
+    store.state.here = "Base_00";
 }
 
 // -- =====================================================================================

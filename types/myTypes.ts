@@ -68,7 +68,7 @@ export enum contentColorType {
 
 export type here =
       'Base'
-    | 'Fehrest'
+    | 'Base_00'
     | 'Ghertas'
     | 'Lookup'
     | 'Hadis'

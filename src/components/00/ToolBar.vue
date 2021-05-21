@@ -60,7 +60,7 @@ import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
-export default class Fehrest extends Vue {
+export default class ToolBar extends Vue {
 
 // -- =====================================================================================
 

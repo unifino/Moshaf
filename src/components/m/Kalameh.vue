@@ -198,7 +198,7 @@ destroyed () {}
         text-align: center;
         font-size: 16;
         padding-top: 1.4;
-        margin: 0 2;
+        margin: 20 2;
         width: 23;
         height: 23;
         align-self: center;
