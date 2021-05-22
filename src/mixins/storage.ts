@@ -77,14 +77,14 @@ export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean, r
 
 // -- =====================================================================================
 
-export async function saveFav_Quran ( hadis?: number ) {
+export async function saveFav_Quran () {
     // .. write down file
     fav_q_File.writeText( JSON.stringify( fav_q ) );
 }
 
 // -- =====================================================================================
 
-export async function saveFav_Hadis ( hadis?: number ) {
+export async function saveFav_Hadis () {
     // .. write down file
     fav_h_File.writeText( JSON.stringify( fav_h ) );
 }

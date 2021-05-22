@@ -4,7 +4,7 @@
     <Label 
         ref="kalameh"
         :text="myText"
-        :class=theType
+        :class="theType + ( isFav ? ' fav' : '' ) + ( isPressed? ' pressed' : '' )"
         @tap="autoTranslate();$emit( 'tap', myText, myType, aID );"
         @touch=touched
     />
@@ -22,6 +22,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 // * tns plugin add nativescript-clipboard
 import store                            from "@/store/store"
+import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
 import Lookup                           from "@/components/xx/Lookup.vue"
@@ -35,6 +36,11 @@ import Lookup                           from "@/components/xx/Lookup.vue"
 // -- =====================================================================================
 
 export default class Kalameh extends Vue {
+
+// -- =====================================================================================
+
+isFav = false;
+isPressed = false;
 
 // -- =====================================================================================
 
@@ -73,6 +79,10 @@ get theType (): TS.Kalameh {
     if ( this.myText === "!BREAKLINE!" ) theType = "BREAKLINE";
     if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";
 
+    // .. highlight marked ayat
+    this.isFav = this.myType === "number" && storage.fav_q.includes( this.aID ) ?
+        true : false;
+
     return theType;
 
 }
@@ -84,10 +94,10 @@ touched ( args ) {
     // .. press effect
     switch ( args.action ) {
 
-        case "down": args.object.className += " pressed";    break;
+        case "down": this.isPressed = true;  break;
 
         case "move":
-        case "up":   args.object.className = this.myType;   break;
+        case "up":   this.isPressed = false; break;
 
     }
 
@@ -216,14 +226,20 @@ destroyed () {}
         color: #e6e6e6;
     }
 
+    .CoolGreen .fav {
+        background-color: #a31f87;
+    }
+
+    .Smoky .fav {
+        background-color: #a31f87;
+    }
+
     .CoolGreen .pressed {
-        background-color: #212525;
-        color: #fafafa;
+        background-color: #333636;
     }
 
     .Smoky .pressed {
-        background-color: #71c8eb;
-        color: #e6e6e6;
+        background-color: #c2c2c2;
     }
 
     .BREAKLINE, .BIG_BREAKLINE {

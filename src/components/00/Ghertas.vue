@@ -21,9 +21,9 @@
             justifyContent="space-between"
         >
             <Kalameh 
-                v-for="(kalameh,i) in vahy"
-                ref="Kalameh"
-                :key=i 
+                v-for="kalameh in vahy"
+                :ref="'Kalameh_' + kalameh.aID"
+                :key=kalameh.aID
                 :aID=kalameh.aID
                 :myText=kalameh.text
                 :myType=kalameh.type

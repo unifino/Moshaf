@@ -1,6 +1,7 @@
 <template>
 <GridLayout
     ref="frame"
+    class="frame"
     rows="*,auto,*"
     columns="auto,*"
     v-if="active"
@@ -69,15 +70,16 @@ active = false;
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    { icon: 'f00c', class: ''     , fnc: () => {}                       } ,
-    { icon: 'f0c1', class: 'bind' , fnc: () => {}                       } ,
+    // { icon: 'f00c', class: ''     , fnc: () => {}                       } ,
+    // { icon: 'f0c1', class: 'bind' , fnc: () => {}                       } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
-    { icon: 'f002', class: 'scope', fnc: () => {}                       } ,
+    // { icon: 'f002', class: 'scope', fnc: () => {}                       } ,
 ]
 
 // -- =====================================================================================
 
 mounted () {
+
     store.watch(
         state => state.activeAyah, 
         newVal => this.menuCtr( newVal )
@@ -119,14 +121,17 @@ async menuCtr ( id: number ) {
 // -- =====================================================================================
 
 toggleFavorite () {
-    let trace = storage.fav_q.indexOf( store.state.activeAyah );
+    let aID = store.state.activeAyah;
+    let trace = storage.fav_q.indexOf( aID );
     // .. add to Favorite
-    if ( !~trace ) storage.fav_q.push( store.state.activeAyah );
+    if ( !~trace ) storage.fav_q.push( aID );
     // .. pop out of Favorite
-    else storage.fav_h.splice( trace, 1 );
+    else storage.fav_q.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
     storage.saveFav_Quran();
+    let ayahSeq = this.$parent.$parent.$refs[ "Kalameh_" + aID ] as Kalameh[];
+    ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
 }
 
 // -- =====================================================================================
@@ -163,6 +168,10 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
+    .frame {
+        background-color: #000e1111;
+    }
+
     .menuBox {
         opacity: 0;
         /* color:#0e1111; */
