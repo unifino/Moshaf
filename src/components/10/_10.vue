@@ -97,7 +97,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rowSpan=5 rows="*,110" >
-        <GridLayout row=1 @tap="init()" @doubleTap="addToFavorite()" />
+        <GridLayout row=1 @tap="init()" @doubleTap="toggleFavorite()" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -244,7 +244,7 @@ copy () {
 
 // -- =====================================================================================
 
-addToFavorite () {
+toggleFavorite () {
     let trace = storage.fav_h.indexOf( this.currentId );
     // .. add to Favorite
     if ( !~trace ) storage.fav_h.push( this.currentId );
@@ -327,8 +327,8 @@ history () {
 // -- =====================================================================================
 
 favorite () {
-    let history = storage.fav_h;
-    history.forEach( f => {
+    let favorite = storage.fav_h;
+    favorite.forEach( f => {
         const ref = ahadis[ f ];
         this.found.unshift( { text: ref.a, idx: f } )
     } );

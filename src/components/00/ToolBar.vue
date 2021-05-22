@@ -68,10 +68,11 @@ tapPassed = false;
 active = false;
 
 buttons = [
-    { icon: 'f00c', class: ''     , fnc: () => {}           } ,
-    { icon: 'f0c1', class: 'bind' , fnc: () => {}           } ,
-    { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()           } ,
-    { icon: 'f002', class: 'scope', fnc: () => {}           } ,
+    { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
+    { icon: 'f00c', class: ''     , fnc: () => {}                       } ,
+    { icon: 'f0c1', class: 'bind' , fnc: () => {}                       } ,
+    { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
+    { icon: 'f002', class: 'scope', fnc: () => {}                       } ,
 ]
 
 // -- =====================================================================================
@@ -113,6 +114,19 @@ async menuCtr ( id: number ) {
     this.menuBox_Animation = new NS.Animation( [ x_def, y_def ], false );
     this.menuBox_Animation.play().then( () => this.active = !!~id );
 
+}
+
+// -- =====================================================================================
+
+toggleFavorite () {
+    let trace = storage.fav_q.indexOf( store.state.activeAyah );
+    // .. add to Favorite
+    if ( !~trace ) storage.fav_q.push( store.state.activeAyah );
+    // .. pop out of Favorite
+    else storage.fav_h.splice( trace, 1 );
+    // .. Toast it
+    tools.toaster( !~trace ? "💚" : "💔" );
+    storage.saveFav_Quran();
 }
 
 // -- =====================================================================================

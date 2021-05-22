@@ -8,8 +8,8 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout rows="*,auto,*" columns="*,auto,*" >
-        <Label row=1 col=1 :text="' ' + myLabel + ' '" />
+    <GridLayout rows="*,auto,*"  >
+        <Label row=1 :text="' ' + myLabel + ' '" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -72,11 +72,15 @@ buttonTouched ( args ) {
 
 /*                                          */
 
+    .center {
+        text-align: center;
+    }
+
     .toolButton {
         text-align: center;
         font-size: 23px;
-        width: 40;
-        height: 40;
+        width: 50;
+        height: 50;
         margin: 3;
         border-width: 1;
         border-radius: 14;
