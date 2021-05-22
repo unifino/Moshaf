@@ -203,9 +203,9 @@ scrollStep = 0;
 scrollTo ( step: 1|-1 ) {
 
     let h = 63;
-
-    for ( let k of this.$refs.Kalameh as any[] ) {
-        let h0 = k.nativeView.getActualSize().height;
+    let k_s = Object.keys( this.$refs ).filter( x => x.includes( "kalameh" ) );
+    for ( let k of k_s as string[] ) {
+        let h0 = ( this.$refs[ k ] as any ).nativeView.getActualSize().height;
         if ( h0 < 100 && h0 > 30 ) {
             h = h0;
             break;
