@@ -391,6 +391,10 @@ destroyed () {}
         color: #498c29;
     }
 
+    .Smoky .green {
+        color: #3e9217;
+    }
+
     .farsi {
         margin: 20;
         font-family: Amiri-Regular;
