@@ -320,7 +320,7 @@ history () {
     let history = storage.trace_h;
     history.forEach( h => {
         const ref = ahadis[ h.hadis ];
-        this.found.unshift( { text: ref.a, idx: h.hadis } )
+        if ( ref ) this.found.unshift( { text: ref.a, idx: h.hadis } )
     } );
 }
 
