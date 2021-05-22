@@ -115,7 +115,8 @@
 import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/00/Ghertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { c_map, collection }            from "@/db/Hadis"
+import { ahadis }                       from "@/db/H/Ahadis"
+import { c_map }                        from "@/db/H/info"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -160,11 +161,11 @@ init () {
 
     // .. get a random one
     let saat = new Date();
-    let rand = saat.getTime() % collection.length;
+    let rand = saat.getTime() % ahadis.length;
 
     // .. it has been read already
     while ( storage.trace_h.find( x => x.hadis === rand ) )
-        rand = saat.getTime() % collection.length;
+        rand = saat.getTime() % ahadis.length;
 
     // .. register the ID
     this.currentId = rand;
@@ -179,16 +180,16 @@ init () {
 show ( id: number, force=false ) {
 
     // .. mini patch
-    if ( collection[ id ].c === null ) {
-        collection[ id ].c = 19;
+    if ( ahadis[ id ].c === null ) {
+        ahadis[ id ].c = 19;
     }
 
     // .. assign the Name
-    this.hadis.c = c_map[ collection[ id ].c ][0];
-    this.hadis.e = c_map[ collection[ id ].c ][1];
+    this.hadis.c = c_map[ ahadis[ id ].c ][0];
+    this.hadis.e = c_map[ ahadis[ id ].c ][1];
     // .. assign arabic part
     this.hadis.a = [];
-    let tmpBox = collection[ id ].a.trim().split( ' ' );
+    let tmpBox = ahadis[ id ].a.trim().split( ' ' );
     let green = false;
     for ( let tmp of tmpBox ) {
 
@@ -209,8 +210,8 @@ show ( id: number, force=false ) {
 
     }
     // .. assign farsi part
-    this.hadis.b = collection[ id ].b || "";
-    this.hadis.d = collection[ id ].d || "";
+    this.hadis.b = ahadis[ id ].b || "";
+    this.hadis.d = ahadis[ id ].d || "";
 
     // .. save trace
     storage.saveTrace_Hadis( id, !!force || new Date().toString() );
@@ -294,7 +295,7 @@ search ( force=false ) {
 
     // .. search in ayat
     if ( text.length > 2 || force ) {
-        collection.forEach( (q, i) => {
+        ahadis.forEach( (q, i) => {
             if ( q.a ) 
                 if ( tools.asmaUnifier( tools.erabTrimmer( q.a || "" ) ).includes( text ) )
                     this.found.push( { text: q.a, idx: i } );
@@ -318,7 +319,7 @@ popLastTrace () {
 history () {
     let history = storage.trace_h;
     history.forEach( h => {
-        const ref = collection[ h.hadis ];
+        const ref = ahadis[ h.hadis ];
         this.found.unshift( { text: ref.a, idx: h.hadis } )
     } );
 }
@@ -328,7 +329,7 @@ history () {
 favorite () {
     let history = storage.fav_h;
     history.forEach( f => {
-        const ref = collection[ f ];
+        const ref = ahadis[ f ];
         this.found.unshift( { text: ref.a, idx: f } )
     } );
 }

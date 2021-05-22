@@ -4,26 +4,6 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <TextField row=2 ref="fakeSearch" opacity=0 />
-    <TextField
-        ref="search"
-        row=2
-        hint="بحث"
-        class="search"
-        @textChange="search()"
-    />
-
-    <Label
-        row=2
-        horizontalAlignment="left"
-        :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
-        @tap="found.length ? dismiss( true ) : search( true )"
-        @longPress="popLastTrace()"
-        class="fas button" 
-    />
-
-<!---------------------------------------------------------------------------------------->
-
     <ListView row=4 for="(doa, idx) in adeiyeh" >
         <v-template>
             <Label
@@ -50,7 +30,7 @@
 import { Vue, Component }               from "vue-property-decorator"
 import Doa                              from "@/components/01/Doa.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { adeiyeh }                      from "@/db/Adeiyeh"
+import { adeiyeh }                      from "@/db/D/Adeiyeh"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -99,32 +79,6 @@ open ( num: number ): void {
         }
 
     } );
-
-}
-
-// -- =====================================================================================
-
-search ( force=false ) {
-
-    // let text = event.object.text;
-    let text = ( this.$refs.search as any ).nativeView.text;
-    // .. input must be unified!
-    text = text.replace( /ی/g, 'ي' );
-    text = text.replace( /ک/g, 'ك' );
-    text = tools.erabTrimmer( text );
-
-    // .. reset
-    this.adeiyeh = [];
-
-    // .. search in ayat
-    if ( text.length > 2 || force ) {
-        // collection.forEach( (q, i) => {
-        //     if ( tools.asmaUnifier( tools.erabTrimmer( q.a || "" ) ).includes( text ) )
-        //         this.adeiyeh.push( { text: q.a, idx: i } );
-        //     if ( tools.asmaUnifier( q.b ).includes( text ) )
-        //         this.adeiyeh.push( { text: q.b, idx: i } );
-        // } );
-    }
 
 }
 

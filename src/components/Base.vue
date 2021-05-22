@@ -105,6 +105,7 @@ init (): void {
 
     // .. after granting storage permission further steps should be taken
     this.permissionApplier()
+    // .. checking existence && structure of mandatory files
     .then( () => storage.db_check() )
     .then( () => this.setup() )
     // .. not resolvable situation
@@ -123,7 +124,7 @@ permissionApplier (): Promise<any> {
 
             "android.permission.INTERNET"               ,
             "android.permission.READ_EXTERNAL_STORAGE"  ,
-            "android.permission.WRITE_EXTERNAL_STORAGE" 
+            "android.permission.WRITE_EXTERNAL_STORAGE" ,
 
         ] )
         .then ( () => rs( "Access has been granted!" ) )
@@ -139,25 +140,17 @@ setup (): Promise<void> {
 
     return new Promise ( (rs, rx) => { 
 
-        // .. checking existence && structure of mandatory files
-        storage.db_check()
-        .then( async () => { 
+        // .. register appConfig
+        // store.state.appConfig = validAppConfig;
 
-            // .. register appConfig
-            // store.state.appConfig = validAppConfig;
+        // .. just applying default theme
+        TM.themeApplier( "Smoky", this.$refs );
 
-            // .. just applying default theme
-            TM.themeApplier( "Smoky", this.$refs );
+        this.toFehrest( null );
+        // this.toHadis();
 
-            this.toFehrest( null );
-            // this.toHadis();
-
-            // .. basic steps has been resolved!
-            rs();
-
-            await new Promise( _ => setTimeout( _, 100 ) );
-
-        } )
+        // .. basic steps has been resolved!
+        rs();
 
     } )
 

@@ -43,7 +43,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import Ghertas                          from "@/components/00/Ghertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { adeiyeh }                      from "@/db/Adeiyeh"
+import { adeiyeh }                      from "@/db/D/Adeiyeh"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"

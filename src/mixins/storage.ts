@@ -32,11 +32,13 @@ export function db_check (): Promise<void> {
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
         fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"  ) );
+        console.log(trace_q_File);
 
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
+        console.log(trace_q);
 
         // .. check integrity 
         if ( !trace_q ) saveTrace_Quran();
@@ -88,11 +90,11 @@ export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string )
 
 // -- =====================================================================================
 
-export function unique ( collection: { a: string, b: string, c: number, d?: string }[] ) {
+export function unique ( ahadis: { a: string, b: string, c: number, d?: string }[] ) {
 
-    console.log(collection.length);
+    console.log( ahadis.length );
 
-    let unique = collection.reduce( (f, x) => {
+    let unique = ahadis.reduce( (f, x) => {
 
         let dk = f.find( y =>
             y.a === x.a

@@ -1,6 +1,6 @@
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
-import { asma, Quran }                  from "@/db/Quran"
+import { asma, Quran }                  from "@/db/Q/Quran"
 
 // -- =====================================================================================
 

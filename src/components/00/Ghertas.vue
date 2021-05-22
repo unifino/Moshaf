@@ -59,7 +59,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import { asma, Quran }                  from "@/db/Quran"
+import { asma, Quran }                  from "@/db/Q/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
