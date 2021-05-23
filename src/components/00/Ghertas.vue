@@ -22,7 +22,7 @@
         >
             <Kalameh 
                 v-for="kalameh in vahy"
-                :ref="'Kalameh_' + kalameh.aID"
+                :ref="'kalameh_' + kalameh.aID"
                 :key=kalameh.aID
                 :aID=kalameh.aID
                 :myText=kalameh.text
@@ -205,7 +205,7 @@ scrollTo ( step: 1|-1 ) {
     let h = 63;
     let k_s = Object.keys( this.$refs ).filter( x => x.includes( "kalameh" ) );
     for ( let k of k_s as string[] ) {
-        let h0 = ( this.$refs[ k ] as any ).nativeView.getActualSize().height;
+        let h0 = ( this.$refs[ k ][0] as any ).nativeView.getActualSize().height;
         if ( h0 < 100 && h0 > 30 ) {
             h = h0;
             break;
@@ -306,7 +306,7 @@ destroyed () {
         text-align: center;
         font-size: 16;
         padding-top: 1.4;
-        margin: 24 2 21 2;
+        margin: 22.5 3.3 17.5 3.7;
         width: 23;
         height: 23;
         align-self: center;

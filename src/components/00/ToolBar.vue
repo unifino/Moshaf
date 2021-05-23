@@ -130,7 +130,7 @@ toggleFavorite () {
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
     storage.saveFav_Quran();
-    let ayahSeq = this.$parent.$parent.$refs[ "Kalameh_" + aID ] as Kalameh[];
+    let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
     ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
 }
 
