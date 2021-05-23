@@ -332,18 +332,4 @@ destroyed () {
         background-color: #a31f87;
     }
 
-    .BREAKLINE, .BIG_BREAKLINE {
-        width: 100%;
-        opacity: 0;
-    }
-
-    .BREAKLINE {
-        height: 1;
-        margin-top: -1;
-    }
-
-    .BIG_BREAKLINE {
-        height: 25;
-    }
-
 </style>

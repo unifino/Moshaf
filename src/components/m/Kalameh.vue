@@ -106,7 +106,13 @@ touched ( args ) {
 // -- =====================================================================================
 
 autoTranslate () {
-    if ( this.myType === "quran" || this.myType === "hadis" ) this.lookup( this.myText );
+    if
+    (
+        this.myType === "quran" ||
+        this.myType === "hadis" ||
+        this.myType === "doa"
+    )
+        this.lookup( this.myText );
 }
 
 // -- =====================================================================================
@@ -155,6 +161,20 @@ destroyed () {}
 
     .Smoky .pressed {
         background-color: #c2c2c2;
+    }
+
+    .BREAKLINE, .BIG_BREAKLINE {
+        width: 100%;
+        opacity: 0;
+    }
+
+    .BREAKLINE {
+        height: 1;
+        margin-top: -1;
+    }
+
+    .BIG_BREAKLINE {
+        height: 25;
     }
 
 </style>
