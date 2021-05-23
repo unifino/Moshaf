@@ -445,4 +445,17 @@ destroyed () {}
         height: 1;
     }
 
+    .salam {
+        font-family: Alaem;
+        padding-top: 20;
+    }
+
+    .CoolGreen .salam {
+        color: #4dbae6;
+    }
+
+    .Smoky .salam {
+        color: #1d80a7;
+    }
+
 </style>

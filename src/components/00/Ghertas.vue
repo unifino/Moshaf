@@ -261,4 +261,89 @@ destroyed () {
         color: #7c7c7c;
     }
 
+    .ESM {
+        font-size: 140;
+        width: 100%;
+        font-family: Besmellah_2;
+        padding: 8 2;
+        margin-top: -62.9;
+        height: 125.8;
+        text-align: center;
+    }
+
+    .CoolGreen .ESM {
+        color: #548505;
+    }
+
+    .Smoky .ESM {
+        color: #548505;
+    }
+
+    .quran, .sajdeh {
+        font-family: Amiri-Regular;
+        text-align: center;
+        font-size: 19;
+        line-height: 7;
+        padding: 7 2;
+        border-radius: 5;
+        height: 63;
+    }
+
+    .CoolGreen .quran {
+        color: #e6e6e6;
+    }
+
+    .CoolGreen .sajdeh {
+        color: #2b99e2;
+    }
+
+    .Smoky .sajdeh {
+        color: #1a6fa8;
+    }
+
+    .number {
+        font-family: MADDINA;
+        text-align: center;
+        font-size: 16;
+        padding-top: 1.4;
+        margin: 24 2 21 2;
+        width: 23;
+        height: 23;
+        align-self: center;
+        border-radius: 99;
+        font-weight: bold;
+    }
+
+    .CoolGreen .number {
+        background-color: #4dbae6;
+        color: #031a1d;
+    }
+
+    .Smoky .number {
+        background-color: #3a9ec5;
+        color: #e6e6e6;
+    }
+
+    .CoolGreen .fav {
+        background-color: #a31f87;
+    }
+
+    .Smoky .fav {
+        background-color: #a31f87;
+    }
+
+    .BREAKLINE, .BIG_BREAKLINE {
+        width: 100%;
+        opacity: 0;
+    }
+
+    .BREAKLINE {
+        height: 1;
+        margin-top: -1;
+    }
+
+    .BIG_BREAKLINE {
+        height: 25;
+    }
+
 </style>

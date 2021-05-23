@@ -94,6 +94,7 @@ export type Kalameh =
     | "hadis"
     | "salam"
     | "green"
+    | "doa"
     | "BREAKLINE"
     | "BIG_BREAKLINE"
     ;

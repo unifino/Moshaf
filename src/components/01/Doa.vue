@@ -21,7 +21,7 @@
                 v-for="(kalameh,i) in doa"
                 :key=i 
                 :myText=kalameh
-                myType="string"
+                myType="doa"
             />
         </FlexboxLayout>
 
@@ -126,19 +126,21 @@ destroyed () {
         padding: 12% 25% 27% 25%;
     }
 
-    .string {
+    .doa {
         font-family: Amiri-Regular;
-        /* text-align: left; */
-        font-size: 17;
-        /* line-height: 23; */
-        /* padding: 14 7; */
+        font-size: 16.5;
+        text-align: center;
+        line-height: 7;
+        padding: 7 2;
+        border-radius: 5;
+        height: 63;
     }
 
-    .CoolGreen .string {
+    .CoolGreen .doa {
         color: #d8d8d8;
     }
 
-    .Smoky .string {
+    .Smoky .doa {
         color: #1e1e1f;
     }
 
