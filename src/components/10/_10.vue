@@ -317,8 +317,7 @@ popLastTrace () {
 // -- =====================================================================================
 
 history () {
-    let history = storage.trace_h;
-    history.forEach( h => {
+    storage.trace_h.forEach( h => {
         const ref = ahadis[ h.hadis ];
         if ( ref ) this.found.unshift( { text: ref.a, idx: h.hadis } )
     } );
@@ -327,8 +326,7 @@ history () {
 // -- =====================================================================================
 
 favorite () {
-    let favorite = storage.fav_h;
-    favorite.forEach( f => {
+    storage.fav_h.forEach( f => {
         const ref = ahadis[ f ];
         this.found.unshift( { text: ref.a, idx: f } )
     } );

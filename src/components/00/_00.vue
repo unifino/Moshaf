@@ -34,6 +34,12 @@
             class="fas button" 
         />
 
+        <Label
+            :text="String.fromCharCode( '0x' + 'f004' )"
+            @tap="favorite()"
+            class="fas button" 
+        />
+
     </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -189,9 +195,17 @@ search ( force=false ) {
 // -- =====================================================================================
 
 history () {
-    let history = storage.trace_q;
-    history.forEach( h => {
+    storage.trace_q.forEach( h => {
         this.found.unshift( { text: tools.textPreviwer( h.ayah ), idx: h.ayah } );
+    } );
+}
+
+// -- =====================================================================================
+
+favorite () {
+    storage.fav_q.forEach( q => {
+        const ref = Quran[ q ];
+        this.found.unshift( { text: tools.textPreviwer( q ), idx: q  } )
     } );
 }
 
