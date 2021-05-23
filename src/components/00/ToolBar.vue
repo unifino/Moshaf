@@ -3,7 +3,7 @@
     ref="frame"
     class="frame"
     rows="*,auto,*"
-    columns="auto,*"
+    columns="60,10,*,10"
     v-if="active"
     @tap="tapPassed=true"
 >
@@ -30,6 +30,9 @@
         </StackLayout>
 
     </ScrollView>
+<!---------------------------------------------------------------------------------------->
+
+    <SearchBox row=0 rowSpan=0 col=2 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -46,6 +49,7 @@ import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/00/Ghertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import myButton                         from "@/components/m/myButton.vue"
+import SearchBox                        from "@/components/m/SearchBox.vue"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
@@ -56,7 +60,7 @@ import { setText }                      from "nativescript-clipboard"
 // -- =====================================================================================
 
 @Component ( {
-    components: { myButton }
+    components: { myButton, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -71,7 +75,7 @@ active = false;
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
     // { icon: 'f00c', class: ''     , fnc: () => {}                       } ,
-    // { icon: 'f0c1', class: 'bind' , fnc: () => {}                       } ,
+    { icon: 'f0c1', class: 'bind' , fnc: () => this.bind()              } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
     // { icon: 'f002', class: 'scope', fnc: () => {}                       } ,
 ]
@@ -92,6 +96,8 @@ mounted () {
 menuBox_Animation
 async menuCtr ( id: number ) {
 
+    console.log(id);
+    
     this.active = true;
     await new Promise( _ => setTimeout( _ , 0 ) );
 
@@ -121,6 +127,7 @@ async menuCtr ( id: number ) {
 // -- =====================================================================================
 
 toggleFavorite () {
+
     let aID = store.state.activeAyah;
     let trace = storage.fav_q.indexOf( aID );
     // .. add to Favorite
@@ -129,10 +136,20 @@ toggleFavorite () {
     else storage.fav_q.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
+    // .. hard registeration
     storage.saveFav_Quran();
+    // .. toggle style
     let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
     ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
+    // .. exit
+    store.state.activeAyah = -1;
+
 }
+
+// -- =====================================================================================
+ bind () {
+     console.log( store.state.activeAyah);
+ }
 
 // -- =====================================================================================
 
@@ -142,9 +159,10 @@ copy () {
     let q = Quran[ store.state.activeAyah ];
     let f = q.text +"\n\n" +asma[ q.sura -1 ][1] +" (" +q.sura +") " +" : " +q.ayah;
     setText( tools.arabicDigits( f ) );
-
     // .. notify the succession
     tools.toaster( "آیه کپی شد.", "short" );
+    // .. exit
+    store.state.activeAyah = -1;
 
 }
 
@@ -174,7 +192,6 @@ destroyed () {}
 
     .menuBox {
         opacity: 0;
-        /* color:#0e1111; */
     }
 
 </style>

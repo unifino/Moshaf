@@ -34,6 +34,7 @@ export function arabicDigits ( str: string ) {
 // -- =====================================================================================
 
 export function erabTrimmer ( str: string ) {
+    if ( !str ) return "";
     const erabs = [ "َ", "ٕ", "ُ", "ِ", "ٓ", "ٰ", "ٖ", "ً", "ّ", "ۡ", "ۚ", "ۢ", "ۖ", "ۗ", "ٌۚ", "ۥ", " ٌ" ];
     for ( const erab of erabs ) str = str.replace( new RegExp( erab, 'g' ), "" );
     str = str.replace( /ٱ/g, 'ا' );

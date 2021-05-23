@@ -4,43 +4,8 @@
     ref="fehrest"
     class="fehrest"
     rows="44,44,44,*,7"
-    @tap="dismiss()"
+    @tap="search_dismiss()"
 >
-
-<!---------------------------------------------------------------------------------------->
-
-    <TextField row=2 ref="fakeSearch" opacity=0 />
-    <TextField
-        ref="search"
-        row=2
-        hint="بحث"
-        class="search"
-        @textChange="search()"
-    />
-
-<!---------------------------------------------------------------------------------------->
-
-    <StackLayout row=2 horizontalAlignment="left" orientation="horizontal">
-
-        <Label
-            :text="String.fromCharCode( '0x' + ( found.length ? 'f00d' : 'f002' ) )"
-            @tap="found.length ? dismiss( true ) : search( true )"
-            class="fas button" 
-        />
-
-        <Label
-            :text="String.fromCharCode( '0x' + 'f1da' )"
-            @tap="history()"
-            class="fas button" 
-        />
-
-        <Label
-            :text="String.fromCharCode( '0x' + 'f004' )"
-            @tap="favorite()"
-            class="fas button" 
-        />
-
-    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -83,20 +48,15 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout v-if=found.length class="result" row=3 >
-
-        <ListView for="item in found" >
-            <v-template>
-                <Label
-                    :text="item.text"
-                    textWrap=true
-                    class="item"
-                    @tap="open(item.idx)" 
-                />
-            </v-template>
-        </ListView>
-
-    </GridLayout>
+    <SearchBox 
+        row=2
+        rowSpan=2
+        ref="search"
+        @search="search"
+        @history="history"
+        @favorite="favorite"
+        @open="open"
+    />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -117,11 +77,13 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
+import SearchBox                        from "@/components/m/SearchBox.vue"
+import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, Ghertas }
+    components: { Kalameh, Ghertas, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -131,7 +93,6 @@ export default class Base_00 extends Vue {
 // -- =====================================================================================
 
 asma = asma;
-found = [];
 phrase = ""
 
 // -- =====================================================================================
@@ -144,21 +105,12 @@ mounted () {
 
 open ( num: number ): void {
 
-
     Vue.prototype.$navigateTo( Ghertas, {
 
         frame : "base",
-
+        props : { me : num },
         backstackVisible : true,
-
-        props : {
-            me : num,
-        },
-
-        transition : {
-            name         : "slideTop",
-            duration     : 300,
-        }
+        transition : { name: "slideTop", duration: 300 }
 
     } );
 
@@ -166,64 +118,60 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( force=false ) {
+search ( phrase: string, force=false ) {
 
-    // let text = event.object.text;
-    this.phrase = ( this.$refs.search as any ).nativeView.text;
     // .. input must be unified!
-    this.phrase = this.phrase.replace( /ی/g, 'ي' );
-    this.phrase = this.phrase.replace( /ک/g, 'ك' );
+    phrase = phrase.replace( /ی/g, 'ي' );
+    phrase = phrase.replace( /ک/g, 'ك' );
 
     // .. reset asma
     this.asma = asma;
-    this.found = [];
+    let found: TS.Found = [];
 
     // .. filter asma + unifying asma
-    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( this.phrase ) );
+    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( phrase ) );
 
     // .. search in ayat
-    if ( this.phrase.length > 2 || force ) {
-        Quran.forEach( (q, i) => {
-            if ( tools.asmaUnifier( q.simple ).includes( this.phrase ) ) {
-                this.found.push( { text: tools.textPreviwer( i ), idx: i } );
-            }
-        } );
-    }
+    if ( phrase.length > 2 || force )
+        for ( const i in Quran )
+            if ( tools.asmaUnifier( Quran[i].simple ).includes( phrase ) )
+                found.push( { text: tools.textPreviwer( Number(i) ), idx: Number(i) } );
+
+    ( this.$refs.search as SearchBox ).init( found );
 
 }
 
 // -- =====================================================================================
 
 history () {
-    storage.trace_q.forEach( h => {
-        this.found.unshift( { text: tools.textPreviwer( h.ayah ), idx: h.ayah } );
-    } );
+
+    let found: TS.Found = [];
+
+    for ( const h of storage.trace_q )
+        found.unshift( { text: tools.textPreviwer( h.ayah ), idx: h.ayah } );
+
+    ( this.$refs.search as SearchBox ).init( found );
+
 }
 
 // -- =====================================================================================
 
 favorite () {
-    storage.fav_q.forEach( q => {
-        const ref = Quran[ q ];
-        this.found.unshift( { text: tools.textPreviwer( q ), idx: q  } )
-    } );
+
+    let found: TS.Found = [];
+
+    for ( const f of storage.fav_q )
+        found.unshift( { text: tools.textPreviwer( f ), idx: f } );
+
+    ( this.$refs.search as SearchBox ).init( found );
+
 }
 
 // -- =====================================================================================
 
-dismiss ( force=false ) {
-    if ( force ) {
-        this.found = [];
-        ( this.$refs.search as any ).nativeView.text = "";
-    }
-    ( this.$refs.search as any ).nativeView.dismissSoftInput();
-    ( this.$refs.fakeSearch as any ).nativeView.focus();
-    ( this.$refs.fakeSearch as any ).nativeView.dismissSoftInput();
+search_dismiss () {
+    ( this.$refs.search as SearchBox ).dismiss();
 }
-
-// -- =====================================================================================
-
-destroyed () {}
 
 // -- =====================================================================================
 

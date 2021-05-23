@@ -1,16 +1,14 @@
 <template>
-<GridLayout
-    :class="myClass"
-    @tap="$emit( 'tap' )"
-    @touch="buttonTouched"
-    ref="button"
->
+<GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout rows="*,auto,*"  >
-        <Label row=1 :text="' ' + myLabel + ' '" />
-    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+
+<!---------------------------------------------------------------------------------------->
+
 
 <!---------------------------------------------------------------------------------------->
 
@@ -24,37 +22,35 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+// * tns plugin add nativescript-clipboard
+import store                            from "@/store/store"
+import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
+import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
-@Component
+@Component ( {
+    components: {}
+} )
 
 // -- =====================================================================================
 
-export default class myButton extends Vue {
+export default class template extends Vue {
 
 // -- =====================================================================================
 
-@Prop() myLabel: string;
-@Prop() myClass: string;
+@Prop() found = [];
 
 // -- =====================================================================================
 
-press_TO: NodeJS.Timeout | any;
-buttonTouched ( args ) {
+mounted () {
 
-    switch ( args.action ) {
+}
 
-        case "down":
-            args.object.className = this.myClass + " pressed"; 
-            break;
+// -- =====================================================================================
 
-        case "up":
-        case "cancel":
-            args.object.className = this.myClass; 
-            break;
-
-    }
+destroyed () {
 
 }
 
@@ -72,34 +68,6 @@ buttonTouched ( args ) {
 
 /*                                          */
 
-    .center {
-        text-align: center;
-    }
-
-    .toolButton {
-        text-align: center;
-        font-size: 23px;
-        width: 50;
-        height: 50;
-        margin: 3;
-        border-width: 1;
-        border-radius: 12;
-    }
-
-    .Smoky .toolButton {
-        color:#cfe9f0;
-        border-color: #9dd0d4;
-        background-color: #1a848b;
-    }
-
-    .CoolGreen .toolButton {
-        color:#919a9c;
-        border-color: #2b5b7a;
-        background-color: #072429;
-    }
+    
 
 </style>
-
-
-
-

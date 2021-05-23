@@ -23,18 +23,21 @@ import store                            from "@/store/store"
 import Base_00                          from "@/components/00/_00.vue"
 import ToolBar                          from "@/components/00/ToolBar.vue"
 import Ghertas                          from "@/components/00/Ghertas.vue"
-import Hadis                            from "@/components/10/_10.vue"
-import Adeiyeh                          from "@/components/01/_01.vue"
+import Base_10                          from "@/components/10/_10.vue"
+import Base_01                          from "@/components/01/_01.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storage"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
+import SearchBox                        from "@/components/m/SearchBox.vue"
+
+// -- =====================================================================================
 
 // import VueDevtools                      from 'nativescript-vue-devtools'
-// if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ) }
-// Vue.config.silent = (TNS_ENV === 'production')
+// if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ); console.log = function () {}; }
+// Vue.config.silent = ( TNS_ENV === 'production' );
 
 // -- =====================================================================================
 
@@ -69,14 +72,15 @@ mounted () {
 backButtonCtl (e) {
 
     let base = this.$root.$children[0].$refs.base as any;
-    
+
     switch ( store.state.here ) {
 
         case "Base_00":
             // .. get elemente(s)
-            let _00 = base.$children[1] as Base_00;
+            let base_00 = base.$children[1] as Base_00;
+            let searchBox = base_00.$refs[ "search" ] as SearchBox;
             // ..  just clear search
-            if ( _00.phrase ) _00.dismiss( true );
+            if ( searchBox.result.length ) searchBox.dismiss( true );
             // .. exit
             else exit();
             // .. prevent more actions
@@ -86,8 +90,8 @@ backButtonCtl (e) {
         case "Ghertas":
             // .. get elemente(s)
             let Ghertas = base.$children[2] as Ghertas;
-            let ToolBar = Ghertas.$refs[ "ToolBar" ] as ToolBar;
-            if ( ToolBar.active ) {
+            let toolBar = Ghertas.$refs[ "ToolBar" ] as ToolBar;
+            if ( toolBar.active ) {
                 // ..  just close ToolBar by resetting activeAyah
                 store.state.activeAyah = -1;
                 // .. prevent more actions
@@ -177,7 +181,7 @@ toFehrest ( direction: NS.SwipeDirection|null ): void {
 
 toHadis (): void {
 
-    Vue.prototype.$navigateTo( Hadis, {
+    Vue.prototype.$navigateTo( Base_10, {
         frame : 'base' ,
         backstackVisible : true ,
         transition : {
@@ -192,7 +196,7 @@ toHadis (): void {
 
 toAdeiyeh (): void {
 
-    Vue.prototype.$navigateTo( Adeiyeh, {
+    Vue.prototype.$navigateTo( Base_01, {
         frame : 'base' ,
         backstackVisible : true ,
         transition : {

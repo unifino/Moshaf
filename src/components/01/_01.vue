@@ -34,8 +34,6 @@ import { adeiyeh }                      from "@/db/D/Adeiyeh"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-// * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
@@ -45,7 +43,7 @@ import { setText }                      from "nativescript-clipboard"
 
 // -- =====================================================================================
 
-export default class Adeiyeh extends Vue {
+export default class Base_01 extends Vue {
 
 // -- =====================================================================================
 
