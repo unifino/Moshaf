@@ -101,7 +101,12 @@ export type Kalameh =
 
 // -- =====================================================================================
 
-export type Found = { text: string, idx: number }[];
+export type Found_Item = { 
+    text: string, 
+    idx: number,
+    isBounded: boolean
+};
+export type Found = Found_Item[];
 
 // -- =====================================================================================
 
@@ -109,6 +114,6 @@ export type Source = "Q" | "H" | "D";
 
 // -- =====================================================================================
 
-export type SearchMode = "search" | "history" | "favorite" | "clear";
+export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan";
 
 // -- =====================================================================================

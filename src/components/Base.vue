@@ -45,7 +45,8 @@ if( TNS_ENV !== 'production' ) {
             "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> CreateComment()",
             "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> ParentNode(",
             "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> InsertBefore(",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> RemoveChild("
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> RemoveChild(",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> NextSibling("
         ];
         let permission = true;
         for ( let x of unwanted ) if ( typeof data[0] === "string" && data[0].includes(x)  ) permission = false;
@@ -165,8 +166,8 @@ setup (): Promise<void> {
         // .. just applying default theme
         TM.themeApplier( "Smoky", this.$refs );
 
-        this.toFehrest( null );
-        // this.toHadis();
+        // this.toFehrest( null );
+        this.toHadis();
 
         // .. basic steps has been resolved!
         rs();

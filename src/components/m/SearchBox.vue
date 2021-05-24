@@ -52,9 +52,9 @@
         <ListView for="item in result" >
             <v-template>
                 <Label
-                    :text="item.text"
                     textWrap=true
-                    class="item"
+                    :text="item.text"
+                    :class="'item' + ( item.isBounded ? ' bounded' : '' )"
                     @tap="$emit( 'interact', item.idx, source )" 
                 />
             </v-template>
@@ -96,6 +96,7 @@ export default class SearchBox extends Vue {
 
 result: TS.Found = [];
 hint: string = "بحث";
+perfomedMode: TS.SearchMode;
 
 // -- =====================================================================================
 
@@ -118,22 +119,32 @@ get appendHint () {
 // -- =====================================================================================
 
 init ( mode: TS.SearchMode, force?: boolean ) {
+
+    this.perfomedMode = mode !== "rescan" ? mode : this.perfomedMode;
+
     let data: TS.Found;
-    if ( mode === "clear"   )   data = [];
-    if ( mode === "search"  )   data = this.search( force );
-    if ( mode === "history" )   data = this.history();
-    if ( mode === "favorite" )  data = this.favorite();
+
+    if ( mode === "clear"    ) data = [];
+    if ( mode === "search"   ) data = this.search( force );
+    if ( mode === "history"  ) data = this.history();
+    if ( mode === "favorite" ) data = this.favorite();
+    if ( mode === "rescan"   ) data = this[ this.perfomedMode ]();
+
     this.result = data;
+
 }
 
 // -- =====================================================================================
 
 search ( force=false ) {
 
-    let found: TS.Found = [];
+    let found: TS.Found = [],
+        item: TS.Found_Item,
+        tmp: string,
+        n: number;
+
     let str = ( this.$refs.search as any ).nativeView.text;
-    console.log(str);
-    
+
     // .. input must be unified!
     str = str.replace( /ی/g, 'ي' );
     str = str.replace( /ک/g, 'ك' );
@@ -144,15 +155,37 @@ search ( force=false ) {
 
     if ( str.length > 3 || force ) {
 
-        if ( this.source === 'Q' )
-            for ( const i in Quran )
-                if ( tools.asmaUnifier( Quran[i].simple ).includes( str ) )
-                    found.push( { text: tools.textPreviwer( Number(i) ), idx: Number(i) } );
+        if ( this.source === 'Q' ) for ( const i in Quran ) {
 
-        if ( this.source === 'H' )
-            for ( const i in Ahadis )
-                if ( tools.asmaUnifier( tools.erabTrimmer( Ahadis[i].a ) ).includes( str ) )
-                    found.push( { text: Ahadis[i].a, idx: Number(i) } );
+            n = Number(i);
+            tmp = tools.asmaUnifier( Quran[i].simple );
+
+            if ( tmp.includes( str ) ) {
+                item = { 
+                    text: tools.textPreviwer(n),
+                    idx: n,
+                    isBounded: this.isBounded(n)
+                }
+                found.push( item );
+            }
+
+        }
+
+        if ( this.source === 'H' ) for ( const i in Ahadis ) {
+
+            n = Number(i);
+            tmp = tools.asmaUnifier( tools.erabTrimmer( Ahadis[i].a ) );
+
+            if ( tmp.includes( str ) ) {
+                item = { 
+                    text: Ahadis[i].a,
+                    idx: n,
+                    isBounded: this.isBounded(n)
+                }
+                found.push( item );
+            }
+
+        }
 
     }
     
@@ -166,14 +199,25 @@ search ( force=false ) {
 history () {
 
     let found: TS.Found = [];
+    let item: TS.Found_Item;
 
-    if ( this.source === 'Q' )
-        for ( const w of storage.trace_q )
-            found.unshift( { text: tools.textPreviwer(w), idx: w } );
+    if ( this.source === 'Q' ) for ( const w of storage.trace_q ) {
+        item = { 
+            text: tools.textPreviwer(w),
+            idx: w,
+            isBounded: this.isBounded(w)
+        };
+        found.unshift( item )
+    }
 
-    if ( this.source === 'H' )
-        for ( const w of storage.trace_h )
-            found.unshift( { text: Ahadis[w].a, idx: w } );
+    if ( this.source === 'H' ) for ( const w of storage.trace_h ) {
+        item = { 
+            text: Ahadis[w].a,
+            idx: w,
+            isBounded: this.isBounded(w)
+        }
+        found.unshift( item )
+    }
 
     return found;
 
@@ -184,21 +228,59 @@ history () {
 favorite () {
 
     let found: TS.Found = [];
+    let item: TS.Found_Item;
 
     for ( const f of storage[ 'fav_' + this.source.toLowerCase() ] ) {
 
-        if ( this.source === 'Q' ) {
-            found.unshift( { text: tools.textPreviwer( f ), idx: f } );
+        if ( this.source === 'Q' ) item = { 
+            text: tools.textPreviwer(f), 
+            idx: f,
+            isBounded: this.isBounded(f)
         }
 
-        if ( this.source === 'H' ) {
-            const ref = Ahadis[ f ];
-            found.unshift( { text: ref.a, idx: f } );
+        if ( this.source === 'H' && Ahadis[f].a ) item = { 
+            text: Ahadis[f].a, 
+            idx: f,
+            isBounded: this.isBounded(f)
         }
+
+        found.unshift( item );
 
     }
 
     return found;
+
+}
+
+// -- =====================================================================================
+
+isBounded ( check: number ) {
+
+    let state: boolean = false;
+
+    for ( let x of storage.bound ) {
+
+        // .. examine first [cell as Ayah] then chcek second one
+        if ( x[0] === "Q_" + store.state.activeAyah )
+            if ( Number( x[1].slice(2) ) === check ) 
+                state = true;
+
+        // .. state Declared!
+        if ( state ) break;
+
+        // .. examine second [cell as Ayah] then chcek first one
+        if ( x[1] === "Q_" + store.state.activeAyah )
+            if ( Number( x[0].slice(2) ) === check )
+                state = true;
+
+        // .. state Declared!
+        if ( state ) break;
+
+        // .. need more options to check even for H_H | ... ones
+
+    }
+
+    return state;
 
 }
 
@@ -282,6 +364,12 @@ dismiss ( force=false ) {
     .Smoky .button {
         color: #b81868;
         color: #606363;
+    }
+
+    .bounded {
+        background-color: #0e962b;
+        color: white;
+        border-radius: 4;
     }
 
 </style>

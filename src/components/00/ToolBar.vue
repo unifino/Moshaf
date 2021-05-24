@@ -37,7 +37,7 @@
 
         <SearchBox
             ref='search_Q'
-            v-if="searchMode==='Q'"
+            :visibility="searchMode==='Q'?'visible':'hidden'"
             source="Q"
             :exchangeButton="true"
             @interact="bind"
@@ -46,7 +46,7 @@
 
         <SearchBox
             ref='search_H'
-            v-if="searchMode==='H'"
+            :visibility="searchMode==='H'?'visible':'hidden'"
             source="H"
             :exchangeButton="true"
             @interact="bind"
@@ -177,8 +177,25 @@ toggleFavorite () {
 // -- =====================================================================================
 
 bind ( id: number, source: TS.Source ) {
-    storage.bound.push( [ "Q_" + store.state.activeAyah, source + "_" + id ] );
+
+    let a = "Q_" + store.state.activeAyah;
+    let b = source + "_" + id;
+
+    // .. find already Bound data
+    let trace = storage.bound.findIndex( 
+        x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
+    );
+    
+    // .. no Trace has been found => add it!
+    if ( !~trace ) storage.bound.push( [ a, b ] );
+    // .. already has been bound => remove it!
+    else storage.bound.splice( trace, 1 );
+    
+    ( this.$refs[ "search_" + source ] as SearchBox ).init( "rescan" );
+
+    // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
+
 }
 
 // -- =====================================================================================
