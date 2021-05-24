@@ -2,7 +2,7 @@
 <GridLayout
     ref="frame"
     class="frame"
-    rows="*,auto,*"
+    rows="44,*,auto,*,44"
     columns="60,10,*,10"
     v-if="active"
     @tap="tapPassed=true"
@@ -10,7 +10,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView row=1 col=0 ref="menuBox" class="menuBox" orientation="vertical" >
+    <ScrollView row=2 col=0 ref="menuBox" class="menuBox" orientation="vertical" >
 
         <StackLayout 
             class="buttonBox"
@@ -32,7 +32,7 @@
     </ScrollView>
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox row=0 rowSpan=0 col=2 />
+    <SearchBox row=1 rowSpan=3 col=2 hint="بحث في القرآن" />
 
 <!---------------------------------------------------------------------------------------->
 
