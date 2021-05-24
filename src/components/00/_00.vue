@@ -3,7 +3,6 @@
 <GridLayout
     class="fehrest"
     rows="44,44,44,*,7"
-    @tap="search_dismiss()"
 >
 
 <!---------------------------------------------------------------------------------------->
@@ -122,12 +121,6 @@ search ( phrase: string ) {
     // .. filter asma + unifying asma
     this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( phrase ) );
 
-}
-
-// -- =====================================================================================
-
-search_dismiss () {
-    ( this.$refs.search as SearchBox ).dismiss();
 }
 
 // -- =====================================================================================

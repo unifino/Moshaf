@@ -1,14 +1,15 @@
 <template>
 <Page>
-<GridLayout class="myPage" rows="44,44,44,*,7" @tap="search_dismiss()">
+<GridLayout class="myPage" rows="44,44,44,*,7">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day row=3 rowSpan=3 />
+    <Day ref="day" row=3 rowSpan=3 />
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox 
+    <SearchBox
+        ref="search"
         row=2
         rowSpan=2
         @interact="open"
@@ -59,8 +60,9 @@ mounted () {
 
 // -- =====================================================================================
 
-open () {
-    console.log("hatef");
+open ( num: number ) {
+    ( this.$refs.day as Day ).show( num );
+    ( this.$refs.search as SearchBox ).dismiss( true );
 }
 
 // -- =====================================================================================

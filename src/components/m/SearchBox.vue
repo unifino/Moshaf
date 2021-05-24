@@ -130,6 +130,8 @@ init ( mode: TS.SearchMode, force?: boolean ) {
     if ( mode === "favorite" ) data = this.favorite();
     if ( mode === "rescan"   ) data = this[ this.perfomedMode ]();
 
+    data = data.sort ( a => a.isBounded ? -1 : 0 );
+
     this.result = data;
 
 }
@@ -188,7 +190,7 @@ search ( force=false ) {
         }
 
     }
-    
+
     return found;
 
 }

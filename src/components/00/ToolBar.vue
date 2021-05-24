@@ -98,7 +98,7 @@ searchMode: 'Q'|'H' = 'Q';
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    // { icon: 'f0c6', class: 'bind' , fnc: () => this.bind(1 )              } ,
+    { icon: 'f292', class: 'bind' , fnc: () => {}              } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
 ]
 
