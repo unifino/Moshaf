@@ -110,10 +110,10 @@ export type Found = Found_Item[];
 
 // -- =====================================================================================
 
-export type Source = "Q" | "H" | "D";
+export type Source = "Q" | "H" | "D" | "T";
 
 // -- =====================================================================================
 
-export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan";
+export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan" | "tag";
 
 // -- =====================================================================================

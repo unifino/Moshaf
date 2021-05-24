@@ -9,6 +9,7 @@
             :hint="hint + appendHint"
             class="search"
             @textChange="init( 'search' )"
+            @returnPress="returnPressed"
         />
 
     </GridLayout>
@@ -18,18 +19,21 @@
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
         <Label
+            v-if="source==='Q' || source==='H' || source==='D'"
             :text="String.fromCharCode( '0x' + ( result.length ? 'f00d' : 'f002' ) )"
             @tap="result.length ? dismiss( true ) : init( 'search', true )"
             class="fas button" 
         />
 
         <Label
+            v-if="source==='Q' || source==='H' || source==='D'"
             :text="String.fromCharCode( '0x' + 'f1da' )"
             @tap="init( 'history' )"
             class="fas button" 
         />
 
         <Label
+            v-if="source==='Q' || source==='H' || source==='D'"
             :text="String.fromCharCode( '0x' + 'f004' )"
             @tap="init( 'favorite' )"
             class="fas button" 
@@ -107,26 +111,39 @@ perfomedMode: TS.SearchMode;
 
 mounted() {
     ( this.$refs.search as any ).nativeView.paddingLeft = this.exchangeButton ? 170 : 140;
+    if ( this.source === "T" ) this.init( "tag" );
 }
 
 // -- =====================================================================================
 
 get appendHint () {
-    if ( this.source === "H" ) return " في الحادیث";
     if ( this.source === "Q" ) return " في القرآن";
+    if ( this.source === "H" ) return " في الحادیث";
+    if ( this.source === "T" ) return " في العناوين";
 }
 
 // -- =====================================================================================
 
 init ( mode: TS.SearchMode, force?: boolean ) {
-
+    
     let data: TS.Found;
 
-    if ( mode === "clear"    ) data = [];
-    if ( mode === "search"   ) data = this.search( force );
-    if ( mode === "history"  ) data = this.history();
-    if ( mode === "favorite" ) data = this.favorite();
-    if ( mode === "rescan"   ) data = this[ this.perfomedMode ]();
+    if ( this.source === "T" ) {
+        data = this.tagFinder();
+        this.result = data;
+        this.perfomedMode = "tag";
+        return;
+    }
+
+    switch ( mode ) {
+        case "clear"    : data = [];                            break;
+        case "search"   : data = this.search( force );          break;
+        case "history"  : data = this.history();                break;
+        case "favorite" : data = this.favorite();               break;
+        case "tag"      : data = this.tagFinder();              break;
+        case "rescan"   : data = this[ this.perfomedMode ]();   break;
+        default         : console.log(mode+" ???");             break;
+    }
 
     data = data.sort ( a => a.isBounded ? -1 : 0 );
 
@@ -265,7 +282,46 @@ favorite () {
 
 // -- =====================================================================================
 
-isBounded ( check: number ) {
+tagFinder () {
+
+    // .. re-tap situation
+    // if ( this.result.length && this.perfomedMode === "tag" ) return [];
+
+    let found: TS.Found = [];
+    let item: TS.Found_Item;
+    let idx: number = 0;
+
+    for ( const x of storage.bound ) {
+
+        item = null;
+
+        if ( x[0].slice( 0, 1 ) === "T" ) item = { 
+            text: x[0].slice(2), 
+            idx: idx,
+            isBounded: this.isBounded( x[0].slice(2) )
+        }
+
+        else if ( x[1].slice( 0, 1 ) === "T" ) item = { 
+            text: x[1].slice( 2 ), 
+            idx: idx,
+            isBounded: this.isBounded( x[1].slice(2) )
+        }
+
+        if ( item ) {
+            found.unshift( item );
+            idx++;
+        }
+
+    }
+    console.log(found);
+    
+    return found;
+
+}
+
+// -- =====================================================================================
+
+isBounded ( check: number|string ) {
 
     let state: boolean = false;
 
@@ -287,11 +343,41 @@ isBounded ( check: number ) {
         // .. state Declared!
         if ( state ) break;
 
+        // .. examine first [cell as Ayah] is Bound to this Tag
+        if ( x[0] === "Q_" + store.state.activeAyah )
+            if ( x[1].slice(2) === check ) 
+                state = true;
+
+        // .. state Declared!
+        if ( state ) break;
+
         // .. need more options to check even for H_H | ... ones
 
     }
 
     return state;
+
+}
+
+// -- =====================================================================================
+
+returnPressed ( event ) {
+
+    let newTag = event.object.text;
+
+    let a = "Q_" + store.state.activeAyah;
+    let b = "T_" + newTag;
+
+    // .. add new Tag ( uniqe )
+    if ( !storage.bound.find( x => x[0] === a && x[1] === b ) ) storage.bound.push( [a, b] );
+
+    // .. apply it
+    this.init( "rescan" );
+
+    // .. hard registration
+    storage.saveDB( storage.bound_File, storage.bound );
+
+    this.tagFinder();
 
 }
 

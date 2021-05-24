@@ -53,6 +53,15 @@
             @exchange="searchMode='Q'"
         />
 
+        <SearchBox
+            ref='search_T'
+            :visibility="searchMode==='T'?'visible':'hidden'"
+            source="T"
+            :exchangeButton="true"
+            @interact="bind"
+            @exchange="searchMode='Q'"
+        />
+
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -94,11 +103,11 @@ export default class ToolBar extends Vue {
 
 tapPassed = false;
 active = false;
-searchMode: 'Q'|'H' = 'Q';
+searchMode: 'Q'|'H'|'T' = 'Q';
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    { icon: 'f292', class: 'bind' , fnc: () => {}              } ,
+    { icon: 'f292', class: 'bind' , fnc: () => this.createNewTag()      } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
 ]
 
@@ -185,12 +194,12 @@ bind ( id: number, source: TS.Source ) {
     let trace = storage.bound.findIndex( 
         x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
     );
-    
+
     // .. no Trace has been found => add it!
     if ( !~trace ) storage.bound.push( [ a, b ] );
     // .. already has been bound => remove it!
     else storage.bound.splice( trace, 1 );
-    
+
     ( this.$refs[ "search_" + source ] as SearchBox ).init( "rescan" );
 
     // .. hard registration
@@ -215,7 +224,9 @@ copy () {
 
 // -- =====================================================================================
 
-destroyed () {}
+createNewTag () {
+    this.searchMode = this.searchMode === "T" ? "Q" : "T";
+}
 
 // -- =====================================================================================
 
