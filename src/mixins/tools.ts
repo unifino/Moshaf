@@ -1,6 +1,9 @@
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
 import { asma, Quran }                  from "@/db/Q/Quran"
+import * as TS                          from "@/../types/myTypes"
+import * as storage                     from "@/mixins/storage"
+import { ahadis }                       from "@/db/H/Ahadis"
 
 // -- =====================================================================================
 
@@ -61,6 +64,81 @@ export function asmaUnifier ( str: string ) {
         replace( /ة/g, 'ه' ); 
 
     return str;
+
+}
+
+// -- =====================================================================================
+
+export function history ( target: 'q'|'h' ) {
+
+    let found: TS.Found = [];
+
+    for ( const h of storage[ 'trace_' + target ] ) {
+
+        if ( target === 'q' ) {
+            found.unshift( { text: textPreviwer( h.ayah ), idx: h.ayah } );
+        }
+
+        if ( target === 'h' ) {
+            const ref = ahadis[ h.hadis ];
+            if ( ref ) found.unshift( { text: ref.a, idx: h.hadis } );
+        }
+
+    }
+
+    return found;
+
+}
+
+// -- =====================================================================================
+
+export function favorite ( target: 'q'|'h' ) {
+
+    let found: TS.Found = [];
+
+    for ( const f of storage[ 'fav_' + target ] ) {
+
+        if ( target === 'q' ) {
+            found.unshift( { text: textPreviwer( f ), idx: f } );
+        }
+
+        if ( target === 'h' ) {
+            const ref = ahadis[ f ];
+            found.unshift( { text: ref.a, idx: f } );
+        }
+
+    }
+
+    return found;
+
+}
+
+// -- =====================================================================================
+
+export function search ( target: 'q'|'h', phrase: string, force=false ) {
+
+    let found: TS.Found = [];
+
+    // .. input must be unified!
+    phrase = phrase.replace( /ی/g, 'ي' );
+    phrase = phrase.replace( /ک/g, 'ك' );
+    phrase = erabTrimmer( phrase );
+
+    if ( phrase.length > 3 || force ) {
+
+        if ( target === 'q' )
+            for ( const i in Quran )
+                if ( asmaUnifier( Quran[i].simple ).includes( phrase ) )
+                    found.push( { text: textPreviwer( Number(i) ), idx: Number(i) } );
+
+        if ( target === 'h' )
+            for ( const i in ahadis )
+                if ( asmaUnifier( erabTrimmer( ahadis[i].a ) ).includes( phrase ) )
+                    found.push( { text: ahadis[i].a, idx: Number(i) } );
+
+    }
+
+    return found;
 
 }
 

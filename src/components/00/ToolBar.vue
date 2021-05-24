@@ -2,8 +2,8 @@
 <GridLayout
     ref="frame"
     class="frame"
-    rows="44,*,auto,*,44"
-    columns="60,10,*,10"
+    rows="88,*,auto,*,44"
+    columns="60,20,*,20"
     v-if="active"
     @tap="tapPassed=true"
 >
@@ -30,9 +30,36 @@
         </StackLayout>
 
     </ScrollView>
+
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox row=1 rowSpan=3 col=2 hint="بحث في القرآن" />
+    <GridLayout row=1 rowSpan=3 col=2 ref="searchBoxes" opacity=0>
+
+        <SearchBox
+            ref='search_q'
+            v-if="searchMode==='Q'"
+            hint="بحث في القرآن"
+            :exchangeButton="true"
+            @open="open_q"
+            @search="search_q"
+            @history="history('q')"
+            @favorite="favorite('q')"
+            @exchange="searchMode='H'"
+        />
+
+        <SearchBox
+            ref='search_h'
+            v-if="searchMode==='H'"
+            hint="بحث في الحادیث"
+            :exchangeButton="true"
+            @open="open_h"
+            @search="search_h"
+            @history="history('h')"
+            @favorite="favorite('h')"
+            @exchange="searchMode='Q'"
+        />
+
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -56,6 +83,8 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as NS                          from "@nativescript/core"
 import { setText }                      from "nativescript-clipboard"
+import * as TS                          from "@/../types/myTypes"
+import { ahadis }                       from "@/db/H/Ahadis"
 
 // -- =====================================================================================
 
@@ -71,13 +100,12 @@ export default class ToolBar extends Vue {
 
 tapPassed = false;
 active = false;
+searchMode: 'Q'|'H' = 'Q';
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    // { icon: 'f00c', class: ''     , fnc: () => {}                       } ,
-    { icon: 'f0c1', class: 'bind' , fnc: () => this.bind()              } ,
+    { icon: 'f0c6', class: 'bind' , fnc: () => this.bind()              } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
-    // { icon: 'f002', class: 'scope', fnc: () => {}                       } ,
 ]
 
 // -- =====================================================================================
@@ -96,15 +124,15 @@ mounted () {
 menuBox_Animation
 async menuCtr ( id: number ) {
 
-    console.log(id);
-    
     this.active = true;
     await new Promise( _ => setTimeout( _ , 0 ) );
 
     let menuBox = ( this.$refs.menuBox as any ).nativeView,
         frame = ( this.$refs.frame as any ).nativeView,
+        searchBoxes = ( this.$refs.searchBoxes as any ).nativeView,
         x_def: NS.AnimationDefinition = {},
-        y_def: NS.AnimationDefinition = {};
+        y_def: NS.AnimationDefinition = {},
+        z_def: NS.AnimationDefinition = {};
 
     if ( this.menuBox_Animation ) this.menuBox_Animation.cancel();
 
@@ -117,9 +145,15 @@ async menuCtr ( id: number ) {
     y_def.target = frame;
     y_def.curve = NS.Enums.AnimationCurve.ease,
     y_def.duration = 300;
-    y_def.backgroundColor = new NS.Color( !~id ? "#000e1111" : "#bb0e1111" ); 
+    y_def.backgroundColor = new NS.Color( !~id ? "#000e1111" : "#bb0e1111" );
 
-    this.menuBox_Animation = new NS.Animation( [ x_def, y_def ], false );
+    z_def.target = searchBoxes;
+    z_def.curve = NS.Enums.AnimationCurve.ease,
+    z_def.delay = !~id ? 0 : 150;
+    z_def.duration = !~id ? 100 : 500;
+    z_def.opacity = !~id ? 0 : 1;
+
+    this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => this.active = !!~id );
 
 }
@@ -147,9 +181,10 @@ toggleFavorite () {
 }
 
 // -- =====================================================================================
- bind () {
-     console.log( store.state.activeAyah);
- }
+
+bind () {
+    console.log( store.state.activeAyah);
+}
 
 // -- =====================================================================================
 
@@ -168,6 +203,24 @@ copy () {
 
 // -- =====================================================================================
 
+search_q ( phrase: string, force=false ) {
+    ( this.$refs[ 'search_q' ] as SearchBox ).init( tools.search( "q", phrase, force ) );
+}
+search_h ( phrase: string, force=false ) {
+    ( this.$refs[ 'search_h' ] as SearchBox ).init( tools.search( "h", phrase, force ) );
+}
+
+// -- =====================================================================================
+
+history ( target: 'q'|'h' ) {
+    ( this.$refs[ 'search_' + target ] as SearchBox ).init( tools.history( target ) );
+}
+
+// -- =====================================================================================
+
+favorite ( target: 'q'|'h' ) {
+    ( this.$refs[ 'search_' + target ] as SearchBox ).init( tools.favorite( target ) );
+}
 
 // -- =====================================================================================
 
@@ -193,5 +246,6 @@ destroyed () {}
     .menuBox {
         opacity: 0;
     }
+
 
 </style>

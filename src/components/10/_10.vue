@@ -87,56 +87,20 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( force=false ) {
-
-    // let text = event.object.text;
-    let phrase = ( this.$refs.search as any ).nativeView.text;
-    // .. input must be unified!
-    phrase = phrase.replace( /ی/g, 'ي' );
-    phrase = phrase.replace( /ک/g, 'ك' );
-    phrase = tools.erabTrimmer( phrase );
-
-    // .. reset
-    let found: TS.Found = [];
-
-    // .. search in ahadis
-    if ( phrase.length > 2 || force )
-        for ( const i in ahadis )
-            if ( tools.asmaUnifier( tools.erabTrimmer( ahadis[i].a ) ).includes( phrase ) )
-                found.push( { text: ahadis[i].a, idx: Number(i) } );
-
-    ( this.$refs.search as SearchBox ).init( found );
-
+search ( phrase: string, force=false ) {
+    ( this.$refs.search as SearchBox ).init( tools.search( "h", phrase, force ) );
 }
 
 // -- =====================================================================================
 
-history () {
-
-    let found: TS.Found = [];
-
-    for ( const h of storage.trace_h ) {
-        const ref = ahadis[ h.hadis ];
-        if ( ref ) found.unshift( { text: ref.a, idx: h.hadis } );
-    }
-
-    ( this.$refs.search as SearchBox ).init( found );
-
+history ( target: 'q'|'h' = 'h' ) {
+    ( this.$refs.search as SearchBox ).init( tools.history( target ) );
 }
 
 // -- =====================================================================================
 
-favorite () {
-
-    let found: TS.Found = [];
-
-    for ( const f of storage.fav_h ) {
-        const ref = ahadis[ f ];
-        found.unshift( { text: ref.a, idx: f } );
-    }
-
-    ( this.$refs.search as SearchBox ).init( found );
-
+favorite ( target: 'q'|'h' = 'h' ) {
+    ( this.$refs.search as SearchBox ).init( tools.favorite( target ) );
 }
 
 // -- =====================================================================================

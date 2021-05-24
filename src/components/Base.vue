@@ -35,9 +35,9 @@ import SearchBox                        from "@/components/m/SearchBox.vue"
 
 // -- =====================================================================================
 
-// import VueDevtools                      from 'nativescript-vue-devtools'
-// if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ); console.log = function () {}; }
-// Vue.config.silent = ( TNS_ENV === 'production' );
+import VueDevtools                      from 'nativescript-vue-devtools'
+if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ); console.log = function () {}; }
+Vue.config.silent = ( TNS_ENV === 'production' );
 
 // -- =====================================================================================
 

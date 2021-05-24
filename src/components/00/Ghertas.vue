@@ -21,16 +21,16 @@
             justifyContent="space-between"
         >
             <Kalameh 
-                v-for="kalameh in vahy"
+                v-for="(kalameh,i) in vahy"
                 :ref="'kalameh_' + kalameh.aID"
-                :key=kalameh.aID
+                :key="kalameh.aID + '_' + i"
                 :aID=kalameh.aID
                 :myText=kalameh.text
                 :myType=kalameh.type
                 @tap=kalamehTapped
             />
             <Label
-                v-for="i in [1,2,3,4,5,6,7,1,2,3,4,5,6,7]"
+                v-for="i in [1,2,3,4,5,6,7]"
                 :key=i
                 alignSelf="stretch"
                 height=0

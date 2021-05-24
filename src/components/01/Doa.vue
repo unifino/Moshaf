@@ -85,11 +85,8 @@ async morsal () {
 
     // .. preview
     let kalamat = doa.split( " " );
-
-    // for( let x of kalamat.filter( (x, i) => i < 50 ) ) console.log(x);
-
     this.doa = kalamat.filter( (x, i) => i < 100 );
-
+    // .. wait a bit
     await new Promise( _ => setTimeout( _, 700 ) );
 
     for ( let x=100; x < kalamat.length; x++ ) {

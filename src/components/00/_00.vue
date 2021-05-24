@@ -121,51 +121,25 @@ open ( num: number ): void {
 
 search ( phrase: string, force=false ) {
 
-    // .. input must be unified!
-    phrase = phrase.replace( /ی/g, 'ي' );
-    phrase = phrase.replace( /ک/g, 'ك' );
-
     // .. reset asma
     this.asma = asma;
-    let found: TS.Found = [];
-
     // .. filter asma + unifying asma
     this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( phrase ) );
 
-    // .. search in ayat
-    if ( phrase.length > 2 || force )
-        for ( const i in Quran )
-            if ( tools.asmaUnifier( Quran[i].simple ).includes( phrase ) )
-                found.push( { text: tools.textPreviwer( Number(i) ), idx: Number(i) } );
-
-    ( this.$refs.search as SearchBox ).init( found );
+    ( this.$refs.search as SearchBox ).init( tools.search( "q", phrase, force ) );
 
 }
 
 // -- =====================================================================================
 
-history () {
-
-    let found: TS.Found = [];
-
-    for ( const h of storage.trace_q )
-        found.unshift( { text: tools.textPreviwer( h.ayah ), idx: h.ayah } );
-
-    ( this.$refs.search as SearchBox ).init( found );
-
+history ( target: 'q'|'h' = 'q' ) {
+    ( this.$refs.search as SearchBox ).init( tools.history( target ) );
 }
 
 // -- =====================================================================================
 
-favorite () {
-
-    let found: TS.Found = [];
-
-    for ( const f of storage.fav_q )
-        found.unshift( { text: tools.textPreviwer( f ), idx: f } );
-
-    ( this.$refs.search as SearchBox ).init( found );
-
+favorite ( target: 'q'|'h' = 'q' ) {
+    ( this.$refs.search as SearchBox ).init( tools.favorite( target ) );
 }
 
 // -- =====================================================================================

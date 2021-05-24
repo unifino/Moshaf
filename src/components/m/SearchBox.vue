@@ -35,6 +35,13 @@
             class="fas button" 
         />
 
+        <Label
+            v-if=exchangeButton
+            :text="String.fromCharCode( '0x' + 'f2f1' )"
+            @tap="$emit( 'exchange' )"
+            class="fas button" 
+        />
+
     </StackLayout>
 
 
@@ -72,6 +79,7 @@ import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
+import { TextView } from "@nativescript/core"
 
 // -- =====================================================================================
 
@@ -90,6 +98,13 @@ result: TS.Found = [];
 // -- =====================================================================================
 
 @Prop() hint: string;
+@Prop() exchangeButton: boolean;
+
+// -- =====================================================================================
+
+mounted() {
+    ( this.$refs.search as any ).nativeView.paddingLeft = this.exchangeButton ? 170 : 140;
+}
 
 // -- =====================================================================================
 
@@ -134,14 +149,13 @@ dismiss ( force=false ) {
     }
 
     .CoolGreen .search {
-        color: white;
-        placeholder-color: #8f875d;
         color: #a8a8a8;
+        placeholder-color: #8f875d;
     }
+
     .Smoky .search {
-        color: white;
-        placeholder-color: #8f875d;
         color: #a8a8a8;
+        placeholder-color: #8f875d;
     }
 
     .result {
@@ -183,6 +197,7 @@ dismiss ( force=false ) {
     }
 
     .Smoky .button {
+        color: #b81868;
         color: #606363;
     }
 
