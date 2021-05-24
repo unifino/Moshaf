@@ -166,8 +166,8 @@ setup (): Promise<void> {
         // .. just applying default theme
         TM.themeApplier( "Smoky", this.$refs );
 
-        // this.toFehrest( null );
-        this.toHadis();
+        this.toFehrest( null );
+        // this.toHadis();
 
         // .. basic steps has been resolved!
         rs();
