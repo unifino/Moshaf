@@ -125,7 +125,7 @@ get appendHint () {
 // -- =====================================================================================
 
 init ( mode: TS.SearchMode, force?: boolean ) {
-    
+
     let data: TS.Found;
 
     if ( this.source === "T" ) {
@@ -142,7 +142,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
         case "favorite" : data = this.favorite();               break;
         case "tag"      : data = this.tagFinder();              break;
         case "rescan"   : data = this[ this.perfomedMode ]();   break;
-        default         : console.log(mode+" ???");             break;
+        default         : tools.toaster( mode + " ???" );       return;
     }
 
     data = data.sort ( a => a.isBounded ? -1 : 0 );
@@ -313,8 +313,7 @@ tagFinder () {
         }
 
     }
-    console.log(found);
-    
+
     return found;
 
 }
@@ -363,21 +362,30 @@ isBounded ( check: number|string ) {
 
 returnPressed ( event ) {
 
-    let newTag = event.object.text;
+    // .. Not in Tag-Section!
+    if ( this.source !== "T" ) this.init( 'search', true );
 
-    let a = "Q_" + store.state.activeAyah;
-    let b = "T_" + newTag;
+    // .. Just in Tag-Section
+    else {
 
-    // .. add new Tag ( uniqe )
-    if ( !storage.bound.find( x => x[0] === a && x[1] === b ) ) storage.bound.push( [a, b] );
+        let newTag = event.object.text;
 
-    // .. apply it
-    this.init( "rescan" );
+        let a = "Q_" + store.state.activeAyah;
+        let b = "T_" + newTag;
 
-    // .. hard registration
-    storage.saveDB( storage.bound_File, storage.bound );
+        // .. add new Tag ( uniqe )
+        if ( !storage.bound.find( x => x[0] === a && x[1] === b ) ) 
+            storage.bound.push( [a, b] );
 
-    this.tagFinder();
+        // .. apply it
+        this.init( "rescan" );
+
+        // .. hard registration
+        storage.saveDB( storage.bound_File, storage.bound );
+
+        this.tagFinder();
+
+    }
 
 }
 
