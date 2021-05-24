@@ -153,9 +153,11 @@ show ( id: number ) {
     this.hadis.d = Ahadis[ id ].d || "";
 
     // .. add new trace
+    let old = storage.trace_h.findIndex( x => x === id );
+    if ( ~old ) storage.trace_h.splice( old, 1 );
     storage.trace_h.push( id );
     // .. hard registration
-    storage.saveDB( storage.trace_h_File, storage.trace_h );
+    storage.saveDB( storage.trace_h_File, storage.trace_h.filter( (x,i) => i<44 ) );
 
 }
 

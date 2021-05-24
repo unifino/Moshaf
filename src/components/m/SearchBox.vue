@@ -120,8 +120,6 @@ get appendHint () {
 
 init ( mode: TS.SearchMode, force?: boolean ) {
 
-    this.perfomedMode = mode !== "rescan" ? mode : this.perfomedMode;
-
     let data: TS.Found;
 
     if ( mode === "clear"    ) data = [];
@@ -134,11 +132,16 @@ init ( mode: TS.SearchMode, force?: boolean ) {
 
     this.result = data;
 
+    this.perfomedMode = mode !== "rescan" ? mode : this.perfomedMode;
+
 }
 
 // -- =====================================================================================
 
 search ( force=false ) {
+
+    // .. re-tap situation
+    if ( this.result.length && this.perfomedMode === "search" ) return [];
 
     let found: TS.Found = [],
         item: TS.Found_Item,
@@ -200,6 +203,9 @@ search ( force=false ) {
 
 history () {
 
+    // .. re-tap situation
+    if ( this.result.length && this.perfomedMode === "history" ) return [];
+
     let found: TS.Found = [];
     let item: TS.Found_Item;
 
@@ -228,6 +234,9 @@ history () {
 // -- =====================================================================================
 
 favorite () {
+
+    // .. re-tap situation
+    if ( this.result.length && this.perfomedMode === "favorite" ) return [];
 
     let found: TS.Found = [];
     let item: TS.Found_Item;
