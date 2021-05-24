@@ -11,12 +11,8 @@
     <SearchBox 
         row=2
         rowSpan=2
-        ref="search"
-        @search="search"
-        @history="history"
-        @favorite="favorite"
         @interact="open"
-        hint="بحث في الحادیث"
+        source="H"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -33,7 +29,7 @@
 
 import { Vue, Component }               from "vue-property-decorator"
 import Ghertas                          from "@/components/00/Ghertas.vue"
-import { ahadis }                       from "@/db/H/Ahadis"
+import { Ahadis }                       from "@/db/H/Ahadis"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -65,30 +61,6 @@ mounted () {
 
 open () {
     console.log("hatef");
-}
-
-// -- =====================================================================================
-
-search ( phrase: string, force=false ) {
-    ( this.$refs.search as SearchBox ).init( tools.search( "h", phrase, force ) );
-}
-
-// -- =====================================================================================
-
-history ( target: 'q'|'h' = 'h' ) {
-    ( this.$refs.search as SearchBox ).init( tools.history( target ) );
-}
-
-// -- =====================================================================================
-
-favorite ( target: 'q'|'h' = 'h' ) {
-    ( this.$refs.search as SearchBox ).init( tools.favorite( target ) );
-}
-
-// -- =====================================================================================
-
-search_dismiss () {
-    ( this.$refs.search as SearchBox ).dismiss();
 }
 
 // -- =====================================================================================

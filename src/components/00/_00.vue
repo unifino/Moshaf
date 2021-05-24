@@ -1,7 +1,6 @@
 <template>
 <Page>
 <GridLayout
-    ref="fehrest"
     class="fehrest"
     rows="44,44,44,*,7"
     @tap="search_dismiss()"
@@ -20,7 +19,6 @@
 <!---------------------------------------------------------------------------------------->
 
         <FlexboxLayout
-            ref="fehrest"
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="space-around"
@@ -53,10 +51,8 @@
         rowSpan=2
         ref="search"
         @search="search"
-        @history="history"
-        @favorite="favorite"
         @interact="open"
-        hint="بحث في القرآن"
+        source="Q"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -119,27 +115,13 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( phrase: string, force=false ) {
+search ( phrase: string ) {
 
     // .. reset asma
     this.asma = asma;
     // .. filter asma + unifying asma
     this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( phrase ) );
 
-    ( this.$refs.search as SearchBox ).init( tools.search( "q", phrase, force ) );
-
-}
-
-// -- =====================================================================================
-
-history ( target: 'q'|'h' = 'q' ) {
-    ( this.$refs.search as SearchBox ).init( tools.history( target ) );
-}
-
-// -- =====================================================================================
-
-favorite ( target: 'q'|'h' = 'q' ) {
-    ( this.$refs.search as SearchBox ).init( tools.favorite( target ) );
 }
 
 // -- =====================================================================================

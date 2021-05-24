@@ -6,9 +6,9 @@
 
         <TextField
             ref="search"
-            :hint="hint || 'بحث'"
+            :hint="hint + appendHint"
             class="search"
-            @textChange="commit_search()"
+            @textChange="init( 'search' )"
         />
 
     </GridLayout>
@@ -19,19 +19,19 @@
 
         <Label
             :text="String.fromCharCode( '0x' + ( result.length ? 'f00d' : 'f002' ) )"
-            @tap="result.length ? dismiss( true ) : commit_search( true )"
+            @tap="result.length ? dismiss( true ) : init( 'search', true )"
             class="fas button" 
         />
 
         <Label
             :text="String.fromCharCode( '0x' + 'f1da' )"
-            @tap="$emit( 'history' )"
+            @tap="init( 'history' )"
             class="fas button" 
         />
 
         <Label
             :text="String.fromCharCode( '0x' + 'f004' )"
-            @tap="$emit( 'favorite' )"
+            @tap="init( 'favorite' )"
             class="fas button" 
         />
 
@@ -55,7 +55,7 @@
                     :text="item.text"
                     textWrap=true
                     class="item"
-                    @tap="$emit( 'interact', item.idx )" 
+                    @tap="$emit( 'interact', item.idx, source )" 
                 />
             </v-template>
         </ListView>
@@ -79,7 +79,8 @@ import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { TextView } from "@nativescript/core"
+import { asma, Quran }                  from "@/db/Q/Quran"
+import { Ahadis }                       from "@/db/H/Ahadis"
 
 // -- =====================================================================================
 
@@ -94,10 +95,11 @@ export default class SearchBox extends Vue {
 // -- =====================================================================================
 
 result: TS.Found = [];
+hint: string = "بحث";
 
 // -- =====================================================================================
 
-@Prop() hint: string;
+@Prop() source: TS.Source;
 @Prop() exchangeButton: boolean;
 
 // -- =====================================================================================
@@ -108,22 +110,103 @@ mounted() {
 
 // -- =====================================================================================
 
-init ( data: TS.Found ) {
+get appendHint () {
+    if ( this.source === "H" ) return " في الحادیث";
+    if ( this.source === "Q" ) return " في القرآن";
+}
+
+// -- =====================================================================================
+
+init ( mode: TS.SearchMode, force?: boolean ) {
+    let data: TS.Found;
+    if ( mode === "clear"   )   data = [];
+    if ( mode === "search"  )   data = this.search( force );
+    if ( mode === "history" )   data = this.history();
+    if ( mode === "favorite" )  data = this.favorite();
     this.result = data;
 }
 
 // -- =====================================================================================
 
-commit_search ( force=false ) {
-    let phrase = ( this.$refs.search as any ).nativeView.text;
-    this.$emit( "search", phrase, force );
+search ( force=false ) {
+
+    let found: TS.Found = [];
+    let str = ( this.$refs.search as any ).nativeView.text;
+    console.log(str);
+    
+    // .. input must be unified!
+    str = str.replace( /ی/g, 'ي' );
+    str = str.replace( /ک/g, 'ك' );
+    str = tools.erabTrimmer( str );
+
+    // ..  jsut for fehrest Quran
+    this.$emit( 'search', str );
+
+    if ( str.length > 3 || force ) {
+
+        if ( this.source === 'Q' )
+            for ( const i in Quran )
+                if ( tools.asmaUnifier( Quran[i].simple ).includes( str ) )
+                    found.push( { text: tools.textPreviwer( Number(i) ), idx: Number(i) } );
+
+        if ( this.source === 'H' )
+            for ( const i in Ahadis )
+                if ( tools.asmaUnifier( tools.erabTrimmer( Ahadis[i].a ) ).includes( str ) )
+                    found.push( { text: Ahadis[i].a, idx: Number(i) } );
+
+    }
+    
+    return found;
+
+}
+
+
+// -- =====================================================================================
+
+history () {
+
+    let found: TS.Found = [];
+
+    if ( this.source === 'Q' )
+        for ( const w of storage.trace_q )
+            found.unshift( { text: tools.textPreviwer(w), idx: w } );
+
+    if ( this.source === 'H' )
+        for ( const w of storage.trace_h )
+            found.unshift( { text: Ahadis[w].a, idx: w } );
+
+    return found;
+
+}
+
+// -- =====================================================================================
+
+favorite () {
+
+    let found: TS.Found = [];
+
+    for ( const f of storage[ 'fav_' + this.source.toLowerCase() ] ) {
+
+        if ( this.source === 'Q' ) {
+            found.unshift( { text: tools.textPreviwer( f ), idx: f } );
+        }
+
+        if ( this.source === 'H' ) {
+            const ref = Ahadis[ f ];
+            found.unshift( { text: ref.a, idx: f } );
+        }
+
+    }
+
+    return found;
+
 }
 
 // -- =====================================================================================
 
 dismiss ( force=false ) {
     if ( force ) {
-        this.init( [] );
+        this.init( "clear" );
         ( this.$refs.search as any ).nativeView.text = "";
     }
     ( this.$refs.search as any ).nativeView.dismissSoftInput();

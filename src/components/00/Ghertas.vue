@@ -108,7 +108,7 @@ init ( me?: number ): void {
     // .. add trace
     storage.trace_q.push( this.taghdir_aID )
     // .. hard registartion
-    storage.saveTrace_Quran();
+    storage.saveDB( storage.trace_q_File, storage.trace_q );
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 

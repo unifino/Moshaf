@@ -60,7 +60,7 @@ import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { ahadis }                       from "@/db/H/Ahadis"
+import { Ahadis }                       from "@/db/H/Ahadis"
 import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
@@ -101,10 +101,10 @@ init () {
 
     // .. get a random one
     let saat = new Date();
-    let rand = saat.getTime() % ahadis.length;
+    let rand = saat.getTime() % Ahadis.length;
 
     // .. it has been read already
-    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % ahadis.length;
+    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Ahadis.length;
 
     // .. register the ID
     this.currentId = rand;
@@ -119,16 +119,16 @@ init () {
 show ( id: number ) {
 
     // .. mini patch
-    if ( ahadis[ id ].c === null ) {
-        ahadis[ id ].c = 19;
+    if ( Ahadis[ id ].c === null ) {
+        Ahadis[ id ].c = 19;
     }
 
     // .. assign the Name
-    this.hadis.c = c_map[ ahadis[ id ].c ][0];
-    this.hadis.e = c_map[ ahadis[ id ].c ][1];
+    this.hadis.c = c_map[ Ahadis[ id ].c ][0];
+    this.hadis.e = c_map[ Ahadis[ id ].c ][1];
     // .. assign arabic part
     this.hadis.a = [];
-    let tmpBox = ahadis[ id ].a.trim().split( ' ' );
+    let tmpBox = Ahadis[ id ].a.trim().split( ' ' );
     let green = false;
     for ( let tmp of tmpBox ) {
 
@@ -149,13 +149,13 @@ show ( id: number ) {
 
     }
     // .. assign farsi part
-    this.hadis.b = ahadis[ id ].b || "";
-    this.hadis.d = ahadis[ id ].d || "";
+    this.hadis.b = Ahadis[ id ].b || "";
+    this.hadis.d = Ahadis[ id ].d || "";
 
     // .. add new trace
     storage.trace_h.push( id );
     // .. hard registration
-    storage.saveTrace_Hadis();
+    storage.saveDB( storage.trace_h_File, storage.trace_h );
 
 }
 
@@ -193,7 +193,7 @@ toggleFavorite () {
     else storage.fav_h.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
-    storage.saveFav_Hadis();
+    storage.saveDB( storage.trace_h_File, storage.trace_h );
 }
 
 // -- =====================================================================================
@@ -202,7 +202,7 @@ popLastTrace () {
     // .. remove last trace
     storage.trace_h.pop();
     // .. hard registration
-    storage.saveTrace_Hadis();
+    storage.saveDB( storage.trace_h_File, storage.trace_h );
     // .. notify the action
     tools.toaster( "pop!", "short" );
 }

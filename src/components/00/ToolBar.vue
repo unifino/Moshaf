@@ -36,26 +36,20 @@
     <GridLayout row=1 rowSpan=3 col=2 ref="searchBoxes" opacity=0>
 
         <SearchBox
-            ref='search_q'
+            ref='search_Q'
             v-if="searchMode==='Q'"
-            hint="بحث في القرآن"
+            source="Q"
             :exchangeButton="true"
             @interact="bind"
-            @search="search_q"
-            @history="history('q')"
-            @favorite="favorite('q')"
-            @exchange="searchMode='H'"
+            @exchange="searchMode='H';"
         />
 
         <SearchBox
-            ref='search_h'
+            ref='search_H'
             v-if="searchMode==='H'"
-            hint="بحث في الحادیث"
+            source="H"
             :exchangeButton="true"
             @interact="bind"
-            @search="search_h"
-            @history="history('h')"
-            @favorite="favorite('h')"
             @exchange="searchMode='Q'"
         />
 
@@ -84,7 +78,7 @@ import * as tools                       from "@/mixins/tools"
 import * as NS                          from "@nativescript/core"
 import { setText }                      from "nativescript-clipboard"
 import * as TS                          from "@/../types/myTypes"
-import { ahadis }                       from "@/db/H/Ahadis"
+import { Ahadis }                       from "@/db/H/Ahadis"
 
 // -- =====================================================================================
 
@@ -104,7 +98,7 @@ searchMode: 'Q'|'H' = 'Q';
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    { icon: 'f0c6', class: 'bind' , fnc: () => this.bind()              } ,
+    // { icon: 'f0c6', class: 'bind' , fnc: () => this.bind(1 )              } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
 ]
 
@@ -171,7 +165,7 @@ toggleFavorite () {
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
     // .. hard registeration
-    storage.saveFav_Quran();
+    storage.saveDB( storage.fav_q_File, storage.fav_q );
     // .. toggle style
     let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
     ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
@@ -182,8 +176,9 @@ toggleFavorite () {
 
 // -- =====================================================================================
 
-bind () {
-    console.log( store.state.activeAyah);
+bind ( id: number, source: TS.Source ) {
+    storage.bound.push( [ "Q_" + store.state.activeAyah, source + "_" + id ] );
+    storage.saveDB( storage.bound_File, storage.bound );
 }
 
 // -- =====================================================================================
@@ -199,27 +194,6 @@ copy () {
     // .. exit
     store.state.activeAyah = -1;
 
-}
-
-// -- =====================================================================================
-
-search_q ( phrase: string, force=false ) {
-    ( this.$refs[ 'search_q' ] as SearchBox ).init( tools.search( "q", phrase, force ) );
-}
-search_h ( phrase: string, force=false ) {
-    ( this.$refs[ 'search_h' ] as SearchBox ).init( tools.search( "h", phrase, force ) );
-}
-
-// -- =====================================================================================
-
-history ( target: 'q'|'h' ) {
-    ( this.$refs[ 'search_' + target ] as SearchBox ).init( tools.history( target ) );
-}
-
-// -- =====================================================================================
-
-favorite ( target: 'q'|'h' ) {
-    ( this.$refs[ 'search_' + target ] as SearchBox ).init( tools.favorite( target ) );
 }
 
 // -- =====================================================================================
