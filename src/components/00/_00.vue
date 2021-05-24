@@ -55,7 +55,7 @@
         @search="search"
         @history="history"
         @favorite="favorite"
-        @open="open"
+        @interact="open"
         hint="بحث في القرآن"
     />
 

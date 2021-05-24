@@ -73,17 +73,9 @@ export function history ( target: 'q'|'h' ) {
 
     let found: TS.Found = [];
 
-    for ( const h of storage[ 'trace_' + target ] ) {
-
-        if ( target === 'q' ) {
-            found.unshift( { text: textPreviwer( h.ayah ), idx: h.ayah } );
-        }
-
-        if ( target === 'h' ) {
-            const ref = ahadis[ h.hadis ];
-            if ( ref ) found.unshift( { text: ref.a, idx: h.hadis } );
-        }
-
+    for ( const w of storage[ 'trace_' + target ] ){
+        if ( target === 'q' ) found.unshift( { text: textPreviwer( w ), idx: w } );
+        if ( target === 'h' ) found.unshift( { text: ahadis[w].a, idx: w } );
     }
 
     return found;

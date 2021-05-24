@@ -55,7 +55,7 @@
                     :text="item.text"
                     textWrap=true
                     class="item"
-                    @tap="$emit( 'open', item.idx )" 
+                    @tap="$emit( 'interact', item.idx )" 
                 />
             </v-template>
         </ListView>

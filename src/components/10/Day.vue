@@ -104,8 +104,7 @@ init () {
     let rand = saat.getTime() % ahadis.length;
 
     // .. it has been read already
-    while ( storage.trace_h.find( x => x.hadis === rand ) )
-        rand = saat.getTime() % ahadis.length;
+    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % ahadis.length;
 
     // .. register the ID
     this.currentId = rand;
@@ -117,7 +116,7 @@ init () {
 
 // -- =====================================================================================
 
-show ( id: number, force=false ) {
+show ( id: number ) {
 
     // .. mini patch
     if ( ahadis[ id ].c === null ) {
@@ -153,8 +152,10 @@ show ( id: number, force=false ) {
     this.hadis.b = ahadis[ id ].b || "";
     this.hadis.d = ahadis[ id ].d || "";
 
-    // .. save trace
-    storage.saveTrace_Hadis( id, !!force || new Date().toString() );
+    // .. add new trace
+    storage.trace_h.push( id );
+    // .. hard registration
+    storage.saveTrace_Hadis();
 
 }
 
@@ -198,7 +199,11 @@ toggleFavorite () {
 // -- =====================================================================================
 
 popLastTrace () {
-    storage.saveTrace_Hadis( null, null, true );
+    // .. remove last trace
+    storage.trace_h.pop();
+    // .. hard registration
+    storage.saveTrace_Hadis();
+    // .. notify the action
     tools.toaster( "pop!", "short" );
 }
 

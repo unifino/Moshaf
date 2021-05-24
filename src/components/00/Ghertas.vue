@@ -105,9 +105,10 @@ init ( me?: number ): void {
     // .. get the name
     const sura = Quran[ this.taghdir_aID ].sura;
 
-    // .. save trace
-    storage.saveTrace_Quran( this.taghdir_aID, !!me || saat.toString() );
-
+    // .. add trace
+    storage.trace_q.push( this.taghdir_aID )
+    // .. hard registartion
+    storage.saveTrace_Quran();
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 

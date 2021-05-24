@@ -6,8 +6,8 @@ import * as NS                          from "@nativescript/core"
 
 // -- =====================================================================================
 
-export let trace_q: { ayah: number, date: string|boolean }[];
-export let trace_h: { hadis: number, date: string|boolean }[];
+export let trace_q: number[];
+export let trace_h: number[];
 export let fav_q: number[];
 export let fav_h: number[];
 
@@ -57,20 +57,14 @@ export function db_check (): Promise<void> {
 
 // -- =====================================================================================
 
-export async function saveTrace_Quran ( ayah?: number, date?: string|boolean ) {
-    // .. add new trace
-    if ( date ) trace_q.push( { ayah: ayah, date: date } );
+export async function saveTrace_Quran () {
     // .. write down file
     trace_q_File.writeText( JSON.stringify( trace_q ) );
 }
 
 // -- =====================================================================================
 
-export async function saveTrace_Hadis ( hadis?: number, date?: string|boolean, rev? ) {
-    // .. add new trace
-    if ( date && !rev ) trace_h.push( { hadis: hadis, date: date } );
-    // .. remove last trace
-    if ( rev ) trace_h.pop();
+export async function saveTrace_Hadis () {
     // .. write down file
     trace_h_File.writeText( JSON.stringify( trace_h ) );
 }

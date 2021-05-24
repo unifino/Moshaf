@@ -15,7 +15,7 @@
         @search="search"
         @history="history"
         @favorite="favorite"
-        @open="open"
+        @interact="open"
         hint="بحث في الحادیث"
     />
 
@@ -63,26 +63,8 @@ mounted () {
 
 // -- =====================================================================================
 
-open ( num: number ): void {
-
-
-    Vue.prototype.$navigateTo( Ghertas, {
-
-        frame : "base",
-
-        backstackVisible : true,
-
-        props : {
-            me : num,
-        },
-
-        transition : {
-            name         : "slideTop",
-            duration     : 300,
-        }
-
-    } );
-
+open () {
+    console.log("hatef");
 }
 
 // -- =====================================================================================
