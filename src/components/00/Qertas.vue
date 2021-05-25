@@ -108,7 +108,7 @@ init ( me?: number ): void {
     if ( ~old ) storage.trace_q.splice( old, 1 );
     storage.trace_q.push( this.taghdir_aID );
     // .. hard registration
-    storage.saveDB( storage.trace_q_File, storage.trace_q.filter( (x,i) => i<44 ) );
+    storage.saveDB( storage.trace_q_File, storage.trace_q, 44 );
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 

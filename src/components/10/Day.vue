@@ -156,7 +156,7 @@ show ( id: number ) {
     if ( ~old ) storage.trace_h.splice( old, 1 );
     storage.trace_h.push( id );
     // .. hard registration
-    storage.saveDB( storage.trace_h_File, storage.trace_h.filter( (x,i) => i<44 ) );
+    storage.saveDB( storage.trace_h_File, storage.trace_h, 44 );
 
 }
 

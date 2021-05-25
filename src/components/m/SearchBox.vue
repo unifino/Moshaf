@@ -50,7 +50,7 @@
             v-if=hashTagButton
             class="fas button" 
             :text="String.fromCharCode( '0x' + 'f292' )"
-            @tap="tagsRetriever()"
+            @tap="tagsListRetriever()"
         />
 
     </StackLayout>
@@ -58,7 +58,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 v-if=result.length class="result">
+    <GridLayout row=1 :visibility="result.length?'visible':'hidden'" class="result">
 
         <ListView for="item in result" >
             <v-template>
@@ -75,7 +75,29 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <StackLayout row=1 v-if=result_tag.length >
+    <GridLayout row=1 :visibility="tagsList.length?'visible':'hidden'" class="result">
+
+        <ListView for="item in tagsList" >
+            <v-template>
+                <GridLayout 
+                    columns="33,2,*" 
+                    class="tagLine" 
+                    @tap="tagPresenter( item.text )"
+                >
+
+                    <Label col=0 :text="item.count" />
+                    <StackLayout background="gray" col=1 />
+                    <Label col=2 :text="item.text" />
+
+                </GridLayout>
+            </v-template>
+        </ListView>
+
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <StackLayout row=1 :visibility="result_tag.length?'visible':'hidden'">
 
         <ScrollView verticalAlignment="middle" marginTop="20">
 
@@ -135,6 +157,7 @@ export default class SearchBox extends Vue {
 
 result: TS.Found = [];
 result_tag: TS.Found = [];
+tagsList: { text: string, count: string }[] = [];
 hint: string = "بحث";
 performedMode: TS.SearchMode;
 
@@ -176,6 +199,9 @@ tagClasser ( item: TS.Found_Item ) {
 // -- =====================================================================================
 
 init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
+
+    // .. clear tagList
+    this.tagsList = [];
 
     let data: TS.Found;
     let sos: boolean = mode === "search" ? force : escapeReTap;
@@ -341,6 +367,51 @@ favorite ( escape?: boolean ) {
 
 // -- =====================================================================================
 
+tagsListRetriever () {
+
+    // .. clear other results
+    this.result = [];
+    this.result_tag = [];
+    this.performedMode = null;
+
+    // .. re-tap situation
+    if ( this.tagsList.length ) {
+        this.tagsList = [];
+        return;
+    } 
+
+    let tagsListSimple: string[] = [],
+        tmpTagsList: { tagName: string, count: number }[] = [],
+        tmpID: number;
+
+    for ( const x of storage.bound ) {
+        if ( x[0].slice( 0, 1 ) === "T" ) tagsListSimple.push( x[0].slice(2) );
+        if ( x[1].slice( 0, 1 ) === "T" ) tagsListSimple.push( x[1].slice(2) );
+    }
+
+    tmpTagsList = tagsListSimple.reduce( (soFar, nextOne) => {
+
+        tmpID = soFar.findIndex( x => x.tagName === nextOne );
+        // .. count up fot this Tag
+        if ( ~tmpID ) soFar[ tmpID ].count++;
+        // .. add this Tag
+        else soFar.push( { tagName: nextOne, count: 1 } );
+
+        return soFar;
+
+    }, tmpTagsList );
+
+    this.tagsList = tmpTagsList.map( (x,i) => {
+        return {
+            text: x.tagName,
+            count: tools.arabicDigits( x.count + "" ),
+        }
+    } );
+
+}
+
+// -- =====================================================================================
+
 cachedTags: string[] = [];
 tagFinder () {
 
@@ -492,6 +563,12 @@ toggleBoundedClass ( mode: boolean ) {
 
 // -- =====================================================================================
 
+tagPresenter ( tagName: string ) {
+    console.log(tagName);
+}
+
+// -- =====================================================================================
+
 dismiss ( force=false ) {
     if ( force ) {
         this.init( "clear" );
@@ -593,6 +670,16 @@ dismiss ( force=false ) {
     .Smoky .cached {
         text-decoration: line-through;
         color: #8b8b8b;
+    }
+
+    .Smoky .tagLine {
+        /* background-color: #c4c2c2; */
+        color: #383838;
+        font-size: 16;
+        border-radius: 4;
+        padding: 4 10;
+        margin: 4 0;
+        font-family: Amiri-Regular;
     }
 
 /*                                          */

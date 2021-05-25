@@ -63,9 +63,12 @@ export function db_check (): Promise<void> {
 
 // -- =====================================================================================
 
-export async function saveDB ( file: NS.File, data: any[] ) {
+export async function saveDB ( file: NS.File, data: any[], limit?: number ) {
+
+    if ( limit ) data = data.filter( (x,i) => i > data.length - limit );
     // .. write down file
     file.writeText( JSON.stringify( data ) );
+
 }
 
 // -- =====================================================================================
