@@ -51,7 +51,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 v-if=result.length class="result" >
+    <StackLayout row=1 v-if=result.length class="result" >
 
         <ListView for="item in result" >
             <v-template>
@@ -64,7 +64,34 @@
             </v-template>
         </ListView>
 
-    </GridLayout>
+    </StackLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <StackLayout row=1 v-if=result_tag.length >
+
+        <ScrollView orientation="vertical" verticalAlignment="middle" marginTop="20">
+
+            <FlexboxLayout
+                flexWrap="wrap"
+                flexDirection="row-reverse"
+                justifyContent="flex-start"
+                alignItems="center"
+            >
+                <Label
+                    v-for="item in result_tag"
+                    :key="item.idx"
+                    textWrap=true
+                    :text="item.text"
+                    :class="tagClasser(item)"
+                    @tap="toggleTag(item.text)" 
+                />
+
+            </FlexboxLayout>
+
+        </ScrollView>
+
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -99,6 +126,7 @@ export default class SearchBox extends Vue {
 // -- =====================================================================================
 
 result: TS.Found = [];
+result_tag: TS.Found = [];
 hint: string = "بحث";
 perfomedMode: TS.SearchMode;
 
@@ -122,6 +150,13 @@ get appendHint () {
     if ( this.source === "T" ) return " في العناوين";
 }
 
+tagClasser ( item: TS.Found_Item ) {
+    let tagClass = 'tag';
+    tagClass += item.isBounded ? ' bounded' : '';
+    tagClass += item.idx < 0 ? ' cached' : '' ;
+    return tagClass
+}
+
 // -- =====================================================================================
 
 init ( mode: TS.SearchMode, force?: boolean ) {
@@ -130,7 +165,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
 
     if ( this.source === "T" ) {
         data = this.tagFinder();
-        this.result = data;
+        this.result_tag = data;
         this.perfomedMode = "tag";
         return;
     }
@@ -140,7 +175,6 @@ init ( mode: TS.SearchMode, force?: boolean ) {
         case "search"   : data = this.search( force );          break;
         case "history"  : data = this.history();                break;
         case "favorite" : data = this.favorite();               break;
-        case "tag"      : data = this.tagFinder();              break;
         case "rescan"   : data = this[ this.perfomedMode ]();   break;
         default         : tools.toaster( mode + " ???" );       return;
     }
@@ -282,37 +316,46 @@ favorite () {
 
 // -- =====================================================================================
 
+cacheTags: string[] = [];
 tagFinder () {
 
-    // .. re-tap situation
-    // if ( this.result.length && this.perfomedMode === "tag" ) return [];
+    let found: TS.Found = [],
+        item: TS.Found_Item,
+        x: [ string, string ],
+        maxID = storage.bound.length;
 
-    let found: TS.Found = [];
-    let item: TS.Found_Item;
-    let idx: number = 0;
-
-    for ( const x of storage.bound ) {
+    for ( const i in storage.bound ) {
 
         item = null;
+        x = storage.bound[i];
 
         if ( x[0].slice( 0, 1 ) === "T" ) item = { 
             text: x[0].slice(2), 
-            idx: idx,
+            idx: Number(i),
             isBounded: this.isBounded( x[0].slice(2) )
         }
 
         else if ( x[1].slice( 0, 1 ) === "T" ) item = { 
             text: x[1].slice( 2 ), 
-            idx: idx,
+            idx: Number(i),
             isBounded: this.isBounded( x[1].slice(2) )
         }
 
-        if ( item ) {
-            found.unshift( item );
-            idx++;
-        }
+        // .. soft registeration ( Uniqe )
+        if ( item && !found.find( x => x.text === item.text ) ) found.push( item );
 
     }
+
+    // .. cache Tags
+    for ( const f of found ) 
+        if ( !this.cacheTags.includes( f.text ) ) this.cacheTags.push( f.text );
+
+    // .. add cached Tags
+    for ( const t of this.cacheTags ) 
+        if ( !found.find( x => x.text === t ) ) 
+            found.push( { text: t, idx: -1 *( found.length +maxID ), isBounded: false } );
+
+    found = found.sort( (a,b) => a.text > b.text ? 1 : -1 );
 
     return found;
 
@@ -377,15 +420,35 @@ returnPressed ( event ) {
         if ( !storage.bound.find( x => x[0] === a && x[1] === b ) ) 
             storage.bound.push( [a, b] );
 
-        // .. apply it
-        this.init( "rescan" );
-
         // .. hard registration
         storage.saveDB( storage.bound_File, storage.bound );
 
-        this.tagFinder();
+        // .. apply it
+        this.init( "rescan" );
 
     }
+
+}
+
+// -- =====================================================================================
+
+toggleTag ( tag: string ) {
+
+    // .. examine first [cell as Ayah] and second [cell as Tag] 
+    let a = "Q_" + store.state.activeAyah,
+        b = "T_" + tag,
+        myAyahTagID = storage.bound.findIndex( x => x[0] === a && x[1] === b );
+
+    if ( ~myAyahTagID ) storage.bound.splice( myAyahTagID, 1 );
+    else storage.bound.push( [a, b] );
+
+    // .. hard registration
+    storage.saveDB( storage.bound_File, storage.bound );
+
+    // .. apply it
+    this.init( "rescan" );
+
+    // .. need more options to check even for H_T | ... ones
 
 }
 
@@ -471,7 +534,38 @@ dismiss ( force=false ) {
         color: #606363;
     }
 
-    .bounded {
+    .tag {
+        border-radius: 4;
+        padding: 5 10;
+        margin: 3;
+        font-size: 17;
+    }
+
+    .CoolGreen .tag {
+        background-color: #0f1616;
+        color: #feffff;
+    }
+
+    .Smoky .tag {
+        background-color: #323533;
+        color: #d8dada;
+    }
+
+    .CoolGreen .cached,
+    .Smoky .cached {
+        text-decoration: line-through;
+        color: #8b8b8b;
+    }
+
+/*                                          */
+
+    .CoolGreen .bounded {
+        background-color: #0e962b;
+        color: white;
+        border-radius: 4;
+    }
+
+    .Smoky .bounded {
         background-color: #0e962b;
         color: white;
         border-radius: 4;
