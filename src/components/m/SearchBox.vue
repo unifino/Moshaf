@@ -51,7 +51,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <StackLayout row=1 v-if=result.length class="result" >
+    <GridLayout row=1 v-if=result.length class="result">
 
         <ListView for="item in result" >
             <v-template>
@@ -64,7 +64,7 @@
             </v-template>
         </ListView>
 
-    </StackLayout>
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
