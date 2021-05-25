@@ -133,7 +133,7 @@ cachedLastID: number;
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    { icon: 'f292', class: 'bind' , fnc: () => this.createNewTag()      } ,
+    { icon: 'f292', class: 'tag'  , fnc: () => this.createNewTag()      } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
 ]
 

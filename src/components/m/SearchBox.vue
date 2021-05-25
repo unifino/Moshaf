@@ -46,6 +46,13 @@
             @tap="$emit( 'exchange' )"
         />
 
+        <Label
+            v-if=hashTagButton
+            class="fas button" 
+            :text="String.fromCharCode( '0x' + 'f292' )"
+            @tap="tagsRetriever()"
+        />
+
     </StackLayout>
 
 
@@ -135,12 +142,19 @@ performedMode: TS.SearchMode;
 
 @Prop() source: TS.Source;
 @Prop() exchangeButton: boolean;
+@Prop() hashTagButton: boolean;
 
 // -- =====================================================================================
 
 mounted() {
-    ( this.$refs.search as any ).nativeView.paddingLeft = this.exchangeButton ? 170 : 140;
+
+    let pad = 140;
+    if ( this.exchangeButton ) pad += 23;
+    if ( this.hashTagButton  ) pad += 23;
+    ( this.$refs.search as any ).nativeView.paddingLeft = pad;
+
     if ( this.source === "T" ) this.init( "tag" );
+
 }
 
 // -- =====================================================================================

@@ -41,12 +41,13 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox 
+    <SearchBox
         row=1
         rowSpan=2
         ref="search"
         @search="search"
         @interact="open"
+        :hashTagButton="true"
         source="Q"
     />
 
