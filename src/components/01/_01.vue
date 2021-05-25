@@ -43,11 +43,12 @@ import { adeiyeh }                      from "@/db/D/Adeiyeh"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
+import SearchBox                        from "@/components/m/SearchBox.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Doa }
+    components: { Doa, SearchBox }
 } )
 
 // -- =====================================================================================
