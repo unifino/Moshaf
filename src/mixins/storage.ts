@@ -78,11 +78,11 @@ export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string )
 
 // -- =====================================================================================
 
-export function unique ( ahadis: { a: string, b: string, c: number, d?: string }[] ) {
+export function unique ( hadith: { a: string, b: string, c: number, d?: string }[] ) {
 
-    console.log( ahadis.length );
+    console.log( hadith.length );
 
-    let unique = ahadis.reduce( (f, x) => {
+    let unique = hadith.reduce( (f, x) => {
 
         let dk = f.find( y =>
             y.a === x.a

@@ -93,11 +93,11 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
-    store.watch(
-        state => state.here, 
-        (newVal, oldVal) => 
-            console.log( "\tFrom:\t" +oldVal +"     \tTo:\t" +newVal +"     \t" ) 
-    );
+    // store.watch(
+    //     state => state.here, 
+    //     (newVal, oldVal) => 
+    //         console.log( "\tFrom:\t" +oldVal +"     \tTo:\t" +newVal +"     \t" ) 
+    // );
 
     // .. initial Here Statement
     store.state.here = "Basement";
