@@ -122,3 +122,13 @@ export type Source = "Q" | "H" | "N" | "T";
 export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan" | "tag";
 
 // -- =====================================================================================
+
+type BoundBase = { "Q": number } | { "H": number } | { "T": string };
+
+export interface BoundItem {
+    [0]: BoundBase,
+    [1]: BoundBase,
+    length : 2,
+}[];
+
+export type Bound = BoundItem[];
