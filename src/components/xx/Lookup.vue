@@ -1,5 +1,5 @@
 <template>
-<Page>
+<Page @navigatedTo="$store.state.here='Lookup'">
 <GridLayout rows="88,*,44,*,44">
 
 <!---------------------------------------------------------------------------------------->

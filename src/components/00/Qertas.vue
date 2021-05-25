@@ -1,5 +1,5 @@
 <template>
-<Page>
+<Page @navigatedTo="$store.state.here='Qertas'">
 <GridLayout class="fx" rows="40,*,auto,*,40">
 
     <Label :text="name" class="suraName" row=4 @tap="complete()" />

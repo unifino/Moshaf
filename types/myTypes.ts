@@ -1,6 +1,6 @@
 // -- =====================================================================================
 
-export type ThemaName = 
+export type ThemeName = 
       'White' 
     | 'Smoky' 
     | 'Milky' 
@@ -12,13 +12,13 @@ export type ThemaName =
     | 'AppBlue' 
     ;
 
-export type ThemaName_Light = 
+export type ThemeNameName_Light = 
       'White'
     | 'Smoky'
     | 'Milky'
     ;
 
-export type ThemaName_Dark = 
+export type ThemeName_Dark = 
       'Black'
     | 'CoolGreen' 
     | 'DarkGreen' 

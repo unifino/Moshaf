@@ -8,11 +8,14 @@ Vue.use(Vuex);
 export default new Vuex.Store( {
 
     state: {
-
-        darkMode    : false     ,
-        here        : null      ,
-        activeAyah  : -1        ,
-
+                                     
+        here        : null          ,
+        activeAyah  : -1            ,
+        appConfig   : {              
+            theme   : "Smoky"       ,
+            darkMode: false         ,
+        }                           ,
+                                     
     } as state,
 
 } ) ;
@@ -20,11 +23,14 @@ export default new Vuex.Store( {
 // -- =====================================================================================
 
 export interface state {
-
-        darkMode    : boolean   ,
-        here        : TS.here   ,
-        activeAyah  : number    ,
-
+                                     
+        here        : TS.here       ,
+        activeAyah  : number        ,
+        appConfig   : {              
+            theme   : TS.ThemeName  ,
+            darkMode: boolean       ,
+        }                            
+                                     
 }
 
 // -- =====================================================================================

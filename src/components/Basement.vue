@@ -144,7 +144,15 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
             let toolBar = qertas.$refs[ "ToolBar" ] as ToolBar;
             // ..  just close ToolBar by resetting activeAyah
             if ( toolBar.active ) store.state.activeAyah = -1;
-            else qertas.exit();
+            else {
+                qertas.exit();
+                // .. reset Theme
+                setTimeout( () => {
+                    let tmp = store.state.appConfig.theme;
+                    TM.themeApplier( null, this.$refs );
+                    TM.themeApplier( tmp, this.$refs );
+                }, 700 );
+            }
         break;
 
         // .. let do NOTHING!
