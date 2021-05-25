@@ -235,7 +235,7 @@ to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
 // -- =====================================================================================
 
-toHadis (): void {
+to_Base_10 (): void {
 
     Vue.prototype.$navigateTo( Base_10, {
 
@@ -249,7 +249,7 @@ toHadis (): void {
 
 // -- =====================================================================================
 
-toAdeiyeh (): void {
+to_Base_01 (): void {
 
     Vue.prototype.$navigateTo( Base_01, {
 
@@ -266,8 +266,8 @@ toAdeiyeh (): void {
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
     if ( store.state.here === "Base_00" ) {
-        if ( args.direction === NS.SwipeDirection.right ) this.toHadis();
-        if ( args.direction === NS.SwipeDirection.left ) this.toAdeiyeh();
+        if ( args.direction === NS.SwipeDirection.right ) this.to_Base_10();
+        if ( args.direction === NS.SwipeDirection.left ) this.to_Base_01();
     }
 
     else if

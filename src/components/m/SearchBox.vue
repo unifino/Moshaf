@@ -19,21 +19,21 @@
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
         <Label
-            v-if="source==='Q' || source==='H' || source==='D'"
+            v-if="source==='Q' || source==='H' || source==='N'"
             :text="String.fromCharCode( '0x' + ( result.length ? 'f00d' : 'f002' ) )"
             @tap="result.length ? dismiss( true ) : init( 'search', true )"
             class="fas button" 
         />
 
         <Label
-            v-if="source==='Q' || source==='H' || source==='D'"
+            v-if="source==='Q' || source==='H'"
             :text="String.fromCharCode( '0x' + 'f1da' )"
             @tap="init( 'history' )"
             class="fas button" 
         />
 
         <Label
-            v-if="source==='Q' || source==='H' || source==='D'"
+            v-if="source==='Q' || source==='H'"
             :text="String.fromCharCode( '0x' + 'f004' )"
             @tap="init( 'favorite' )"
             class="fas button" 
@@ -149,6 +149,7 @@ get appendHint () {
     if ( this.source === "Q" ) return " في القرآن";
     if ( this.source === "H" ) return " في الحادیث";
     if ( this.source === "T" ) return " في العناوين";
+    if ( this.source === "N" ) return " في النجاوى";
 }
 
 tagClasser ( item: TS.Found_Item ) {
@@ -194,6 +195,14 @@ search ( force=false ) {
 
     // .. re-tap situation
     if ( this.result.length && this.performedMode === "search" ) return [];
+    // .. cancel just for Najawa
+    if ( this.source === "N" && force ) {
+        ( this.$refs.search as any ).nativeView.text = '';
+        this.$emit( 'search', '' );
+        return [];
+    }
+    
+
 
     let found: TS.Found = [],
         item: TS.Found_Item,
@@ -207,9 +216,10 @@ search ( force=false ) {
     str = str.replace( /ک/g, 'ك' );
     str = tools.erabTrimmer( str );
 
-    // ..  just for Quran's Sura's List
+    // ..  just for Quran's Sura's List & Najawa's List
     this.$emit( 'search', str );
 
+    // ..  just for Q & H
     if ( str.length > 3 || force ) {
 
         if ( this.source === 'Q' ) for ( const i in Quran ) {

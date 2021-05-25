@@ -76,7 +76,7 @@ export type here =
     | 'Day'
 
     | 'Base_10'
-    | 'Doa'
+    | 'Najwa'
 
     | 'Lookup'
     ;
@@ -99,7 +99,7 @@ export type Kalameh =
     | "hadis"
     | "salam"
     | "green"
-    | "doa"
+    | "najwa"
     | "BREAKLINE"
     | "BIG_BREAKLINE"
     ;
@@ -115,7 +115,7 @@ export type Found = Found_Item[];
 
 // -- =====================================================================================
 
-export type Source = "Q" | "H" | "D" | "T";
+export type Source = "Q" | "H" | "N" | "T";
 
 // -- =====================================================================================
 

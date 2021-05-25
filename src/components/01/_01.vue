@@ -4,12 +4,12 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView row=4 for="(doa, idx) in adeiyeh" >
+    <ListView row=4 for="(najwa, idx) in najawa" >
         <v-template>
             <Label
-                :text="doa.title"
+                :text="najwa.title"
                 textWrap=true
-                class="doa"
+                class="najwa"
                 @tap="open( idx )" 
             />
         </v-template>
@@ -20,8 +20,8 @@
         ref="search"
         row=2
         rowSpan=2
-        @interact="open"
-        source="H"
+        @search="search"
+        source="N"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -37,9 +37,9 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Doa                              from "@/components/01/Doa.vue"
+import Najwa                            from "@/components/01/Najwa.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { adeiyeh }                      from "@/db/D/Adeiyeh"
+import { Najawa }                       from "@/db/N/Al-Najawa"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -48,7 +48,7 @@ import SearchBox                        from "@/components/m/SearchBox.vue"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Doa, SearchBox }
+    components: { Najwa, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -57,23 +57,34 @@ export default class Base_01 extends Vue {
 
 // -- =====================================================================================
 
-adeiyeh: { title: string, content: string }[] = [];
+najawa: { title: string, content: string }[] = [];
 found = [];
 
 // -- =====================================================================================
 
 mounted () {
-    this.adeiyeh = adeiyeh;
+    this.najawa = Najawa;
+}
+
+// -- =====================================================================================
+
+search ( str: string ) {
+
+    // .. reset Najawa
+    this.najawa = Najawa;
+    // .. filter Najawa
+    this.najawa = this.najawa.filter( x => tools.asmaUnifier( x.title ).includes( str ) );
+
 }
 
 // -- =====================================================================================
 
 open ( num: number ): void {
 
-    Vue.prototype.$navigateTo( Doa, {
+    Vue.prototype.$navigateTo( Najwa, {
 
         frame : "_base_" ,
-        props : { doaID : num },
+        props : { najwaID : num },
         backstackVisible : true,
         transition : { name: "slideTop", duration: 300 }
 
@@ -102,18 +113,18 @@ destroyed () {}
         width: 300;
     }
 
-    .doa {
+    .najwa {
         margin: 20;
         font-family: JF Flat;
         text-align: center;
         font-size: 16;
     }
 
-    .CoolGreen .doa {
+    .CoolGreen .najwa {
         color: #d8dfe2;
     }
 
-    .Smoky .doa {
+    .Smoky .najwa {
         color: #222324;
     }
 

@@ -86,7 +86,6 @@ export default class Base_00 extends Vue {
 // -- =====================================================================================
 
 asma = asma;
-phrase = ""
 
 // -- =====================================================================================
 
@@ -111,12 +110,12 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( phrase: string ) {
+search ( str: string ) {
 
     // .. reset asma
     this.asma = asma;
-    // .. filter asma + unifying asma
-    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( phrase ) );
+    // .. filter asma
+    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( str ) );
 
 }
 

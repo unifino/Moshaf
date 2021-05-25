@@ -1,4 +1,4 @@
-export const adeiyeh:  {
+export const Najawa:  {
     title: string;
     content: string;
 }[] = [
