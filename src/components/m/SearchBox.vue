@@ -20,30 +20,30 @@
 
         <Label
             v-if="source==='Q' || source==='H' || source==='N'"
+            class="fas button" 
             :text="String.fromCharCode( '0x' + ( result.length ? 'f00d' : 'f002' ) )"
             @tap="result.length ? dismiss( true ) : init( 'search', true )"
-            class="fas button" 
         />
 
         <Label
             v-if="source==='Q' || source==='H'"
+            class="fas button" 
             :text="String.fromCharCode( '0x' + 'f1da' )"
             @tap="init( 'history' )"
-            class="fas button" 
         />
 
         <Label
             v-if="source==='Q' || source==='H'"
+            class="fas button" 
             :text="String.fromCharCode( '0x' + 'f004' )"
             @tap="init( 'favorite' )"
-            class="fas button" 
         />
 
         <Label
             v-if=exchangeButton
+            class="fas button" 
             :text="String.fromCharCode( '0x' + 'f2f1' )"
             @tap="$emit( 'exchange' )"
-            class="fas button" 
         />
 
     </StackLayout>
@@ -56,9 +56,9 @@
         <ListView for="item in result" >
             <v-template>
                 <Label
-                    textWrap=true
-                    :text="item.text"
                     :class="'item' + ( item.isBounded ? ' bounded' : '' )"
+                    :text="item.text"
+                    textWrap=true
                     @tap="$emit( 'interact', item.idx, source )" 
                 />
             </v-template>
@@ -81,9 +81,9 @@
                 <Label
                     v-for="item in result_tag"
                     :key="item.idx"
-                    textWrap=true
-                    :text="item.text"
                     :class="tagClasser(item)"
+                    :text="item.text"
+                    textWrap=true
                     @tap="toggleTag(item.text)" 
                 />
 
@@ -161,9 +161,10 @@ tagClasser ( item: TS.Found_Item ) {
 
 // -- =====================================================================================
 
-init ( mode: TS.SearchMode, force?: boolean ) {
+init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 
     let data: TS.Found;
+    let sos: boolean = mode === "search" ? force : escapeReTap;
 
     if ( this.source === "T" ) {
         data = this.tagFinder();
@@ -173,12 +174,12 @@ init ( mode: TS.SearchMode, force?: boolean ) {
     }
 
     switch ( mode ) {
-        case "clear"    : data = [];                            break;
-        case "search"   : data = this.search( force );          break;
-        case "history"  : data = this.history();                break;
-        case "favorite" : data = this.favorite();               break;
-        case "rescan"   : data = this[ this.performedMode ]();  break;
-        default         : tools.toaster( mode + " ???" );       return;
+        case "clear"    : data = [];                                break;
+        case "search"   : data = this.search( force );              break;
+        case "history"  : data = this.history();                    break;
+        case "favorite" : data = this.favorite();                   break;
+        case "rescan"   : data = this[ this.performedMode ]( sos ); break;
+        default         : tools.toaster( mode + " ???" );           return;
     }
 
     data = data.sort ( a => a.isBounded ? -1 : 0 );
@@ -194,15 +195,14 @@ init ( mode: TS.SearchMode, force?: boolean ) {
 search ( force=false ) {
 
     // .. re-tap situation
-    if ( this.result.length && this.performedMode === "search" ) return [];
+    if ( !force && this.result.length && this.performedMode === "search" ) return [];
+
     // .. cancel just for Najawa
     if ( this.source === "N" && force ) {
         ( this.$refs.search as any ).nativeView.text = '';
         this.$emit( 'search', '' );
         return [];
     }
-    
-
 
     let found: TS.Found = [],
         item: TS.Found_Item,
@@ -263,10 +263,10 @@ search ( force=false ) {
 
 // -- =====================================================================================
 
-history () {
+history ( escape?: boolean ) {
 
     // .. re-tap situation
-    if ( this.result.length && this.performedMode === "history" ) return [];
+    if ( !escape && this.result.length && this.performedMode === "history" ) return [];
 
     let found: TS.Found = [];
     let item: TS.Found_Item;
@@ -295,10 +295,10 @@ history () {
 
 // -- =====================================================================================
 
-favorite () {
+favorite ( escape?: boolean ) {
 
     // .. re-tap situation
-    if ( this.result.length && this.performedMode === "favorite" ) return [];
+    if ( !escape && this.result.length && this.performedMode === "favorite" ) return [];
 
     let found: TS.Found = [];
     let item: TS.Found_Item;

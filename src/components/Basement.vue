@@ -227,7 +227,7 @@ to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
         frame : '_base_',
         backstackVisible : true,
-        transition : { name: dir, duration: direction ? 300 : 700 }
+        transition : { name: dir, duration: direction ? 300 : 550 }
 
     } );
 

@@ -200,7 +200,7 @@ bind ( id: number, source: TS.Source ) {
     // .. already has been bound => remove it!
     else storage.bound.splice( trace, 1 );
 
-    ( this.$refs[ "search_" + source ] as SearchBox ).init( "rescan" );
+    ( this.$refs[ "search_" + source ] as SearchBox ).init( "rescan", false, true );
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
