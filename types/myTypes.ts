@@ -107,9 +107,10 @@ export type Kalameh =
 // -- =====================================================================================
 
 export type Found_Item = { 
-    text: string, 
-    idx: number,
-    isBounded: boolean
+    text        : string    , 
+    idx         : number    ,
+    isBounded   : boolean   ,
+    source?     : Source    ,
 };
 export type Found = Found_Item[];
 

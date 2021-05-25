@@ -28,17 +28,24 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 rowSpan=3 col=2 rows="60,*,0">
+    <GridLayout 
+        row=1 rowSpan=3 col=2 rows="60,*,44"
+        ref="boundedBox"
+        opacity=0
+        :visibility="searchMode!=='T'?'visible':'hidden'"
+    >
 
-        <ScrollView row=1 ref="boundedBox" class="boundedBox">
+        <ScrollView row=1>
 
             <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
                 <Label 
                     v-for="(item,i) in boundedItems"
-                    class="boundedItem"
+                    :class="boundClasser(item)"
                     :key="i"
                     :text="item.text"
+                    textWrap="true"
+                    @tap="bind( item.idx, item.source, false )"
                 />
 
             </StackLayout>
@@ -120,6 +127,9 @@ export default class ToolBar extends Vue {
 tapPassed = false;
 active = false;
 searchMode: 'Q'|'H'|'T' = 'Q'
+boundedItems: TS.Found = [];
+cachedBounded: string[];
+cachedLastID: number;
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
@@ -140,20 +150,62 @@ mounted () {
 
 // -- =====================================================================================
 
-get boundedItems() {
+boundClasser ( item: TS.Found_Item ) {
+    let boundClass = 'boundedItem';
+    boundClass += item.isBounded ? '' : ' cached';
+    return boundClass
+}
+
+// -- =====================================================================================
+
+getBoundedItems() {
 
     let boundedItems: TS.Found = [];
 
     for ( let b of storage.bound ) {
         if ( b[0] === "Q_" + store.state.activeAyah )
-            boundedItems.push( { text: b[1], idx: -1, isBounded: false } );
+            boundedItems.push( { text: b[1], idx: -1, isBounded: true } );
+
         if ( b[1] === "Q_" + store.state.activeAyah )
-            boundedItems.push( { text: b[0], idx: -1, isBounded: false } );
+            boundedItems.push( { text: b[0], idx: -1, isBounded: true } );
+
     }
 
-    console.log(boundedItems);
-    
+    boundedItems = boundedItems.map( x => this.boundParser( x ) );
+    boundedItems = this.cacheBoundParser( boundedItems );
+
     return boundedItems;
+
+}
+
+// -- =====================================================================================
+
+boundParser ( item: TS.Found_Item ) {
+
+    if ( !this.cachedBounded.includes( item.text) ) this.cachedBounded.push( item.text );
+
+    let source = item.text.slice( 0, 1 ) as TS.Source;
+    item.idx = Number( item.text.slice(2) ) as number;
+
+    if ( source === "Q" ) item.text = tools.quranPreviewer( item.idx );
+    else if ( source === "H" ) item.text = Hadith[ item.idx ].a;
+    item.source = source;
+
+    return item;
+
+}
+
+// -- =====================================================================================
+
+cacheBoundParser ( items: TS.Found ) {
+
+    for ( const c of this.cachedBounded ) {
+        console.log(c );
+        if ( !items.find( x => c === x.source + "_" + x.idx ) )
+            items.push( this.boundParser( { text: c, idx: -1, isBounded: false } ) );
+    }
+
+    return items;
 
 }
 
@@ -163,14 +215,19 @@ menuBox_Animation
 async menuCtr ( id: number ) {
 
     this.active = true;
+
+    if ( ~id ) this.cacheCtr( id );
+
     await new Promise( _ => setTimeout( _ , 0 ) );
 
     let menuBox = ( this.$refs.menuBox as any ).nativeView,
         frame = ( this.$refs.frame as any ).nativeView,
         searchBoxes = ( this.$refs.searchBoxes as any ).nativeView,
+        boundedBox = ( this.$refs.boundedBox as any ).nativeView,
         x_def: NS.AnimationDefinition = {},
         y_def: NS.AnimationDefinition = {},
-        z_def: NS.AnimationDefinition = {};
+        z_def: NS.AnimationDefinition = {},
+        w_def: NS.AnimationDefinition = {};
 
     if ( this.menuBox_Animation ) this.menuBox_Animation.cancel();
 
@@ -191,8 +248,24 @@ async menuCtr ( id: number ) {
     z_def.duration = !~id ? 100 : 500;
     z_def.opacity = !~id ? 0 : 1;
 
-    this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );
+    w_def = { ...z_def };
+    w_def.target = boundedBox;
+
+    this.menuBox_Animation = new NS.Animation( [ w_def, x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => this.active = !!~id );
+
+}
+
+// -- =====================================================================================
+
+cacheCtr ( id: number ) {
+
+    // .. reset cache memory
+    if ( this.cachedLastID !== id ) this.cachedBounded = [];
+    // .. cache id
+    this.cachedLastID = id;
+    // .. retrieve bounded data
+    this.boundedItems = this.getBoundedItems();
 
 }
 
@@ -220,7 +293,7 @@ toggleFavorite () {
 
 // -- =====================================================================================
 
-bind ( id: number, source: TS.Source ) {
+bind ( id: number, source: TS.Source, rescan = true ) {
 
     let a = "Q_" + store.state.activeAyah,
         b = source + "_" + id,
@@ -237,7 +310,9 @@ bind ( id: number, source: TS.Source ) {
     else storage.bound.splice( trace, 1 );
 
     // .. rescan
-    searchBox.init( "rescan", false, true );
+    this.boundedItems = this.getBoundedItems();
+    if ( rescan ) searchBox.init( "rescan", false, true );
+
     // .. toggle style number
     searchBox.toggleBoundedClass( !~trace );
 
@@ -289,10 +364,20 @@ createNewTag () {
     }
 
     .boundedItem {
-        margin: 5 10;
-        padding: 5 7;
-        background-color: #272420;
-        border-radius: 4;
+        margin: 5 7;
+        padding: 12 16;
+        background-color: #05263b;
+        color: #dbdbdb;
+        border-radius: 7;
+        line-height: 8;
+        font-size: 14;
+    }
+
+    .CoolGreen .cached,
+    .Smoky .cached {
+        text-decoration: line-through;
+        background-color: #222324;
+        color: #8b8b8b;
     }
 
 </style>

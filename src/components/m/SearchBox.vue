@@ -229,7 +229,7 @@ search ( force=false ) {
 
             if ( tmp.includes( str ) ) {
                 item = { 
-                    text: tools.textPreviewer(n),
+                    text: tools.quranPreviewer(n),
                     idx: n,
                     isBounded: this.isBounded(n)
                 }
@@ -273,7 +273,7 @@ history ( escape?: boolean ) {
 
     if ( this.source === 'Q' ) for ( const w of storage.trace_q ) {
         item = { 
-            text: tools.textPreviewer(w),
+            text: tools.quranPreviewer(w),
             idx: w,
             isBounded: this.isBounded(w)
         };
@@ -306,7 +306,7 @@ favorite ( escape?: boolean ) {
     for ( const f of storage[ 'fav_' + this.source.toLowerCase() ] ) {
 
         if ( this.source === 'Q' ) item = { 
-            text: tools.textPreviewer(f), 
+            text: tools.quranPreviewer(f), 
             idx: f,
             isBounded: this.isBounded(f)
         }
@@ -327,7 +327,7 @@ favorite ( escape?: boolean ) {
 
 // -- =====================================================================================
 
-cacheTags: string[] = [];
+cachedTags: string[] = [];
 tagFinder () {
 
     let found: TS.Found = [],
@@ -359,10 +359,10 @@ tagFinder () {
 
     // .. cache Tags
     for ( const f of found ) 
-        if ( !this.cacheTags.includes( f.text ) ) this.cacheTags.push( f.text );
+        if ( !this.cachedTags.includes( f.text ) ) this.cachedTags.push( f.text );
 
     // .. add cached Tags
-    for ( const t of this.cacheTags ) 
+    for ( const t of this.cachedTags ) 
         if ( !found.find( x => x.text === t ) ) 
             found.push( { text: t, idx: -1 *( found.length +maxID ), isBounded: false } );
 

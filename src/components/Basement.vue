@@ -193,14 +193,11 @@ setup (): Promise<void> {
 
     return new Promise ( (rs, rx) => { 
 
-        // .. register appConfig
-        // store.state.appConfig = validAppConfig;
-
         // .. just applying default theme
         TM.themeApplier( "Smoky", this.$refs );
 
+        // .. first actual step! go to the Quran
         this.to_Base_00( null );
-        // this.toHadis();
 
         // .. basic steps has been resolved!
         rs();
