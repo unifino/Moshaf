@@ -30,7 +30,7 @@
 
 import { Vue, Component }               from "vue-property-decorator"
 import Qertas                           from "@/components/00/Qertas.vue"
-import { Ahadis }                       from "@/db/H/Ahadis"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"

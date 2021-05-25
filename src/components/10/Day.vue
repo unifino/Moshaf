@@ -60,7 +60,7 @@ import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { Ahadis }                       from "@/db/H/Ahadis"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
@@ -101,10 +101,10 @@ init () {
 
     // .. get a random one
     let saat = new Date();
-    let rand = saat.getTime() % Ahadis.length;
+    let rand = saat.getTime() % Hadith.length;
 
     // .. it has been read already
-    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Ahadis.length;
+    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Hadith.length;
 
     // .. register the ID
     this.currentId = rand;
@@ -119,16 +119,16 @@ init () {
 show ( id: number ) {
 
     // .. mini patch
-    if ( Ahadis[ id ].c === null ) {
-        Ahadis[ id ].c = 19;
+    if ( Hadith[ id ].c === null ) {
+        Hadith[ id ].c = 19;
     }
 
     // .. assign the Name
-    this.hadis.c = c_map[ Ahadis[ id ].c ][0];
-    this.hadis.e = c_map[ Ahadis[ id ].c ][1];
+    this.hadis.c = c_map[ Hadith[ id ].c ][0];
+    this.hadis.e = c_map[ Hadith[ id ].c ][1];
     // .. assign arabic part
     this.hadis.a = [];
-    let tmpBox = Ahadis[ id ].a.trim().split( ' ' );
+    let tmpBox = Hadith[ id ].a.trim().split( ' ' );
     let green = false;
     for ( let tmp of tmpBox ) {
 
@@ -149,8 +149,8 @@ show ( id: number ) {
 
     }
     // .. assign farsi part
-    this.hadis.b = Ahadis[ id ].b || "";
-    this.hadis.d = Ahadis[ id ].d || "";
+    this.hadis.b = Hadith[ id ].b || "";
+    this.hadis.d = Hadith[ id ].d || "";
 
     // .. add new trace
     let old = storage.trace_h.findIndex( x => x === id );

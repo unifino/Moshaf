@@ -111,7 +111,7 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
 import { asma, Quran }                  from "@/db/Q/Quran"
-import { Ahadis }                       from "@/db/H/Ahadis"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 
 // -- =====================================================================================
@@ -228,14 +228,14 @@ search ( force=false ) {
 
         }
 
-        if ( this.source === 'H' ) for ( const i in Ahadis ) {
+        if ( this.source === 'H' ) for ( const i in Hadith ) {
 
             n = Number(i);
-            tmp = tools.asmaUnifier( tools.erabTrimmer( Ahadis[i].a ) );
+            tmp = tools.asmaUnifier( tools.erabTrimmer( Hadith[i].a ) );
 
             if ( tmp.includes( str ) ) {
                 item = { 
-                    text: Ahadis[i].a,
+                    text: Hadith[i].a,
                     idx: n,
                     isBounded: this.isBounded(n)
                 }
@@ -272,7 +272,7 @@ history () {
 
     if ( this.source === 'H' ) for ( const w of storage.trace_h ) {
         item = { 
-            text: Ahadis[w].a,
+            text: Hadith[w].a,
             idx: w,
             isBounded: this.isBounded(w)
         }
@@ -301,8 +301,8 @@ favorite () {
             isBounded: this.isBounded(f)
         }
 
-        if ( this.source === 'H' && Ahadis[f].a ) item = { 
-            text: Ahadis[f].a, 
+        if ( this.source === 'H' && Hadith[f].a ) item = { 
+            text: Hadith[f].a, 
             idx: f,
             isBounded: this.isBounded(f)
         }

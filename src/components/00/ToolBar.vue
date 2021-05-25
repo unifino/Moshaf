@@ -87,7 +87,7 @@ import * as tools                       from "@/mixins/tools"
 import * as NS                          from "@nativescript/core"
 import { setText }                      from "nativescript-clipboard"
 import * as TS                          from "@/../types/myTypes"
-import { Ahadis }                       from "@/db/H/Ahadis"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 

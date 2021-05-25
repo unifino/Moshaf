@@ -3,7 +3,7 @@ import * as Toast                       from "nativescript-toast"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
-import { Ahadis }                       from "@/db/H/Ahadis"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 
