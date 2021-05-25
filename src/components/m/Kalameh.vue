@@ -4,7 +4,7 @@
     <Label
         ref="kalameh"
         :text="myText"
-        :class="theType + ( isFav ? ' fav' : '' ) + ( isPressed? ' pressed' : '' )"
+        :class="theType"
         @tap="autoTranslate();$emit( 'tap', myText, myType, aID );"
         @touch=touched
     />
@@ -40,6 +40,7 @@ export default class Kalameh extends Vue {
 // -- =====================================================================================
 
 isFav = false;
+isTagged = false;
 isPressed = false;
 
 // -- =====================================================================================
@@ -54,7 +55,7 @@ mounted () {}
 
 // -- =====================================================================================
 
-get theType (): TS.Kalameh {
+get theType (): string {
 
     let theType = this.myType;
 
@@ -77,6 +78,15 @@ get theType (): TS.Kalameh {
     // .. highlight marked ayat
     this.isFav = this.myType === "number" && storage.fav_q.includes( this.aID ) ?
         true : false;
+    // .. highlight tagged ayat
+    let tagged = storage.bound.find( 
+        x => Number( x[0].slice(2) ) === this.aID || Number( x[1].slice(2) ) === this.aID 
+    );
+    this.isTagged = this.myType === "number" && tagged ? true : false;
+
+    theType += this.isFav ? ' fav' : '';
+    theType += this.isTagged ? ' tagged' : '';
+    theType += this.isPressed ? ' pressed' : '';
 
     return theType;
 

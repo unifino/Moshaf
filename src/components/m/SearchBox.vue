@@ -112,6 +112,7 @@ import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import { Ahadis }                       from "@/db/H/Ahadis"
+import Kalameh                          from "@/components/m/Kalameh.vue"
 
 // -- =====================================================================================
 
@@ -444,6 +445,11 @@ toggleTag ( tag: string ) {
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
+
+    // .. toggle style
+    let qertas = this.$parent.$parent.$parent;
+    let ayahSeq = qertas.$refs[ "kalameh_" + store.state.activeAyah ] as Kalameh[];
+    ayahSeq[ ayahSeq.length -1 ].isTagged = !~myAyahTagID;
 
     // .. apply it
     this.init( "rescan" );

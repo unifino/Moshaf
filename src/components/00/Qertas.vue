@@ -334,4 +334,10 @@ exit () {
         background-color: #a31f87;
     }
 
+    .tagged {
+        border-width: 3;
+        padding-top: -1.1;
+        border-color: #dd5c07;
+    }
+
 </style>
