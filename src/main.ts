@@ -1,11 +1,11 @@
-import Vue                              from 'nativescript-vue'
-import Base                             from './components/Base.vue'
-import store                            from './store/store'
-import * as NS                          from "@nativescript/core"
-// import RadListView from 'nativescript-ui-listview/vue';
-// Vue.use(RadListView);
-
 declare var android; // required if tns-platform-declarations is not installed
+
+// -- =====================================================================================
+
+import Vue                              from 'nativescript-vue'
+import App_Basement                     from '@/components/Basement.vue'
+import store                            from '@/store/store'
+import * as NS                          from "@nativescript/core"
 
 // -- =====================================================================================
 
@@ -24,7 +24,7 @@ if ( NS.isAndroid ) {
             }
         }
 
-    };
+    }
 
 }
 
@@ -32,21 +32,9 @@ if ( NS.isAndroid ) {
 
 new Vue( {
 
-  store ,
-
-// -- =====================================================================================
-
-  template: `
-
-      <GridLayout>
-          <Base />
-      </GridLayout>` ,
-
-// -- =====================================================================================
-
-  components: { Base } ,
-
-// -- =====================================================================================
+    store,
+    components: { App_Basement },
+    template: `<GridLayout> <App_Basement /> </GridLayout>`,
 
 } ).$start();
 

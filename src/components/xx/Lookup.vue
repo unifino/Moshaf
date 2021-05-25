@@ -98,8 +98,7 @@ loadedFrom: TS.here;
 
 mounted () {
     this.word = tools.erabTrimmer( this.word );
-    this.loadedFrom = store.state.here;
-    store.state.here = "Lookup";
+    //! this.loadedFrom = store.state.here;
     this.translate_ar( this.word );
     this.translate_fa( this.word );
 }
@@ -228,9 +227,7 @@ ads_remover ( text: string ) {
 
 // -- =====================================================================================
 
-destroyed () {
-    store.state.here = this.loadedFrom;
-}
+destroyed () {}
 
 // -- =====================================================================================
 

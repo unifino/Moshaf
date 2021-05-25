@@ -206,7 +206,7 @@ search ( force=false ) {
     str = str.replace( /ک/g, 'ك' );
     str = tools.erabTrimmer( str );
 
-    // ..  jsut for fehrest Quran
+    // ..  jsut for Quran's Sura's List
     this.$emit( 'search', str );
 
     if ( str.length > 3 || force ) {

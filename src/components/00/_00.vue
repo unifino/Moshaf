@@ -1,14 +1,11 @@
 <template>
-<Page>
-<GridLayout
-    class="fehrest"
-    rows="44,44,44,*,7"
->
+<Page @navigatedTo="$store.state.here='Base_00'">
+<GridLayout rows="88,44,*,7" width="300">
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView 
-        row=1
+        row=0
         rowSpan=3
         orientation="vertical"
         verticalAlignment="middle"
@@ -46,7 +43,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <SearchBox 
-        row=2
+        row=1
         rowSpan=2
         ref="search"
         @search="search"
@@ -67,7 +64,7 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Ghertas                          from "@/components/00/Ghertas.vue"
+import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
@@ -79,7 +76,7 @@ import * as TS                          from "@/../types/myTypes"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, Ghertas, SearchBox }
+    components: { Kalameh, Qertas, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -93,22 +90,22 @@ phrase = ""
 
 // -- =====================================================================================
 
-mounted () {
-    store.state.here = "Base_00";
-}
+mounted () {}
 
 // -- =====================================================================================
 
 open ( num: number ): void {
 
-    Vue.prototype.$navigateTo( Ghertas, {
+    Vue.prototype.$navigateTo( Qertas, {
 
-        frame : "base",
+        frame : "_base_" ,
         props : { me : num },
         backstackVisible : true,
         transition : { name: "slideTop", duration: 300 }
 
     } );
+
+    store.state.here = "Qertas";
 
 }
 
@@ -136,10 +133,6 @@ search ( phrase: string ) {
 <style scoped>
 
 /*                                          */
-    .fehrest {
-        width: 300;
-    }
-
     .sura, .saat {
         font-family: Amiri-Regular;
         text-align: center;

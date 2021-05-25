@@ -1,9 +1,19 @@
 <template>
-<AbsoluteLayout class="fx" ref="root" @swipe="swipeControl" >
+<AbsoluteLayout
+    class="fx"
+    ref="root"
+    @swipe="swipeControl"
+>
 
 <!---------------------------------------------------------------------------------------->
 
-    <Frame class="fx" id="base" ref="base" ><Page/></Frame>
+    <Frame class="fx" id="_base_" ref="_base_" >
+        <Page>
+            <GridLayout>
+                <Image src="res://moshaf" width=165 stretch="aspectFit" />
+            </GridLayout>
+        </Page>
+    </Frame>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -22,7 +32,7 @@ import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
 import Base_00                          from "@/components/00/_00.vue"
 import ToolBar                          from "@/components/00/ToolBar.vue"
-import Ghertas                          from "@/components/00/Ghertas.vue"
+import Qertas                           from "@/components/00/Qertas.vue"
 import Base_10                          from "@/components/10/_10.vue"
 import Base_01                          from "@/components/01/_01.vue"
 // * npm i nativescript-permissions
@@ -49,7 +59,9 @@ if( TNS_ENV !== 'production' ) {
             "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> NextSibling("
         ];
         let permission = true;
-        for ( let x of unwanted ) if ( typeof data[0] === "string" && data[0].includes(x)  ) permission = false;
+        for ( let x of unwanted ) 
+            if ( typeof data[0] === "string" && data[0].includes(x) ) 
+                permission = false;
         if ( permission ) console.info(data);
     }; 
 }
@@ -81,41 +93,13 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
-}
+    store.watch(
+        state => state.here, 
+        (newVal, oldVal) => console.log( "\tFrom:\t" +oldVal +"  \tTo:\t" +newVal +"\t" ) 
+    );
 
-// -- =====================================================================================
-
-backButtonCtl (e) {
-
-    let base = this.$root.$children[0].$refs.base as any;
-
-    switch ( store.state.here ) {
-
-        case "Base_00":
-            // .. get elemente(s)
-            let base_00 = base.$children[1] as Base_00;
-            let searchBox = base_00.$refs[ "search" ] as SearchBox;
-            // ..  just clear search
-            if ( searchBox.result.length ) searchBox.dismiss( true );
-            // .. exit
-            else exit();
-            // .. prevent more actions
-            e.cancel = true;
-        break;
-
-        case "Ghertas":
-            // .. get elemente(s)
-            let Ghertas = base.$children[2] as Ghertas;
-            let toolBar = Ghertas.$refs[ "ToolBar" ] as ToolBar;
-            if ( toolBar.active ) {
-                // ..  just close ToolBar by resetting activeAyah
-                store.state.activeAyah = -1;
-                // .. prevent more actions
-                e.cancel = true;
-            }
-        break;
-
-    }
+    // .. initial Here Statement
+    store.state.here = "Basement";
 
 }
 
@@ -130,6 +114,46 @@ init (): void {
     .then( () => this.setup() )
     // .. not resolvable situation
     .catch( msg => tools.toaster( msg ) );
+
+}
+
+// -- =====================================================================================
+
+backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
+
+    // .. prevent more actions by default
+    e.cancel = true;
+
+    let _base_ = this.$root.$children[0].$refs._base_ as any;
+
+    switch ( store.state.here ) {
+
+        case "Base_00":
+            // .. get elements(s)
+            let base_00 = _base_.$children[1] as Base_00;
+            let searchBox = base_00.$refs[ "search" ] as SearchBox;
+            // ..  just clear search
+            if ( searchBox.result.length ) searchBox.dismiss( true );
+            // .. exit
+            else exit();
+        break;
+
+        case "Qertas":
+            // .. get elements(s)
+            let qertas = _base_.$children[2] as Qertas;
+            let toolBar = qertas.$refs[ "ToolBar" ] as ToolBar;
+            // ..  just close ToolBar by resetting activeAyah
+            if ( toolBar.active ) store.state.activeAyah = -1;
+            else qertas.exit();
+        break;
+
+        // .. let do NOTHING!
+        case "Basement": e.cancel = true;  break;
+
+        // .. let do more actions
+        default: e.cancel = false; break;
+
+    }
 
 }
 
@@ -166,7 +190,7 @@ setup (): Promise<void> {
         // .. just applying default theme
         TM.themeApplier( "Smoky", this.$refs );
 
-        this.toFehrest( null );
+        this.to_Base_00( null );
         // this.toHadis();
 
         // .. basic steps has been resolved!
@@ -178,17 +202,24 @@ setup (): Promise<void> {
 
 // -- =====================================================================================
 
-toFehrest ( direction: NS.SwipeDirection|null ): void {
+to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
-    let dir = direction === NS.SwipeDirection.left ? "slideLeft" : "slideRight";
+    let dir: string;
+
+    switch ( direction ) {
+        case NS.SwipeDirection.left : dir = "slideLeft";    break;
+        case NS.SwipeDirection.right: dir = "slideRight";   break;
+        case NS.SwipeDirection.down : dir = "slideDown";    break;
+        case NS.SwipeDirection.up   : dir = "slideUp";      break;
+        default                     : dir = "fade";         break;
+    }
 
     Vue.prototype.$navigateTo( Base_00, {
-        frame : 'base',
+
+        frame : '_base_',
         backstackVisible : true,
-        transition : {
-            name         : dir,
-            duration     : direction ? 300 : 1,
-        } 
+        transition : { name: dir, duration: direction ? 300 : 700 }
+
     } );
 
 }
@@ -198,12 +229,11 @@ toFehrest ( direction: NS.SwipeDirection|null ): void {
 toHadis (): void {
 
     Vue.prototype.$navigateTo( Base_10, {
-        frame : 'base' ,
-        backstackVisible : true ,
-        transition : {
-            name         : "slideRight",
-            duration     : 300,
-        } 
+
+        frame : "_base_" ,
+        backstackVisible : true,
+        transition : { name: "slideRight", duration: 300 } 
+
     } );
 
 }
@@ -213,12 +243,11 @@ toHadis (): void {
 toAdeiyeh (): void {
 
     Vue.prototype.$navigateTo( Base_01, {
-        frame : 'base' ,
-        backstackVisible : true ,
-        transition : {
-            name         : "slideLeft",
-            duration     : 300,
-        } 
+
+        frame : "_base_" ,
+        backstackVisible : true,
+        transition : { name: "slideLeft", duration: 300 }
+
     } );
 
 }
@@ -232,11 +261,16 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
         if ( args.direction === NS.SwipeDirection.left ) this.toAdeiyeh();
     }
 
-    else if ( store.state.here === "Hadis" && args.direction === NS.SwipeDirection.left )
-        this.toFehrest( args.direction );
-
-    else if ( store.state.here === "Adeiyeh" && args.direction === NS.SwipeDirection.right )
-        this.toFehrest( args.direction );
+    else if
+    (
+        ( store.state.here === "Base_01" && args.direction === NS.SwipeDirection.right ) ||
+        ( store.state.here === "Base_10" && args.direction === NS.SwipeDirection.left )
+    )
+    {
+        let _base_ = this.$root.$children[0].$refs._base_ as any;
+        let base_00 = _base_.$children[1] as any;
+        base_00.$navigateBack();
+    }
 
     // .. theme changer
     if ( args.direction === NS.SwipeDirection.down )

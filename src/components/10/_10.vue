@@ -1,5 +1,5 @@
 <template>
-<Page>
+<Page @navigatedTo="$store.state.here='Base_10'">
 <GridLayout class="myPage" rows="44,44,44,*,7">
 
 <!---------------------------------------------------------------------------------------->
@@ -29,7 +29,7 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Ghertas                          from "@/components/00/Ghertas.vue"
+import Qertas                           from "@/components/00/Qertas.vue"
 import { Ahadis }                       from "@/db/H/Ahadis"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
@@ -54,9 +54,7 @@ swipePass;
 
 // -- =====================================================================================
 
-mounted () {
-    store.state.here = "Hadis";
-}
+mounted () {}
 
 // -- =====================================================================================
 

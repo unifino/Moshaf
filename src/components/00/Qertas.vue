@@ -8,8 +8,8 @@
 
     <ScrollView 
         row=2
-        ref="ghertas"
-        class="ghertas"
+        ref="qertas"
+        class="qertas"
         orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="true"
@@ -75,7 +75,7 @@ import store                            from "@/store/store"
 
 // -- =====================================================================================
 
-export default class Ghertas extends Vue {
+export default class Qertas extends Vue {
 
 // -- =====================================================================================
 
@@ -90,7 +90,6 @@ taghdir_aID: number;
 // -- =====================================================================================
 
 mounted () {
-    store.state.here = "Ghertas";
     this.init( this.me );
 }
 
@@ -218,17 +217,17 @@ scrollTo ( step: 1|-1 ) {
     this.scrollStep += step;
     if ( this.scrollStep < 0 ) this.scrollStep = 0;
 
-    let ghertas = ( this.$refs as any ).ghertas.nativeView;
-    ghertas.height = h *8;
-    ghertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
+    let qertas = ( this.$refs as any ).qertas.nativeView;
+    qertas.height = h *8;
+    qertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
 
 }
 
 // -- =====================================================================================
 
-destroyed () {
+exit () {
     clearTimeout( this.morsal_TO );
-    store.state.here = "Base_00";
+    ( this as any ).$navigateBack();
 }
 
 // -- =====================================================================================
@@ -244,7 +243,7 @@ destroyed () {
 <style scoped>
 
 /*                                          */
-    .ghertas {
+    .qertas {
         width: 300;
         height: 504;
     }

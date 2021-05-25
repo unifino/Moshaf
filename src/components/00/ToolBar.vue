@@ -76,7 +76,7 @@
 // -- =====================================================================================
 
 import { Vue, Component }               from "vue-property-decorator"
-import Ghertas                          from "@/components/00/Ghertas.vue"
+import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import myButton                         from "@/components/m/myButton.vue"
 import SearchBox                        from "@/components/m/SearchBox.vue"

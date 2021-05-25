@@ -1,5 +1,5 @@
 <template>
-<Page>
+<Page @navigatedTo="$store.state.here='Base_01'">
 <GridLayout class="myPage" rows="44,44,44,44,*,72" >
 
 <!---------------------------------------------------------------------------------------->
@@ -53,7 +53,6 @@ found = [];
 // -- =====================================================================================
 
 mounted () {
-    store.state.here = "Adeiyeh";
     this.adeiyeh = adeiyeh;
 }
 
@@ -63,20 +62,14 @@ open ( num: number ): void {
 
     Vue.prototype.$navigateTo( Doa, {
 
-        frame : "base",
-
+        frame : "_base_" ,
+        props : { doaID : num },
         backstackVisible : true,
-
-        props : {
-            doaID : num,
-        },
-
-        transition : {
-            name         : "slideTop",
-            duration     : 300,
-        }
+        transition : { name: "slideTop", duration: 300 }
 
     } );
+
+    // store.state.here = "Doa";
 
 }
 

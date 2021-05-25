@@ -9,8 +9,8 @@ export default new Vuex.Store( {
 
     state: {
 
-        darkMode    : true      ,
-        here        : "Base"    ,
+        darkMode    : false     ,
+        here        : null      ,
         activeAyah  : -1        ,
 
     } as state,

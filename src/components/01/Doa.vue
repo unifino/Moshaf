@@ -1,12 +1,11 @@
 <template>
 <Page>
-<GridLayout class="myPage" rows="44,44,*,44,5" >
+<GridLayout class="myPage" rows="44,44,*,44,5">
 
 <!---------------------------------------------------------------------------------------->
 
      <ScrollView 
         row=2
-        class="ghertas"
         orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="true"
@@ -41,7 +40,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import Ghertas                          from "@/components/00/Ghertas.vue"
+import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import { adeiyeh }                      from "@/db/D/Adeiyeh"
 import store                            from "@/store/store"
@@ -71,7 +70,6 @@ doa: string[] = [];
 // -- =====================================================================================
 
 mounted () {
-    store.state.here = "Doa";
     this.morsal();
 }
 
@@ -102,9 +100,7 @@ async morsal () {
 
 // -- =====================================================================================
 
-destroyed () {
-    store.state.here = "Adeiyeh";
-}
+destroyed () {}
 
 // -- =====================================================================================
 

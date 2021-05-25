@@ -1,7 +1,7 @@
 <template>
 <!---------------------------------------------------------------------------------------->
 
-    <Label 
+    <Label
         ref="kalameh"
         :text="myText"
         :class="theType + ( isFav ? ' fav' : '' ) + ( isPressed? ' pressed' : '' )"
@@ -116,20 +116,14 @@ lookup ( text: string ): void {
 
     Vue.prototype.$navigateTo( Lookup, {
 
-        frame : "base",
-
+        frame : "_base_" ,
+        props : { word : text },
         backstackVisible : true,
-
-        props : {
-            word : text,
-        },
-
-        transition : {
-            name         : "slideLeft",
-            duration     : 300,
-        }
+        transition : { name: "slideLeft", duration: 300 }
 
     } );
+
+    // store.state.here = "Lookup";
 
 }
 
