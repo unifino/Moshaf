@@ -46,7 +46,7 @@ export function erabTrimmer ( str: string ) {
 
 // -- =====================================================================================
 
-export function textPreviwer ( id: number ) {
+export function textPreviewer ( id: number ) {
     const ref = Quran[ id ];
     const suraName = asma[ ref.sura -1 ][1];
     const suraID = asma[ ref.sura -1 ][0];

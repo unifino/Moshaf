@@ -129,7 +129,7 @@ export default class SearchBox extends Vue {
 result: TS.Found = [];
 result_tag: TS.Found = [];
 hint: string = "بحث";
-perfomedMode: TS.SearchMode;
+performedMode: TS.SearchMode;
 
 // -- =====================================================================================
 
@@ -167,7 +167,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
     if ( this.source === "T" ) {
         data = this.tagFinder();
         this.result_tag = data;
-        this.perfomedMode = "tag";
+        this.performedMode = "tag";
         return;
     }
 
@@ -176,7 +176,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
         case "search"   : data = this.search( force );          break;
         case "history"  : data = this.history();                break;
         case "favorite" : data = this.favorite();               break;
-        case "rescan"   : data = this[ this.perfomedMode ]();   break;
+        case "rescan"   : data = this[ this.performedMode ]();  break;
         default         : tools.toaster( mode + " ???" );       return;
     }
 
@@ -184,7 +184,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
 
     this.result = data;
 
-    this.perfomedMode = mode !== "rescan" ? mode : this.perfomedMode;
+    this.performedMode = mode !== "rescan" ? mode : this.performedMode;
 
 }
 
@@ -193,7 +193,7 @@ init ( mode: TS.SearchMode, force?: boolean ) {
 search ( force=false ) {
 
     // .. re-tap situation
-    if ( this.result.length && this.perfomedMode === "search" ) return [];
+    if ( this.result.length && this.performedMode === "search" ) return [];
 
     let found: TS.Found = [],
         item: TS.Found_Item,
@@ -207,7 +207,7 @@ search ( force=false ) {
     str = str.replace( /ک/g, 'ك' );
     str = tools.erabTrimmer( str );
 
-    // ..  jsut for Quran's Sura's List
+    // ..  just for Quran's Sura's List
     this.$emit( 'search', str );
 
     if ( str.length > 3 || force ) {
@@ -219,7 +219,7 @@ search ( force=false ) {
 
             if ( tmp.includes( str ) ) {
                 item = { 
-                    text: tools.textPreviwer(n),
+                    text: tools.textPreviewer(n),
                     idx: n,
                     isBounded: this.isBounded(n)
                 }
@@ -256,14 +256,14 @@ search ( force=false ) {
 history () {
 
     // .. re-tap situation
-    if ( this.result.length && this.perfomedMode === "history" ) return [];
+    if ( this.result.length && this.performedMode === "history" ) return [];
 
     let found: TS.Found = [];
     let item: TS.Found_Item;
 
     if ( this.source === 'Q' ) for ( const w of storage.trace_q ) {
         item = { 
-            text: tools.textPreviwer(w),
+            text: tools.textPreviewer(w),
             idx: w,
             isBounded: this.isBounded(w)
         };
@@ -288,7 +288,7 @@ history () {
 favorite () {
 
     // .. re-tap situation
-    if ( this.result.length && this.perfomedMode === "favorite" ) return [];
+    if ( this.result.length && this.performedMode === "favorite" ) return [];
 
     let found: TS.Found = [];
     let item: TS.Found_Item;
@@ -296,7 +296,7 @@ favorite () {
     for ( const f of storage[ 'fav_' + this.source.toLowerCase() ] ) {
 
         if ( this.source === 'Q' ) item = { 
-            text: tools.textPreviwer(f), 
+            text: tools.textPreviewer(f), 
             idx: f,
             isBounded: this.isBounded(f)
         }
@@ -342,7 +342,7 @@ tagFinder () {
             isBounded: this.isBounded( x[1].slice(2) )
         }
 
-        // .. soft registeration ( Uniqe )
+        // .. soft registeration ( Unique )
         if ( item && !found.find( x => x.text === item.text ) ) found.push( item );
 
     }
@@ -370,7 +370,7 @@ isBounded ( check: number|string ) {
 
     for ( let x of storage.bound ) {
 
-        // .. examine first [cell as Ayah] then chcek second one
+        // .. examine first [cell as Ayah] then check second one
         if ( x[0] === "Q_" + store.state.activeAyah )
             if ( Number( x[1].slice(2) ) === check ) 
                 state = true;

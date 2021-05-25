@@ -104,11 +104,11 @@ init ( me?: number ): void {
     // .. get the name
     const sura = Quran[ this.taghdir_aID ].sura;
 
-    // .. add trace ( uniqe! )
+    // .. add trace ( unique! )
     let old = storage.trace_q.findIndex( x => x === this.taghdir_aID );
     if ( ~old ) storage.trace_q.splice( old, 1 );
     storage.trace_q.push( this.taghdir_aID );
-    // .. hard registartion
+    // .. hard registration
     storage.saveDB( storage.trace_q_File, storage.trace_q.filter( (x,i) => i<44 ) );
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";

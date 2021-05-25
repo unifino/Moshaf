@@ -173,7 +173,7 @@ toggleFavorite () {
     else storage.fav_q.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
-    // .. hard registeration
+    // .. hard registration
     storage.saveDB( storage.fav_q_File, storage.fav_q );
     // .. toggle style
     let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
