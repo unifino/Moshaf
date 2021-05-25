@@ -1,16 +1,16 @@
 <template>
 <Page @navigatedTo="$store.state.here='Base_10'">
-<GridLayout class="myPage" rows="44,44,44,*,7">
+<GridLayout class="myPage" rows="88,44,*,7">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day ref="day" row=3 rowSpan=3 />
+    <Day ref="day" row=2 rowSpan=3 />
 
 <!---------------------------------------------------------------------------------------->
 
     <SearchBox
         ref="search"
-        row=2
+        row=1
         rowSpan=2
         @interact="open"
         source="H"
