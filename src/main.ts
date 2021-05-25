@@ -11,17 +11,18 @@ import * as NS                          from "@nativescript/core"
 
 if ( NS.isAndroid ) {
 
-    NS.TextBase.prototype[ NS.fontSizeProperty.setNative ] = function ( value ) {
+    NS.TextBase.prototype[ NS.fontSizeProperty.setNative ] = function ( v ) {
 
-        if ( !this.formattedText || ( typeof value !== "number" ) ) {
-            if ( typeof value === "number" ) {
-               this.nativeTextViewProtected
-               .setTextSize( android.util.TypedValue.COMPLEX_UNIT_DIP, value );
-            }
-            else {
-                this.nativeTextViewProtected
-                .setTextSize( android.util.TypedValue.COMPLEX_UNIT_PX, value.nativeSize );
-            }
+        if ( !this.formattedText || typeof v !== "number" ) {
+
+            const typ = android.util.TypedValue;
+            const dip = typ.COMPLEX_UNIT_DIP;
+            const pix = typ.COMPLEX_UNIT_PX;
+            const cnd = typeof v === "number";
+
+            if ( cnd )      this.nativeTextViewProtected.setTextSize( dip, v );
+            else this.nativeTextViewProtected.setTextSize( pix, v.nativeSize );
+
         }
 
     }

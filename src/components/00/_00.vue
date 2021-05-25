@@ -5,8 +5,8 @@
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView 
-        row=0
-        rowSpan=3
+        row=1
+        rowSpan=2
         orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
