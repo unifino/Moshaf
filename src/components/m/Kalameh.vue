@@ -117,7 +117,7 @@ lookup ( text: string ): void {
     Vue.prototype.$navigateTo( Lookup, {
 
         frame : "_base_" ,
-        props : { word : text },
+        props : { word : tools.erabTrimmer( text ) },
         backstackVisible : true,
         transition : { name: "slideLeft", duration: 300 }
 
