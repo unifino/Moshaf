@@ -306,7 +306,7 @@ exit () {
         font-family: MADDINA;
         text-align: center;
         font-size: 16;
-        padding-top: 1.4;
+        padding-top: 1.2;
         margin: 22.5 3.3 17.5 3.7;
         width: 23;
         height: 23;
@@ -333,9 +333,9 @@ exit () {
         background-color: #a31f87;
     }
 
-    .tagged {
+    .bounded {
         border-width: 3;
-        padding-top: -1.1;
+        padding-top: -2.1;
         border-color: #dd5c07;
     }
 

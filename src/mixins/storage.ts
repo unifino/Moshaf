@@ -3,6 +3,7 @@ declare var android; // required if tns-platform-declarations is not installed
 // -- =====================================================================================
 
 import * as NS                          from "@nativescript/core"
+import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
@@ -138,3 +139,17 @@ export function some_tool ( data: {
 
 // -- =====================================================================================
 
+// export function test () {
+//     let newB: TS.Bound = [];
+//     bound.forEach( x=> {
+//         let p: TS.BoundItem;
+//         p = [ 
+//             [ x[0].slice(0,1) as "Q", Number(x[0].slice(2)) || x[0].slice(2) as any ], 
+//             [ x[1].slice(0,1) as "Q", Number(x[1].slice(2)) || x[1].slice(2) as any ] 
+//         ]
+//         newB.push( p )
+//     })
+//     saveTest( "newBound", "json" , JSON.stringify(newB) );
+// }
+
+// -- =====================================================================================

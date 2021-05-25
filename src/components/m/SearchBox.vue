@@ -460,7 +460,7 @@ toggleTag ( tag: string ) {
     this.init( "rescan" );
 
     // .. toggle style number
-    this.toggleTaggedClass( !~myAyahTagID );
+    this.toggleBoundedClass( !~myAyahTagID );
 
     // .. need more options to check even for H_T | ... ones
 
@@ -468,11 +468,11 @@ toggleTag ( tag: string ) {
 
 // -- =====================================================================================
 
-toggleTaggedClass ( mode: boolean ) {
+toggleBoundedClass ( mode: boolean ) {
 
     let qertas = this.$parent.$parent.$parent;
     let ayahSeq = qertas.$refs[ "kalameh_" + store.state.activeAyah ] as Kalameh[];
-    ayahSeq[ ayahSeq.length -1 ].isTagged = mode;
+    ayahSeq[ ayahSeq.length -1 ].isBounded = mode;
 
 }
 

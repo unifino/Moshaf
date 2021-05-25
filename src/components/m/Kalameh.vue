@@ -40,7 +40,7 @@ export default class Kalameh extends Vue {
 // -- =====================================================================================
 
 isFav = false;
-isTagged = false;
+isBounded = false;
 isPressed = false;
 
 // -- =====================================================================================
@@ -78,14 +78,14 @@ get theType (): string {
     // .. highlight marked ayat
     this.isFav = this.myType === "number" && storage.fav_q.includes( this.aID ) ?
         true : false;
-    // .. highlight tagged ayat
-    let tagged = storage.bound.find( 
+    // .. highlight bounded ayat
+    let bounded = storage.bound.find( 
         x => Number( x[0].slice(2) ) === this.aID || Number( x[1].slice(2) ) === this.aID 
     );
-    this.isTagged = this.myType === "number" && tagged ? true : false;
+    this.isBounded = this.myType === "number" && bounded ? true : false;
 
     theType += this.isFav ? ' fav' : '';
-    theType += this.isTagged ? ' tagged' : '';
+    theType += this.isBounded ? ' bounded' : '';
     theType += this.isPressed ? ' pressed' : '';
 
     return theType;

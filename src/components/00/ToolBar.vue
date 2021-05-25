@@ -28,6 +28,27 @@
 
 <!---------------------------------------------------------------------------------------->
 
+    <GridLayout row=1 rowSpan=3 col=2 rows="60,*,0">
+
+        <ScrollView row=1 ref="boundedBox" class="boundedBox">
+
+            <StackLayout horizontalAlignment="center" verticalAlignment="center">
+
+                <Label 
+                    v-for="(item,i) in boundedItems"
+                    class="boundedItem"
+                    :key="i"
+                    :text="item.text"
+                />
+
+            </StackLayout>
+
+        </ScrollView>
+
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
     <GridLayout row=1 rowSpan=3 col=2 ref="searchBoxes" opacity=0>
 
         <SearchBox
@@ -56,27 +77,6 @@
             @interact="bind"
             @exchange="searchMode='Q'"
         />
-
-    </GridLayout>
-
-<!---------------------------------------------------------------------------------------->
-
-    <GridLayout row=1 rowSpan=3 col=2 rows="60,*,0" visibility="hidden">
-
-        <ScrollView row=1 background="blue" ref="taggedBox" class="taggedBox">
-
-            <StackLayout horizontalAlignment="center" verticalAlignment="center">
-
-                <Label 
-                    v-for="(item,i) in taggedItems"
-                    class="taggedItem"
-                    :key="i"
-                    :text="item.text"
-                />
-
-            </StackLayout>
-
-        </ScrollView>
 
     </GridLayout>
 
@@ -140,18 +140,20 @@ mounted () {
 
 // -- =====================================================================================
 
-get taggedItems() {
+get boundedItems() {
 
-    let taggedItems: TS.Found = [];
+    let boundedItems: TS.Found = [];
 
     for ( let b of storage.bound ) {
         if ( b[0] === "Q_" + store.state.activeAyah )
-            taggedItems.push( { text: b[1], idx: -1, isBounded: false } );
+            boundedItems.push( { text: b[1], idx: -1, isBounded: false } );
         if ( b[1] === "Q_" + store.state.activeAyah )
-            taggedItems.push( { text: b[0], idx: -1, isBounded: false } );
+            boundedItems.push( { text: b[0], idx: -1, isBounded: false } );
     }
 
-    return taggedItems;
+    console.log(boundedItems);
+    
+    return boundedItems;
 
 }
 
@@ -237,7 +239,7 @@ bind ( id: number, source: TS.Source ) {
     // .. rescan
     searchBox.init( "rescan", false, true );
     // .. toggle style number
-    searchBox.toggleTaggedClass( !~trace );
+    searchBox.toggleBoundedClass( !~trace );
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
@@ -286,7 +288,7 @@ createNewTag () {
         opacity: 0;
     }
 
-    .taggedItem {
+    .boundedItem {
         margin: 5 10;
         padding: 5 7;
         background-color: #272420;
