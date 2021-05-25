@@ -6,7 +6,6 @@
 
      <ScrollView 
         row=2
-        orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="true"
     >

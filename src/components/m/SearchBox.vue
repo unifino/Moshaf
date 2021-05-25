@@ -70,7 +70,7 @@
 
     <StackLayout row=1 v-if=result_tag.length >
 
-        <ScrollView orientation="vertical" verticalAlignment="middle" marginTop="20">
+        <ScrollView verticalAlignment="middle" marginTop="20">
 
             <FlexboxLayout
                 flexWrap="wrap"
@@ -456,15 +456,23 @@ toggleTag ( tag: string ) {
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
 
-    // .. toggle style
-    let qertas = this.$parent.$parent.$parent;
-    let ayahSeq = qertas.$refs[ "kalameh_" + store.state.activeAyah ] as Kalameh[];
-    ayahSeq[ ayahSeq.length -1 ].isTagged = !~myAyahTagID;
-
     // .. apply it
     this.init( "rescan" );
 
+    // .. toggle style number
+    this.toggleTaggedClass( !~myAyahTagID );
+
     // .. need more options to check even for H_T | ... ones
+
+}
+
+// -- =====================================================================================
+
+toggleTaggedClass ( mode: boolean ) {
+
+    let qertas = this.$parent.$parent.$parent;
+    let ayahSeq = qertas.$refs[ "kalameh_" + store.state.activeAyah ] as Kalameh[];
+    ayahSeq[ ayahSeq.length -1 ].isTagged = mode;
 
 }
 

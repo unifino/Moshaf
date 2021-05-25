@@ -10,14 +10,9 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView row=2 col=0 ref="menuBox" class="menuBox" orientation="vertical" >
+    <ScrollView row=2 col=0 ref="menuBox" class="menuBox">
 
-        <StackLayout 
-            class="buttonBox"
-            orientation="vertical" 
-            horizontalAlignment="center" 
-            verticalAlignment="center" 
-        >
+        <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
             <myButton 
                 v-for="(button,i) in buttons" 
@@ -66,6 +61,27 @@
 
 <!---------------------------------------------------------------------------------------->
 
+    <GridLayout row=1 rowSpan=3 col=2 rows="60,*,0" visibility="hidden">
+
+        <ScrollView row=1 background="blue" ref="taggedBox" class="taggedBox">
+
+            <StackLayout horizontalAlignment="center" verticalAlignment="center">
+
+                <Label 
+                    v-for="(item,i) in taggedItems"
+                    class="taggedItem"
+                    :key="i"
+                    :text="item.text"
+                />
+
+            </StackLayout>
+
+        </ScrollView>
+
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
 </GridLayout>
 </template>
 
@@ -103,7 +119,7 @@ export default class ToolBar extends Vue {
 
 tapPassed = false;
 active = false;
-searchMode: 'Q'|'H'|'T' = 'Q';
+searchMode: 'Q'|'H'|'T' = 'Q'
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
@@ -119,6 +135,23 @@ mounted () {
         state => state.activeAyah, 
         newVal => this.menuCtr( newVal )
     );
+
+}
+
+// -- =====================================================================================
+
+get taggedItems() {
+
+    let taggedItems: TS.Found = [];
+
+    for ( let b of storage.bound ) {
+        if ( b[0] === "Q_" + store.state.activeAyah )
+            taggedItems.push( { text: b[1], idx: -1, isBounded: false } );
+        if ( b[1] === "Q_" + store.state.activeAyah )
+            taggedItems.push( { text: b[0], idx: -1, isBounded: false } );
+    }
+
+    return taggedItems;
 
 }
 
@@ -187,8 +220,9 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source ) {
 
-    let a = "Q_" + store.state.activeAyah;
-    let b = source + "_" + id;
+    let a = "Q_" + store.state.activeAyah,
+        b = source + "_" + id,
+        searchBox = this.$refs[ "search_" + source ] as SearchBox;
 
     // .. find already Bound data
     let trace = storage.bound.findIndex( 
@@ -200,7 +234,10 @@ bind ( id: number, source: TS.Source ) {
     // .. already has been bound => remove it!
     else storage.bound.splice( trace, 1 );
 
-    ( this.$refs[ "search_" + source ] as SearchBox ).init( "rescan", false, true );
+    // .. rescan
+    searchBox.init( "rescan", false, true );
+    // .. toggle style number
+    searchBox.toggleTaggedClass( !~trace );
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.bound );
@@ -249,5 +286,11 @@ createNewTag () {
         opacity: 0;
     }
 
+    .taggedItem {
+        margin: 5 10;
+        padding: 5 7;
+        background-color: #272420;
+        border-radius: 4;
+    }
 
 </style>

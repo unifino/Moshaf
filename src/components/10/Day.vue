@@ -5,7 +5,6 @@
 
     <ScrollView
         class="paper"
-        orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
         @swipe="swipePass=true"

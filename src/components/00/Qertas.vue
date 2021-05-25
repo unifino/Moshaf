@@ -10,7 +10,6 @@
         row=2
         ref="qertas"
         class="qertas"
-        orientation="vertical"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="true"
     >
