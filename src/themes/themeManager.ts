@@ -25,7 +25,10 @@ let themeValues = function ( color: string ): themeValues{
 
 // -- =====================================================================================
 
-export function themeApplier ( colorName: TS.ThemeName, refs ): void {
+export function themeApplier ( colorName: TS.ThemeName, that ): void {
+
+    // .. absolute locating
+    that = that.$root.$children[0].$refs;
 
     // .. get values of the Theme and Element(s)
     let palette = themeValues( colorName );
@@ -37,10 +40,10 @@ export function themeApplier ( colorName: TS.ThemeName, refs ): void {
     let obj = [ "root" ];
 
     // .. apply root ClassName
-    refs[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
+    that[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
  
     // .. apply Background values
-    for ( let x of obj ) refs[x].nativeView.backgroundColor = palette.color;
+    for ( let x of obj ) that[x].nativeView.backgroundColor = palette.color;
 
     // .. register Theme
     store.state.appConfig.theme = colorName as TS.ThemeName;
@@ -50,6 +53,21 @@ export function themeApplier ( colorName: TS.ThemeName, refs ): void {
 
     // .. applying fullScreen Policy
     fullScreenApplier();
+
+}
+
+// -- =====================================================================================
+
+export function themePatcher ( that ) {
+
+    setTimeout( () => {
+        // .. cache it
+        let tmp = store.state.appConfig.theme;
+        // .. purge Theme
+        themeApplier( null, that );
+        // .. re-apply the Theme
+        themeApplier( tmp, that );
+    }, 700 );
 
 }
 

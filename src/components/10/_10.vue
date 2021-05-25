@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="$store.state.here='Base_10'">
+<Page @navigatedTo="pageLoaded()">
 <GridLayout class="myPage" rows="88,44,*,7">
 
 <!---------------------------------------------------------------------------------------->
@@ -37,6 +37,7 @@ import * as tools                       from "@/mixins/tools"
 import SearchBox                        from "@/components/m/SearchBox.vue"
 import Day                              from "@/components/10/Day.vue"
 import * as TS                          from "@/../types/myTypes"
+import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
 
@@ -55,6 +56,13 @@ swipePass;
 // -- =====================================================================================
 
 mounted () {}
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here='Base_10';
+    TM.themePatcher( this );
+}
 
 // -- =====================================================================================
 

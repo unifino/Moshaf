@@ -145,15 +145,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
             let toolBar = qertas.$refs[ "ToolBar" ] as ToolBar;
             // ..  just close ToolBar by resetting activeAyah
             if ( toolBar.active ) store.state.activeAyah = -1;
-            else {
-                qertas.exit();
-                // .. reset Theme
-                setTimeout( () => {
-                    let tmp = store.state.appConfig.theme;
-                    TM.themeApplier( null, this.$refs );
-                    TM.themeApplier( tmp, this.$refs );
-                }, 700 );
-            }
+            else qertas.exit();
         break;
 
         // .. let do NOTHING!
@@ -194,7 +186,7 @@ setup (): Promise<void> {
     return new Promise ( (rs, rx) => { 
 
         // .. just applying default theme
-        TM.themeApplier( "Smoky", this.$refs );
+        TM.themeApplier( "Smoky", this );
 
         // .. first actual step! go to the Quran
         this.to_Base_00( null );
@@ -279,10 +271,8 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
     }
 
     // .. theme changer
-    if ( args.direction === NS.SwipeDirection.down )
-        TM.themeApplier( "CoolGreen", this.$refs );
-    if ( args.direction === NS.SwipeDirection.up )
-        TM.themeApplier( "Smoky", this.$refs );
+    if ( args.direction === NS.SwipeDirection.down ) TM.themeApplier( "CoolGreen", this );
+    if ( args.direction === NS.SwipeDirection.up ) TM.themeApplier( "Smoky", this );
 
 
 }

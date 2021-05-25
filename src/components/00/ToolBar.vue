@@ -151,8 +151,9 @@ mounted () {
 // -- =====================================================================================
 
 boundClasser ( item: TS.Found_Item ) {
-    let boundClass = 'boundedItem';
-    boundClass += item.isBounded ? '' : ' cached';
+    let boundClass = "boundedItem";
+    boundClass += item.isBounded ? "" : " cached";
+    if ( item.idx === -1 ) boundClass += " origin" 
     return boundClass
 }
 
@@ -173,6 +174,13 @@ getBoundedItems() {
 
     boundedItems = boundedItems.map( x => this.boundParser( x ) );
     boundedItems = this.cacheBoundParser( boundedItems );
+
+    // .. add even origin
+    boundedItems.unshift( { 
+        text: tools.quranPreviewer( store.state.activeAyah ),
+        idx: -1,
+        isBounded: true
+    } )
 
     return boundedItems;
 
@@ -200,7 +208,6 @@ boundParser ( item: TS.Found_Item ) {
 cacheBoundParser ( items: TS.Found ) {
 
     for ( const c of this.cachedBounded ) {
-        console.log(c );
         if ( !items.find( x => c === x.source + "_" + x.idx ) )
             items.push( this.boundParser( { text: c, idx: -1, isBounded: false } ) );
     }
@@ -295,6 +302,9 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source, rescan = true ) {
 
+    // .. id === -1
+    if ( !~id ) return 0;
+
     let a = "Q_" + store.state.activeAyah,
         b = source + "_" + id,
         searchBox = this.$refs[ "search_" + source ] as SearchBox;
@@ -378,6 +388,14 @@ createNewTag () {
         text-decoration: line-through;
         background-color: #222324;
         color: #8b8b8b;
+    }
+
+    .CoolGreen .origin,
+    .Smoky .origin {
+        background-color: #0b2e10;
+        border-width: 1;
+        border-color: #8b8b8b;
+        color: #cacaca;
     }
 
 </style>

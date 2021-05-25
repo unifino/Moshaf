@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="$store.state.here='Base_01'">
+<Page @navigatedTo="pageLoaded()">
 <GridLayout class="myPage" rows="44,44,44,44,*,72" >
 
 <!---------------------------------------------------------------------------------------->
@@ -45,6 +45,7 @@ import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import SearchBox                        from "@/components/m/SearchBox.vue"
+import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
 
@@ -65,6 +66,13 @@ found = [];
 
 mounted () {
     this.najawa = Najawa;
+}
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here='Base_01';
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================
