@@ -30,6 +30,7 @@
             class="fas button" 
             :text="String.fromCharCode( '0x' + 'f1da' )"
             @tap="init( 'history' )"
+            @longPress="purgeHistory()"
         />
 
         <Label
@@ -331,6 +332,19 @@ history ( escape?: boolean ) {
 
     return found;
 
+}
+
+// -- =====================================================================================
+
+purgeHistory () {
+    // .. get Name
+    let traceName = 'trace_' + this.source.toLowerCase();
+    // .. soft Purge
+    storage[ traceName ].splice(0);
+    // .. hard registration
+    storage.saveDB( storage[ traceName + "_File" ], storage[ traceName ] );
+    // .. notify
+    tools.toaster( "🗑" );
 }
 
 // -- =====================================================================================

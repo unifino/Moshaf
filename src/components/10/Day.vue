@@ -86,30 +86,36 @@ hadis: {
 } = { 
     a: null, b: null, c: null, d: null, e: null 
 };
-currentId = -1;
+currentId: number;
 
 // -- =====================================================================================
 
-mounted () {
-    this.init();
-}
+mounted () {}
 
 // -- =====================================================================================
 
-init () {
+init ( id: number = -1 ) {
 
-    // .. get a random one
-    let saat = new Date();
-    let rand = saat.getTime() % Hadith.length;
+    this.currentId = id;
 
-    // .. it has been read already
-    while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Hadith.length;
+    if ( ~id ) this.show( id );
 
-    // .. register the ID
-    this.currentId = rand;
+    else {
 
-    // .. show it
-    this.show( rand );
+        // .. get a random one
+        let saat = new Date();
+        let rand = saat.getTime() % Hadith.length;
+
+        // .. it has been read already
+        while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Hadith.length;
+
+        // .. register the ID
+        this.currentId = rand;
+
+        // .. show it
+        this.show( rand );
+
+    }
 
 }
 
@@ -194,7 +200,7 @@ toggleFavorite () {
     else storage.fav_h.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
-    storage.saveDB( storage.trace_h_File, storage.trace_h );
+    storage.saveDB( storage.fav_h_File, storage.fav_h );
 }
 
 // -- =====================================================================================

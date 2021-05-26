@@ -153,7 +153,7 @@ mounted () {
 boundClasser ( item: TS.Found_Item ) {
     let boundClass = "boundedItem";
     boundClass += item.isBounded ? "" : " cached";
-    if ( item.idx === -1 ) boundClass += " origin" 
+    if ( !~item.idx ) boundClass += " origin" 
     return boundClass
 }
 
@@ -302,7 +302,6 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source, rescan = true ) {
 
-    // .. id === -1
     if ( !~id ) return 0;
 
     let a = "Q_" + store.state.activeAyah,
