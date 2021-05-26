@@ -226,6 +226,8 @@ to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
 to_Base_10 (): void {
 
+    tools.searchBoxResetter();
+
     Vue.prototype.$navigateTo( Base_10, {
 
         frame : "_base_" ,
@@ -239,6 +241,8 @@ to_Base_10 (): void {
 // -- =====================================================================================
 
 to_Base_01 (): void {
+
+    tools.searchBoxResetter();
 
     Vue.prototype.$navigateTo( Base_01, {
 
@@ -265,6 +269,7 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
         ( store.state.here === "Base_10" && args.direction === NS.SwipeDirection.left )
     )
     {
+        tools.searchBoxResetter();
         let _base_ = this.$root.$children[0].$refs._base_ as any;
         let base_00 = _base_.$children[1] as any;
         base_00.$navigateBack();

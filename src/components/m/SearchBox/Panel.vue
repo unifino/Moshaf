@@ -78,8 +78,6 @@ export default class SearchBox extends Vue {
 
 result: TS.Found = [];
 result_tag: TS.Found = [];
-tagsList: { text: string, count: string }[] = [];
-performedMode: TS.SearchMode;
 
 // -- =====================================================================================
 
@@ -95,10 +93,6 @@ mounted() {
 
 // -- =====================================================================================
 
-test ( x ) {
-    console.log( x );
-}
-
 tagClasser ( item: TS.Found_Item ) {
     let tagClass = 'tag';
     tagClass += item.isBounded ? ' bounded' : '';
@@ -110,8 +104,8 @@ tagClasser ( item: TS.Found_Item ) {
 
 init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 
-    // .. clear tagList
-    this.tagsList = [];
+    // // .. clear tagList
+    // this.tagsList = [];
 
     let data: TS.Found;
     let sos: boolean = mode === "search" ? force : escapeReTap;
@@ -119,7 +113,7 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
     if ( this.source === "T" ) {
         data = this.tagFinder();
         this.result_tag = data;
-        this.performedMode = "tag";
+        // this.performedMode = "tag";
         return;
     }
 
@@ -128,7 +122,7 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
         // case "search"   : data = this.search( force );              break;
         // case "history"  : data = this.history();                    break;
         // case "favorite" : data = this.favorite();                   break;
-        case "rescan"   : data = this[ this.performedMode ]( sos ); break;
+        // case "rescan"   : data = this[ this.performedMode ]( sos ); break;
         // default         : tools.toaster( mode + " ???" );           return;
     }
 
@@ -136,7 +130,7 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 
     this.result = data;
 
-    this.performedMode = mode !== "rescan" ? mode : this.performedMode;
+    // this.performedMode = mode !== "rescan" ? mode : this.performedMode;
 
 }
 
@@ -145,43 +139,43 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 cachedTags: string[] = [];
 tagFinder () {
 
-    let found: TS.Found = [],
-        item: TS.Found_Item,
-        x: [ string, string ],
-        maxID = store.state.bounds.length;
+    let found: TS.Found = [];
+    //     item: TS.Found_Item,
+    //     x: [ string, string ],
+    //     maxID = store.state.bounds.length;
 
-    for ( const i in store.state.bounds ) {
+    // for ( const i in store.state.bounds ) {
 
-        item = null;
-        x = store.state.bounds[i];
+    //     item = null;
+    //     x = store.state.bounds[i];
 
-        if ( x[0].slice( 0, 1 ) === "T" ) item = { 
-            text: x[0].slice(2), 
-            idx: Number(i),
-            isBounded: this.isBounded( x[0].slice(2) )
-        }
+    //     if ( x[0].slice( 0, 1 ) === "T" ) item = { 
+    //         text: x[0].slice(2), 
+    //         idx: Number(i),
+    //         isBounded: this.isBounded( x[0].slice(2) )
+    //     }
 
-        else if ( x[1].slice( 0, 1 ) === "T" ) item = { 
-            text: x[1].slice( 2 ), 
-            idx: Number(i),
-            isBounded: this.isBounded( x[1].slice(2) )
-        }
+    //     else if ( x[1].slice( 0, 1 ) === "T" ) item = { 
+    //         text: x[1].slice( 2 ), 
+    //         idx: Number(i),
+    //         isBounded: this.isBounded( x[1].slice(2) )
+    //     }
 
-        // .. soft registeration ( Unique )
-        if ( item && !found.find( x => x.text === item.text ) ) found.push( item );
+    //     // .. soft registeration ( Unique )
+    //     if ( item && !found.find( x => x.text === item.text ) ) found.push( item );
 
-    }
+    // }
 
-    // .. cache Tags
-    for ( const f of found ) 
-        if ( !this.cachedTags.includes( f.text ) ) this.cachedTags.push( f.text );
+    // // .. cache Tags
+    // for ( const f of found ) 
+    //     if ( !this.cachedTags.includes( f.text ) ) this.cachedTags.push( f.text );
 
-    // .. add cached Tags
-    for ( const t of this.cachedTags ) 
-        if ( !found.find( x => x.text === t ) ) 
-            found.push( { text: t, idx: -1 *( found.length +maxID ), isBounded: false } );
+    // // .. add cached Tags
+    // for ( const t of this.cachedTags ) 
+    //     if ( !found.find( x => x.text === t ) ) 
+    //         found.push( { text: t, idx: -1 *( found.length +maxID ), isBounded: false } );
 
-    found = found.sort( (a,b) => a.text > b.text ? 1 : -1 );
+    // found = found.sort( (a,b) => a.text > b.text ? 1 : -1 );
 
     return found;
 
@@ -193,35 +187,35 @@ isBounded ( check: number|string ) {
 
     let state: boolean = false;
 
-    for ( let x of store.state.bounds ) {
+    // for ( let x of store.state.bounds ) {
 
-        // .. examine first [cell as Ayah] then check second one
-        if ( x[0] === "Q_" + store.state.activeAyah )
-            if ( Number( x[1].slice(2) ) === check ) 
-                state = true;
+    //     // .. examine first [cell as Ayah] then check second one
+    //     if ( x[0] === "Q_" + store.state.activeAyah )
+    //         if ( Number( x[1].slice(2) ) === check ) 
+    //             state = true;
 
-        // .. state Declared!
-        if ( state ) break;
+    //     // .. state Declared!
+    //     if ( state ) break;
 
-        // .. examine second [cell as Ayah] then chcek first one
-        if ( x[1] === "Q_" + store.state.activeAyah )
-            if ( Number( x[0].slice(2) ) === check )
-                state = true;
+    //     // .. examine second [cell as Ayah] then chcek first one
+    //     if ( x[1] === "Q_" + store.state.activeAyah )
+    //         if ( Number( x[0].slice(2) ) === check )
+    //             state = true;
 
-        // .. state Declared!
-        if ( state ) break;
+    //     // .. state Declared!
+    //     if ( state ) break;
 
-        // .. examine first [cell as Ayah] is Bound to this Tag
-        if ( x[0] === "Q_" + store.state.activeAyah )
-            if ( x[1].slice(2) === check ) 
-                state = true;
+    //     // .. examine first [cell as Ayah] is Bound to this Tag
+    //     if ( x[0] === "Q_" + store.state.activeAyah )
+    //         if ( x[1].slice(2) === check ) 
+    //             state = true;
 
-        // .. state Declared!
-        if ( state ) break;
+    //     // .. state Declared!
+    //     if ( state ) break;
 
-        // .. need more options to check even for H_H | ... ones
+    //     // .. need more options to check even for H_H | ... ones
 
-    }
+    // }
 
     return state;
 
@@ -231,24 +225,24 @@ isBounded ( check: number|string ) {
 
 toggleTag ( tag: string ) {
 
-    // .. examine first [cell as Ayah] and second [cell as Tag] 
-    let a = "Q_" + store.state.activeAyah,
-        b = "T_" + tag,
-        myAyahTagID = store.state.bounds.findIndex( x => x[0] === a && x[1] === b );
+    // // .. examine first [cell as Ayah] and second [cell as Tag] 
+    // let a = "Q_" + store.state.activeAyah,
+    //     b = "T_" + tag,
+    //     myAyahTagID = store.state.bounds.findIndex( x => x[0] === a && x[1] === b );
 
-    if ( ~myAyahTagID ) store.state.bounds.splice( myAyahTagID, 1 );
-    else store.state.bounds.push( [a, b] );
+    // if ( ~myAyahTagID ) store.state.bounds.splice( myAyahTagID, 1 );
+    // else store.state.bounds.push( [a, b] );
 
-    // .. hard registration
-    storage.saveDB( storage.bound_File, store.state.bounds );
+    // // .. hard registration
+    // storage.saveDB( storage.bound_File, store.state.bounds );
 
-    // .. apply it
-    this.init( "rescan" );
+    // // .. apply it
+    // this.init( "rescan" );
 
-    // .. toggle style number
-    this.toggleBoundedClass( !~myAyahTagID );
+    // // .. toggle style number
+    // this.toggleBoundedClass( !~myAyahTagID );
 
-    // .. need more options to check even for H_T | ... ones
+    // // .. need more options to check even for H_T | ... ones
 
 }
 
@@ -262,11 +256,6 @@ toggleBoundedClass ( mode: boolean ) {
 
 }
 
-// -- =====================================================================================
-
-tagPresenter ( tagName: string ) {
-    console.log(tagName);
-}
 
 // -- =====================================================================================
 
@@ -329,15 +318,6 @@ dismiss ( force=false ) {
         color: #8b8b8b;
     }
 
-    .Smoky .tagLine {
-        /* background-color: #c4c2c2; */
-        color: #383838;
-        font-size: 16;
-        border-radius: 4;
-        padding: 4 10;
-        margin: 4 0;
-        font-family: Amiri-Regular;
-    }
 
 /*                                          */
 

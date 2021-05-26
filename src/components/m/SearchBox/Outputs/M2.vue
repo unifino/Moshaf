@@ -1,21 +1,22 @@
 <template>
-<GridLayout :visibility="tagsList.length?'visible':'hidden'" class="result">
+<GridLayout 
+    :visibility=" $store.state.foundData_M2.length ? 'visible' : 'hidden' "
+    class="result"
+>
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView for="item in tagsList" >
+    <ListView for="item in $store.state.foundData_M2" >
         <v-template>
-            <GridLayout 
-                columns="33,2,*" 
-                class="tagLine" 
-                @tap="tagPresenter( item.text )"
-            >
 
-                <Label col=0 :text="item.count" />
+            <GridLayout columns="33,2,*" class="tagLine" @tap="tagPresenter(item)">
+
+                <Label col=0 :text="item.flags.count" />
                 <StackLayout background="gray" col=1 />
                 <Label col=2 :text="item.text" />
 
             </GridLayout>
+
         </v-template>
     </ListView>
 
@@ -46,14 +47,7 @@ import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
-export default class SingleColumnList extends Vue {
-
-// -- =====================================================================================
-
-tagsList = [];
-
-// -- =====================================================================================
-
+export default class Output_M2 extends Vue {
 
 // -- =====================================================================================
 
@@ -61,6 +55,9 @@ mounted () {}
 
 // -- =====================================================================================
 
+tagPresenter ( tagName: string ) {
+    console.log(tagName);
+}
 
 // -- =====================================================================================
 
@@ -97,6 +94,16 @@ mounted () {}
 
     .CoolGreen .item {
         color: #e0e0e0;
+    }
+
+    .Smoky .tagLine {
+        /* background-color: #c4c2c2; */
+        color: #383838;
+        font-size: 16;
+        border-radius: 4;
+        padding: 4 10;
+        margin: 4 0;
+        font-family: Amiri-Regular;
     }
 
 </style>

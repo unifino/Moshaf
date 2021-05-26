@@ -20,7 +20,9 @@ export default new Vuex.Store( {
         phraseInSearch  : null                  ,
         forceSearchFuse : false                 ,
         lastSearchedBy  : null                  ,
-        foundData       : []                    ,
+        foundData_M1    : []                    ,
+        foundData_M2    : []                    ,
+        foundData_M3    : []                    ,
                                                  
         fav             : {                      
             Q           : []                    ,
@@ -31,7 +33,7 @@ export default new Vuex.Store( {
             H           : []                    ,
         }                                       ,
                                                  
-        bounds          : []                    ,
+        cakeBound       : {}                    ,
                                                  
     } as state,
 
@@ -49,7 +51,9 @@ interface state {
         phraseInSearch  : string                ,
         forceSearchFuse : boolean               ,
         lastSearchedBy  : TS.SearchMode         ,
-        foundData       : TS.FoundContent []    ,
+        foundData_M1    : TS.FoundContent []    ,
+        foundData_M2    : TS.FoundContent []    ,
+        foundData_M3    : TS.FoundContent []    ,
                                                  
         fav             : {                      
             Q           : number[]              ,
@@ -59,7 +63,7 @@ interface state {
             Q           : number[]              ,
             H           : number[]              ,
         }                                       ,
-        bounds          : [ string, string ][]  ,
+        cakeBound       : TS.CakeBound          ,
                                                  
 }
 

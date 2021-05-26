@@ -103,11 +103,11 @@ export function inFarsiLetters ( str: string ) {
 
 // -- =====================================================================================
 
-export function scapeCheck ( mode: TS.SearchMode ) {
+export function scapeCheck_M1 ( mode: TS.SearchMode ) {
 
-    if ( store.state.foundData.length && store.state.lastSearchedBy === mode ) {
+    if ( store.state.foundData_M1.length && store.state.lastSearchedBy === mode ) {
         store.state.lastSearchedBy = null;
-        store.state.foundData = [];
+        store.state.foundData_M1 = [];
         return true;
     }
 
@@ -121,7 +121,8 @@ export function searchBoxResetter () {
     store.state.forceSearchFuse = false;
     store.state.lastSearchedBy = null;
     store.state.phraseInSearch = null;
-    store.state.foundData = [];
+    store.state.foundData_M1 = [];
+    store.state.foundData_M2 = [];
     store.state.activeAyah = -1;
 } 
 
@@ -130,3 +131,5 @@ export function searchBoxResetter () {
 export function quranPreviewer ( id: number ) {
     return null;
 }
+
+// -- =====================================================================================

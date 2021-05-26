@@ -141,5 +141,15 @@ export type FoundContent = {
     flags           : {          
         isBounded?  : boolean   ,
         isHeader?   : boolean   ,
+        isCached?   : boolean   ,
+        count?      : number    ,
     }
 };
+
+// -- =====================================================================================
+
+export type CakeBound = {
+    [key: string]: string[],
+}
+
+// -- =====================================================================================

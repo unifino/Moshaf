@@ -60,39 +60,25 @@ activeClass () {
 
 listRetriever () {
 
-    // // .. re-tap situation
-    // if ( this.tagsList.length ) {
-    //     this.tagsList = [];
-    //     return;
-    // } 
-
-    let tagsListSimple: string[] = [],
-        tmpTagsList: { tagName: string, count: number }[] = [],
-        tmpID: number;
-
-    for ( const x of store.state.bounds ) {
-        if ( x[0].slice( 0, 1 ) === "T" ) tagsListSimple.push( x[0].slice(2) );
-        if ( x[1].slice( 0, 1 ) === "T" ) tagsListSimple.push( x[1].slice(2) );
+    // .. re-tap situation
+    if ( !store.state.foundData_M2.length ) tools.searchBoxResetter();
+    else {
+        store.state.foundData_M2 = [];
+        return;
     }
 
-    tmpTagsList = tagsListSimple.reduce( (soFar, nextOne) => {
+    let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
-        tmpID = soFar.findIndex( x => x.tagName === nextOne );
-        // .. count up fot this Tag
-        if ( ~tmpID ) soFar[ tmpID ].count++;
-        // .. add this Tag
-        else soFar.push( { tagName: nextOne, count: 1 } );
-
-        return soFar;
-
-    }, tmpTagsList );
-
-    // this.tagsList = tmpTagsList.map( (x,i) => {
-    //     return {
-    //         text: x.tagName,
-    //         count: tools.arabicDigits( x.count + "" ),
-    //     }
-    // } );
+    store.state.foundData_M2 = Object.values( rawTags ).map( (x, i) => { 
+        return {
+            id: i,
+            text: x.slice(2),
+            source: "T",
+            flags: {
+                count: tools.arabicDigits( store.state.cakeBound[x].length +'' ) as any
+            }
+        }
+    } );
 
 }
 

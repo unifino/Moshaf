@@ -50,7 +50,7 @@ import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
-export default class SingleColumnList extends Vue {
+export default class Output_M3 extends Vue {
 
 // -- =====================================================================================
 

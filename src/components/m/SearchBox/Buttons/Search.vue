@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f002' )"
-        @tap="getSearchResult( true )"
+        @tap="getSearchResult_M1( true )"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -50,33 +50,33 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => store.state.foundData.length, 
-        () => this.activeClass()
+        state => store.state.foundData_M1.length, 
+        () => this.activeClass_M1()
     );
 
     store.watch(
         state => store.state.phraseInSearch, 
-        newVal => { if ( newVal ) this.getSearchResult() }
+        newVal => { if ( newVal ) this.getSearchResult_M1() }
     );
 
     store.watch(
         state => store.state.forceSearchFuse, 
-        newVal => { if ( newVal ) this.getSearchResult( true ) }
+        newVal => { if ( newVal ) this.getSearchResult_M1( true ) }
     );
 
     // .. init
-    this.activeClass();
+    this.activeClass_M1();
 
 }
 
 // -- =====================================================================================
 
-activeClass () {
+activeClass_M1 () {
 
     // .. reset Class
     let activeClass = false;
 
-    if ( !store.state.foundData.length )
+    if ( !store.state.foundData_M1.length )
         if ( this.source ==='Q' || this.source ==='H' || this.source ==='N' ) 
             activeClass = true;
 
@@ -86,10 +86,11 @@ activeClass () {
 
 // -- =====================================================================================
 
-getSearchResult ( force?: boolean ) {
+getSearchResult_M1 ( force?: boolean ) {
 
     // .. re-tap situation
-    if ( !force && tools.scapeCheck( "search" ) ) return;
+    if ( !force && tools.scapeCheck_M1( "search" ) ) return;
+    tools.searchBoxResetter();
 
     // .. register action
     store.state.lastSearchedBy = "search";
@@ -117,7 +118,7 @@ search_Q ( phrase: string ): void {
         if ( tools.inFarsiLetters( Quran[i].simple ).includes( phrase ) )
             found.push( tools.contentPreviewer( "Q", i ) );
 
-    store.state.foundData = found;
+    store.state.foundData_M1 = found;
 
 }
 
@@ -140,7 +141,7 @@ search_H ( phrase: string ): void {
 
     }
 
-    store.state.foundData = found;
+    store.state.foundData_M1 = found;
 
 }
 
@@ -148,7 +149,7 @@ search_H ( phrase: string ): void {
 
 search_N (): void {
     // this.$emit( 'search', str );
-    store.state.foundData = [];
+    store.state.foundData_M1 = [];
 }
 
 // -- =====================================================================================

@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f00d' )"
-        @tap="dismiss()"
+        @tap="dismiss_M1()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -48,23 +48,23 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => store.state.foundData.length, 
-        () => this.activeClass()
+        state => store.state.foundData_M1.length, 
+        () => this.activeClass_M1()
     );
 
     // .. init
-    this.activeClass();
+    this.activeClass_M1();
 
 }
 
 // -- =====================================================================================
 
-activeClass () {
+activeClass_M1 () {
 
     // .. reset Class
     let activeClass = true;
 
-    if ( !store.state.foundData.length )
+    if ( !store.state.foundData_M1.length )
         if ( this.source ==='Q' || this.source ==='H' || this.source ==='N' ) 
             activeClass = false;
 
@@ -74,11 +74,12 @@ activeClass () {
 
 // -- =====================================================================================
 
-async dismiss () {
-    store.state.foundData = [];
+async dismiss_M1 () {
+    store.state.foundData_M1 = [];
     store.state.lastSearchedBy = null;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.phraseInSearch = null;
+    tools.searchBoxResetter();
 }
 
 // -- =====================================================================================

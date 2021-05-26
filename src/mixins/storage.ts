@@ -12,7 +12,7 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
-let bound   : [ string, string ][];
+let rawBound: [ string, string ][];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
@@ -46,20 +46,20 @@ export function db_check (): Promise<void> {
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
         try { fav_q   = JSON.parse( fav_q_File.readTextSync()   ) } catch { fav_q   = [] }
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
-        try { bound   = JSON.parse( bound_File.readTextSync()   ) } catch { bound   = [] }
+        try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
 
         // .. check integrity 
         if ( !trace_q ) saveDB( trace_q_File, [] );
         if ( !trace_h ) saveDB( trace_h_File, [] );
         if ( !fav_q   ) saveDB( fav_q_File, [] );
         if ( !fav_h   ) saveDB( fav_h_File, [] );
-        if ( !bound   ) saveDB( bound_File, [] );
+        if ( !rawBound) saveDB( bound_File, [] );
 
         store.state.fav.Q = fav_q;
         store.state.fav.H = fav_h;
         store.state.memo.Q = trace_q;
         store.state.memo.H = trace_h;
-        store.state.bounds = bound;
+        store.state.cakeBound = boundParser( rawBound );
 
         // .. resolve
         rs();
@@ -161,5 +161,34 @@ export function some_tool ( data: {
 //     })
 //     saveTest( "newBound", "json" , JSON.stringify(newB) );
 // }
+
+// -- =====================================================================================
+
+export function boundParser ( rawBound: [ string, string ][] ): TS.CakeBound {
+
+    let cake: TS.CakeBound = {};
+
+    let a: number,
+        b: number;
+
+    for ( let r of rawBound ) {
+
+        a = 0; b = 1;
+        // .. Add new Taste into the Cake
+        if ( !( r[a] in cake ) ) cake[ r[a] ] = [ r[b] ];
+        // .. Already-Tastes takes new Data ( Unique ) 
+        else if ( !cake[ r[a] ].includes( r[b] ) ) cake[ r[a] ].push( r[b] );
+
+        a = 1; b = 0;
+        // .. Add new Taste into the Cake
+        if ( !( r[a] in cake ) ) cake[ r[a] ] = [ r[b] ];
+        // .. Already-Tastes takes new Data ( Unique ) 
+        else if ( !cake[ r[a] ].includes( r[b] ) ) cake[ r[a] ].push( r[b] );
+
+    }
+
+    return cake;
+
+}
 
 // -- =====================================================================================

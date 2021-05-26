@@ -127,7 +127,7 @@ export default class ToolBar extends Vue {
 tapPassed = false;
 active = false;
 searchMode: 'Q'|'H'|'T' = 'Q'
-boundedItems: TS.Found = [];
+boundedItems: TS.FoundContent[] = [];
 cachedBounded: string[];
 cachedLastID: number;
 
@@ -150,66 +150,68 @@ mounted () {
 
 // -- =====================================================================================
 
-boundClasser ( item: TS.Found_Item ) {
+boundClasser ( item: TS.FoundContent ) {
     let boundClass = "boundedItem";
-    boundClass += item.isBounded ? "" : " cached";
-    if ( !~item.idx ) boundClass += " origin" 
+    if ( item.flags.isBounded ) boundClass += " cached";
+    if ( item.flags.isHeader ) boundClass += " header";
     return boundClass
 }
 
 // -- =====================================================================================
 
-getBoundedItems() {
+getBoundedItems() : TS.FoundContent[] {
 
-    let boundedItems: TS.Found = [];
+    let origin = "Q_" + store.state.activeAyah;
+    let boundedItems: string[] = store.state.cakeBound[ origin ] || [];
+    let result: TS.FoundContent[] = [];
 
-    for ( let b of store.state.bounds ) {
-        if ( b[0] === "Q_" + store.state.activeAyah )
-            boundedItems.push( { text: b[1], idx: -1, isBounded: true } );
-
-        if ( b[1] === "Q_" + store.state.activeAyah )
-            boundedItems.push( { text: b[0], idx: -1, isBounded: true } );
-
-    }
-
-    boundedItems = boundedItems.map( x => this.boundParser( x ) );
-    boundedItems = this.cacheBoundParser( boundedItems );
+    result = boundedItems.map( x => this.boundParser( x ) );
+    result = this.cacheBoundParser( result );
 
     // .. add even origin
-    boundedItems.unshift( { 
-        text: tools.quranPreviewer( store.state.activeAyah ),
-        idx: -1,
-        isBounded: true
+    if ( result.length ) result.unshift( {
+        id: store.state.activeAyah,
+        text: tools.quranTextPreviewer( store.state.activeAyah ),
+        source: "Q",
+        flags: { isHeader: true }
     } )
 
-    return boundedItems;
+    return result;
 
 }
 
 // -- =====================================================================================
 
-boundParser ( item: TS.Found_Item ) {
+boundParser ( item: string ): TS.FoundContent {
 
-    if ( !this.cachedBounded.includes( item.text) ) this.cachedBounded.push( item.text );
+    if ( !this.cachedBounded.includes( item ) ) 
+        if ( item.slice(0 , 1) !== "T" )
+            this.cachedBounded.push( item );
 
-    let source = item.text.slice( 0, 1 ) as TS.Source;
-    item.idx = Number( item.text.slice(2) ) as number;
+    let source = item.slice(0, 1) as TS.Source;
+    let id = Number( item.slice(2) ) as number;
 
-    if ( source === "Q" ) item.text = tools.quranPreviewer( item.idx );
-    else if ( source === "H" ) item.text = Hadith[ item.idx ].a;
-    item.source = source;
+    if ( source === "Q" ) 
+        return { id: id, text: tools.quranPreviewer(id), source: source, flags: {} }
+    if ( source === "H" ) 
+        return { id: id, text: tools.hadithTextPreviewer(id), source: source, flags: {} }
 
-    return item;
+    return null;
 
 }
 
 // -- =====================================================================================
 
-cacheBoundParser ( items: TS.Found ) {
+cacheBoundParser ( items: TS.FoundContent[] ) {
+
+    let cached: TS.FoundContent;
 
     for ( const c of this.cachedBounded ) {
-        if ( !items.find( x => c === x.source + "_" + x.idx ) )
-            items.push( this.boundParser( { text: c, idx: -1, isBounded: false } ) );
+        if ( !items.find( x => c === x.source + "_" + x.id ) ) {
+            cached = this.boundParser(c);
+            cached.flags.isCached = true;
+            items.push( cached );
+        }
     }
 
     return items;
@@ -266,7 +268,8 @@ async menuCtr ( id: number ) {
 // -- =====================================================================================
 
 cacheCtr ( id: number ) {
-
+    console.log(id);
+    
     // .. reset cache memory
     if ( this.cachedLastID !== id ) this.cachedBounded = [];
     // .. cache id
@@ -302,31 +305,31 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source, rescan = true ) {
 
-    if ( !~id ) return 0;
+    // if ( !~id ) return 0;
 
-    let a = "Q_" + store.state.activeAyah,
-        b = source + "_" + id,
-        searchBox = this.$refs[ "search_" + source ] as SearchBox;
+    // let a = "Q_" + store.state.activeAyah,
+    //     b = source + "_" + id,
+    //     searchBox = this.$refs[ "search_" + source ] as SearchBox;
 
-    // .. find already Bound data
-    let trace = store.state.bounds.findIndex( 
-        x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
-    );
+    // // .. find already Bound data
+    // let trace = store.state.bounds.findIndex( 
+    //     x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
+    // );
 
-    // .. no Trace has been found => add it!
-    if ( !~trace ) store.state.bounds.push( [ a, b ] );
-    // .. already has been bound => remove it!
-    else store.state.bounds.splice( trace, 1 );
+    // // .. no Trace has been found => add it!
+    // if ( !~trace ) store.state.bounds.push( [ a, b ] );
+    // // .. already has been bound => remove it!
+    // else store.state.bounds.splice( trace, 1 );
 
-    // .. rescan
-    this.boundedItems = this.getBoundedItems();
-    if ( rescan ) searchBox.init( "rescan", false, true );
+    // // .. rescan
+    // this.boundedItems = this.getBoundedItems();
+    // if ( rescan ) searchBox.init( "rescan", false, true );
 
-    // .. toggle style number
-    searchBox.toggleBoundedClass( !~trace );
+    // // .. toggle style number
+    // searchBox.toggleBoundedClass( !~trace );
 
-    // .. hard registration
-    storage.saveDB( storage.bound_File, store.state.bounds );
+    // // .. hard registration
+    // storage.saveDB( storage.bound_File, store.state.bounds );
 
 }
 

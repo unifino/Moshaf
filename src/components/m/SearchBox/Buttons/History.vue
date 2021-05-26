@@ -5,8 +5,8 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f1da' )"
-        @tap="getHistory()"
-        @longPress="purgeHistory()"
+        @tap="getHistory_M1()"
+        @longPress="purgeHistory_M1()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -50,17 +50,17 @@ mounted () {
 
     store.watch(
         state => state.memo.Q.length + state.memo.H.length, 
-        () => this.activeClass()
+        () => this.activeClass_M1()
     );
 
     // .. init
-    this.activeClass();
+    this.activeClass_M1();
 
 }
 
 // -- =====================================================================================
 
-activeClass () {
+activeClass_M1 () {
 
     // .. reset Class
     let activeClass = false;
@@ -74,10 +74,11 @@ activeClass () {
 
 // -- =====================================================================================
 
-getHistory ( escape?: boolean ) {
+getHistory_M1 () {
 
     // .. re-tap situation
-    if ( !escape && tools.scapeCheck( "history" ) ) return;
+    if ( tools.scapeCheck_M1( "history" ) ) return;
+    tools.searchBoxResetter();
 
     // .. register action
     store.state.lastSearchedBy = "history";
@@ -87,13 +88,13 @@ getHistory ( escape?: boolean ) {
     for ( const m of store.state.memo[ this.source ] ) 
         found.unshift( tools.contentPreviewer( this.source, m ) )
 
-    store.state.foundData = found;
+    store.state.foundData_M1 = found;
 
 }
 
 // -- =====================================================================================
 
-purgeHistory () {
+purgeHistory_M1 () {
     // .. get Name
     let traceName = 'trace_' + this.source.toLowerCase();
     // .. soft Purge

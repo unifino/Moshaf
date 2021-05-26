@@ -68,22 +68,19 @@ get theType (): string {
         ")"
     ];
 
-    for ( const x of salam ) 
-        if ( x === this.myText ) 
-            theType = "salam";
+    for ( const x of salam ) if ( x === this.myText ) theType = "salam";
 
     if ( this.myText === "!BREAKLINE!" ) theType = "BREAKLINE";
     if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";
 
-    // .. highlight marked ayat
-    this.isFav = this.myType === "number" && store.state.fav.Q.includes( this.aID ) ?
-        true : false;
-    // .. highlight bounded ayat
-    let bounded = store.state.bounds.find( 
-        x => Number( x[0].slice(2) ) === this.aID || Number( x[1].slice(2) ) === this.aID 
-    );
-    this.isBounded = this.myType === "number" && bounded ? true : false;
+    if ( this.myType === "number" ) {
+        // .. highlight marked ayat
+        this.isFav = store.state.fav.Q.includes( this.aID ) ? true : false;
+        // .. highlight bounded ayat
+        this.isBounded = "Q_" + this.aID in store.state.cakeBound ? true : false;
+    }
 
+    // .. build it
     theType += this.isFav ? ' fav' : '';
     theType += this.isBounded ? ' bounded' : '';
     theType += this.isPressed ? ' pressed' : '';
