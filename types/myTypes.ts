@@ -133,3 +133,13 @@ export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan" 
 // export type Bound = BoundItem[];
 
 // -- =====================================================================================
+
+export type FoundContent = {
+    id              : number    ,
+    text            : string    ,
+    source          : Source    ,
+    flags           : {          
+        isBounded?  : boolean   ,
+        isHeader?   : boolean   ,
+    }
+};

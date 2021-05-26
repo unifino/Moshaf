@@ -107,7 +107,7 @@ init ( id: number = -1 ) {
         let rand = saat.getTime() % Hadith.length;
 
         // .. it has been read already
-        while ( storage.trace_h.includes( rand ) ) rand = saat.getTime() % Hadith.length;
+        while ( store.state.memo.H.includes( rand ) ) rand = saat.getTime() % Hadith.length;
 
         // .. register the ID
         this.currentId = rand;
@@ -158,11 +158,11 @@ show ( id: number ) {
     this.hadis.d = Hadith[ id ].d || "";
 
     // .. add new trace
-    let old = storage.trace_h.findIndex( x => x === id );
-    if ( ~old ) storage.trace_h.splice( old, 1 );
-    storage.trace_h.push( id );
+    let old = store.state.memo.H.findIndex( x => x === id );
+    if ( ~old ) store.state.memo.H.splice( old, 1 );
+    store.state.memo.H.push( id );
     // .. hard registration
-    storage.saveDB( storage.trace_h_File, storage.trace_h, 44 );
+    storage.saveDB( storage.trace_h_File, store.state.memo.H, 44 );
 
 }
 
@@ -193,23 +193,23 @@ copy () {
 // -- =====================================================================================
 
 toggleFavorite () {
-    let trace = storage.fav_h.indexOf( this.currentId );
+    let trace = store.state.fav.H.indexOf( this.currentId );
     // .. add to Favorite
-    if ( !~trace ) storage.fav_h.push( this.currentId );
+    if ( !~trace ) store.state.fav.H.push( this.currentId );
     // .. pop out of Favorite
-    else storage.fav_h.splice( trace, 1 );
+    else store.state.fav.H.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
-    storage.saveDB( storage.fav_h_File, storage.fav_h );
+    storage.saveDB( storage.fav_h_File, store.state.fav.H );
 }
 
 // -- =====================================================================================
 
 popLastTrace () {
     // .. remove last trace
-    storage.trace_h.pop();
+    store.state.memo.H.pop();
     // .. hard registration
-    storage.saveDB( storage.trace_h_File, storage.trace_h );
+    storage.saveDB( storage.trace_h_File, store.state.memo.H );
     // .. notify the action
     tools.toaster( "pop!", "short" );
 }

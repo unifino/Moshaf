@@ -45,7 +45,6 @@
         row=1
         rowSpan=2
         ref="search"
-        @search="search"
         @interact="open"
         :hashTagButton="true"
         source="Q"
@@ -70,7 +69,7 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox.vue"
+import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 
@@ -90,7 +89,14 @@ asma = asma;
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+
+    store.watch(
+        state => store.state.phraseInSearch, 
+        newVal => this.search()
+    );
+
+}
 
 // -- =====================================================================================
 
@@ -118,12 +124,13 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( str: string ) {
+search () {
 
     // .. reset asma
     this.asma = asma;
+    let limitTo = tools.inFarsiLetters( store.state.phraseInSearch );
     // .. filter asma
-    this.asma = this.asma.filter( x => tools.asmaUnifier( x[1] ).includes( str ) );
+    this.asma = this.asma.filter( x => tools.inFarsiLetters( x[1] ).includes( limitTo ) );
 
 }
 

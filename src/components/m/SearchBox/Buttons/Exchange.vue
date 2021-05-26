@@ -1,25 +1,15 @@
 <template>
-<Page @navigatedTo="pageLoaded()">
-<GridLayout class="myPage" rows="88,44,*,7">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day ref="day" row=2 rowSpan=3 />
-
-<!---------------------------------------------------------------------------------------->
-
-    <SearchBox
-        ref="search"
-        row=1
-        rowSpan=2
-        @interact="open"
-        source="H"
+    <Label
+        :class="'fas button ' + myClass" 
+        :text="String.fromCharCode( '0x' + 'f2f1' )"
+        @tap="exchange()"
     />
 
 <!---------------------------------------------------------------------------------------->
 
-</GridLayout>
-</Page>
 </template>
 
 // -- =====================================================================================
@@ -28,54 +18,49 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
-import Qertas                           from "@/components/00/Qertas.vue"
-import { Hadith }                       from "@/db/H/Al-Hadith"
+import { Vue, Component, Prop }         from "vue-property-decorator"
+// * tns plugin add nativescript-clipboard
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
-import Day                              from "@/components/10/Day.vue"
 import * as TS                          from "@/../types/myTypes"
-import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox, Day }
+    components: {}
 } )
 
 // -- =====================================================================================
 
-export default class Base_10 extends Vue {
+export default class Exchange extends Vue {
 
 // -- =====================================================================================
 
-swipePass;
+@Prop() exchangeButton: boolean;
+
+// -- =====================================================================================
+
+myClass = "";
 
 // -- =====================================================================================
 
 mounted () {
-    ( this.$refs.day as Day ).init();
+    // .. init
+    this.activeClass();
 }
 
 // -- =====================================================================================
 
-pageLoaded () {
-    store.state.here='Base_10';
-    TM.themePatcher( this );
+activeClass () {
+    this.myClass = this.exchangeButton ? 'activate' : 'deactivate';
 }
 
 // -- =====================================================================================
 
-open ( num: number ) {
-    ( this.$refs.day as Day ).init( num );
-    ( this.$refs.search as SearchBox ).dismiss( true );
+exchange () {
+
 }
-
-// -- =====================================================================================
-
-destroyed () {}
 
 // -- =====================================================================================
 
@@ -90,8 +75,8 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
-    .myPage {
-        width: 300;
+    .deactivate {
+        visibility: collapse;
     }
 
 </style>

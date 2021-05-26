@@ -44,7 +44,7 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox.vue"
+import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
 import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
@@ -82,7 +82,7 @@ search ( str: string ) {
     // .. reset Najawa
     this.najawa = Najawa;
     // .. filter Najawa
-    this.najawa = this.najawa.filter( x => tools.asmaUnifier( x.title ).includes( str ) );
+    this.najawa = this.najawa.filter( x => tools.inFarsiLetters( x.title ).includes( str ) );
 
 }
 

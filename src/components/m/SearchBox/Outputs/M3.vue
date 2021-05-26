@@ -1,25 +1,32 @@
 <template>
-<Page @navigatedTo="pageLoaded()">
-<GridLayout class="myPage" rows="88,44,*,7">
+<GridLayout :visibility="result_tag.length?'visible':'hidden'" class="result">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day ref="day" row=2 rowSpan=3 />
+    <ScrollView verticalAlignment="middle" marginTop="20">
 
-<!---------------------------------------------------------------------------------------->
+        <FlexboxLayout
+            flexWrap="wrap"
+            flexDirection="row-reverse"
+            justifyContent="flex-start"
+            alignItems="center"
+        >
+            <Label
+                v-for="item in result_tag"
+                :key="item.idx"
+                :class="tagClasser(item)"
+                :text="item.text"
+                textWrap=true
+                @tap="toggleTag(item.text)" 
+            />
 
-    <SearchBox
-        ref="search"
-        row=1
-        rowSpan=2
-        @interact="open"
-        source="H"
-    />
+        </FlexboxLayout>
+
+    </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
 </GridLayout>
-</Page>
 </template>
 
 // -- =====================================================================================
@@ -28,54 +35,36 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
-import Qertas                           from "@/components/00/Qertas.vue"
-import { Hadith }                       from "@/db/H/Al-Hadith"
+import { Vue, Component, Prop }         from "vue-property-decorator"
+// * tns plugin add nativescript-clipboard
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
-import Day                              from "@/components/10/Day.vue"
 import * as TS                          from "@/../types/myTypes"
-import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox, Day }
+    components: {}
 } )
 
 // -- =====================================================================================
 
-export default class Base_10 extends Vue {
+export default class SingleColumnList extends Vue {
 
 // -- =====================================================================================
 
-swipePass;
+result_tag = [];
 
 // -- =====================================================================================
 
-mounted () {
-    ( this.$refs.day as Day ).init();
-}
 
 // -- =====================================================================================
 
-pageLoaded () {
-    store.state.here='Base_10';
-    TM.themePatcher( this );
-}
+mounted () {}
 
 // -- =====================================================================================
 
-open ( num: number ) {
-    ( this.$refs.day as Day ).init( num );
-    ( this.$refs.search as SearchBox ).dismiss( true );
-}
-
-// -- =====================================================================================
-
-destroyed () {}
 
 // -- =====================================================================================
 
@@ -90,8 +79,28 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
-    .myPage {
-        width: 300;
+    .result {
+        padding: 20 24;
+        margin-bottom: 44;
+        border-radius: 0 0 7 7;
+    }
+
+    .item {
+        font-family: Amiri-Regular;
+        font-family: 12;
+        padding: 10;
+    }
+
+    .CoolGreen .result {
+        background-color: #0f1616;
+    }
+
+    .Smoky .result {
+        background-color: #dbdbdb;
+    }
+
+    .CoolGreen .item {
+        color: #e0e0e0;
     }
 
 </style>

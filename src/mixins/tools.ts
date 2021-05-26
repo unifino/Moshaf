@@ -4,6 +4,7 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import { Hadith }                       from "@/db/H/Al-Hadith"
+import store                            from "@/store/store"
 
 // -- =====================================================================================
 
@@ -46,25 +47,86 @@ export function erabTrimmer ( str: string ) {
 
 // -- =====================================================================================
 
+export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
+
+    let content: TS.FoundContent = {
+        id: id,
+        source: source,
+        text: null,
+        flags: {}
+    };
+
+    if ( source === "Q" ) content.text = quranTextPreviewer( id );
+    if ( source === "H" ) content.text = hadithTextPreviewer( id );
+
+    return content;
+
+}
+
+// -- =====================================================================================
+
+export function quranTextPreviewer ( id: number ) {
+    const c = Quran[ id ];
+    const suraName = asma[ c.sura -1 ][1];
+    const suraID = asma[ c.sura -1 ][0];
+    const str = c.text + "\n[ " + suraName + "(" + suraID + ") : " + c.ayah + " ]";
+    return str;
+}
+
+export function hadithTextPreviewer ( id: number ) {
+    const str = Hadith[ id ].a;
+    return str;
+}
+
+// -- =====================================================================================
+
+export function inFarsiLetters ( str: string ) {
+
+    if ( !str ) return "";
+
+    str = str
+        .replace( /ء/g, 'ا' )
+        .replace( /إ/g, 'ا' )
+        .replace( /أ/g, 'ا' )
+        .replace( /آ/g, 'ا' )
+        .replace( /ة/g, 'ه' )
+        .replace( /ؤ/g, 'و' )
+        .replace( /ؤ/g, 'و' )
+        .replace( /ك/g, 'ک' )
+        .replace( /ي/g, 'ی' )
+        .replace( /ئ/g, 'ی' )
+        .replace( /ى/g, 'ی' );
+
+    return erabTrimmer( str );
+
+}
+
+// -- =====================================================================================
+
+export function scapeCheck ( mode: TS.SearchMode ) {
+
+    if ( store.state.foundData.length && store.state.lastSearchedBy === mode ) {
+        store.state.lastSearchedBy = null;
+        store.state.foundData = [];
+        return true;
+    }
+
+    return false;
+
+}
+
+// -- =====================================================================================
+
+export function searchBoxResetter () {
+    store.state.forceSearchFuse = false;
+    store.state.lastSearchedBy = null;
+    store.state.phraseInSearch = null;
+    store.state.foundData = [];
+    store.state.activeAyah = -1;
+} 
+
+// -- =====================================================================================
+
 export function quranPreviewer ( id: number ) {
-    const ref = Quran[ id ];
-    const suraName = asma[ ref.sura -1 ][1];
-    const suraID = asma[ ref.sura -1 ][0];
-    const str = ref.text + "\n[ " + suraName + "(" + suraID + ") : " + ref.ayah + " ]";
-    return str;
+    return null;
 }
-
-// -- =====================================================================================
-
-export function asmaUnifier ( str: string ) {
-
-    str = str.replace( /ى/g, 'ي' ).
-        replace( /إ/g, 'ا' ).
-        replace( /أ/g, 'ا' ).
-        replace( /ة/g, 'ه' ); 
-
-    return str;
-
-}
-
-// -- =====================================================================================

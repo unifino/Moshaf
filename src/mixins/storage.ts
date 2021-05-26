@@ -4,14 +4,15 @@ declare var android; // required if tns-platform-declarations is not installed
 
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
+import store from "@/store/store";
 
 // -- =====================================================================================
 
-export let trace_q : number[];
-export let trace_h : number[];
-export let fav_q   : number[];
-export let fav_h   : number[];
-export let bound   : [ string, string ][];
+let trace_q : number[];
+let trace_h : number[];
+let fav_q   : number[];
+let fav_h   : number[];
+let bound   : [ string, string ][];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
@@ -53,6 +54,12 @@ export function db_check (): Promise<void> {
         if ( !fav_q   ) saveDB( fav_q_File, [] );
         if ( !fav_h   ) saveDB( fav_h_File, [] );
         if ( !bound   ) saveDB( bound_File, [] );
+
+        store.state.fav.Q = fav_q;
+        store.state.fav.H = fav_h;
+        store.state.memo.Q = trace_q;
+        store.state.memo.H = trace_h;
+        store.state.bounds = bound;
 
         // .. resolve
         rs();

@@ -76,10 +76,10 @@ get theType (): string {
     if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";
 
     // .. highlight marked ayat
-    this.isFav = this.myType === "number" && storage.fav_q.includes( this.aID ) ?
+    this.isFav = this.myType === "number" && store.state.fav.Q.includes( this.aID ) ?
         true : false;
     // .. highlight bounded ayat
-    let bounded = storage.bound.find( 
+    let bounded = store.state.bounds.find( 
         x => Number( x[0].slice(2) ) === this.aID || Number( x[1].slice(2) ) === this.aID 
     );
     this.isBounded = this.myType === "number" && bounded ? true : false;

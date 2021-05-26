@@ -89,6 +89,7 @@ taghdir_aID: number;
 // -- =====================================================================================
 
 mounted () {
+    tools.searchBoxResetter();
     this.init( this.me );
 }
 
@@ -104,11 +105,11 @@ init ( me?: number ): void {
     const sura = Quran[ this.taghdir_aID ].sura;
 
     // .. add trace ( unique! )
-    let old = storage.trace_q.findIndex( x => x === this.taghdir_aID );
-    if ( ~old ) storage.trace_q.splice( old, 1 );
-    storage.trace_q.push( this.taghdir_aID );
+    let old = store.state.memo.Q.findIndex( x => x === this.taghdir_aID );
+    if ( ~old ) store.state.memo.Q.splice( old, 1 );
+    store.state.memo.Q.push( this.taghdir_aID );
     // .. hard registration
-    storage.saveDB( storage.trace_q_File, storage.trace_q, 44 );
+    storage.saveDB( storage.trace_q_File, store.state.memo.Q, 44 );
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 

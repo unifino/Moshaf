@@ -102,7 +102,7 @@ import { Vue, Component }               from "vue-property-decorator"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import myButton                         from "@/components/m/myButton.vue"
-import SearchBox                        from "@/components/m/SearchBox.vue"
+import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
@@ -163,7 +163,7 @@ getBoundedItems() {
 
     let boundedItems: TS.Found = [];
 
-    for ( let b of storage.bound ) {
+    for ( let b of store.state.bounds ) {
         if ( b[0] === "Q_" + store.state.activeAyah )
             boundedItems.push( { text: b[1], idx: -1, isBounded: true } );
 
@@ -281,15 +281,15 @@ cacheCtr ( id: number ) {
 toggleFavorite () {
 
     let aID = store.state.activeAyah;
-    let trace = storage.fav_q.indexOf( aID );
+    let trace = store.state.fav.Q.indexOf( aID );
     // .. add to Favorite
-    if ( !~trace ) storage.fav_q.push( aID );
+    if ( !~trace ) store.state.fav.Q.push( aID );
     // .. pop out of Favorite
-    else storage.fav_q.splice( trace, 1 );
+    else store.state.fav.Q.splice( trace, 1 );
     // .. Toast it
     tools.toaster( !~trace ? "💚" : "💔" );
     // .. hard registration
-    storage.saveDB( storage.fav_q_File, storage.fav_q );
+    storage.saveDB( storage.fav_q_File, store.state.fav.Q );
     // .. toggle style
     let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
     ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
@@ -309,14 +309,14 @@ bind ( id: number, source: TS.Source, rescan = true ) {
         searchBox = this.$refs[ "search_" + source ] as SearchBox;
 
     // .. find already Bound data
-    let trace = storage.bound.findIndex( 
+    let trace = store.state.bounds.findIndex( 
         x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
     );
 
     // .. no Trace has been found => add it!
-    if ( !~trace ) storage.bound.push( [ a, b ] );
+    if ( !~trace ) store.state.bounds.push( [ a, b ] );
     // .. already has been bound => remove it!
-    else storage.bound.splice( trace, 1 );
+    else store.state.bounds.splice( trace, 1 );
 
     // .. rescan
     this.boundedItems = this.getBoundedItems();
@@ -326,7 +326,7 @@ bind ( id: number, source: TS.Source, rescan = true ) {
     searchBox.toggleBoundedClass( !~trace );
 
     // .. hard registration
-    storage.saveDB( storage.bound_File, storage.bound );
+    storage.saveDB( storage.bound_File, store.state.bounds );
 
 }
 
