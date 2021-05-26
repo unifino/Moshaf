@@ -9,7 +9,7 @@
                 :text="item.text"
                 textWrap=true
                 :class="'item' + ( item.flags.isBounded ? ' bounded' : '' )"
-                @tap="$emit( 'interact', item.id, item.source )" 
+                @tap="$emit( 'interact', item )" 
             />
         </v-template>
     </ListView>
@@ -41,8 +41,6 @@ import * as TS                          from "@/../types/myTypes"
 // -- =====================================================================================
 
 export default class SingleColumnList extends Vue {
-
-// -- =====================================================================================
 
 
 // -- =====================================================================================

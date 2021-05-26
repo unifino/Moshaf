@@ -45,7 +45,7 @@
         row=1
         rowSpan=2
         ref="search"
-        @interact="open"
+        @order="item => open( item.id )"
         :hashTagButton="true"
         source="Q"
     />
@@ -69,7 +69,7 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
+import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
 

@@ -41,7 +41,7 @@ import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storage"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
-import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
+import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
 
 // -- =====================================================================================
 

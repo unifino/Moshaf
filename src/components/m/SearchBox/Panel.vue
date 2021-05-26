@@ -25,7 +25,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Output_M1 row=1 />
+    <Output_M1 row=1 @interact="e => $emit( 'order', e )" />
     <Output_M2 row=1 />
     <Output_M3 row=1 />
 
@@ -90,14 +90,14 @@ performedMode: TS.SearchMode;
 // -- =====================================================================================
 
 mounted() {
-
     if ( this.source === "T" ) this.init( "tag" );
-
 }
 
 // -- =====================================================================================
 
-
+test ( x ) {
+    console.log( x );
+}
 
 tagClasser ( item: TS.Found_Item ) {
     let tagClass = 'tag';

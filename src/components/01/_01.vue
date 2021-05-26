@@ -44,7 +44,7 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/SearchPanel.vue"
+import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
 import * as TM                          from "@/themes/themeManager"
 
 // -- =====================================================================================
