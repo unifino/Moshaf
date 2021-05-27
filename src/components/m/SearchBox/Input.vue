@@ -87,7 +87,8 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( this.source !== "T" ) {
         store.state.forceSearchFuse = true;
-        this.textChanged( phrase );
+        if ( phrase ) this.textChanged( phrase );
+        else tools.searchBoxResetter();
     }
 
     // .. Just in Tag-Section

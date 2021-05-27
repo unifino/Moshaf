@@ -27,6 +27,7 @@
     </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
+    
 
     <GridLayout 
         row=1 rowSpan=3 col=2 rows="60,*,44"
@@ -111,11 +112,12 @@ import * as NS                          from "@nativescript/core"
 import { setText }                      from "nativescript-clipboard"
 import * as TS                          from "@/../types/myTypes"
 import { Hadith }                       from "@/db/H/Al-Hadith"
+import Output                        from "@/components/m/SearchBox/Outputs/M4.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { myButton, SearchBox }
+    components: { myButton, SearchBox, Output }
 } )
 
 // -- =====================================================================================
@@ -259,7 +261,7 @@ async menuCtr ( id: number ) {
 
     w_def = { ...z_def };
     w_def.target = boundedBox;
-
+w_def.opacity =.2;
     this.menuBox_Animation = new NS.Animation( [ w_def, x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => this.active = !!~id );
 
@@ -305,31 +307,29 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source, rescan = true ) {
 
-    // if ( !~id ) return 0;
+    // .. isHeader
+    if ( id === store.state.activeAyah ) return 0;
 
-    // let a = "Q_" + store.state.activeAyah,
-    //     b = source + "_" + id,
-    //     searchBox = this.$refs[ "search_" + source ] as SearchBox;
+    let a = "Q_" + store.state.activeAyah,
+        b = source + "_" + id;
 
-    // // .. find already Bound data
-    // let trace = store.state.bounds.findIndex( 
-    //     x => ( x[0] === a && x[1] === b ) || ( x[1] === a && x[0] === b ) 
-    // );
+    // .. already has been bound => remove it!
+    if ( a in store.state.cakeBound && store.state.cakeBound[a].includes(b) ) {
 
-    // // .. no Trace has been found => add it!
-    // if ( !~trace ) store.state.bounds.push( [ a, b ] );
-    // // .. already has been bound => remove it!
-    // else store.state.bounds.splice( trace, 1 );
+    }
+    // .. no Trace has been found => add it!
+    else {
+
+    }
 
     // // .. rescan
     // this.boundedItems = this.getBoundedItems();
-    // if ( rescan ) searchBox.init( "rescan", false, true );
 
     // // .. toggle style number
-    // searchBox.toggleBoundedClass( !~trace );
+    // // searchBox.toggleBoundedClass( !~trace );
 
     // // .. hard registration
-    // storage.saveDB( storage.bound_File, store.state.bounds );
+    // // storage.saveDB( storage.bound_File, store.state.bounds );
 
 }
 

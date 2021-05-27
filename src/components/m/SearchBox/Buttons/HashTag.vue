@@ -61,15 +61,20 @@ activeClass () {
 listRetriever () {
 
     // .. re-tap situation
-    if ( !store.state.foundData_M2.length ) tools.searchBoxResetter();
-    else {
-        store.state.foundData_M2 = [];
-        return;
+    if ( store.state.foundData.length ) {
+        if ( store.state.foundDataSlot === "M2" ) {
+            tools.searchBoxResetter();
+            return;
+        }
     }
+
+    // .. preparing
+    tools.searchBoxResetter();
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
-    store.state.foundData_M2 = Object.values( rawTags ).map( (x, i) => { 
+    store.state.foundDataSlot = "M2";
+    store.state.foundData = Object.values( rawTags ).map( (x, i) => { 
         return {
             id: i,
             text: x.slice(2),

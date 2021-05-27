@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f004' )"
-        @tap="getFavorite_M1()"
+        @tap="getFavorite()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -49,17 +49,17 @@ mounted () {
 
     store.watch(
         state => state.fav.Q.length + state.fav.H.length, 
-        () => this.activeClass_M1()
+        () => this.activeClass()
     );
 
     // .. init
-    this.activeClass_M1();
+    this.activeClass();
 
 }
 
 // -- =====================================================================================
 
-activeClass_M1 () {
+activeClass () {
 
     // .. reset Class
     let activeClass = false;
@@ -73,10 +73,10 @@ activeClass_M1 () {
 
 // -- =====================================================================================
 
-getFavorite_M1 () {
+getFavorite () {
 
     // .. re-tap situation
-    if ( tools.scapeCheck_M1( "favorite" ) ) return;
+    if ( tools.scapeCheck( "favorite" ) ) return;
     tools.searchBoxResetter();
 
     // .. register action
@@ -87,7 +87,8 @@ getFavorite_M1 () {
     for ( const m of store.state.fav[ this.source ] ) 
         found.unshift( tools.contentPreviewer( this.source, m ) )
 
-    store.state.foundData_M1 = found;
+    store.state.foundData = found;
+    store.state.foundDataSlot = "M1";
 
 }
 

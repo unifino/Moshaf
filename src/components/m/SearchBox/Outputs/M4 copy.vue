@@ -1,5 +1,5 @@
 <template>
-<GridLayout rows="60,*,44" :visibility="visibility" class="result">
+<GridLayout rows="60,*,44" opacity=0 >
 
 <!---------------------------------------------------------------------------------------->
 
@@ -9,10 +9,11 @@
 
             <Label 
                 v-for="(item,i) in boundedItems"
-                :class="'boundedItem'"
+                :class="boundClasser(item)"
                 :key="i"
-                :text="'item'"
+                :text="item.text"
                 textWrap="true"
+                @tap="bind( item.idx, item.source, false )"
             />
 
         </StackLayout>
@@ -49,31 +50,19 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
+
+// -- =====================================================================================
+
 boundedItems: TS.FoundContent[] = [];
 cachedBounded: string[];
 cachedLastID: number;
 
 // -- =====================================================================================
 
-get visibility () {
-    return store.state.foundData.length && store.state.foundDataSlot === "M4" ? 
-        'visible' : 'hidden';
-}
-
-// -- =====================================================================================
-
-mounted () {
-
-    store.watch(
-        state => state.activeAyah, 
-        newVal => this.getBoundedItems(  )
-    );
-
-}
-// -- =====================================================================================
-
 boundClasser ( item: TS.FoundContent ) {
     let boundClass = "boundedItem";
+    if ( item.flags.isBounded ) boundClass += " cached";
+    if ( item.flags.isHeader ) boundClass += " header";
     return boundClass
 }
 
@@ -95,7 +84,7 @@ getBoundedItems() : TS.FoundContent[] {
         source: "Q",
         flags: { isHeader: true }
     } )
-this.boundedItems=result;
+
     return result;
 
 }
@@ -142,7 +131,7 @@ cacheBoundParser ( items: TS.FoundContent[] ) {
 
 cacheCtr ( id: number ) {
     console.log(id);
-
+    
     // .. reset cache memory
     if ( this.cachedLastID !== id ) this.cachedBounded = [];
     // .. cache id
@@ -151,6 +140,16 @@ cacheCtr ( id: number ) {
     this.boundedItems = this.getBoundedItems();
 
 }
+
+// -- =====================================================================================
+
+
+// -- =====================================================================================
+
+mounted () {}
+
+// -- =====================================================================================
+
 
 // -- =====================================================================================
 

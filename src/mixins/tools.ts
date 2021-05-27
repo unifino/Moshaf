@@ -103,11 +103,12 @@ export function inFarsiLetters ( str: string ) {
 
 // -- =====================================================================================
 
-export function scapeCheck_M1 ( mode: TS.SearchMode ) {
+export function scapeCheck ( mode: TS.SearchMode ) {
 
-    if ( store.state.foundData_M1.length && store.state.lastSearchedBy === mode ) {
+    if ( store.state.foundData.length && store.state.lastSearchedBy === mode ) {
         store.state.lastSearchedBy = null;
-        store.state.foundData_M1 = [];
+        store.state.foundData = [];
+        store.state.foundDataSlot = null;
         return true;
     }
 
@@ -121,8 +122,8 @@ export function searchBoxResetter () {
     store.state.forceSearchFuse = false;
     store.state.lastSearchedBy = null;
     store.state.phraseInSearch = null;
-    store.state.foundData_M1 = [];
-    store.state.foundData_M2 = [];
+    store.state.foundData = [];
+    store.state.foundDataSlot = null;
     store.state.activeAyah = -1;
 } 
 

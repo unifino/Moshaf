@@ -1,12 +1,9 @@
 <template>
-<GridLayout 
-    :visibility=" $store.state.foundData_M2.length ? 'visible' : 'hidden' "
-    class="result"
->
+<GridLayout :visibility="visibility" class="result">
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView for="item in $store.state.foundData_M2" >
+    <ListView for="item in $store.state.foundData" >
         <v-template>
 
             <GridLayout columns="33,2,*" class="tagLine" @tap="tagPresenter(item)">
@@ -51,7 +48,10 @@ export default class Output_M2 extends Vue {
 
 // -- =====================================================================================
 
-mounted () {}
+get visibility () {
+    return store.state.foundData.length && store.state.foundDataSlot === "M2" ? 
+        'visible' : 'hidden';
+}
 
 // -- =====================================================================================
 
