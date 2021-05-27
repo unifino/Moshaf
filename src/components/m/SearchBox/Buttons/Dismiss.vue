@@ -72,13 +72,14 @@ activeClass () {
 // -- =====================================================================================
 
 async dismiss () {
+    // .. patch M4 intuitive
+    if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
+    // .. regular actions
     store.state.foundData = [];
     store.state.foundDataSlot = null;
     store.state.searchMode_Pr = null;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.phraseInSearch = null;
-    // .. patch M4 intuitive
-    if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
 }
 
 // -- =====================================================================================

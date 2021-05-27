@@ -52,10 +52,18 @@ get visibility () {
 // -- =====================================================================================
 
 itemClasser ( item: TS.FoundContent ) {
+
+    // .. Patch if activated ( SAME AYAH )
+    if ( item.source + "_" + item.id === "Q_" + store.state.activeAyah ) 
+        item.flags.isActivated = true;
+
+    // .. regular actions
     let tagClass = 'item';
+    if ( item.flags.isActivated ) tagClass += ' activated';
     if ( item.flags.isBounded ) tagClass += ' bounded';
     if ( item.flags.isCached ) tagClass += ' cached';
     return tagClass
+
 }
 
 // -- =====================================================================================
@@ -92,6 +100,10 @@ itemClasser ( item: TS.FoundContent ) {
         background-color: #0e962b;
         color: white;
         border-radius: 4;
+    }
+
+    .activated {
+        visibility: collapse;
     }
 
 </style>

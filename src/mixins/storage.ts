@@ -12,7 +12,7 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
-let rawBound: [ string, string ][];
+export let rawBound: [ string, string ][];
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
@@ -59,7 +59,7 @@ export function db_check (): Promise<void> {
         store.state.fav.H = fav_h;
         store.state.memo.Q = trace_q;
         store.state.memo.H = trace_h;
-        store.state.cakeBound = boundParser( rawBound );
+        store.state.cakeBound = rawBoundConvertor( rawBound );
 
         // .. resolve
         rs();
@@ -164,7 +164,7 @@ export function some_tool ( data: {
 
 // -- =====================================================================================
 
-export function boundParser ( rawBound: [ string, string ][] ): TS.CakeBound {
+export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBound {
 
     let cake: TS.CakeBound = {};
 

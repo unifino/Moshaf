@@ -50,10 +50,11 @@ export function erabTrimmer ( str: string ) {
 export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
 
     let activeAyah = store.state.activeAyah,
-        item = source + "_" + id,
+        itemCode = source + "_" + id,
+        originCode = "Q_" + activeAyah,
         isBounded: boolean;
 
-    try { isBounded = item in store.state.cakeBound[ "Q_" + activeAyah ] } catch {}
+    try { isBounded = store.state.cakeBound[ originCode ].includes( itemCode ) } catch {}
 
     let content: TS.FoundContent = {
         id: id,
@@ -210,7 +211,7 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
 
     }
 
-    return found.filter( (x,i) => i<5 );
+    return found.filter( (x,i) => i<50 );
 
 }
 

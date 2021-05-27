@@ -262,23 +262,34 @@ toggleFavorite () {
 
 bind ( item: TS.FoundContent ) {
 
+    console.log(item);
+    
+
+    let itemCode = item.source + "_" + item.id,
+        originCode = "Q_" + store.state.activeAyah,
+        isBounded: boolean;
+    
+    if ( itemCode in store.state.cakeBound ) 
+        if ( store.state.cakeBound[ itemCode ].includes( originCode ) )
+            isBounded = true;
+    
+    // .. insert New Bound Info!
+    if ( !isBounded ) {
+        storage.rawBound.push( [originCode,itemCode] )
+        store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+    }
+    // .. remove CrossBound Info
+    else {
+        let r: number;
+        r = storage.rawBound.findIndex( x => x[0] === originCode && x[1] === itemCode );
+        if ( !~r ) storage.rawBound.splice( r, 1 );
+        r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
+        if ( !~r ) storage.rawBound.splice( r, 1 );
+        store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+    }
+
     tools.searchBoxResetter();
     tools.bounder_Q();
-
-    // // .. isHeader
-    // if ( id === store.state.activeAyah ) return 0;
-
-    // let a = "Q_" + store.state.activeAyah,
-    //     b = source + "_" + id;
-
-    // // .. already has been bound => remove it!
-    // if ( a in store.state.cakeBound && store.state.cakeBound[a].includes(b) ) {
-
-    // }
-    // // .. no Trace has been found => add it!
-    // else {
-
-    // }
 
     // // .. rescan
     // this.boundedItems = this.getBoundedItems();

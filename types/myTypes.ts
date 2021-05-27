@@ -140,6 +140,7 @@ export type FoundContent = {
 };
 
 export type Flags = {
+    isActivated?: boolean   ,
     isBounded?  : boolean   ,
     isHeader?   : boolean   ,
     isCached?   : boolean   ,
