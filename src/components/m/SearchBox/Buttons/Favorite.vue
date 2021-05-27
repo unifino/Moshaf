@@ -44,7 +44,7 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => state.fav.Q.length + state.fav.H.length, 
+        state => store.state.searchSource, 
         () => this.activeClass()
     );
 
@@ -77,14 +77,9 @@ getFavorite () {
     tools.searchBoxResetter();
 
     // .. register action
-    store.state.lastSearchedBy = "favorite";
+    store.state.searchMode_Pr = "favorite";
 
-    let found: TS.FoundContent[] = [];
-
-    for ( const m of store.state.fav[ store.state.searchSource ] ) 
-        found.unshift( tools.contentPreviewer( store.state.searchSource, m ) )
-
-    store.state.foundData = found;
+    store.state.foundData = tools.getFavorite();
     store.state.foundDataSlot = "M1";
 
 }

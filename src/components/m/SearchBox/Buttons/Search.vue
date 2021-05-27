@@ -85,7 +85,7 @@ getSearchResult ( force?: boolean ) {
     // tools.searchBoxResetter( true );
 
     // .. register action
-    store.state.lastSearchedBy = "phrase";
+    store.state.searchMode_Pr = "phrase";
 
     if ( force ) {
         // .. get Data

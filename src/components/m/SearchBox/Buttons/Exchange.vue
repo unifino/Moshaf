@@ -70,6 +70,17 @@ exchange () {
 
     }
 
+    if ( store.state.searchSource === "Q" || store.state.searchSource === "H" ) {
+
+        // .. reload Data
+        switch ( store.state.searchMode_Pr ) {
+            case "history": store.state.foundData = tools.getHistory(); break;
+            case "favorite": store.state.foundData = tools.getFavorite(); break;
+        }
+
+    }
+    else tools.searchBoxResetter();
+
 }
 
 // -- =====================================================================================

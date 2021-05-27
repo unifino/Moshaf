@@ -313,18 +313,6 @@ dismiss ( force=false ) {
     }
 
 
-/* ------------------------------------------- */
 
-    .CoolGreen .bounded {
-        background-color: #0e962b;
-        color: white;
-        border-radius: 4;
-    }
-
-    .Smoky .bounded {
-        background-color: #0e962b;
-        color: white;
-        border-radius: 4;
-    }
 
 </style>

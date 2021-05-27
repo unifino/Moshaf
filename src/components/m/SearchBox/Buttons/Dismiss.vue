@@ -74,7 +74,7 @@ activeClass () {
 async dismiss () {
     store.state.foundData = [];
     store.state.foundDataSlot = null;
-    store.state.lastSearchedBy = null;
+    store.state.searchMode_Pr = null;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.phraseInSearch = null;
 }

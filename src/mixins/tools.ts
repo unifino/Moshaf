@@ -49,11 +49,19 @@ export function erabTrimmer ( str: string ) {
 
 export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
 
+    let activeAyah = store.state.activeAyah,
+        item = source + "_" + id,
+        isBounded: boolean;
+
+    try { isBounded = item in store.state.cakeBound[ "Q_" + activeAyah ] } catch {}
+
     let content: TS.FoundContent = {
         id: id,
         source: source,
         text: null,
-        flags: {}
+        flags: {
+            isBounded: isBounded
+        }
     };
 
     if ( source === "Q" ) content.text = quranTextPreviewer( id );
@@ -105,8 +113,8 @@ export function inFarsiLetters ( str: string ) {
 
 export function scapeCheck ( mode: TS.SearchMode ) {
 
-    if ( store.state.foundData.length && store.state.lastSearchedBy === mode ) {
-        store.state.lastSearchedBy = null;
+    if ( store.state.foundData.length && store.state.searchMode_Pr === mode ) {
+        store.state.searchMode_Pr = null;
         store.state.foundData = [];
         store.state.foundDataSlot = null;
         return true;
@@ -119,7 +127,7 @@ export function scapeCheck ( mode: TS.SearchMode ) {
 // -- =====================================================================================
 
 export function searchBoxResetter ( limited=false ) {
-    store.state.lastSearchedBy = null;
+    store.state.searchMode_Pr = null;
     store.state.foundData = [];
     store.state.foundDataSlot = null;
     if ( limited ) return;
@@ -140,6 +148,32 @@ export function boundParser ( item: string ): TS.FoundContent {
         return { id: id, text: hadithTextPreviewer(id), source: source, flags: {} }
 
     return null;
+
+}
+
+// -- =====================================================================================
+
+export function getHistory () {
+
+    let found: TS.FoundContent[] = [];
+
+    for ( const m of store.state.memo[ store.state.searchSource ] ) 
+        found.unshift( contentPreviewer( store.state.searchSource, m ) );
+
+    return found;
+
+}
+
+// -- =====================================================================================
+
+export function getFavorite () {
+
+    let found: TS.FoundContent[] = [];
+
+    for ( const m of store.state.fav[ store.state.searchSource ] ) 
+        found.unshift( contentPreviewer( store.state.searchSource, m ) );
+
+    return found;
 
 }
 

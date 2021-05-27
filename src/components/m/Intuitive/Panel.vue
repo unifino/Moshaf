@@ -257,7 +257,7 @@ toggleFavorite () {
 bind ( id: number, source: TS.Source, rescan = true ) {
 
     console.log("Hi");
-    
+    tools.searchBoxResetter();
     // // .. isHeader
     // if ( id === store.state.activeAyah ) return 0;
 

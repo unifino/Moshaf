@@ -45,7 +45,7 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => state.memo.Q.length + state.memo.H.length, 
+        state => store.state.searchSource, 
         () => this.activeClass()
     );
 
@@ -78,14 +78,9 @@ getHistory () {
     tools.searchBoxResetter();
 
     // .. register action
-    store.state.lastSearchedBy = "history";
+    store.state.searchMode_Pr = "history";
 
-    let found: TS.FoundContent[] = [];
-
-    for ( const m of store.state.memo[ store.state.searchSource ] ) 
-        found.unshift( tools.contentPreviewer( store.state.searchSource, m ) )
-
-    store.state.foundData = found;
+    store.state.foundData = tools.getHistory();
     store.state.foundDataSlot = "M1";
 
 }
