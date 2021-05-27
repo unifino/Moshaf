@@ -196,7 +196,7 @@ kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
         store.state.foundDataSlot = "M4";
 
         let tmpBoundItem: TS.FoundContent,
-            itemCodes = store.state.cakeBound[ "Q_" + aID ];
+            itemCodes = store.state.cakeBound[ "Q_" + aID ] || [];
 
         // .. convert codes to the content
         for ( let item of itemCodes ) {
