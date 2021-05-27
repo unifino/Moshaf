@@ -32,10 +32,8 @@
 
         <SearchBox
             ref='search_Q'
-            :visibility="searchMode==='Q'?'visible':'hidden'"
             :exchangeButton="true"
             @orderByParent="bind"
-            @exchange="searchMode='H';"
             :transparentBG=true
             source="Q"
         />
@@ -82,14 +80,12 @@ export default class ToolBar extends Vue {
 
 tapPassed = false;
 active = false;
-searchMode: 'Q'|'H'|'T' = 'Q'
-boundedItems: TS.FoundContent[] = [];
 cachedBounded: string[];
 cachedLastID: number;
 
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    { icon: 'f292', class: 'tag'  , fnc: () => this.createNewTag()      } ,
+    // { icon: 'f292', class: 'tag'  , fnc: () => {}      } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
 ]
 
@@ -105,62 +101,11 @@ mounted () {
     // .. replace Bounded Items as Default
     store.watch(
         state => state.foundDataSlot, 
-        newVal => { if ( !newVal && store.state.activeAyah ) tools.bounder_Q() }
+        newVal => { if ( !newVal && ~store.state.activeAyah ) tools.bounder_Q() }
     );
 
 }
 
-// -- =====================================================================================
-
-boundClasser ( item: TS.FoundContent ) {
-    let boundClass = "boundedItem";
-    if ( item.flags.isBounded ) boundClass += " cached";
-    if ( item.flags.isHeader ) boundClass += " header";
-    return boundClass
-}
-
-// -- =====================================================================================
-
-getBoundedItems() : TS.FoundContent[] {
-
-    let origin = "Q_" + store.state.activeAyah;
-    let boundedItems: string[] = store.state.cakeBound[ origin ] || [];
-    let result: TS.FoundContent[] = [];
-
-    result = boundedItems.map( x => this.boundParser( x ) );
-    result = this.cacheBoundParser( result );
-
-    // .. add even origin
-    if ( result.length ) result.unshift( {
-        id: store.state.activeAyah,
-        text: tools.quranTextPreviewer( store.state.activeAyah ),
-        source: "Q",
-        flags: { isHeader: true }
-    } )
-
-    return result;
-
-}
-
-// -- =====================================================================================
-
-boundParser ( item: string ): TS.FoundContent {
-
-    if ( !this.cachedBounded.includes( item ) ) 
-        if ( item.slice(0 , 1) !== "T" )
-            this.cachedBounded.push( item );
-
-    let source = item.slice(0, 1) as TS.Source;
-    let id = Number( item.slice(2) ) as number;
-
-    if ( source === "Q" ) 
-        return { id: id, text: tools.quranTextPreviewer(id), source: source, flags: {} }
-    if ( source === "H" ) 
-        return { id: id, text: tools.hadithTextPreviewer(id), source: source, flags: {} }
-
-    return null;
-
-}
 
 // -- =====================================================================================
 
@@ -170,7 +115,7 @@ cacheBoundParser ( items: TS.FoundContent[] ) {
 
     for ( const c of this.cachedBounded ) {
         if ( !items.find( x => c === x.source + "_" + x.id ) ) {
-            cached = this.boundParser(c);
+            // cached = this.boundParser(c);
             cached.flags.isCached = true;
             items.push( cached );
         }
@@ -231,8 +176,7 @@ cacheCtr ( id: number ) {
     if ( this.cachedLastID !== id ) this.cachedBounded = [];
     // .. cache id
     this.cachedLastID = id;
-    // .. retrieve bounded data
-    this.boundedItems = this.getBoundedItems();
+
 
 }
 
@@ -262,43 +206,34 @@ toggleFavorite () {
 
 bind ( item: TS.FoundContent ) {
 
-    console.log(item);
-    
+
+    if ( item.flags.isHeader ) return;
 
     let itemCode = item.source + "_" + item.id,
         originCode = "Q_" + store.state.activeAyah,
         isBounded: boolean;
-    
+
     if ( itemCode in store.state.cakeBound ) 
         if ( store.state.cakeBound[ itemCode ].includes( originCode ) )
             isBounded = true;
-    
+
     // .. insert New Bound Info!
-    if ( !isBounded ) {
-        storage.rawBound.push( [originCode,itemCode] )
-        store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
-    }
+    if ( !isBounded ) storage.rawBound.push( [originCode,itemCode] )
     // .. remove CrossBound Info
     else {
         let r: number;
         r = storage.rawBound.findIndex( x => x[0] === originCode && x[1] === itemCode );
-        if ( !~r ) storage.rawBound.splice( r, 1 );
+        if ( ~r ) storage.rawBound.splice( r, 1 );
         r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
-        if ( !~r ) storage.rawBound.splice( r, 1 );
-        store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+        if ( ~r ) storage.rawBound.splice( r, 1 );
     }
 
+    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
     tools.searchBoxResetter();
     tools.bounder_Q();
 
-    // // .. rescan
-    // this.boundedItems = this.getBoundedItems();
-
-    // // .. toggle style number
-    // // searchBox.toggleBoundedClass( !~trace );
-
-    // // .. hard registration
-    // // storage.saveDB( storage.bound_File, store.state.bounds );
+    // .. hard registration
+    storage.saveDB( storage.bound_File, storage.rawBound );
 
 }
 
@@ -315,12 +250,6 @@ copy () {
     // .. exit
     store.state.activeAyah = -1;
 
-}
-
-// -- =====================================================================================
-
-createNewTag () {
-    this.searchMode = this.searchMode === "T" ? "Q" : "T";
 }
 
 // -- =====================================================================================

@@ -13,6 +13,7 @@
                 :key="i"
                 :text="item.text"
                 textWrap="true"
+                @tap="$emit( 'interact', item )" 
             />
 
         </StackLayout>

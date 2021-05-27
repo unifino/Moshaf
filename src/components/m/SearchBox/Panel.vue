@@ -27,7 +27,7 @@
     <Output_M1 row=1 @interact="e => $emit( 'orderByParent', e )" />
     <Output_M2 row=1 />
     <Output_M3 row=1 />
-    <Output_M4 row=1 :transparentBG=transparentBG />
+    <Output_M4 row=1 @interact="e => $emit( 'orderByParent', e )"  :transparentBG=transparentBG />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -90,171 +90,7 @@ result_tag: TS.FoundContent[] = [];
 // -- =====================================================================================
 
 mounted() {
-    if ( store.state.searchMode === "tag" ) this.init( "T" );
     store.state.searchSource = this.source;
-}
-
-// -- =====================================================================================
-
-init ( mode: TS.Source, force?: boolean, escapeReTap?: boolean ) {
-
-    // // .. clear tagList
-    // this.tagsList = [];
-
-    let data: TS.FoundContent[];
-    // let sos: boolean = mode === "search" ? force : escapeReTap;
-
-    if ( store.state.searchMode === "tag" ) {
-        data = this.tagFinder();
-        this.result_tag = data;
-        // this.performedMode = "tag";
-        return;
-    }
-
-    switch ( mode ) {
-        // case "clear"    : data = [];                                break;
-        // case "search"   : data = this.search( force );              break;
-        // case "history"  : data = this.history();                    break;
-        // case "favorite" : data = this.favorite();                   break;
-        // case "rescan"   : data = this[ this.performedMode ]( sos ); break;
-        // default         : tools.toaster( mode + " ???" );           return;
-    }
-
-    data = data.sort ( a => a.flags.isBounded ? -1 : 0 );
-
-    this.result = data;
-
-    // this.performedMode = mode !== "rescan" ? mode : this.performedMode;
-
-}
-
-// -- =====================================================================================
-
-cachedTags: string[] = [];
-tagFinder () {
-
-    let found: TS.FoundContent[] = [];
-    //     item: TS.Found_Item,
-    //     x: [ string, string ],
-    //     maxID = store.state.bounds.length;
-
-    // for ( const i in store.state.bounds ) {
-
-    //     item = null;
-    //     x = store.state.bounds[i];
-
-    //     if ( x[0].slice( 0, 1 ) === "T" ) item = { 
-    //         text: x[0].slice(2), 
-    //         idx: Number(i),
-    //         isBounded: this.isBounded( x[0].slice(2) )
-    //     }
-
-    //     else if ( x[1].slice( 0, 1 ) === "T" ) item = { 
-    //         text: x[1].slice( 2 ), 
-    //         idx: Number(i),
-    //         isBounded: this.isBounded( x[1].slice(2) )
-    //     }
-
-    //     // .. soft registeration ( Unique )
-    //     if ( item && !found.find( x => x.text === item.text ) ) found.push( item );
-
-    // }
-
-    // // .. cache Tags
-    // for ( const f of found ) 
-    //     if ( !this.cachedTags.includes( f.text ) ) this.cachedTags.push( f.text );
-
-    // // .. add cached Tags
-    // for ( const t of this.cachedTags ) 
-    //     if ( !found.find( x => x.text === t ) ) 
-    //         found.push( { text: t, idx: -1 *( found.length +maxID ), isBounded: false } );
-
-    // found = found.sort( (a,b) => a.text > b.text ? 1 : -1 );
-
-    return found;
-
-}
-
-// -- =====================================================================================
-
-isBounded ( check: number|string ) {
-
-    let state: boolean = false;
-
-    // for ( let x of store.state.bounds ) {
-
-    //     // .. examine first [cell as Ayah] then check second one
-    //     if ( x[0] === "Q_" + store.state.activeAyah )
-    //         if ( Number( x[1].slice(2) ) === check ) 
-    //             state = true;
-
-    //     // .. state Declared!
-    //     if ( state ) break;
-
-    //     // .. examine second [cell as Ayah] then chcek first one
-    //     if ( x[1] === "Q_" + store.state.activeAyah )
-    //         if ( Number( x[0].slice(2) ) === check )
-    //             state = true;
-
-    //     // .. state Declared!
-    //     if ( state ) break;
-
-    //     // .. examine first [cell as Ayah] is Bound to this Tag
-    //     if ( x[0] === "Q_" + store.state.activeAyah )
-    //         if ( x[1].slice(2) === check ) 
-    //             state = true;
-
-    //     // .. state Declared!
-    //     if ( state ) break;
-
-    //     // .. need more options to check even for H_H | ... ones
-
-    // }
-
-    return state;
-
-}
-
-// -- =====================================================================================
-
-toggleTag ( tag: string ) {
-
-    // // .. examine first [cell as Ayah] and second [cell as Tag] 
-    // let a = "Q_" + store.state.activeAyah,
-    //     b = "T_" + tag,
-    //     myAyahTagID = store.state.bounds.findIndex( x => x[0] === a && x[1] === b );
-
-    // if ( ~myAyahTagID ) store.state.bounds.splice( myAyahTagID, 1 );
-    // else store.state.bounds.push( [a, b] );
-
-    // // .. hard registration
-    // storage.saveDB( storage.bound_File, store.state.bounds );
-
-    // // .. apply it
-    // this.init( "rescan" );
-
-    // // .. toggle style number
-    // this.toggleBoundedClass( !~myAyahTagID );
-
-    // // .. need more options to check even for H_T | ... ones
-
-}
-
-// -- =====================================================================================
-
-toggleBoundedClass ( mode: boolean ) {
-
-    let qertas = this.$parent.$parent.$parent;
-    let ayahSeq = qertas.$refs[ "kalameh_" + store.state.activeAyah ] as Kalameh[];
-    ayahSeq[ ayahSeq.length -1 ].isBounded = mode;
-
-}
-
-
-// -- =====================================================================================
-
-dismiss ( force=false ) {
-    console.log("here");
 }
 
 // -- =====================================================================================
@@ -311,8 +147,5 @@ dismiss ( force=false ) {
         text-decoration: line-through;
         color: #8b8b8b;
     }
-
-
-
 
 </style>
