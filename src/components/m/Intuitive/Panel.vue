@@ -102,6 +102,12 @@ mounted () {
         newVal => this.menuCtr( newVal )
     );
 
+    // .. replace Bounded Items as Default
+    store.watch(
+        state => state.foundDataSlot, 
+        newVal => { if ( !newVal && store.state.activeAyah ) tools.bounder_Q() }
+    );
+
 }
 
 // -- =====================================================================================
