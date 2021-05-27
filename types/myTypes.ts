@@ -106,16 +106,6 @@ export type Kalameh =
 
 // -- =====================================================================================
 
-export type Found_Item = { 
-    text        : string    , 
-    idx         : number    ,
-    isBounded   : boolean   ,
-    source?     : Source    ,
-};
-export type Found = Found_Item[];
-
-// -- =====================================================================================
-
 export type Source = "Q" | "H" | "N" | "T";
 
 // -- =====================================================================================
@@ -123,6 +113,14 @@ export type Source = "Q" | "H" | "N" | "T";
 export type SearchMode = "search" | "history" | "favorite" | "clear" | "rescan" | "tag";
 
 // -- =====================================================================================
+
+// export type Found_Item = { 
+//     text        : string    , 
+//     idx         : number    ,
+//     isBounded   : boolean   ,
+//     source?     : Source    ,
+// };
+// export type Found = Found_Item[];
 
 // export interface BoundItem {
 //     [0]: [ "Q" | "H", number ],

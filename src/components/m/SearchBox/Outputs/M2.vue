@@ -6,7 +6,7 @@
     <ListView for="item in $store.state.foundData" >
         <v-template>
 
-            <GridLayout columns="33,2,*" class="tagLine" @tap="tagPresenter(item)">
+            <GridLayout columns="33,2,*" class="tagLine" @tap="openTag(item)">
 
                 <Label col=0 :text="item.flags.count" />
                 <StackLayout background="gray" col=1 />
@@ -55,8 +55,8 @@ get visibility () {
 
 // -- =====================================================================================
 
-tagPresenter ( tagName: string ) {
-    console.log(tagName);
+openTag ( item: TS.FoundContent ) {
+    console.log(item.text);
 }
 
 // -- =====================================================================================

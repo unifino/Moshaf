@@ -76,8 +76,8 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
-result: TS.Found = [];
-result_tag: TS.Found = [];
+result: TS.FoundContent[] = [];
+result_tag: TS.FoundContent[] = [];
 
 // -- =====================================================================================
 
@@ -93,21 +93,12 @@ mounted() {
 
 // -- =====================================================================================
 
-tagClasser ( item: TS.Found_Item ) {
-    let tagClass = 'tag';
-    tagClass += item.isBounded ? ' bounded' : '';
-    tagClass += item.idx < 0 ? ' cached' : '' ;
-    return tagClass
-}
-
-// -- =====================================================================================
-
 init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 
     // // .. clear tagList
     // this.tagsList = [];
 
-    let data: TS.Found;
+    let data: TS.FoundContent[];
     let sos: boolean = mode === "search" ? force : escapeReTap;
 
     if ( this.source === "T" ) {
@@ -126,7 +117,7 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
         // default         : tools.toaster( mode + " ???" );           return;
     }
 
-    data = data.sort ( a => a.isBounded ? -1 : 0 );
+    data = data.sort ( a => a.flags.isBounded ? -1 : 0 );
 
     this.result = data;
 
@@ -139,7 +130,7 @@ init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
 cachedTags: string[] = [];
 tagFinder () {
 
-    let found: TS.Found = [];
+    let found: TS.FoundContent[] = [];
     //     item: TS.Found_Item,
     //     x: [ string, string ],
     //     maxID = store.state.bounds.length;
