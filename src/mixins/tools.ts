@@ -153,7 +153,7 @@ export function boundParser ( item: string ): TS.FoundContent {
 
 // -- =====================================================================================
 
-export function getHistory () {
+export function getHistory (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
 
@@ -166,7 +166,7 @@ export function getHistory () {
 
 // -- =====================================================================================
 
-export function getFavorite () {
+export function getFavorite (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
 
@@ -174,6 +174,43 @@ export function getFavorite () {
         found.unshift( contentPreviewer( store.state.searchSource, m ) );
 
     return found;
+
+}
+
+// -- =====================================================================================
+
+export function search_Q ( phrase: string ): TS.FoundContent[] {
+
+    let found: TS.FoundContent[] = [];
+
+    for ( let i = 0; i < Quran.length; i++ )
+        if ( inFarsiLetters( Quran[i].simple ).includes( phrase ) )
+            found.push( contentPreviewer( "Q", i ) );
+
+    return found;
+
+}
+
+// -- =====================================================================================
+
+export function search_H ( phrase: string ): TS.FoundContent[] {
+
+    let found: TS.FoundContent[] = [];
+
+    for ( let i = 0; i < Hadith.length; i++ ) {
+
+        // .. search in arabic text
+        if ( inFarsiLetters( Hadith[i].a ).includes( phrase ) )
+            found.push( contentPreviewer( "H", i ) );
+
+        // // .. search in farsi text ( if exists )
+        // else if ( Hadith[i].b )
+        //     if ( tools.inFarsiLetters( Hadith[i].b ).includes( phrase ) )
+        //         found.push( tools.contentPreviewer( "H", i ) );
+
+    }
+
+    return found.filter( (x,i) => i<5 );
 
 }
 

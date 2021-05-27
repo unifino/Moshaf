@@ -90,50 +90,14 @@ getSearchResult ( force?: boolean ) {
     if ( force ) {
         // .. get Data
         let phrase = tools.inFarsiLetters( store.state.phraseInSearch ).trim();
-        if ( store.state.searchSource === "Q" ) this.search_Q( phrase );
-        if ( store.state.searchSource === "H" ) this.search_H( phrase );
+        switch ( store.state.searchSource ) {
+            case "Q": store.state.foundData = tools.search_Q( phrase ); break;
+            case "H": store.state.foundData = tools.search_H( phrase ); break;
+        }
+        store.state.foundDataSlot = "M1";
     }
 
     if ( store.state.searchSource === "N" ) this.search_N();
-
-}
-
-// -- =====================================================================================
-
-search_Q ( phrase: string ): void {
-
-    let found: TS.FoundContent[] = [];
-
-    for ( let i = 0; i < Quran.length; i++ )
-        if ( tools.inFarsiLetters( Quran[i].simple ).includes( phrase ) )
-            found.push( tools.contentPreviewer( "Q", i ) );
-
-    store.state.foundData = found;
-    store.state.foundDataSlot = "M1";
-
-}
-
-// -- =====================================================================================
-
-search_H ( phrase: string ): void {
-
-    let found: TS.FoundContent[] = [];
-
-    for ( let i = 0; i < Hadith.length; i++ ) {
-
-        // .. search in arabic text
-        if ( tools.inFarsiLetters( Hadith[i].a ).includes( phrase ) )
-            found.push( tools.contentPreviewer( "H", i ) );
-
-        // // .. search in farsi text ( if exists )
-        // else if ( Hadith[i].b )
-        //     if ( tools.inFarsiLetters( Hadith[i].b ).includes( phrase ) )
-        //         found.push( tools.contentPreviewer( "H", i ) );
-
-    }
-
-    store.state.foundData = found.filter( (x,i) => i<5 );
-    store.state.foundDataSlot = "M1";
 
 }
 
