@@ -223,11 +223,13 @@ export function bounder_Q (): void {
     let found: TS.FoundContent[] = [],
         tmp: TS.FoundContent,
         originCode = "Q_" + store.state.activeAyah,
-        itemCodes = store.state.cakeBound[ originCode ] || [];
+        itemCodes = store.state.cakeBound[ originCode ] || [],
+        isBounded: boolean;
 
     // .. convert codes to the content
     for ( let raw of itemCodes ) {
-        tmp = boundParser( raw );
+        isBounded = store.state.cakeBound[ raw ].includes( originCode );
+        tmp = boundParser( raw, { isBounded: isBounded } );
         if ( tmp ) found.push( tmp );
     }
 
@@ -266,6 +268,63 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
     for ( let c of cache ) base.push( boundParser( c, { isCached: true } ) );
 
     return base;
+
+}
+
+// -- =====================================================================================
+
+export function bound_Q_Toggler ( item: TS.FoundContent ): void { 
+
+    let originCode = "Q_" + store.state.activeAyah,
+        itemCode = item.source + "_" + ( item.source === "T" ? item.text : item.id );
+
+    // .. insert New Bound Info!
+    if ( !item.flags.isBounded ) storage.rawBound.push( [ originCode, itemCode ] );
+    // .. remove CrossBound Info
+    else {
+        let r: number;
+        r = storage.rawBound.findIndex( x => x[0] === originCode && x[1] === itemCode );
+        if ( ~r ) storage.rawBound.splice( r, 1 );
+        r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
+        if ( ~r ) storage.rawBound.splice( r, 1 );
+        // .. cache Bound Info!
+        store.state.cacheBound.push( [ originCode, itemCode ] );
+    }
+
+    // .. trim cacheBound
+    if ( item.flags.isCached ) {
+        store.state.cacheBound = store.state.cacheBound.filter( x => {
+            if ( x[0] === originCode && x[1] === itemCode ) return false;
+            if ( x[1] === originCode && x[0] === itemCode ) return false;
+            return true;
+        } );
+    }
+
+    // .. re-calculation
+    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+
+}
+
+// -- =====================================================================================
+
+export function getTags (): TS.FoundContent[] {
+
+    let originCode = "Q_" + store.state.activeAyah,
+        tagsName: string[],
+        item: TS.FoundContent,
+        found: TS.FoundContent[] = [];
+
+    // .. filter Tags
+    tagsName = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
+
+    // .. convert list to found
+    found = Object.values( tagsName ).map( (x, i) => {
+        item = { id: i, text: x.slice(2), source: "T", flags: {} };
+        item.flags.isBounded = store.state.cakeBound[x].includes( originCode );
+        return item;
+    } );
+
+    return found;
 
 }
 

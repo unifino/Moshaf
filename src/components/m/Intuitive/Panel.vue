@@ -172,37 +172,8 @@ bind ( item: TS.FoundContent ) {
 
     if ( item.flags.isHeader ) return;
 
-    let itemCode = item.source + "_" + item.id,
-        originCode = "Q_" + store.state.activeAyah,
-        isBounded: boolean;
-
-    if ( itemCode in store.state.cakeBound ) 
-        if ( store.state.cakeBound[ itemCode ].includes( originCode ) )
-            isBounded = true;
-
-    // .. insert New Bound Info!
-    if ( !isBounded ) storage.rawBound.push( [originCode,itemCode] )
-    // .. remove CrossBound Info
-    else {
-        let r: number;
-        r = storage.rawBound.findIndex( x => x[0] === originCode && x[1] === itemCode );
-        if ( ~r ) storage.rawBound.splice( r, 1 );
-        r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
-        if ( ~r ) storage.rawBound.splice( r, 1 );
-        store.state.cacheBound.push( [ originCode ,itemCode ] );
-    }
-
-    // .. trim cacheBound
-    if ( item.flags.isCached ) {
-        store.state.cacheBound = store.state.cacheBound.filter( x => {
-            if ( x[0] === originCode && x[1] === itemCode ) return false;
-            if ( x[1] === originCode && x[0] === itemCode ) return false;
-            return true;
-        } );
-    }
-
-    // .. re-calculation
-    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+    // .. Toggle Item
+    tools.bound_Q_Toggler( item );
     tools.searchBoxResetter();
     tools.bounder_Q();
 

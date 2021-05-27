@@ -72,8 +72,9 @@ activeClass () {
 // -- =====================================================================================
 
 async dismiss () {
-    // .. patch M4 intuitive
+    // .. patch M4|M3 intuitive
     if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
+    if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
     // .. regular actions
     store.state.foundData = [];
     store.state.foundDataSlot = null;

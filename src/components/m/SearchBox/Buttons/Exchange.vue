@@ -75,21 +75,34 @@ exchange ( rev: boolean ) {
     }
 
     const S = store.state.searchSource;
+    let frase: string = "";
+    try { frase = tools.inFarsiLetters( store.state.phraseInSearch ).trim() } catch {}
 
-    if ( S === "Q" || S === "H" /*|| S === "N"*/ ) {
+    switch ( S ) {
 
-        // .. reload Data
-        switch ( store.state.searchMode_Pr ) {
-            case "history" : store.state.foundData = tools.getHistory();      break;
-            case "favorite": store.state.foundData = tools.getFavorite();     break;
-            case "phrase"  : 
-                let phrase = tools.inFarsiLetters( store.state.phraseInSearch ).trim();
-                store.state.foundData = tools[ "search_" +S ]( phrase ); 
-            break;
-        }
+        case "Q":
+        case "H":
+            store.state.foundDataSlot = "M1";
+            switch ( store.state.searchMode_Pr ) {
+                case "history" : store.state.foundData = tools.getHistory();    break;
+                case "favorite": store.state.foundData = tools.getFavorite();   break;
+                case "phrase"  : 
+                    if ( frase ) store.state.foundData = tools[ "search_" +S ](frase);
+                    else store.state.foundDataSlot = null;
+                break;
+
+                default: store.state.foundDataSlot = null; break;
+            }
+        break;
+
+        case "T":
+            store.state.foundDataSlot = "M3";
+            store.state.foundData = tools.getTags();
+        break;
+
+        case "N": tools.searchBoxResetter(); break;
 
     }
-    else tools.searchBoxResetter();
 
 }
 
