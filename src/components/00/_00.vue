@@ -45,7 +45,7 @@
         row=1
         rowSpan=2
         ref="search"
-        @order="item => open( item.id )"
+        @orderByParent="item => open( item.id )"
         :hashTagButton="true"
         source="Q"
     />

@@ -339,8 +339,9 @@ exit () {
     }
 
     .bounded {
+        font-size: 13;
         border-width: 3;
-        padding-top: -2.1;
+        padding-top: .25;
         border-color: #dd5c07;
     }
 
