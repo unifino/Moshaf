@@ -136,13 +136,15 @@ export type FoundContent = {
     id              : number    ,
     text            : string    ,
     source          : Source    ,
-    flags           : {          
-        isBounded?  : boolean   ,
-        isHeader?   : boolean   ,
-        isCached?   : boolean   ,
-        count?      : number    ,
-    }
+    flags           : Flags     ,
 };
+
+export type Flags = {
+    isBounded?  : boolean   ,
+    isHeader?   : boolean   ,
+    isCached?   : boolean   ,
+    count?      : number    ,
+}
 
 // -- =====================================================================================
 

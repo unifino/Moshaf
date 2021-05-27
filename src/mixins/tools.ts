@@ -137,15 +137,15 @@ export function searchBoxResetter ( limited=false ) {
 
 // -- =====================================================================================
 
-export function boundParser ( item: string ): TS.FoundContent {
+export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundContent {
 
     let source = item.slice(0, 1) as TS.Source;
     let id = Number( item.slice(2) ) as number;
 
     if ( source === "Q" ) 
-        return { id: id, text: quranTextPreviewer(id), source: source, flags: {} }
+        return { id: id, text: quranTextPreviewer(id), source: source, flags: flags }
     if ( source === "H" ) 
-        return { id: id, text: hadithTextPreviewer(id), source: source, flags: {} }
+        return { id: id, text: hadithTextPreviewer(id), source: source, flags: flags }
 
     return null;
 
@@ -211,6 +211,37 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
     }
 
     return found.filter( (x,i) => i<5 );
+
+}
+
+// -- =====================================================================================
+
+export function bounder_Q (): void {
+
+    let found: TS.FoundContent[] = [],
+        tmp: TS.FoundContent,
+        originCode = "Q_" + store.state.activeAyah,
+        itemCodes = store.state.cakeBound[ originCode ] || [];
+
+    // .. convert codes to the content
+    for ( let raw of itemCodes ) {
+        tmp = boundParser( raw );
+        if ( tmp ) found.push( tmp );
+    }
+
+    if ( found ) {
+
+        // .. preparing
+        store.state.foundData = [];
+        store.state.foundDataSlot = "M4";
+
+        // .. add Header
+        found.unshift( boundParser( originCode, { isHeader: true } ) );
+
+        // .. implanting ...
+        store.state.foundData = found;
+
+    }
 
 }
 

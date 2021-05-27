@@ -76,8 +76,9 @@ mounted () {}
 
 boundedClasser ( item: TS.FoundContent ) {
     let boundClass = "boundedItem";
-    if ( item.flags.isBounded ) boundClass += " cached";
+    if ( item.flags.isCached ) boundClass += " cached";
     if ( item.flags.isHeader ) boundClass += " header";
+    if ( item.flags.isBounded ) boundClass += " bounded";
     return boundClass
 }
 
@@ -119,8 +120,8 @@ boundedClasser ( item: TS.FoundContent ) {
         color: #8b8b8b;
     }
 
-    .CoolGreen .origin,
-    .Smoky .origin {
+    .CoolGreen .header,
+    .Smoky .header {
         background-color: #0b2e10;
         border-width: 1;
         border-color: #8b8b8b;

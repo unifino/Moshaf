@@ -254,10 +254,11 @@ toggleFavorite () {
 
 // -- =====================================================================================
 
-bind ( id: number, source: TS.Source, rescan = true ) {
+bind ( item: TS.FoundContent ) {
 
-    console.log("Hi");
     tools.searchBoxResetter();
+    tools.bounder_Q();
+
     // // .. isHeader
     // if ( id === store.state.activeAyah ) return 0;
 
