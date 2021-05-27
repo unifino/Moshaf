@@ -75,7 +75,8 @@ mounted () {
 
 // -- =====================================================================================
 
-textChanged ( phrase: string ) {
+textChanged ( phrase: string, force?: boolean ) {
+    if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     store.state.phraseInSearch = phrase;
 }
 
@@ -85,7 +86,7 @@ returnPressed ( phrase: string ) {
 
     // .. Not in Tag-Section!
     if ( store.state.searchSource !== "T" ) {
-        if ( phrase ) this.textChanged( phrase );
+        if ( phrase ) this.textChanged( phrase, true );
         else tools.searchBoxResetter();
     }
 

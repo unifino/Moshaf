@@ -89,7 +89,7 @@ getSearchResult ( force?: boolean ) {
 
     if ( force ) {
         // .. get Data
-        let phrase = tools.inFarsiLetters( store.state.phraseInSearch );
+        let phrase = tools.inFarsiLetters( store.state.phraseInSearch ).trim();
         if ( store.state.searchSource === "Q" ) this.search_Q( phrase );
         if ( store.state.searchSource === "H" ) this.search_H( phrase );
     }

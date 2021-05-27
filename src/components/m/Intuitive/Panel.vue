@@ -34,7 +34,7 @@
             ref='search_Q'
             :visibility="searchMode==='Q'?'visible':'hidden'"
             :exchangeButton="true"
-            @interact="bind"
+            @orderByParent="bind"
             @exchange="searchMode='H';"
             :transparentBG=true
             source="Q"
@@ -256,20 +256,22 @@ toggleFavorite () {
 
 bind ( id: number, source: TS.Source, rescan = true ) {
 
-    // .. isHeader
-    if ( id === store.state.activeAyah ) return 0;
+    console.log("Hi");
+    
+    // // .. isHeader
+    // if ( id === store.state.activeAyah ) return 0;
 
-    let a = "Q_" + store.state.activeAyah,
-        b = source + "_" + id;
+    // let a = "Q_" + store.state.activeAyah,
+    //     b = source + "_" + id;
 
-    // .. already has been bound => remove it!
-    if ( a in store.state.cakeBound && store.state.cakeBound[a].includes(b) ) {
+    // // .. already has been bound => remove it!
+    // if ( a in store.state.cakeBound && store.state.cakeBound[a].includes(b) ) {
 
-    }
-    // .. no Trace has been found => add it!
-    else {
+    // }
+    // // .. no Trace has been found => add it!
+    // else {
 
-    }
+    // }
 
     // // .. rescan
     // this.boundedItems = this.getBoundedItems();

@@ -24,7 +24,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Output_M1 row=1 @interact="e => $emit( 'order', e )" />
+    <Output_M1 row=1 @interact="e => $emit( 'orderByParent', e )" />
     <Output_M2 row=1 />
     <Output_M3 row=1 />
     <Output_M4 row=1 :transparentBG=transparentBG />

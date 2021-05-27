@@ -9,10 +9,9 @@
 <!---------------------------------------------------------------------------------------->
 
     <SearchBox
-        ref="search"
         row=1
         rowSpan=2
-        @interact="open"
+        @orderByParent="open"
         source="H"
     />
 
@@ -68,9 +67,9 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-open ( num: number ) {
-    ( this.$refs.day as Day ).init( num );
-    ( this.$refs.search as SearchBox ).dismiss( true );
+open ( item: TS.FoundContent ) {
+    ( this.$refs.day as Day ).init( item.id );
+    tools.searchBoxResetter();
 }
 
 // -- =====================================================================================
