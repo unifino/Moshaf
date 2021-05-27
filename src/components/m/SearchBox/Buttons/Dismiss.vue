@@ -37,10 +37,6 @@ export default class Dismiss extends Vue {
 
 // -- =====================================================================================
 
-@Prop() source: TS.Source;
-
-// -- =====================================================================================
-
 myClass = "";
 
 // -- =====================================================================================
@@ -62,10 +58,11 @@ mounted () {
 activeClass () {
 
     // .. reset Class
-    let activeClass = true;
+    let activeClass = true,
+        source = store.state.searchSource;
 
     if ( !store.state.foundData.length )
-        if ( this.source ==='Q' || this.source ==='H' || this.source ==='N' ) 
+        if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = false;
 
     this.myClass = activeClass ? 'activate' : 'deactivate';
@@ -78,7 +75,6 @@ async dismiss () {
     store.state.foundData = [];
     store.state.foundDataSlot = null;
     store.state.lastSearchedBy = null;
-    store.state.forceSearchFuse = false;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.phraseInSearch = null;
 }

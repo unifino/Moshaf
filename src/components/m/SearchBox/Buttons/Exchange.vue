@@ -60,6 +60,16 @@ activeClass () {
 
 exchange () {
 
+    switch ( store.state.searchSource ) {
+
+        case "Q": store.state.searchSource = "H"; break;
+        case "H": store.state.searchSource = "T"; break;
+        // case "T": store.state.searchSource = "N"; break;
+        // case "N": store.state.searchSource = "Q"; break;
+        case "T": store.state.searchSource = "Q"; break;
+
+    }
+
 }
 
 // -- =====================================================================================

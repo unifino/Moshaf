@@ -38,10 +38,6 @@ export default class History extends Vue {
 
 // -- =====================================================================================
 
-@Prop() source: TS.Source;
-
-// -- =====================================================================================
-
 myClass = "";
 
 // -- =====================================================================================
@@ -63,10 +59,11 @@ mounted () {
 activeClass () {
 
     // .. reset Class
-    let activeClass = false;
+    let activeClass = false,
+        source = store.state.searchSource;
 
-    if ( this.source === "Q" ) if ( store.state.memo.Q.length ) activeClass = true;
-    if ( this.source === "H" ) if ( store.state.memo.H.length ) activeClass = true;
+    if ( source === "Q" ) if ( store.state.memo.Q.length ) activeClass = true;
+    if ( source === "H" ) if ( store.state.memo.H.length ) activeClass = true;
 
     this.myClass = activeClass ? 'activate' : 'deactivate';
 
@@ -85,8 +82,8 @@ getHistory () {
 
     let found: TS.FoundContent[] = [];
 
-    for ( const m of store.state.memo[ this.source ] ) 
-        found.unshift( tools.contentPreviewer( this.source, m ) )
+    for ( const m of store.state.memo[ store.state.searchSource ] ) 
+        found.unshift( tools.contentPreviewer( store.state.searchSource, m ) )
 
     store.state.foundData = found;
     store.state.foundDataSlot = "M1";
@@ -97,7 +94,7 @@ getHistory () {
 
 purgeHistory () {
     // .. get Name
-    let traceName = 'trace_' + this.source.toLowerCase();
+    let traceName = 'trace_' + store.state.searchSource.toLowerCase();
     // .. soft Purge
     store.state.memo.Q.splice(0);
     // .. hard registration

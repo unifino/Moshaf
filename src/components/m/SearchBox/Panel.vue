@@ -4,7 +4,6 @@
 
     <Input 
         row=0 
-        :source="source" 
         :hashTagButton="hashTagButton" 
         :exchangeButton="exchangeButton" 
     />
@@ -13,10 +12,10 @@
 
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
-        <Search :source="source" />
-        <Dismiss :source="source" />
-        <History :source="source" />
-        <Favorite :source="source" />
+        <Search   />
+        <Dismiss  />
+        <History  />
+        <Favorite />
         <HashTag :hashTagButton="hashTagButton" />
         <Exchange :exchangeButton="exchangeButton" />
 
@@ -28,6 +27,7 @@
     <Output_M1 row=1 @interact="e => $emit( 'order', e )" />
     <Output_M2 row=1 />
     <Output_M3 row=1 />
+    <Output_M4 row=1 :transparentBG=transparentBG />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -59,6 +59,7 @@ import Exchange                         from "@/components/m/SearchBox/Buttons/E
 import Output_M1                        from "@/components/m/SearchBox/Outputs/M1.vue"
 import Output_M2                        from "@/components/m/SearchBox/Outputs/M2.vue"
 import Output_M3                        from "@/components/m/SearchBox/Outputs/M3.vue"
+import Output_M4                        from "@/components/m/SearchBox/Outputs/M4.vue"
 
 // -- =====================================================================================
 
@@ -66,7 +67,7 @@ import Output_M3                        from "@/components/m/SearchBox/Outputs/M
     components: { 
         Input, 
         Search, Dismiss, History, Favorite, HashTag, Exchange,
-        Output_M1, Output_M2, Output_M3
+        Output_M1, Output_M2, Output_M3, Output_M4
     }
 } )
 
@@ -84,24 +85,26 @@ result_tag: TS.FoundContent[] = [];
 @Prop() source: TS.Source;
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
+@Prop() transparentBG: boolean;
 
 // -- =====================================================================================
 
 mounted() {
-    if ( this.source === "T" ) this.init( "tag" );
+    if ( store.state.searchMode === "tag" ) this.init( "T" );
+    store.state.searchSource = this.source;
 }
 
 // -- =====================================================================================
 
-init ( mode: TS.SearchMode, force?: boolean, escapeReTap?: boolean ) {
+init ( mode: TS.Source, force?: boolean, escapeReTap?: boolean ) {
 
     // // .. clear tagList
     // this.tagsList = [];
 
     let data: TS.FoundContent[];
-    let sos: boolean = mode === "search" ? force : escapeReTap;
+    // let sos: boolean = mode === "search" ? force : escapeReTap;
 
-    if ( this.source === "T" ) {
+    if ( store.state.searchMode === "tag" ) {
         data = this.tagFinder();
         this.result_tag = data;
         // this.performedMode = "tag";

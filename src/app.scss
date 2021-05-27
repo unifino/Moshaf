@@ -38,3 +38,17 @@ Page { background-color: transparent; }
     // font-family: JF Flat;  
     // font-family: Amiri-Regular; 
 }
+
+.outputBox {
+    padding: 20 24;
+    margin-bottom: 44;
+    border-radius: 0 0 7 7;
+}
+
+.CoolGreen .outputBox {
+    background-color: #0f1616;
+}
+
+.Smoky .outputBox {
+    background-color: #dbdbdb;
+}

@@ -118,19 +118,29 @@ export function scapeCheck ( mode: TS.SearchMode ) {
 
 // -- =====================================================================================
 
-export function searchBoxResetter () {
-    store.state.forceSearchFuse = false;
+export function searchBoxResetter ( limited=false ) {
     store.state.lastSearchedBy = null;
-    store.state.phraseInSearch = null;
     store.state.foundData = [];
     store.state.foundDataSlot = null;
-    store.state.activeAyah = -1;
+    if ( limited ) return;
+    store.state.phraseInSearch = null;
+    // store.state.activeAyah = -1;
 } 
 
 // -- =====================================================================================
 
-export function quranPreviewer ( id: number ) {
+export function boundParser ( item: string ): TS.FoundContent {
+
+    let source = item.slice(0, 1) as TS.Source;
+    let id = Number( item.slice(2) ) as number;
+
+    if ( source === "Q" ) 
+        return { id: id, text: quranTextPreviewer(id), source: source, flags: {} }
+    if ( source === "H" ) 
+        return { id: id, text: hadithTextPreviewer(id), source: source, flags: {} }
+
     return null;
+
 }
 
 // -- =====================================================================================

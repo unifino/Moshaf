@@ -187,7 +187,24 @@ async morsal ( message: TS.vahy ) {
 
 kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 
-    if ( type === "number" ) store.state.activeAyah = aID;
+    if ( type === "number" ) {
+
+        store.state.activeAyah = aID;
+
+        // .. preparing
+        store.state.foundData = [];
+        store.state.foundDataSlot = "M4";
+
+        let tmpBoundItem: TS.FoundContent,
+            itemCodes = store.state.cakeBound[ "Q_" + aID ];
+
+        // .. convert codes to the content
+        for ( let item of itemCodes ) {
+            tmpBoundItem = tools.boundParser( item );
+            if ( tmpBoundItem ) store.state.foundData.push( tmpBoundItem );
+        }
+
+    }
 
 }
 
@@ -228,6 +245,7 @@ scrollTo ( step: 1|-1 ) {
 exit () {
     clearTimeout( this.morsal_TO );
     ( this as any ).$navigateBack();
+    tools.searchBoxResetter();
 }
 
 // -- =====================================================================================

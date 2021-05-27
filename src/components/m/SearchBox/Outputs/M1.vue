@@ -1,5 +1,5 @@
 <template>
-<GridLayout :visibility="visibility" class="result">
+<GridLayout :visibility="visibility" class="outputBox">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -8,7 +8,7 @@
             <Label
                 :text="item.text"
                 textWrap=true
-                :class="'item' + ( item.flags.isBounded ? ' bounded' : '' )"
+                :class="itemClasser(item)"
                 @tap="$emit( 'interact', item )" 
             />
         </v-template>
@@ -51,6 +51,15 @@ get visibility () {
 
 // -- =====================================================================================
 
+itemClasser ( item: TS.FoundContent ) {
+    let tagClass = 'item';
+    if ( item.flags.isBounded ) tagClass += ' bounded';
+    if ( item.flags.isCached ) tagClass += ' cached';
+    return tagClass
+}
+
+// -- =====================================================================================
+
 }
 
 // -- =====================================================================================
@@ -62,24 +71,10 @@ get visibility () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .result {
-        padding: 20 24;
-        margin-bottom: 44;
-        border-radius: 0 0 7 7;
-    }
-
     .item {
         font-family: Amiri-Regular;
         font-family: 12;
         padding: 10;
-    }
-
-    .CoolGreen .result {
-        background-color: #0f1616;
-    }
-
-    .Smoky .result {
-        background-color: #dbdbdb;
     }
 
     .CoolGreen .item {

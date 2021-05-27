@@ -41,7 +41,6 @@ export default class Input extends Vue {
 
 // -- =====================================================================================
 
-@Prop() source: TS.Source;
 @Prop() hashTagButton: TS.Source;
 @Prop() exchangeButton: TS.Source;
 
@@ -52,10 +51,10 @@ hint: string = "بحث";
 // -- =====================================================================================
 
 get appendHint () {
-    if ( this.source === "Q" ) return " في القرآن";
-    if ( this.source === "H" ) return " في الحادیث";
-    if ( this.source === "T" ) return " في العناوين";
-    if ( this.source === "N" ) return " في النجاوى";
+    if ( store.state.searchSource === "Q" ) return " في القرآن";
+    if ( store.state.searchSource === "H" ) return " في الحادیث";
+    if ( store.state.searchSource === "T" ) return " في العناوين";
+    if ( store.state.searchSource === "N" ) return " في النجاوى";
 }
 
 // -- =====================================================================================
@@ -65,7 +64,7 @@ mounted () {
     let pad = 140;
     if ( this.exchangeButton ) pad += 23;
     if ( this.hashTagButton  ) pad += 23;
-    ( this.$refs.search as any ).nativeView.paddingLeft = pad;
+    try { ( this.$refs.search as any ).nativeView.paddingLeft = pad } catch {}
 
     store.watch(
         state => store.state.phraseInSearch, 
@@ -85,8 +84,7 @@ textChanged ( phrase: string ) {
 returnPressed ( phrase: string ) {
 
     // .. Not in Tag-Section!
-    if ( this.source !== "T" ) {
-        store.state.forceSearchFuse = true;
+    if ( store.state.searchSource !== "T" ) {
         if ( phrase ) this.textChanged( phrase );
         else tools.searchBoxResetter();
     }
@@ -117,9 +115,8 @@ returnPressed ( phrase: string ) {
 
 dismiss () {
     store.state.phraseInSearch = null;
-    ( this.$refs.search as any ).nativeView.text = null;
-    ( this.$refs.search as any ).nativeView.dismissSoftInput();
-    // ( this.$parent as any ).nativeView.focus();
+    try { ( this.$refs.search as any ).nativeView.text = null } catch {}
+    try { ( this.$refs.search as any ).nativeView.dismissSoftInput() } catch {}
 }
 
 // -- =====================================================================================

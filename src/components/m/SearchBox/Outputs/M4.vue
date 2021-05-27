@@ -1,17 +1,17 @@
 <template>
-<GridLayout rows="60,*,44" :visibility="visibility" class="result">
+<GridLayout :visibility="visibility" :class="outputBoxClass">
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView row=1>
+    <ScrollView >
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
             <Label 
-                v-for="(item,i) in boundedItems"
-                :class="'boundedItem'"
+                v-for="(item,i) in $store.state.foundData"
+                :class="boundedClasser(item)"
                 :key="i"
-                :text="'item'"
+                :text="item.text"
                 textWrap="true"
             />
 
@@ -49,6 +49,10 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
+@Prop() transparentBG: boolean;
+
+// -- =====================================================================================
+
 boundedItems: TS.FoundContent[] = [];
 cachedBounded: string[];
 cachedLastID: number;
@@ -60,96 +64,21 @@ get visibility () {
         'visible' : 'hidden';
 }
 
-// -- =====================================================================================
-
-mounted () {
-
-    store.watch(
-        state => state.activeAyah, 
-        newVal => this.getBoundedItems(  )
-    );
-
+get outputBoxClass () {
+    return this.transparentBG ? 'outputBox transparent' : 'outputBox';
 }
+
 // -- =====================================================================================
 
-boundClasser ( item: TS.FoundContent ) {
+mounted () {}
+
+// -- =====================================================================================
+
+boundedClasser ( item: TS.FoundContent ) {
     let boundClass = "boundedItem";
+    if ( item.flags.isBounded ) boundClass += " cached";
+    if ( item.flags.isHeader ) boundClass += " header";
     return boundClass
-}
-
-// -- =====================================================================================
-
-getBoundedItems() : TS.FoundContent[] {
-
-    let origin = "Q_" + store.state.activeAyah;
-    let boundedItems: string[] = store.state.cakeBound[ origin ] || [];
-    let result: TS.FoundContent[] = [];
-
-    result = boundedItems.map( x => this.boundParser( x ) );
-    result = this.cacheBoundParser( result );
-
-    // .. add even origin
-    if ( result.length ) result.unshift( {
-        id: store.state.activeAyah,
-        text: tools.quranTextPreviewer( store.state.activeAyah ),
-        source: "Q",
-        flags: { isHeader: true }
-    } )
-this.boundedItems=result;
-    return result;
-
-}
-
-// -- =====================================================================================
-
-boundParser ( item: string ): TS.FoundContent {
-
-    if ( !this.cachedBounded.includes( item ) ) 
-        if ( item.slice(0 , 1) !== "T" )
-            this.cachedBounded.push( item );
-
-    let source = item.slice(0, 1) as TS.Source;
-    let id = Number( item.slice(2) ) as number;
-
-    if ( source === "Q" ) 
-        return { id: id, text: tools.quranPreviewer(id), source: source, flags: {} }
-    if ( source === "H" ) 
-        return { id: id, text: tools.hadithTextPreviewer(id), source: source, flags: {} }
-
-    return null;
-
-}
-
-// -- =====================================================================================
-
-cacheBoundParser ( items: TS.FoundContent[] ) {
-
-    let cached: TS.FoundContent;
-
-    for ( const c of this.cachedBounded ) {
-        if ( !items.find( x => c === x.source + "_" + x.id ) ) {
-            cached = this.boundParser(c);
-            cached.flags.isCached = true;
-            items.push( cached );
-        }
-    }
-
-    return items;
-
-}
-
-// -- =====================================================================================
-
-cacheCtr ( id: number ) {
-    console.log(id);
-
-    // .. reset cache memory
-    if ( this.cachedLastID !== id ) this.cachedBounded = [];
-    // .. cache id
-    this.cachedLastID = id;
-    // .. retrieve bounded data
-    this.boundedItems = this.getBoundedItems();
-
 }
 
 // -- =====================================================================================
@@ -165,28 +94,41 @@ cacheCtr ( id: number ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .result {
-        padding: 20 24;
-        margin-bottom: 44;
-        border-radius: 0 0 7 7;
+    .boundedItem {
+        margin: 5 0;
+        padding: 12 16;
+        border-radius: 7;
+        line-height: 8;
+        font-size: 14;
     }
 
-    .item {
-        font-family: Amiri-Regular;
-        font-family: 12;
-        padding: 10;
+    .CoolGreen .boundedItem {
+        background-color: #171718;
+        color: #8b8b8b;
+    }
+    
+    .Smoky .boundedItem {
+        background-color: #d8d8d8;
+        color: #0c85aa;
     }
 
-    .CoolGreen .result {
-        background-color: #0f1616;
+    .CoolGreen .cached,
+    .Smoky .cached {
+        text-decoration: line-through;
+        background-color: #222324;
+        color: #8b8b8b;
     }
 
-    .Smoky .result {
-        background-color: #dbdbdb;
+    .CoolGreen .origin,
+    .Smoky .origin {
+        background-color: #0b2e10;
+        border-width: 1;
+        border-color: #8b8b8b;
+        color: #cacaca;
     }
 
-    .CoolGreen .item {
-        color: #e0e0e0;
+    .transparent {
+        background-color: transparent;
     }
 
 </style>

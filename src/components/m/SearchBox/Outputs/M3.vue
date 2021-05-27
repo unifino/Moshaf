@@ -1,5 +1,5 @@
 <template>
-<GridLayout :visibility="visibility" class="result">
+<GridLayout :visibility="visibility" class="outputBox">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -81,27 +81,13 @@ tagClasser ( item: TS.FoundContent ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .result {
-        padding: 20 24;
-        margin-bottom: 44;
-        border-radius: 0 0 7 7;
-    }
-
-    .item {
+    .tag {
         font-family: Amiri-Regular;
         font-family: 12;
         padding: 10;
     }
 
-    .CoolGreen .result {
-        background-color: #0f1616;
-    }
-
-    .Smoky .result {
-        background-color: #dbdbdb;
-    }
-
-    .CoolGreen .item {
+    .CoolGreen .tag {
         color: #e0e0e0;
     }
 

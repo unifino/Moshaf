@@ -1,5 +1,5 @@
 <template>
-<GridLayout :visibility="visibility" class="result">
+<GridLayout :visibility="visibility" class="outputBox">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -55,8 +55,21 @@ get visibility () {
 
 // -- =====================================================================================
 
-openTag ( item: TS.FoundContent ) {
-    console.log(item.text);
+openTag ( tag: TS.FoundContent ) {
+
+    // .. preparing
+    store.state.foundData = [];
+    store.state.foundDataSlot = "M4";
+
+    let tmpBoundItem: TS.FoundContent,
+        itemCodes = store.state.cakeBound[ "T_" + tag.text ];
+
+    // .. convert codes to the content
+    for ( let item of itemCodes ) {
+        tmpBoundItem = tools.boundParser( item );
+        if ( tmpBoundItem ) store.state.foundData.push( tmpBoundItem );
+    }
+
 }
 
 // -- =====================================================================================
@@ -72,30 +85,6 @@ openTag ( item: TS.FoundContent ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .result {
-        padding: 20 24;
-        margin-bottom: 44;
-        border-radius: 0 0 7 7;
-    }
-
-    .item {
-        font-family: Amiri-Regular;
-        font-family: 12;
-        padding: 10;
-    }
-
-    .CoolGreen .result {
-        background-color: #0f1616;
-    }
-
-    .Smoky .result {
-        background-color: #dbdbdb;
-    }
-
-    .CoolGreen .item {
-        color: #e0e0e0;
-    }
-
     .Smoky .tagLine {
         /* background-color: #c4c2c2; */
         color: #383838;

@@ -27,63 +27,17 @@
     </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
-    
-
-    <GridLayout 
-        row=1 rowSpan=3 col=2 rows="60,*,44"
-        ref="boundedBox"
-        opacity=0
-        :visibility="searchMode!=='T'?'visible':'hidden'"
-    >
-
-        <ScrollView row=1>
-
-            <StackLayout horizontalAlignment="center" verticalAlignment="center">
-
-                <Label 
-                    v-for="(item,i) in boundedItems"
-                    :class="boundClasser(item)"
-                    :key="i"
-                    :text="item.text"
-                    textWrap="true"
-                    @tap="bind( item.idx, item.source, false )"
-                />
-
-            </StackLayout>
-
-        </ScrollView>
-
-    </GridLayout>
-
-<!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 rowSpan=3 col=2 ref="searchBoxes" opacity=0>
 
         <SearchBox
             ref='search_Q'
             :visibility="searchMode==='Q'?'visible':'hidden'"
-            source="Q"
             :exchangeButton="true"
             @interact="bind"
             @exchange="searchMode='H';"
-        />
-
-        <SearchBox
-            ref='search_H'
-            :visibility="searchMode==='H'?'visible':'hidden'"
-            source="H"
-            :exchangeButton="true"
-            @interact="bind"
-            @exchange="searchMode='Q'"
-        />
-
-        <SearchBox
-            ref='search_T'
-            :visibility="searchMode==='T'?'visible':'hidden'"
-            source="T"
-            :exchangeButton="true"
-            @interact="bind"
-            @exchange="searchMode='Q'"
+            :transparentBG=true
+            source="Q"
         />
 
     </GridLayout>
@@ -112,12 +66,12 @@ import * as NS                          from "@nativescript/core"
 import { setText }                      from "nativescript-clipboard"
 import * as TS                          from "@/../types/myTypes"
 import { Hadith }                       from "@/db/H/Al-Hadith"
-import Output                        from "@/components/m/SearchBox/Outputs/M4.vue"
+import Output_M4                        from "@/components/m/SearchBox/Outputs/M4.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { myButton, SearchBox, Output }
+    components: { myButton, SearchBox, Output_M4 }
 } )
 
 // -- =====================================================================================
@@ -194,7 +148,7 @@ boundParser ( item: string ): TS.FoundContent {
     let id = Number( item.slice(2) ) as number;
 
     if ( source === "Q" ) 
-        return { id: id, text: tools.quranPreviewer(id), source: source, flags: {} }
+        return { id: id, text: tools.quranTextPreviewer(id), source: source, flags: {} }
     if ( source === "H" ) 
         return { id: id, text: tools.hadithTextPreviewer(id), source: source, flags: {} }
 
@@ -234,7 +188,6 @@ async menuCtr ( id: number ) {
     let menuBox = ( this.$refs.menuBox as any ).nativeView,
         frame = ( this.$refs.frame as any ).nativeView,
         searchBoxes = ( this.$refs.searchBoxes as any ).nativeView,
-        boundedBox = ( this.$refs.boundedBox as any ).nativeView,
         x_def: NS.AnimationDefinition = {},
         y_def: NS.AnimationDefinition = {},
         z_def: NS.AnimationDefinition = {},
@@ -259,10 +212,7 @@ async menuCtr ( id: number ) {
     z_def.duration = !~id ? 100 : 500;
     z_def.opacity = !~id ? 0 : 1;
 
-    w_def = { ...z_def };
-    w_def.target = boundedBox;
-w_def.opacity =.2;
-    this.menuBox_Animation = new NS.Animation( [ w_def, x_def, y_def, z_def ], false );
+    this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => this.active = !!~id );
 
 }
@@ -270,8 +220,7 @@ w_def.opacity =.2;
 // -- =====================================================================================
 
 cacheCtr ( id: number ) {
-    console.log(id);
-    
+
     // .. reset cache memory
     if ( this.cachedLastID !== id ) this.cachedBounded = [];
     // .. cache id

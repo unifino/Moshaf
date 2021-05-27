@@ -39,10 +39,6 @@ export default class Search extends Vue {
 
 // -- =====================================================================================
 
-@Prop() source: TS.Source;
-
-// -- =====================================================================================
-
 myClass = "";
 
 // -- =====================================================================================
@@ -56,12 +52,7 @@ mounted () {
 
     store.watch(
         state => store.state.phraseInSearch, 
-        newVal => { if ( newVal ) this.getSearchResult() }
-    );
-
-    store.watch(
-        state => store.state.forceSearchFuse, 
-        newVal => { if ( newVal ) this.getSearchResult( true ) }
+        newVal => { if ( newVal ) this.getSearchResult( newVal.length > 3 ) }
     );
 
     // .. init
@@ -74,10 +65,11 @@ mounted () {
 activeClass () {
 
     // .. reset Class
-    let activeClass = false;
+    let activeClass = false,
+        source = store.state.searchSource;
 
     if ( !store.state.foundData.length )
-        if ( this.source ==='Q' || this.source ==='H' || this.source ==='N' ) 
+        if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = true;
 
     this.myClass = activeClass ? 'activate' : 'deactivate';
@@ -89,22 +81,20 @@ activeClass () {
 getSearchResult ( force?: boolean ) {
 
     // .. re-tap situation
-    if ( !force && tools.scapeCheck( "search" ) ) return;
-    tools.searchBoxResetter();
+    if ( !force && tools.scapeCheck( "phrase" ) ) return;
+    // tools.searchBoxResetter( true );
 
     // .. register action
-    store.state.lastSearchedBy = "search";
+    store.state.lastSearchedBy = "phrase";
 
-    // .. get Data
-    let phrase: string = store.state.phraseInSearch;
-    phrase = tools.inFarsiLetters( phrase );
-
-    if ( force || phrase.length > 3 ) {
-        if ( this.source === "Q" ) this.search_Q( phrase );
-        if ( this.source === "H" ) this.search_H( phrase );
-        store.state.forceSearchFuse = false;
+    if ( force ) {
+        // .. get Data
+        let phrase = tools.inFarsiLetters( store.state.phraseInSearch );
+        if ( store.state.searchSource === "Q" ) this.search_Q( phrase );
+        if ( store.state.searchSource === "H" ) this.search_H( phrase );
     }
-    if ( this.source === "N" ) this.search_N();
+
+    if ( store.state.searchSource === "N" ) this.search_N();
 
 }
 
@@ -135,14 +125,14 @@ search_H ( phrase: string ): void {
         if ( tools.inFarsiLetters( Hadith[i].a ).includes( phrase ) )
             found.push( tools.contentPreviewer( "H", i ) );
 
-        // .. search in farsi text ( if exists )
-        else if ( Hadith[i].b )
-            if ( tools.inFarsiLetters( Hadith[i].b ).includes( phrase ) )
-                found.push( tools.contentPreviewer( "H", i ) );
+        // // .. search in farsi text ( if exists )
+        // else if ( Hadith[i].b )
+        //     if ( tools.inFarsiLetters( Hadith[i].b ).includes( phrase ) )
+        //         found.push( tools.contentPreviewer( "H", i ) );
 
     }
 
-    store.state.foundData = found;
+    store.state.foundData = found.filter( (x,i) => i<5 );
     store.state.foundDataSlot = "M1";
 
 }
