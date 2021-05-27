@@ -80,13 +80,10 @@ export default class ToolBar extends Vue {
 
 tapPassed = false;
 active = false;
-cachedBounded: string[];
-cachedLastID: number;
-
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
-    // { icon: 'f292', class: 'tag'  , fnc: () => {}      } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
+    // { icon: 'f292', class: 'tag'  , fnc: () => {}      } ,
 ]
 
 // -- =====================================================================================
@@ -106,33 +103,12 @@ mounted () {
 
 }
 
-
-// -- =====================================================================================
-
-cacheBoundParser ( items: TS.FoundContent[] ) {
-
-    let cached: TS.FoundContent;
-
-    for ( const c of this.cachedBounded ) {
-        if ( !items.find( x => c === x.source + "_" + x.id ) ) {
-            // cached = this.boundParser(c);
-            cached.flags.isCached = true;
-            items.push( cached );
-        }
-    }
-
-    return items;
-
-}
-
 // -- =====================================================================================
 
 menuBox_Animation
 async menuCtr ( id: number ) {
 
     this.active = true;
-
-    if ( ~id ) this.cacheCtr( id );
 
     await new Promise( _ => setTimeout( _ , 0 ) );
 
@@ -170,18 +146,6 @@ async menuCtr ( id: number ) {
 
 // -- =====================================================================================
 
-cacheCtr ( id: number ) {
-
-    // .. reset cache memory
-    if ( this.cachedLastID !== id ) this.cachedBounded = [];
-    // .. cache id
-    this.cachedLastID = id;
-
-
-}
-
-// -- =====================================================================================
-
 toggleFavorite () {
 
     let aID = store.state.activeAyah;
@@ -206,7 +170,6 @@ toggleFavorite () {
 
 bind ( item: TS.FoundContent ) {
 
-
     if ( item.flags.isHeader ) return;
 
     let itemCode = item.source + "_" + item.id,
@@ -226,8 +189,19 @@ bind ( item: TS.FoundContent ) {
         if ( ~r ) storage.rawBound.splice( r, 1 );
         r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
         if ( ~r ) storage.rawBound.splice( r, 1 );
+        store.state.cacheBound.push( [ originCode ,itemCode ] );
     }
 
+    // .. trim cacheBound
+    if ( item.flags.isCached ) {
+        store.state.cacheBound = store.state.cacheBound.filter( x => {
+            if ( x[0] === originCode && x[1] === itemCode ) return false;
+            if ( x[1] === originCode && x[0] === itemCode ) return false;
+            return true;
+        } );
+    }
+
+    // .. re-calculation
     store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
     tools.searchBoxResetter();
     tools.bounder_Q();

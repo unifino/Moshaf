@@ -93,6 +93,7 @@ export function inFarsiLetters ( str: string ) {
 
     if ( !str ) return "";
 
+    str = erabTrimmer( str );
     str = str
         .replace( /ء/g, 'ا' )
         .replace( /إ/g, 'ا' )
@@ -106,7 +107,7 @@ export function inFarsiLetters ( str: string ) {
         .replace( /ئ/g, 'ی' )
         .replace( /ى/g, 'ی' );
 
-    return erabTrimmer( str );
+    return str;
 
 }
 
@@ -239,10 +240,32 @@ export function bounder_Q (): void {
         // .. add Header
         found.unshift( boundParser( originCode, { isHeader: true } ) );
 
+        // .. append cached Items
+        found = bounder_Q_Cache( found );
+
         // .. implanting ...
         store.state.foundData = found;
 
     }
+
+}
+
+// -- =====================================================================================
+
+export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] { 
+
+    let origin = "Q_" + store.state.activeAyah,
+        cache: string[];
+
+    cache = store.state.cacheBound.reduce( (soFar, xxx) => {
+        if ( xxx[0] === origin ) soFar.push( xxx[1] );
+        else if ( xxx[1] === origin ) soFar.push( xxx[0] );
+        return soFar;
+    }, [] as string[] );
+
+    for ( let c of cache ) base.push( boundParser( c, { isCached: true } ) );
+
+    return base;
 
 }
 

@@ -12,7 +12,7 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
-export let rawBound: [ string, string ][];
+export let rawBound: TS.RawBound;
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();

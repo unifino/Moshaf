@@ -9,7 +9,7 @@
 
             <Label 
                 v-for="(item,i) in $store.state.foundData"
-                :class="boundedClasser(item)"
+                :class="itemClasser(item)"
                 :key="i"
                 :text="item.text"
                 textWrap="true"
@@ -54,12 +54,6 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
-boundedItems: TS.FoundContent[] = [];
-cachedBounded: string[];
-cachedLastID: number;
-
-// -- =====================================================================================
-
 get visibility () {
     return store.state.foundData.length && store.state.foundDataSlot === "M4" ? 
         'visible' : 'hidden';
@@ -75,12 +69,11 @@ mounted () {}
 
 // -- =====================================================================================
 
-boundedClasser ( item: TS.FoundContent ) {
-    let boundClass = "boundedItem";
-    if ( item.flags.isCached ) boundClass += " cached";
-    if ( item.flags.isHeader ) boundClass += " header";
-    if ( item.flags.isBounded ) boundClass += " bounded";
-    return boundClass
+itemClasser ( item: TS.FoundContent ) {
+    let itemClass = "baseClass";
+    if ( item.flags.isCached ) itemClass += " cached";
+    if ( item.flags.isHeader ) itemClass += " header";
+    return itemClass;
 }
 
 // -- =====================================================================================
@@ -96,7 +89,8 @@ boundedClasser ( item: TS.FoundContent ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .boundedItem {
+    .baseClass {
+        width: 100%;
         margin: 5 0;
         padding: 12 16;
         border-radius: 7;
@@ -104,12 +98,20 @@ boundedClasser ( item: TS.FoundContent ) {
         font-size: 14;
     }
 
-    .CoolGreen .boundedItem {
+    .baseClass {
+        margin: 5 0;
+        padding: 12 16;
+        border-radius: 7;
+        line-height: 8;
+        font-size: 14;
+    }
+
+    .CoolGreen .baseClass {
         background-color: #171718;
         color: #8b8b8b;
     }
     
-    .Smoky .boundedItem {
+    .Smoky .baseClass {
         background-color: #d8d8d8;
         color: #0c85aa;
     }

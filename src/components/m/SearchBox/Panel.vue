@@ -43,12 +43,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 // * tns plugin add nativescript-clipboard
 import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { asma, Quran }                  from "@/db/Q/Quran"
-import { Hadith }                       from "@/db/H/Al-Hadith"
-import Kalameh                          from "@/components/m/Kalameh.vue"
 import Input                            from "@/components/m/SearchBox/Input.vue"
 import Search                           from "@/components/m/SearchBox/Buttons/Search.vue"
 import Dismiss                          from "@/components/m/SearchBox/Buttons/Dismiss.vue"
@@ -114,38 +109,6 @@ mounted() {
         padding: 10 0;
         margin-right: 1;
         margin-left: -5;
-    }
-
-    /* .CoolGreen .button {
-        color: #9faeb4;
-    }
-
-    .Smoky .button {
-        color: #b81868;
-        color: #606363;
-    } */
-
-    .tag {
-        border-radius: 4;
-        padding: 5 10;
-        margin: 3;
-        font-size: 17;
-    }
-
-    .CoolGreen .tag {
-        background-color: #0f1616;
-        color: #feffff;
-    }
-
-    .Smoky .tag {
-        background-color: #323533;
-        color: #d8dada;
-    }
-
-    .CoolGreen .cached,
-    .Smoky .cached {
-        text-decoration: line-through;
-        color: #8b8b8b;
     }
 
 </style>

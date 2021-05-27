@@ -114,21 +114,7 @@ export type SearchMode = "phrase" | "history" | "favorite" | "tag";
 
 // -- =====================================================================================
 
-// export type Found_Item = { 
-//     text        : string    , 
-//     idx         : number    ,
-//     isBounded   : boolean   ,
-//     source?     : Source    ,
-// };
-// export type Found = Found_Item[];
-
-// export interface BoundItem {
-//     [0]: [ "Q" | "H", number ],
-//     [1]: [ "Q" | "H", number ] | [ "T", string ],
-//     length : 2,
-// }[];
-
-// export type Bound = BoundItem[];
+export type RawBound = [ string, string ][];
 
 // -- =====================================================================================
 

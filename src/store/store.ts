@@ -23,6 +23,7 @@ export default new Vuex.Store( {
         searchMode_Pr   : null                  ,
         foundData       : []                    ,
         foundDataSlot   : null                  ,
+        cacheBound      : []                    ,
                                                  
         fav             : {                      
             Q           : []                    ,
@@ -54,6 +55,7 @@ interface state {
         searchMode_Pr   : TS.SearchMode         ,
         foundData       : TS.FoundContent []    ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
+        cacheBound      : TS.RawBound           ,
                                                  
         fav             : {                      
             Q           : number[]              ,
