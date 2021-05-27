@@ -174,7 +174,7 @@ bind ( item: TS.FoundContent ) {
 
     // .. Toggle Item
     tools.bound_Q_Toggler( item );
-    tools.searchBoxResetter();
+    // tools.searchBoxResetter();
     tools.bounder_Q();
 
     // .. hard registration

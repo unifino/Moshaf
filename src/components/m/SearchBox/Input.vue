@@ -93,20 +93,17 @@ returnPressed ( phrase: string ) {
     // .. Just in Tag-Section
     else {
 
-        // let newTag = phrase;
+        let text = tools.inFarsiLetters( phrase ),
+            newTag: TS.FoundContent = { text: text, id: -1, source: "T", flags: {} };
 
-        // let a = "Q_" + store.state.activeAyah;
-        // let b = "T_" + newTag;
+        if ( text ) {
+            tools.bound_Q_Toggler( newTag );
+            store.state.foundDataSlot = "M3";
+            store.state.foundData = tools.getTags();
+        }
 
-        // // .. add new Tag ( uniqe )
-        // if ( !store.state.bounds.find( x => x[0] === a && x[1] === b ) ) 
-        //     store.state.bounds.push( [a, b] );
-
-        // // .. hard registration
-        // storage.saveDB( storage.bound_File, store.state.bounds );
-
-        // // .. apply it
-        // this.init( "rescan" );
+        // .. hard registration
+        storage.saveDB( storage.bound_File, storage.rawBound );
 
     }
 

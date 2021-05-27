@@ -80,6 +80,9 @@ activeClass () {
 
 getSearchResult ( force?: boolean ) {
 
+    // .. Tag Mode
+    if ( store.state.searchSource === "T" ) return;
+
     // .. re-tap situation
     if ( !force && tools.scapeCheck( "phrase" ) ) return;
     // tools.searchBoxResetter( true );
