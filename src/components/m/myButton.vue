@@ -70,7 +70,7 @@ buttonTouched ( args ) {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
 
     .center {
         text-align: center;

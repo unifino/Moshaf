@@ -60,7 +60,7 @@ destroyed () {}
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .meaning {
         font-family: Homa;
         width: 88%;

@@ -71,7 +71,7 @@ tagPresenter ( tagName: string ) {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .result {
         padding: 20 24;
         margin-bottom: 44;

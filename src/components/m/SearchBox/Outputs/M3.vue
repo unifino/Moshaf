@@ -12,7 +12,7 @@
             alignItems="center"
         >
             <Label
-                v-for="item in result_tag"
+                v-for="item in $store.state.foundData"
                 :key="item.idx"
                 :class="tagClasser(item)"
                 :text="item.text"
@@ -71,7 +71,7 @@ get visibility () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .result {
         padding: 20 24;
         margin-bottom: 44;

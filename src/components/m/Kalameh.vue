@@ -148,7 +148,7 @@ destroyed () {}
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .CoolGreen .pressed {
         background-color: #333636;
     }

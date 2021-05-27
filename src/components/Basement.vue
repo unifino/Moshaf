@@ -31,7 +31,7 @@ import * as NS                          from "@nativescript/core"
 import * as TM                          from "@/themes/themeManager"
 import store                            from "@/store/store"
 import Base_00                          from "@/components/00/_00.vue"
-import ToolBar                          from "@/components/00/ToolBar.vue"
+import IntuitivePanel                   from "@/components/m/Intuitive/Panel.vue"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Base_10                          from "@/components/10/_10.vue"
 import Base_01                          from "@/components/01/_01.vue"
@@ -142,9 +142,9 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         case "Qertas":
             // .. get elements(s)
             let qertas = _base_.$children[2] as Qertas;
-            let toolBar = qertas.$refs[ "ToolBar" ] as ToolBar;
-            // ..  just close ToolBar by resetting activeAyah
-            if ( toolBar.active ) store.state.activeAyah = -1;
+            let intuitivePanel = qertas.$refs[ "IntuitivePanel" ] as IntuitivePanel;
+            // ..  just close IntuitivePanel by resetting activeAyah
+            if ( intuitivePanel.active ) store.state.activeAyah = -1;
             else qertas.exit();
         break;
 
@@ -302,6 +302,6 @@ destroyed () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
 
 </style>

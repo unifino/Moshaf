@@ -146,7 +146,7 @@ search () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .sura, .saat {
         font-family: Amiri-Regular;
         text-align: center;

@@ -238,7 +238,7 @@ destroyed () {}
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .divider {
         background-color: #2a4c4e;
     }

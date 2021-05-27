@@ -366,7 +366,7 @@ createNewTag () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .frame {
         background-color: #000e1111;
     }

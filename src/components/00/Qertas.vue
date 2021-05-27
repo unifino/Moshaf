@@ -43,7 +43,7 @@
 
     <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
 
-    <ToolBar ref="ToolBar" rowSpan=5 />
+    <IntuitivePanel ref="IntuitivePanel" rowSpan=5 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -63,13 +63,13 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import ToolBar                          from "@/components/00/ToolBar.vue"
+import IntuitivePanel                   from "@/components/m/Intuitive/Panel.vue"
 import store                            from "@/store/store"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, ToolBar }
+    components: { Kalameh, IntuitivePanel }
 } )
 
 // -- =====================================================================================
@@ -242,7 +242,7 @@ exit () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .qertas {
         width: 300;
         height: 504;

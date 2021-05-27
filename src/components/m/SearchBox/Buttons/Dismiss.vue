@@ -95,7 +95,7 @@ async dismiss () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .deactivate {
         visibility: collapse;
     }

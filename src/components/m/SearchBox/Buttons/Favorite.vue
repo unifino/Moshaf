@@ -104,7 +104,7 @@ getFavorite () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .deactivate {
         visibility: collapse;
     }

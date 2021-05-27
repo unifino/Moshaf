@@ -167,7 +167,7 @@ search_N (): void {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .deactivate {
         visibility: collapse;
     }

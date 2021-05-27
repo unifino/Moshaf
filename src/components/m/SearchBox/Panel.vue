@@ -275,7 +275,7 @@ dismiss ( force=false ) {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .button {
         font-size: 20;
         width: 44;
@@ -319,7 +319,7 @@ dismiss ( force=false ) {
     }
 
 
-/*                                          */
+/* ------------------------------------------- */
 
     .CoolGreen .bounded {
         background-color: #0e962b;

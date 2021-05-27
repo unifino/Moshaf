@@ -134,7 +134,7 @@ dismiss () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .search {
         padding-left: 140;
         width: 100%;

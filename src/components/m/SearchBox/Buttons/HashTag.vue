@@ -99,7 +99,7 @@ listRetriever () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .deactivate {
         visibility: collapse;
     }

@@ -74,7 +74,7 @@ exchange () {
 
 <style scoped>
 
-/*                                          */
+/* ------------------------------------------- */
     .deactivate {
         visibility: collapse;
     }
