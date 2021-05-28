@@ -135,7 +135,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
             let base_00 = _base_.$children[1] as Base_00;
             let searchBox = base_00.$refs[ "search" ] as SearchBox;
             // ..  just clear search
-            if ( store.state.foundData ) tools.searchBoxResetter();
+            if ( store.state.foundData.length ) tools.searchBoxResetter();
             // .. exit
             else exit();
         break;
