@@ -104,6 +104,7 @@ mounted () {
 pageLoaded () {
     store.state.here='Base_00';
     TM.themePatcher( this );
+    this.search( null );
 }
 
 // -- =====================================================================================
