@@ -59,7 +59,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = true,
-        source = store.state.searchSource;
+        source = store.state.search_IN;
 
     if ( !store.state.foundData.length )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
@@ -78,7 +78,7 @@ async dismiss () {
     // .. regular actions
     store.state.foundData = [];
     store.state.foundDataSlot = null;
-    store.state.searchMode_Pr = null;
+    store.state.searched_By = null;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.phraseInSearch = null;
 }

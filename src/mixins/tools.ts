@@ -113,10 +113,10 @@ export function inFarsiLetters ( str: string ) {
 
 // -- =====================================================================================
 
-export function scapeCheck ( mode: TS.SearchMode ) {
+export function scapeCheck ( mode: TS.search_By ) {
 
-    if ( store.state.foundData.length && store.state.searchMode_Pr === mode ) {
-        store.state.searchMode_Pr = null;
+    if ( store.state.foundData.length && store.state.searched_By === mode ) {
+        store.state.searched_By = null;
         store.state.foundData = [];
         store.state.foundDataSlot = null;
         return true;
@@ -129,7 +129,7 @@ export function scapeCheck ( mode: TS.SearchMode ) {
 // -- =====================================================================================
 
 export function searchBoxResetter ( limited=false ) {
-    store.state.searchMode_Pr = null;
+    store.state.searched_By = null;
     store.state.foundData = [];
     store.state.foundDataSlot = null;
     if ( limited ) return;
@@ -159,8 +159,8 @@ export function getHistory (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
 
-    for ( const m of store.state.memo[ store.state.searchSource ] ) 
-        found.unshift( contentPreviewer( store.state.searchSource, m ) );
+    for ( const m of store.state.memo[ store.state.search_IN ] ) 
+        found.unshift( contentPreviewer( store.state.search_IN, m ) );
 
     return found;
 
@@ -172,8 +172,8 @@ export function getFavorite (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
 
-    for ( const m of store.state.fav[ store.state.searchSource ] ) 
-        found.unshift( contentPreviewer( store.state.searchSource, m ) );
+    for ( const m of store.state.fav[ store.state.search_IN ] ) 
+        found.unshift( contentPreviewer( store.state.search_IN, m ) );
 
     return found;
 

@@ -45,7 +45,7 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => store.state.searchSource, 
+        state => store.state.search_IN, 
         () => this.activeClass()
     );
 
@@ -60,7 +60,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = false,
-        source = store.state.searchSource;
+        source = store.state.search_IN;
 
     if ( source === "Q" ) if ( store.state.memo.Q.length ) activeClass = true;
     if ( source === "H" ) if ( store.state.memo.H.length ) activeClass = true;
@@ -78,7 +78,7 @@ getHistory () {
     tools.searchBoxResetter();
 
     // .. register action
-    store.state.searchMode_Pr = "history";
+    store.state.searched_By = "history";
 
     store.state.foundData = tools.getHistory();
     store.state.foundDataSlot = "M1";
@@ -89,7 +89,7 @@ getHistory () {
 
 purgeHistory () {
     // .. get Name
-    let traceName = 'trace_' + store.state.searchSource.toLowerCase();
+    let traceName = 'trace_' + store.state.search_IN.toLowerCase();
     // .. soft Purge
     store.state.memo.Q.splice(0);
     // .. hard registration

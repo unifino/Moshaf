@@ -110,7 +110,7 @@ export type Source = "Q" | "H" | "N" | "T";
 
 // -- =====================================================================================
 
-export type SearchMode = "phrase" | "history" | "favorite" | "tag";
+export type search_By = "phrase" | "history" | "favorite" | "tag";
 
 // -- =====================================================================================
 

@@ -232,7 +232,7 @@ exit () {
     clearTimeout( this.morsal_TO );
     ( this as any ).$navigateBack();
     tools.searchBoxResetter();
-    store.state.searchSource = "Q";
+    store.state.search_IN = "Q";
 }
 
 // -- =====================================================================================

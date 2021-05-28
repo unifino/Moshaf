@@ -51,10 +51,10 @@ hint: string = "بحث";
 // -- =====================================================================================
 
 get appendHint () {
-    if ( store.state.searchSource === "Q" ) return " في القرآن";
-    if ( store.state.searchSource === "H" ) return " في الحادیث";
-    if ( store.state.searchSource === "T" ) return " في العناوين";
-    if ( store.state.searchSource === "N" ) return " في النجاوى";
+    if ( store.state.search_IN === "Q" ) return " في القرآن";
+    if ( store.state.search_IN === "H" ) return " في الحادیث";
+    if ( store.state.search_IN === "T" ) return " في العناوين";
+    if ( store.state.search_IN === "N" ) return " في النجاوى";
 }
 
 // -- =====================================================================================
@@ -85,7 +85,7 @@ textChanged ( phrase: string, force?: boolean ) {
 returnPressed ( phrase: string ) {
 
     // .. Not in Tag-Section!
-    if ( store.state.searchSource !== "T" ) {
+    if ( store.state.search_IN !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
         else tools.searchBoxResetter();
     }

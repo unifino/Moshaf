@@ -66,7 +66,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = false,
-        source = store.state.searchSource;
+        source = store.state.search_IN;
 
     if ( !store.state.foundData.length )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
@@ -81,26 +81,26 @@ activeClass () {
 getSearchResult ( force?: boolean ) {
 
     // .. Tag Mode
-    if ( store.state.searchSource === "T" ) return;
+    if ( store.state.search_IN === "T" ) return;
 
     // .. re-tap situation
     if ( !force && tools.scapeCheck( "phrase" ) ) return;
     // tools.searchBoxResetter( true );
 
     // .. register action
-    store.state.searchMode_Pr = "phrase";
+    store.state.searched_By = "phrase";
 
     if ( force ) {
         // .. get Data
         let phrase = tools.inFarsiLetters( store.state.phraseInSearch ).trim();
-        switch ( store.state.searchSource ) {
+        switch ( store.state.search_IN ) {
             case "Q": store.state.foundData = tools.search_Q( phrase ); break;
             case "H": store.state.foundData = tools.search_H( phrase ); break;
         }
         store.state.foundDataSlot = "M1";
     }
 
-    if ( store.state.searchSource === "N" ) this.search_N();
+    if ( store.state.search_IN === "N" ) this.search_N();
 
 }
 

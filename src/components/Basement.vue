@@ -220,7 +220,7 @@ to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
     } );
 
-    store.state.searchSource = "Q";
+    store.state.search_IN = "Q";
 
 }
 
@@ -238,7 +238,7 @@ to_Base_10 (): void {
 
     } );
 
-    store.state.searchSource = "H";
+    store.state.search_IN = "H";
 
 }
 
@@ -256,7 +256,7 @@ to_Base_01 (): void {
 
     } );
 
-    store.state.searchSource = "N";
+    store.state.search_IN = "N";
 
 }
 
@@ -279,7 +279,7 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
         let _base_ = this.$root.$children[0].$refs._base_ as any;
         let base_00 = _base_.$children[1] as any;
         base_00.$navigateBack();
-        store.state.searchSource = "Q";
+        store.state.search_IN = "Q";
     }
 
     // .. theme changer

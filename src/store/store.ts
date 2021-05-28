@@ -16,11 +16,11 @@ export default new Vuex.Store( {
                                                  
         here            : null                  ,
         activeAyah      : -1                    ,
-        searchMode      : null                  ,
-        searchSource    : "Q"                   ,
+        search_By       : null                  ,
+        search_IN       : "Q"                   ,
                                                  
         phraseInSearch  : null                  ,
-        searchMode_Pr   : null                  ,
+        searched_By     : null                  ,
         foundData       : []                    ,
         foundDataSlot   : null                  ,
         cacheBound      : []                    ,
@@ -48,11 +48,11 @@ interface state {
                                                  
         here            : TS.here               ,
         activeAyah      : number                ,
-        searchMode      : TS.SearchMode         ,
-        searchSource    : TS.Source             ,
+        search_By       : TS.search_By          ,
+        search_IN       : TS.Source             ,
                                                  
         phraseInSearch  : string                ,
-        searchMode_Pr   : TS.SearchMode         ,
+        searched_By     : TS.search_By          ,
         foundData       : TS.FoundContent []    ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
         cacheBound      : TS.RawBound           ,

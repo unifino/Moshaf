@@ -44,7 +44,7 @@ myClass = "";
 mounted () {
 
     store.watch(
-        state => store.state.searchSource, 
+        state => store.state.search_IN, 
         () => this.activeClass()
     );
 
@@ -59,7 +59,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = false,
-        source = store.state.searchSource;
+        source = store.state.search_IN;
 
     if ( source === "Q" ) if ( store.state.fav.Q.length ) activeClass = true;
     if ( source === "H" ) if ( store.state.fav.H.length ) activeClass = true;
@@ -77,7 +77,7 @@ getFavorite () {
     tools.searchBoxResetter();
 
     // .. register action
-    store.state.searchMode_Pr = "favorite";
+    store.state.searched_By = "favorite";
 
     store.state.foundData = tools.getFavorite();
     store.state.foundDataSlot = "M1";

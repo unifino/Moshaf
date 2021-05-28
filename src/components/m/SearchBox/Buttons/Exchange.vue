@@ -61,20 +61,20 @@ activeClass () {
 
 exchange ( rev: boolean ) {
 
-    switch ( store.state.searchSource ) {
+    switch ( store.state.search_IN ) {
 
-        case "Q": store.state.searchSource = rev ? "T" : "H"; break;
-        case "H": store.state.searchSource = rev ? "Q" : "T"; break;
-        case "T": store.state.searchSource = rev ? "H" : "Q"; break;
+        case "Q": store.state.search_IN = rev ? "T" : "H"; break;
+        case "H": store.state.search_IN = rev ? "Q" : "T"; break;
+        case "T": store.state.search_IN = rev ? "H" : "Q"; break;
 
-        // case "Q": store.state.searchSource = rev ? "T" : "H"; break;
-        // case "H": store.state.searchSource = rev ? "Q" : "N"; break;
-        // case "N": store.state.searchSource = rev ? "H" : "T"; break;
-        // case "T": store.state.searchSource = rev ? "N" : "Q"; break;
+        // case "Q": store.state.search_IN = rev ? "T" : "H"; break;
+        // case "H": store.state.search_IN = rev ? "Q" : "N"; break;
+        // case "N": store.state.search_IN = rev ? "H" : "T"; break;
+        // case "T": store.state.search_IN = rev ? "N" : "Q"; break;
 
     }
 
-    const S = store.state.searchSource;
+    const S = store.state.search_IN;
     let frase: string = "";
     try { frase = tools.inFarsiLetters( store.state.phraseInSearch ).trim() } catch {}
 
@@ -83,7 +83,7 @@ exchange ( rev: boolean ) {
         case "Q":
         case "H":
             store.state.foundDataSlot = "M1";
-            switch ( store.state.searchMode_Pr ) {
+            switch ( store.state.searched_By ) {
                 case "history" : store.state.foundData = tools.getHistory();    break;
                 case "favorite": store.state.foundData = tools.getFavorite();   break;
                 case "phrase"  : 
