@@ -47,7 +47,7 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
-@Prop() transparentBG: boolean;
+@Prop() vividBG: boolean;
 
 // -- =====================================================================================
 
@@ -57,7 +57,7 @@ get visibility () {
 }
 
 get outputBoxClass () {
-    return this.transparentBG ? 'outputBox transparent' : 'outputBox';
+    return this.vividBG ? 'outputBox transparent' : 'outputBox';
 }
 
 // -- =====================================================================================

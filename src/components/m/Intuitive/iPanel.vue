@@ -34,7 +34,7 @@
             ref='search_Q'
             :exchangeButton="true"
             @orderByParent="bind"
-            :transparentBG=true
+            :vividBG=true
             source="Q"
         />
 
