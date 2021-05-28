@@ -43,6 +43,8 @@ import permissions                      from "nativescript-permissions"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
 import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
+import { Hadith }                       from "@/db/H/Al-Hadith"
+import { asma, Quran }                  from "@/db/Q/Quran"
 
 // -- =====================================================================================
 
@@ -87,6 +89,10 @@ moshaf = "";
 mounted () {
 
     this.init();
+
+    Hadith.forEach ( h => h.aF = tools.inFarsiLetters( h.a ) );
+    Hadith.forEach ( h => h.bF = tools.inFarsiLetters( h.b ) );
+    Quran.forEach ( q => q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple ) );
 
     // .. back Button Ctl
     NS.Application.android.on( 

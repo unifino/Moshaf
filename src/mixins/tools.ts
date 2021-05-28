@@ -238,7 +238,7 @@ export function search_Q ( phrase: string ): TS.FoundContent[] {
     let found: TS.FoundContent[] = [];
 
     for ( let i = 0; i < Quran.length; i++ )
-        if ( inFarsiLetters( Quran[i].simple ).includes( phrase ) )
+        if ( Quran[i].simpleInFarsiLetters.includes( phrase ) )
             found.push( contentPreviewer( "Q", i ) );
 
     return found;
@@ -249,24 +249,20 @@ export function search_Q ( phrase: string ): TS.FoundContent[] {
 
 export function search_H ( phrase: string ): TS.FoundContent[] {
 
-    console.log("search: ",phrase);
-    
-    console.time( "search" )
     let found: TS.FoundContent[] = [];
 
     for ( let i = 0; i < Hadith.length; i++ ) {
 
         // .. search in arabic text
-        if ( inFarsiLetters( Hadith[i].a ).includes( phrase ) )
+        if ( Hadith[i].aF.includes( phrase ) )
             found.push( contentPreviewer( "H", i ) );
 
-        // // .. search in farsi text ( if exists )
-        // else if ( Hadith[i].b )
-        //     if ( tools.inFarsiLetters( Hadith[i].b ).includes( phrase ) )
-        //         found.push( tools.contentPreviewer( "H", i ) );
+        // .. search in farsi text ( if exists )
+        else if ( Hadith[i].bF )
+            if ( Hadith[i].bF.includes( phrase ) )
+                found.push( contentPreviewer( "H", i ) );
 
     }
-    console.timeEnd( "search" )
     return found.filter( (x,i) => i<50 );
 
 }

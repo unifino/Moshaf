@@ -1,4 +1,12 @@
-type db = { a: string, b: string, c: number, d?: string|number }[];
+type db = {
+    a: string,
+    b: string,
+    c: number,
+    d?: string|number,
+
+    aF?: string,
+    bF?: string,
+}[];
 
 const Kafi = require( "./Al-Kafi.json" ) as db; 
 const misc = require( "./Misc.json" ) as db; 
