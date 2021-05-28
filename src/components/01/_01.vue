@@ -65,7 +65,14 @@ found = [];
 // -- =====================================================================================
 
 mounted () {
+
     this.najawa = Najawa;
+
+    store.watch(
+        state => store.state.fraseInSearch, 
+        newVal => this.search( newVal )
+    );
+
 }
 
 // -- =====================================================================================
@@ -82,7 +89,11 @@ search ( str: string ) {
     // .. reset Najawa
     this.najawa = Najawa;
     // .. filter Najawa
-    this.najawa = this.najawa.filter( x => tools.inFarsiLetters( x.title ).includes( str ) );
+    if ( str ) {
+        this.najawa = this.najawa.filter( x => {
+            tools.inFarsiLetters( x.title ).includes( str )
+        } );
+    }
 
 }
 
