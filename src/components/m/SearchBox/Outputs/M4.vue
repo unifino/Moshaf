@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView >
+    <ScrollView>
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
@@ -83,15 +83,6 @@ itemClasser ( item: TS.FoundContent ) {
 
 /* ------------------------------------------- */
     .baseClass {
-        width: 100%;
-        margin: 5 0;
-        padding: 12 16;
-        border-radius: 7;
-        line-height: 8;
-        font-size: 14;
-    }
-
-    .baseClass {
         margin: 5 0;
         padding: 12 16;
         border-radius: 7;
@@ -103,7 +94,7 @@ itemClasser ( item: TS.FoundContent ) {
         background-color: #171718;
         color: #8b8b8b;
     }
-    
+
     .Smoky .baseClass {
         background-color: #d8d8d8;
         color: #0c85aa;
@@ -126,6 +117,7 @@ itemClasser ( item: TS.FoundContent ) {
 
     .transparent {
         background-color: transparent;
+        padding: 20 24;
     }
 
 </style>
