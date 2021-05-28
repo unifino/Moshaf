@@ -221,6 +221,7 @@ to_Base_00 ( direction: NS.SwipeDirection|null ): void {
 
     } );
 
+    tools.searchBoxResetter();
     store.state.search_IN = "Q";
 
 }

@@ -123,13 +123,16 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search ( frase ) {
+search ( frase: string ) {
 
     // .. reset asma
     this.asma = asma;
     // .. filter asma
-    this.asma = this.asma.filter( x => tools.inFarsiLetters( x[1] ).includes( frase ) );
-
+    if ( frase ) {
+        this.asma = this.asma.filter( x => {
+            return tools.inFarsiLetters( x[1] ).includes( frase )
+        } );
+    }
 }
 
 // -- =====================================================================================

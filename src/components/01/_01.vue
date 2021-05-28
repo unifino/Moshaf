@@ -1,10 +1,10 @@
 <template>
-<Page @navigatedTo="pageLoaded()">
-<GridLayout class="myPage" rows="44,44,44,44,*,72" >
+<Page @navigatedTo="pageLoaded()" >
+<GridLayout class="myPage" rows="88,44,*,72" >
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView row=4 for="(najwa, idx) in najawa" >
+    <ListView marginTop=20 row=2 for="(najwa, idx) in najawa" >
         <v-template>
             <Label
                 :text="najwa.title"
@@ -19,7 +19,7 @@
 
     <SearchBox
         ref="search"
-        row=2
+        row=1
         rowSpan=2
         @search="search"
         source="N"
@@ -84,14 +84,14 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-search ( str: string ) {
+search ( frase: string ) {
 
     // .. reset Najawa
     this.najawa = Najawa;
     // .. filter Najawa
-    if ( str ) {
+    if ( frase ) {
         this.najawa = this.najawa.filter( x => {
-            tools.inFarsiLetters( x.title ).includes( str )
+            return tools.inFarsiLetters( x.title ).includes( frase )
         } );
     }
 
@@ -137,7 +137,7 @@ destroyed () {}
         margin: 20;
         font-family: JF Flat;
         text-align: center;
-        font-size: 16;
+        font-size: 14.4;
     }
 
     .CoolGreen .najwa {
