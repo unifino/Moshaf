@@ -82,7 +82,7 @@ active = false;
 buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
-    // { icon: 'f292', class: 'tag'  , fnc: () => {}      } ,
+    { icon: 'f292', class: 'tag'  , fnc: () => this.TagModeToggler()    } ,
 ]
 
 // -- =====================================================================================
@@ -203,6 +203,19 @@ copy () {
     // .. exit
     store.state.activeAyah = -1;
 
+}
+
+// -- =====================================================================================
+
+TagModeToggler () {
+    if ( store.state.foundDataSlot === "M3" ) {
+        store.state.foundDataSlot = "M4";
+        store.state.foundData = tools.bounder_Q();
+    }
+    else {
+        store.state.foundDataSlot = "M3";
+        store.state.foundData = tools.getTags();
+    }
 }
 
 // -- =====================================================================================
