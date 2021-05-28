@@ -48,7 +48,7 @@
         @orderByParent="item => open( item.id )"
         :hashTagButton="true"
         source="Q"
-        :searchLock=life
+        :searchLock=!life
     />
 
 <!---------------------------------------------------------------------------------------->

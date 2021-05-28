@@ -23,7 +23,7 @@
         rowSpan=2
         @search="search"
         source="N"
-        :searchLock=life
+        :searchLock=!life
     />
 
 <!---------------------------------------------------------------------------------------->

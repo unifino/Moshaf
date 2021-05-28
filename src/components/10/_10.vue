@@ -13,7 +13,7 @@
         rowSpan=2
         @orderByParent="open"
         source="H"
-        :searchLock=life
+        :searchLock=!life
     />
 
 <!---------------------------------------------------------------------------------------->

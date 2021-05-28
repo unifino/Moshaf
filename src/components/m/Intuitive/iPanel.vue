@@ -36,7 +36,7 @@
             @orderByParent="bind"
             :vividBG=true
             source="Q"
-            :searchLock=life
+            :searchLock=!life
         />
 
     </GridLayout>
