@@ -34,7 +34,7 @@
             ref='search_Q'
             :exchangeButton="true"
             @orderByParent="bind"
-            :transparentBG=true
+            :vividBG=true
             source="Q"
         />
 
@@ -176,12 +176,12 @@ bind ( item: TS.FoundContent ) {
     if ( item.flags.isHeader ) return;
 
     // .. Toggle Item
-    tools.bound_Q_Toggler( item );
-    // tools.searchBoxResetter();
-    tools.bounder_Q();
+    store.state.cakeBound = tools.bound_Q_Toggler( item );
+    store.state.foundData = tools.bounder_Q();
+    tools.searchBoxResetter();
 
     // .. hard registration
-    storage.saveDB( storage.bound_File, storage.rawBound );
+    // storage.saveDB( storage.bound_File, storage.rawBound );
 
 }
 

@@ -96,7 +96,7 @@ returnPressed ( phrase: string ) {
             newTag: TS.FoundContent = { text: text, id: -1, source: "T", flags: {} };
 
         if ( text ) {
-            tools.bound_Q_Toggler( newTag );
+            store.state.cakeBound = tools.bound_Q_Toggler( newTag );
             store.state.foundDataSlot = "M3";
             store.state.foundData = tools.getTags();
         }

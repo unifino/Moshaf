@@ -135,7 +135,6 @@ export function searchBoxResetter ( limited=false ) {
     store.state.foundDataSlot = null;
     if ( limited ) return;
     store.state.phraseInSearch = null;
-    // store.state.activeAyah = -1;
 } 
 
 // -- =====================================================================================
@@ -244,9 +243,7 @@ export function bounder_Q (): TS.FoundContent[] {
         found.unshift( boundParser( originCode, { isHeader: true } ) );
 
         // .. append cached Items
-        found = bounder_Q_Cache( found );
-
-        return found;
+        return bounder_Q_Cache( found );
 
     }
 
@@ -273,7 +270,7 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function bound_Q_Toggler ( item: TS.FoundContent ): void { 
+export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound { 
 
     let originCode = "Q_" + store.state.activeAyah,
         itemCode = item.source + "_" + ( item.source === "T" ? item.text : item.id );
@@ -292,7 +289,7 @@ export function bound_Q_Toggler ( item: TS.FoundContent ): void {
     }
 
     // .. trim cacheBound
-    if ( item.flags.isCached ) {
+    if ( !item.flags.isBounded ) {
         store.state.cacheBound = store.state.cacheBound.filter( x => {
             if ( x[0] === originCode && x[1] === itemCode ) return false;
             if ( x[1] === originCode && x[0] === itemCode ) return false;
@@ -301,7 +298,7 @@ export function bound_Q_Toggler ( item: TS.FoundContent ): void {
     }
 
     // .. re-calculation
-    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );
+    return storage.rawBoundConvertor( storage.rawBound );
 
 }
 

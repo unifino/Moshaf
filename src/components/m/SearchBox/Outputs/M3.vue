@@ -69,7 +69,7 @@ tagClasser ( item: TS.FoundContent ) {
 // -- =====================================================================================
 
 tagToggler ( item: TS.FoundContent ) {
-    tools.bound_Q_Toggler( item );
+    store.state.cakeBound = tools.bound_Q_Toggler( item );
     store.state.foundData = tools.getTags();
 }
 
