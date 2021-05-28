@@ -7,7 +7,7 @@
         ref="search"
         :hint="hint + appendHint"
         class="search"
-        @textChange="textChanged( $event.value )"
+        @textChange="textChanged( $event.value, false )"
         @returnPress="returnPressed( $event.object.text )"
     />
 
@@ -46,6 +46,7 @@ export default class Input extends Vue {
 // -- =====================================================================================
 
 hint: string = "بحث";
+life = true;
 
 // -- =====================================================================================
 
@@ -67,7 +68,7 @@ mounted () {
 
     store.watch(
         state => store.state.fraseInSearch, 
-        newVal => { if ( !newVal ) this.dismiss() }
+        newVal => { if ( this.life && !newVal ) this.dismiss() }
     );
 
 }
@@ -77,11 +78,10 @@ mounted () {
 textChanged_TO;
 textChanged ( phrase: string, force?: boolean ) {
 
-    clearTimeout( this.textChanged_TO );
+    if ( this.textChanged_TO ) clearTimeout( this.textChanged_TO );
 
     if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     this.textChanged_TO = setTimeout( () => {
-        console.log(phrase);
         store.state.fraseInSearch = tools.inFarsiLetters( phrase )
     }, force ? 0 : 500 );
 
@@ -122,6 +122,12 @@ dismiss () {
     store.state.fraseInSearch = null;
     try { ( this.$refs.search as any ).nativeView.text = null } catch {}
     try { ( this.$refs.search as any ).nativeView.dismissSoftInput() } catch {}
+}
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================

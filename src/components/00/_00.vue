@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="pageLoaded()">
+<Page @navigatedTo="pageLoaded();life=true" @navigatingFrom="life=false" >
 <GridLayout rows="88,44,*,7" width="300">
 
 <!---------------------------------------------------------------------------------------->
@@ -48,6 +48,7 @@
         @orderByParent="item => open( item.id )"
         :hashTagButton="true"
         source="Q"
+        :searchLock=life
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -85,6 +86,7 @@ export default class Base_00 extends Vue {
 // -- =====================================================================================
 
 asma = asma;
+life = true;
 
 // -- =====================================================================================
 
@@ -92,7 +94,7 @@ mounted () {
 
     store.watch(
         state => store.state.fraseInSearch, 
-        newVal => this.search( newVal )
+        newVal => { if ( this.life ) this.search( newVal ) }
     );
 
 }
@@ -133,6 +135,13 @@ search ( frase: string ) {
             return tools.inFarsiLetters( x[1] ).includes( frase )
         } );
     }
+}
+
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================

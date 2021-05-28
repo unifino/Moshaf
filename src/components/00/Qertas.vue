@@ -229,7 +229,7 @@ scrollTo ( step: 1|-1 ) {
 // -- =====================================================================================
 
 exit () {
-    clearTimeout( this.morsal_TO );
+    if ( this.morsal_TO ) clearTimeout( this.morsal_TO );
     ( this as any ).$navigateBack();
     tools.searchBoxResetter();
     store.state.search_IN = "Q";

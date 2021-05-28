@@ -23,6 +23,7 @@
         rowSpan=2
         @search="search"
         source="N"
+        :searchLock=life
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -61,6 +62,7 @@ export default class Base_01 extends Vue {
 
 najawa: { title: string, content: string }[] = [];
 found = [];
+life = true;
 
 // -- =====================================================================================
 
@@ -70,7 +72,7 @@ mounted () {
 
     store.watch(
         state => store.state.fraseInSearch, 
-        newVal => this.search( newVal )
+        newVal => { if ( this.life ) this.search( newVal ) }
     );
 
 }
@@ -114,7 +116,9 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-destroyed () {}
+destroyed () {
+    this.life = false;
+}
 
 // -- =====================================================================================
 

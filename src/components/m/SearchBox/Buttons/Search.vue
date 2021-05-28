@@ -34,20 +34,29 @@ export default class Search extends Vue {
 
 // -- =====================================================================================
 
+@Prop() searchLock: boolean;
+
+// -- =====================================================================================
+
 myClass = "";
+life = true;
 
 // -- =====================================================================================
 
 mounted () {
 
     store.watch(
-        state => store.state.foundData.length, 
-        () => this.activeClass()
+        state => store.state.foundData.length,
+        () => { if ( this.life ) this.activeClass() }
     );
 
     store.watch(
         state => store.state.fraseInSearch, 
-        newVal => { if ( newVal ) this.getSearchResult( newVal.length > 3 ) }
+        ( newVal, oldVal ) => {
+            if ( this.life && !this.searchLock )
+               if ( newVal && ( newVal !== oldVal ) )
+                    this.getSearchResult( newVal.length > 3 );
+        }
     );
 
     // .. init
@@ -80,13 +89,11 @@ getSearchResult ( force?: boolean ) {
 
     // .. re-tap situation
     if ( !force && tools.scapeCheck( "phrase" ) ) return;
-    // tools.searchBoxResetter( true );
 
     // .. register action
     store.state.searched_By = "phrase";
 
     if ( force ) {
-        // .. get Data
         let str = store.state.fraseInSearch.trim();
         switch ( store.state.search_IN ) {
             case "Q": store.state.foundData = tools.search_Q( str ); break;
@@ -105,6 +112,12 @@ search_N (): void {
     // this.$emit( 'search', str );
     store.state.foundData = [];
     store.state.foundDataSlot = null;
+}
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================

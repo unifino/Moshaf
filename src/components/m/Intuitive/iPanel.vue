@@ -36,6 +36,7 @@
             @orderByParent="bind"
             :vividBG=true
             source="Q"
+            :searchLock=life
         />
 
     </GridLayout>
@@ -84,6 +85,7 @@ buttons = [
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
     { icon: 'f292', class: 'tag'  , fnc: () => this.TagModeToggler()    } ,
 ]
+life = true;
 
 // -- =====================================================================================
 
@@ -91,15 +93,16 @@ mounted () {
 
     store.watch(
         state => state.activeAyah, 
-        newVal => this.menuCtr( newVal )
+        newVal => { if ( this.life ) this.menuCtr( newVal ) }
     );
 
     // .. replace Bounded Items as Default
     store.watch(
         state => state.foundDataSlot, 
         newVal => {
-            if ( !newVal && ~store.state.activeAyah ) 
-                store.state.foundData = tools.bounder_Q() 
+            if ( this.life )
+                if ( !newVal && ~store.state.activeAyah )
+                    store.state.foundData = tools.bounder_Q();
         }
     );
 
@@ -217,6 +220,13 @@ TagModeToggler () {
         store.state.foundData = tools.getTags();
     }
 }
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
+}
+
 
 // -- =====================================================================================
 

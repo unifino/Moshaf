@@ -34,6 +34,7 @@ export default class Dismiss extends Vue {
 // -- =====================================================================================
 
 myClass = "";
+life = true;
 
 // -- =====================================================================================
 
@@ -41,7 +42,7 @@ mounted () {
 
     store.watch(
         state => store.state.foundData.length, 
-        () => this.activeClass()
+        () => { if ( this.life ) this.activeClass() }
     );
 
     // .. init
@@ -77,6 +78,12 @@ async dismiss () {
     store.state.searched_By = null;
     await new Promise( _ => setTimeout( _, 10 ) );
     store.state.fraseInSearch = null;
+}
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================

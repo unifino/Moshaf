@@ -35,6 +35,7 @@ export default class Favorite extends Vue {
 // -- =====================================================================================
 
 myClass = "";
+life = true;
 
 // -- =====================================================================================
 
@@ -42,7 +43,7 @@ mounted () {
 
     store.watch(
         state => store.state.search_IN, 
-        () => this.activeClass()
+        () => { if ( this.life ) this.activeClass() }
     );
 
     // .. init
@@ -79,6 +80,12 @@ getFavorite () {
     store.state.foundData = tools.getFavorite();
     store.state.foundDataSlot = "M1";
 
+}
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================

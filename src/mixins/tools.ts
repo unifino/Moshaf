@@ -13,7 +13,7 @@ let toaster_TO: NodeJS.Timeout | any;
 let toasty;
 export function toaster ( msg: string ="" , duration: "short" | "long" = "short" ) {
 
-    clearTimeout( toaster_TO );
+    if ( toaster_TO ) clearTimeout( toaster_TO );
     try{ toasty.cancel() } catch {}
     if ( !msg ) return 0;
 
@@ -249,6 +249,9 @@ export function search_Q ( phrase: string ): TS.FoundContent[] {
 
 export function search_H ( phrase: string ): TS.FoundContent[] {
 
+    console.log("search: ",phrase);
+    
+    console.time( "search" )
     let found: TS.FoundContent[] = [];
 
     for ( let i = 0; i < Hadith.length; i++ ) {
@@ -263,7 +266,7 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
         //         found.push( tools.contentPreviewer( "H", i ) );
 
     }
-
+    console.timeEnd( "search" )
     return found.filter( (x,i) => i<50 );
 
 }

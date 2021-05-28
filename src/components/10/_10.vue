@@ -13,6 +13,7 @@
         rowSpan=2
         @orderByParent="open"
         source="H"
+        :searchLock=life
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -33,7 +34,6 @@ import * as TM                          from "@/themes/themeManager"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
-import Qertas                           from "@/components/00/Qertas.vue"
 import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 import Day                              from "@/components/10/Day.vue"
 
@@ -49,7 +49,7 @@ export default class Base_10 extends Vue {
 
 // -- =====================================================================================
 
-swipePass;
+life = true;
 
 // -- =====================================================================================
 
@@ -73,7 +73,9 @@ open ( item: TS.FoundContent ) {
 
 // -- =====================================================================================
 
-destroyed () {}
+destroyed () {
+    this.life = false;
+}
 
 // -- =====================================================================================
 

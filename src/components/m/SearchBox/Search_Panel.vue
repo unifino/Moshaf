@@ -12,7 +12,7 @@
 
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
-        <Search   />
+        <Search :searchLock=searchLock />
         <Dismiss  />
         <History  />
         <Favorite />
@@ -81,6 +81,7 @@ result_tag: TS.FoundContent[] = [];
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
 @Prop() vividBG: boolean;
+@Prop() searchLock: boolean;
 
 // -- =====================================================================================
 

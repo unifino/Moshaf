@@ -37,6 +37,7 @@ export default class History extends Vue {
 // -- =====================================================================================
 
 myClass = "";
+life = true;
 
 // -- =====================================================================================
 
@@ -44,7 +45,7 @@ mounted () {
 
     store.watch(
         state => store.state.search_IN, 
-        () => this.activeClass()
+        () => { if ( this.life ) this.activeClass()}
     );
 
     // .. init
@@ -94,6 +95,12 @@ purgeHistory () {
     storage.saveDB( storage[ traceName + "_File" ], store.state.memo.Q );
     // .. notify
     tools.toaster( "🗑: History Purged!" );
+}
+
+// -- =====================================================================================
+
+destroyed () {
+    this.life = false;
 }
 
 // -- =====================================================================================
