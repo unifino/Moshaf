@@ -40,7 +40,10 @@ export function arabicDigits ( str: string ) {
 
 export function erabTrimmer ( str: string ) {
     if ( !str ) return "";
-    const erabs = [ "َ", "ٕ", "ُ", "ِ", "ٓ", "ٰ", "ٖ", "ً", "ّ", "ۡ", "ۚ", "ۢ", "ۖ", "ۗ", "ٌۚ", "ۥ", " ٌ" ];
+    const erabs = [
+        "ٕ", "ٓ", "ٖ", "ۡ", "ۚ", "ۢ", "ۖ", "ۗ", "ٌۚ", "ۥ", " ٌ",
+        "ً", "ٌ", "ٍ",  "َ", "ُ",  "ِ",  "ّ",  "ْ", "‎ٓ", "ٔ",  "ٰ"
+    ];
     for ( const erab of erabs ) str = str.replace( new RegExp( erab, 'g' ), "" );
     str = str.replace( /ٱ/g, 'ا' );
     return str;
@@ -102,11 +105,12 @@ export function inFarsiLetters ( str: string ) {
         .replace( /آ/g, 'ا' )
         .replace( /ة/g, 'ه' )
         .replace( /ؤ/g, 'و' )
-        .replace( /ؤ/g, 'و' )
         .replace( /ك/g, 'ک' )
         .replace( /ي/g, 'ی' )
+        .replace( /ﺉ/g, 'ی' )
         .replace( /ئ/g, 'ی' )
         .replace( /ى/g, 'ی' );
+        // .replace( /ڑ/g, 'ر' );
 
     return str;
 
@@ -134,7 +138,7 @@ export function searchBoxResetter ( limited=false ) {
     store.state.foundData = [];
     store.state.foundDataSlot = null;
     if ( limited ) return;
-    store.state.phraseInSearch = null;
+    store.state.fraseInSearch = null;
 } 
 
 // -- =====================================================================================

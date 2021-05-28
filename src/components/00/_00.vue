@@ -91,8 +91,8 @@ asma = asma;
 mounted () {
 
     store.watch(
-        state => store.state.phraseInSearch, 
-        () => this.search()
+        state => store.state.fraseInSearch, 
+        newVal => this.search( newVal )
     );
 
 }
@@ -123,13 +123,12 @@ open ( num: number ): void {
 
 // -- =====================================================================================
 
-search () {
+search ( frase ) {
 
     // .. reset asma
     this.asma = asma;
-    let limitTo = tools.inFarsiLetters( store.state.phraseInSearch );
     // .. filter asma
-    this.asma = this.asma.filter( x => tools.inFarsiLetters( x[1] ).includes( limitTo ) );
+    this.asma = this.asma.filter( x => tools.inFarsiLetters( x[1] ).includes( frase ) );
 
 }
 

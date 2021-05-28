@@ -95,7 +95,10 @@ touched ( args ) {
     // .. press effect
     switch ( args.action ) {
 
-        case "down": this.isPressed = true;  break;
+        case "down": 
+            this.isPressed = true; 
+            setTimeout( () => this.isPressed = false, 1000 );
+        break;
 
         case "move":
         case "up":   this.isPressed = false; break;

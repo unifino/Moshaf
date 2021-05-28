@@ -72,8 +72,8 @@ exchange ( rev: boolean ) {
     }
 
     const S = store.state.search_IN;
-    let frase: string = "";
-    try { frase = tools.inFarsiLetters( store.state.phraseInSearch ).trim() } catch {}
+    let str: string = "";
+    try { str = store.state.fraseInSearch.trim() } catch {}
 
     switch ( S ) {
 
@@ -84,7 +84,7 @@ exchange ( rev: boolean ) {
                 case "history" : store.state.foundData = tools.getHistory();    break;
                 case "favorite": store.state.foundData = tools.getFavorite();   break;
                 case "phrase"  : 
-                    if ( frase ) store.state.foundData = tools[ "search_" +S ](frase);
+                    if ( str ) store.state.foundData = tools[ "search_" +S ](str);
                     else store.state.foundDataSlot = null;
                 break;
 

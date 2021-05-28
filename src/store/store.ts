@@ -19,7 +19,7 @@ export default new Vuex.Store( {
         search_By       : null                  ,
         search_IN       : "Q"                   ,
                                                  
-        phraseInSearch  : null                  ,
+        fraseInSearch   : null                  ,
         searched_By     : null                  ,
         foundData       : []                    ,
         foundDataSlot   : null                  ,
@@ -51,7 +51,7 @@ interface state {
         search_By       : TS.search_By          ,
         search_IN       : TS.Source             ,
                                                  
-        phraseInSearch  : string                ,
+        fraseInSearch   : string                ,
         searched_By     : TS.search_By          ,
         foundData       : TS.FoundContent []    ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,

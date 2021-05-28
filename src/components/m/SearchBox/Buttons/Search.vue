@@ -46,7 +46,7 @@ mounted () {
     );
 
     store.watch(
-        state => store.state.phraseInSearch, 
+        state => store.state.fraseInSearch, 
         newVal => { if ( newVal ) this.getSearchResult( newVal.length > 3 ) }
     );
 
@@ -87,10 +87,10 @@ getSearchResult ( force?: boolean ) {
 
     if ( force ) {
         // .. get Data
-        let phrase = tools.inFarsiLetters( store.state.phraseInSearch ).trim();
+        let str = store.state.fraseInSearch.trim();
         switch ( store.state.search_IN ) {
-            case "Q": store.state.foundData = tools.search_Q( phrase ); break;
-            case "H": store.state.foundData = tools.search_H( phrase ); break;
+            case "Q": store.state.foundData = tools.search_Q( str ); break;
+            case "H": store.state.foundData = tools.search_H( str ); break;
         }
         store.state.foundDataSlot = "M1";
     }

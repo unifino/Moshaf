@@ -181,7 +181,7 @@ bind ( item: TS.FoundContent ) {
     tools.searchBoxResetter();
 
     // .. hard registration
-    // storage.saveDB( storage.bound_File, storage.rawBound );
+    storage.saveDB( storage.bound_File, storage.rawBound );
 
 }
 

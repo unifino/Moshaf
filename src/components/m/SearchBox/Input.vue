@@ -66,7 +66,7 @@ mounted () {
     try { ( this.$refs.search as any ).nativeView.paddingLeft = pad } catch {}
 
     store.watch(
-        state => store.state.phraseInSearch, 
+        state => store.state.fraseInSearch, 
         newVal => { if ( !newVal ) this.dismiss() }
     );
 
@@ -74,9 +74,17 @@ mounted () {
 
 // -- =====================================================================================
 
+textChanged_TO;
 textChanged ( phrase: string, force?: boolean ) {
+
+    clearTimeout( this.textChanged_TO );
+
     if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
-    store.state.phraseInSearch = phrase;
+    this.textChanged_TO = setTimeout( () => {
+        console.log(phrase);
+        store.state.fraseInSearch = tools.inFarsiLetters( phrase )
+    }, force ? 0 : 500 );
+
 }
 
 // -- =====================================================================================
@@ -111,7 +119,7 @@ returnPressed ( phrase: string ) {
 // -- =====================================================================================
 
 dismiss () {
-    store.state.phraseInSearch = null;
+    store.state.fraseInSearch = null;
     try { ( this.$refs.search as any ).nativeView.text = null } catch {}
     try { ( this.$refs.search as any ).nativeView.dismissSoftInput() } catch {}
 }

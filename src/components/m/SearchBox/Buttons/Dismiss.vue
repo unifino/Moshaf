@@ -76,7 +76,7 @@ async dismiss () {
     store.state.foundDataSlot = null;
     store.state.searched_By = null;
     await new Promise( _ => setTimeout( _, 10 ) );
-    store.state.phraseInSearch = null;
+    store.state.fraseInSearch = null;
 }
 
 // -- =====================================================================================
