@@ -5,12 +5,16 @@
 
     <ListView for="item in $store.state.foundData" >
         <v-template>
-            <Label
-                :text="item.text"
-                textWrap=true
-                :class="itemClasser(item)"
-                @tap="$emit( 'interact', item )" 
-            />
+            <GridLayout 
+                rows="*,auto"
+                :class="itemClasser(item)" 
+                @tap="$emit( 'interact', item )"
+            >
+
+                <Label row=0 :text="item.text" textWrap=true />
+                <Label row=1 :text="item.flags.address" :class="isAddressed(item)" />
+
+            </GridLayout>
         </v-template>
     </ListView>
 
@@ -63,6 +67,10 @@ itemClasser ( item: TS.FoundContent ) {
 
 }
 
+isAddressed ( item: TS.FoundContent) {
+    return item.flags.address ? 'address' : 'hidden';
+}
+
 // -- =====================================================================================
 
 }
@@ -86,21 +94,38 @@ itemClasser ( item: TS.FoundContent ) {
         color: #e0e0e0;
     }
 
+    .address {
+        color: #037269;
+        visibility: visible;
+        font-size: 8;
+        opacity: .8;
+        padding: 10 0 0 0;
+    }
+
+    .hidden {
+        visibility: collapse;
+    }
+
 /* ------------------------------------------- */
     .CoolGreen .bounded {
-        background-color: #0e962b;
+        background-color: #488d3f;
         color: white;
         border-radius: 4;
     }
 
     .Smoky .bounded {
-        background-color: #0e962b;
+        background-color: #488d3f;
         color: white;
         border-radius: 4;
     }
 
     .activated {
         visibility: collapse;
+        height: 1;
+    }
+
+    .bounded .address {
+        color: #141414;
     }
 
 </style>

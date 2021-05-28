@@ -7,14 +7,18 @@
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
-            <Label 
+            <GridLayout 
                 v-for="(item,i) in $store.state.foundData"
-                :class="itemClasser(item)"
                 :key="i"
-                :text="item.text"
-                textWrap="true"
-                @tap="$emit( 'interact', item )" 
-            />
+                rows="*,auto" 
+                @tap="$emit( 'interact', item )"
+                :class="itemClasser(item)"
+            >
+
+                <Label row=0 :text="item.text" textWrap=true class="ayah" />
+                <Label row=1 :text="item.flags.address" :class="isAddressed(item)" />
+
+            </GridLayout>
 
         </StackLayout>
 
@@ -69,6 +73,10 @@ itemClasser ( item: TS.FoundContent ) {
     return itemClass;
 }
 
+isAddressed ( item: TS.FoundContent) {
+    return item.flags.address ? 'address' : 'hidden';
+}
+
 // -- =====================================================================================
 
 }
@@ -102,9 +110,13 @@ itemClasser ( item: TS.FoundContent ) {
 
     .CoolGreen .cached,
     .Smoky .cached {
-        text-decoration: line-through;
         background-color: #222324;
         color: #8b8b8b;
+    }
+
+    .CoolGreen .cached .ayah,
+    .Smoky .cached .ayah{
+        text-decoration: line-through;
     }
 
     .CoolGreen .header,
@@ -118,6 +130,18 @@ itemClasser ( item: TS.FoundContent ) {
     .transparent {
         background-color: transparent;
         padding: 20 24;
+    }
+
+    .address {
+        color: #037269;
+        visibility: visible;
+        font-size: 8;
+        opacity: .8;
+        padding: 10 0 0 0;
+    }
+
+    .hidden {
+        visibility: collapse;
     }
 
 </style>

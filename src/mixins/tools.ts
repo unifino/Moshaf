@@ -56,9 +56,42 @@ export function quranTextPreviewer ( id: number ) {
     return str;
 }
 
+export function quranAddress ( id: number ) {
+
+    const i = Quran[ id ];
+    const suraName = asma[ i.sura -1 ][1];
+    const suraNumber = arabicDigits( asma[ i.sura -1 ][0] +"" );
+
+    return ( suraName + "(" + suraNumber + ") | " + arabicDigits( i.ayah +"" ) );
+
+}
+
 export function hadithTextPreviewer ( id: number ) {
-    const str = Hadith[ id ].a;
+
+    let limit = 440,
+        str = Hadith[ id ].a;
+
+    str = str.replace( "<Q> )", "" );
+    str = str.replace( "( </Q>", "" );
+    str = str.replace( "<Q>", "" );
+    str = str.replace( "</Q>", "" );
+
+    if ( str.length > limit ) str = str.slice( 0, limit ) + " ...( المزيد )";
+
     return str;
+
+}
+
+export function hadithAddress ( id: number ) {
+
+    const i = Hadith[ id ];
+    if ( typeof i.d === "number" ) {
+        const bookName = "الکافی";
+        const hadithNumber = arabicDigits( i.d +"" );
+        return ( bookName + " | " + hadithNumber );
+    }
+    else return null;
+
 }
 
 // -- =====================================================================================
@@ -68,10 +101,6 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
     let code_O = "Q_" + store.state.activeAyah,
         code_X = source + "_" + id,
         isBounded: boolean;
-
-    // const suraName = asma[ c.sura -1 ][1];
-    // const suraID = asma[ c.sura -1 ][0];
-    // const m = "[ " + suraName + "(" + suraID + ") : " + c.ayah + " ]";
 
     try { isBounded = store.state.cakeBound[ code_O ].includes( code_X ) } catch {}
 
@@ -84,8 +113,15 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
         }
     };
 
-    if ( source === "Q" ) content.text = quranTextPreviewer( id );
-    if ( source === "H" ) content.text = hadithTextPreviewer( id );
+    if ( source === "Q" ) {
+        content.text = quranTextPreviewer( id );
+        content.flags.address = quranAddress( id );
+    }
+    if ( source === "H" ) {
+        content.text = hadithTextPreviewer( id );
+        content.flags.address = hadithAddress( id );
+
+    }
 
     return content;
 
@@ -145,15 +181,27 @@ export function searchBoxResetter ( limited=false ) {
 
 export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundContent {
 
-    let source = item.slice(0, 1) as TS.Source;
-    let id = Number( item.slice(2) ) as number;
+    let source = item.slice(0, 1) as TS.Source,
+        id = Number( item.slice(2) ) as number,
+        found: TS.FoundContent;
 
-    if ( source === "Q" ) 
-        return { id: id, text: quranTextPreviewer(id), source: source, flags: flags }
-    if ( source === "H" ) 
-        return { id: id, text: hadithTextPreviewer(id), source: source, flags: flags }
+    if ( source === "Q" || source === "H" ) {
 
-    return null;
+        let text: string = "";
+        found = { id: id, text: text, source: source, flags: flags };
+
+        if ( source === "Q" ) {
+            found.text = quranTextPreviewer(id);
+            found.flags.address = quranAddress(id);
+        }
+        if ( source === "H" ) {
+            found.text = hadithTextPreviewer(id);
+            found.flags.address = hadithAddress(id);
+        }
+
+    }
+
+    return found;
 
 }
 

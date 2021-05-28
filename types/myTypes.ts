@@ -126,11 +126,12 @@ export type FoundContent = {
 };
 
 export type Flags = {
-    isActivated?: boolean   ,
-    isBounded?  : boolean   ,
-    isHeader?   : boolean   ,
-    isCached?   : boolean   ,
-    count?      : number    ,
+    isActivated?    : boolean   ,
+    isBounded?      : boolean   ,
+    isHeader?       : boolean   ,
+    isCached?       : boolean   ,
+    count?          : number    ,
+    address?        : string    ,
 }
 
 // -- =====================================================================================
