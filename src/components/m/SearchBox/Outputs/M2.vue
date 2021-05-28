@@ -60,10 +60,10 @@ openTag ( tag: TS.FoundContent ) {
     store.state.foundDataSlot = "M4";
 
     let tmpBoundItem: TS.FoundContent,
-        itemCodes = store.state.cakeBound[ "T_" + tag.text ] || [];
+        code_Xs = store.state.cakeBound[ "T_" + tag.text ] || [];
 
     // .. convert codes to the content
-    for ( let item of itemCodes ) {
+    for ( let item of code_Xs ) {
         tmpBoundItem = tools.boundParser( item );
         if ( tmpBoundItem ) store.state.foundData.push( tmpBoundItem );
     }

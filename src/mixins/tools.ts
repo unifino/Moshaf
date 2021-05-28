@@ -51,14 +51,29 @@ export function erabTrimmer ( str: string ) {
 
 // -- =====================================================================================
 
+export function quranTextPreviewer ( id: number ) {
+    const str = Quran[ id ].text;
+    return str;
+}
+
+export function hadithTextPreviewer ( id: number ) {
+    const str = Hadith[ id ].a;
+    return str;
+}
+
+// -- =====================================================================================
+
 export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
 
-    let activeAyah = store.state.activeAyah,
-        itemCode = source + "_" + id,
-        originCode = "Q_" + activeAyah,
+    let code_O = "Q_" + store.state.activeAyah,
+        code_X = source + "_" + id,
         isBounded: boolean;
 
-    try { isBounded = store.state.cakeBound[ originCode ].includes( itemCode ) } catch {}
+    // const suraName = asma[ c.sura -1 ][1];
+    // const suraID = asma[ c.sura -1 ][0];
+    // const m = "[ " + suraName + "(" + suraID + ") : " + c.ayah + " ]";
+
+    try { isBounded = store.state.cakeBound[ code_O ].includes( code_X ) } catch {}
 
     let content: TS.FoundContent = {
         id: id,
@@ -74,21 +89,6 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
 
     return content;
 
-}
-
-// -- =====================================================================================
-
-export function quranTextPreviewer ( id: number ) {
-    const c = Quran[ id ];
-    const suraName = asma[ c.sura -1 ][1];
-    const suraID = asma[ c.sura -1 ][0];
-    const str = c.text + "\n[ " + suraName + "(" + suraID + ") : " + c.ayah + " ]";
-    return str;
-}
-
-export function hadithTextPreviewer ( id: number ) {
-    const str = Hadith[ id ].a;
-    return str;
 }
 
 // -- =====================================================================================
@@ -226,13 +226,13 @@ export function bounder_Q (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [],
         tmp: TS.FoundContent,
-        originCode = "Q_" + store.state.activeAyah,
-        itemCodes = store.state.cakeBound[ originCode ] || [],
+        code_O = "Q_" + store.state.activeAyah,
+        code_Xs = store.state.cakeBound[ code_O ] || [],
         isBounded: boolean;
 
     // .. convert codes to the content
-    for ( let raw of itemCodes ) {
-        isBounded = store.state.cakeBound[ raw ].includes( originCode );
+    for ( let raw of code_Xs ) {
+        isBounded = store.state.cakeBound[ raw ].includes( code_O );
         tmp = boundParser( raw, { isBounded: isBounded } );
         if ( tmp ) found.push( tmp );
     }
@@ -244,7 +244,7 @@ export function bounder_Q (): TS.FoundContent[] {
         store.state.foundDataSlot = "M4";
 
         // .. add Header
-        found.unshift( boundParser( originCode, { isHeader: true } ) );
+        found.unshift( boundParser( code_O, { isHeader: true } ) );
 
         // .. append cached Items
         return bounder_Q_Cache( found );
@@ -276,27 +276,27 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
 
 export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound { 
 
-    let originCode = "Q_" + store.state.activeAyah,
-        itemCode = item.source + "_" + ( item.source === "T" ? item.text : item.id );
+    let code_O = "Q_" + store.state.activeAyah,
+        code_X = item.source + "_" + ( item.source === "T" ? item.text : item.id );
 
     // .. insert New Bound Info!
-    if ( !item.flags.isBounded ) storage.rawBound.push( [ originCode, itemCode ] );
+    if ( !item.flags.isBounded ) storage.rawBound.push( [ code_O, code_X ] );
     // .. remove CrossBound Info
     else {
         let r: number;
-        r = storage.rawBound.findIndex( x => x[0] === originCode && x[1] === itemCode );
+        r = storage.rawBound.findIndex( x => x[0] === code_O && x[1] === code_X );
         if ( ~r ) storage.rawBound.splice( r, 1 );
-        r = storage.rawBound.findIndex( x => x[1] === originCode && x[0] === itemCode );
+        r = storage.rawBound.findIndex( x => x[1] === code_O && x[0] === code_X );
         if ( ~r ) storage.rawBound.splice( r, 1 );
         // .. cache Bound Info!
-        store.state.cacheBound.push( [ originCode, itemCode ] );
+        store.state.cacheBound.push( [ code_O, code_X ] );
     }
 
     // .. trim cacheBound
     if ( !item.flags.isBounded ) {
         store.state.cacheBound = store.state.cacheBound.filter( x => {
-            if ( x[0] === originCode && x[1] === itemCode ) return false;
-            if ( x[1] === originCode && x[0] === itemCode ) return false;
+            if ( x[0] === code_O && x[1] === code_X ) return false;
+            if ( x[1] === code_O && x[0] === code_X ) return false;
             return true;
         } );
     }
@@ -310,7 +310,7 @@ export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound {
 
 export function getTags (): TS.FoundContent[] {
 
-    let originCode = "Q_" + store.state.activeAyah,
+    let code_O = "Q_" + store.state.activeAyah,
         tagsName: string[],
         item: TS.FoundContent,
         found: TS.FoundContent[] = [];
@@ -321,7 +321,7 @@ export function getTags (): TS.FoundContent[] {
     // .. convert list to found
     found = Object.values( tagsName ).map( (x, i) => {
         item = { id: i, text: x.slice(2), source: "T", flags: {} };
-        item.flags.isBounded = store.state.cakeBound[x].includes( originCode );
+        item.flags.isBounded = store.state.cakeBound[x].includes( code_O );
         return item;
     } );
 
