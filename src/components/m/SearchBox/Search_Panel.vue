@@ -41,9 +41,9 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-// * tns plugin add nativescript-clipboard
-import store                            from "@/store/store"
 import * as TS                          from "@/../types/myTypes"
+import store                            from "@/store/store"
+
 import Input                            from "@/components/m/SearchBox/Input.vue"
 import Search                           from "@/components/m/SearchBox/Buttons/Search.vue"
 import Dismiss                          from "@/components/m/SearchBox/Buttons/Dismiss.vue"

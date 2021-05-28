@@ -1,10 +1,11 @@
-// * tns plugin add nativescript-toast
-import * as Toast                       from "nativescript-toast"
-import { asma, Quran }                  from "@/db/Q/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
-import { Hadith }                       from "@/db/H/Al-Hadith"
 import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
+import { Hadith }                       from "@/db/H/Al-Hadith"
+
+// * tns plugin add nativescript-toast
+import * as Toast                       from "nativescript-toast"
 
 // -- =====================================================================================
 
@@ -218,7 +219,7 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function bounder_Q (): void {
+export function bounder_Q (): TS.FoundContent[] { 
 
     let found: TS.FoundContent[] = [],
         tmp: TS.FoundContent,
@@ -245,8 +246,7 @@ export function bounder_Q (): void {
         // .. append cached Items
         found = bounder_Q_Cache( found );
 
-        // .. implanting ...
-        store.state.foundData = found;
+        return found;
 
     }
 

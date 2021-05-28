@@ -20,11 +20,10 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-// * tns plugin add nativescript-clipboard
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+
 import Lookup                           from "@/components/xx/Lookup.vue"
 
 // -- =====================================================================================

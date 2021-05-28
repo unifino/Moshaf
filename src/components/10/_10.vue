@@ -27,16 +27,15 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
-import Qertas                           from "@/components/00/Qertas.vue"
-import { Hadith }                       from "@/db/H/Al-Hadith"
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
-import Day                              from "@/components/10/Day.vue"
+import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+
+import Qertas                           from "@/components/00/Qertas.vue"
+import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
+import Day                              from "@/components/10/Day.vue"
 
 // -- =====================================================================================
 

@@ -14,10 +14,8 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-// * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
+
 import Lookup                           from "@/components/xx/Lookup.vue"
-import store                            from "@/store/store"
 
 // -- =====================================================================================
 

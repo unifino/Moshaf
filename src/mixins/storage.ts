@@ -4,7 +4,7 @@ declare var android; // required if tns-platform-declarations is not installed
 
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
-import store from "@/store/store";
+import store                            from "@/store/store"
 
 // -- =====================================================================================
 

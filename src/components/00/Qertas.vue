@@ -58,13 +58,14 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import { asma, Quran }                  from "@/db/Q/Quran"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import Kalameh                          from "@/components/m/Kalameh.vue"
-import IntuitivePanel                   from "@/components/m/Intuitive/Panel.vue"
 import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
+
+import Kalameh                          from "@/components/m/Kalameh.vue"
+import IntuitivePanel                   from "@/components/m/Intuitive/iPanel.vue"
 
 // -- =====================================================================================
 
@@ -188,8 +189,9 @@ async morsal ( message: TS.vahy ) {
 kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 
     if ( type === "number" ) {
+        // .. implanting ...
         store.state.activeAyah = aID;
-        tools.bounder_Q();
+        store.state.foundData = tools.bounder_Q();
     }
 
 }
@@ -197,9 +199,7 @@ kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 // -- =====================================================================================
 
 async complete () {
-
     this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] );
-
 }
 
 // -- =====================================================================================

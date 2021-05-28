@@ -54,12 +54,11 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-// * tns plugin add nativescript-clipboard
-import store                            from "@/store/store"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import * as TS                          from "@/../types/myTypes"
+import store                            from "@/store/store"
 import { Hadith }                       from "@/db/H/Al-Hadith"
+
 import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"

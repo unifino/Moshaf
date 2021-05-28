@@ -62,16 +62,15 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
+import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TM                          from "@/themes/themeManager"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
+
 import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { asma, Quran }                  from "@/db/Q/Quran"
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
-import * as TS                          from "@/../types/myTypes"
-import * as TM                          from "@/themes/themeManager"
+import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 
@@ -93,7 +92,7 @@ mounted () {
 
     store.watch(
         state => store.state.phraseInSearch, 
-        newVal => this.search()
+        () => this.search()
     );
 
 }

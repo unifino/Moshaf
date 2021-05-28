@@ -39,14 +39,11 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import Qertas                           from "@/components/00/Qertas.vue"
-import Kalameh                          from "@/components/m/Kalameh.vue"
 import { Najawa }                       from "@/db/N/Al-Najawa"
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
+
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
+import Kalameh                          from "@/components/m/Kalameh.vue"
 
 // -- =====================================================================================
 

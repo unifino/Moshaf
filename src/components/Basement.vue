@@ -29,19 +29,20 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TM                          from "@/themes/themeManager"
+import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+
 import Base_00                          from "@/components/00/_00.vue"
-import IntuitivePanel                   from "@/components/m/Intuitive/Panel.vue"
+import IntuitivePanel                   from "@/components/m/Intuitive/iPanel.vue"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Base_10                          from "@/components/10/_10.vue"
 import Base_01                          from "@/components/01/_01.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
-import * as tools                       from "@/mixins/tools"
-import * as storage                     from "@/mixins/storage"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
-import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
+import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 

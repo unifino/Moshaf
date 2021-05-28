@@ -51,19 +51,19 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
+import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as NS                          from "@nativescript/core"
+import * as TS                          from "@/../types/myTypes"
+import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
+
 import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
 import myButton                         from "@/components/m/myButton.vue"
-import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
-import { asma, Quran }                  from "@/db/Q/Quran"
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
-import * as NS                          from "@nativescript/core"
+import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
-import * as TS                          from "@/../types/myTypes"
-import { Hadith }                       from "@/db/H/Al-Hadith"
 import Output_M4                        from "@/components/m/SearchBox/Outputs/M4.vue"
 
 // -- =====================================================================================
@@ -98,7 +98,10 @@ mounted () {
     // .. replace Bounded Items as Default
     store.watch(
         state => state.foundDataSlot, 
-        newVal => { if ( !newVal && ~store.state.activeAyah ) tools.bounder_Q() }
+        newVal => {
+            if ( !newVal && ~store.state.activeAyah ) 
+                store.state.foundData = tools.bounder_Q() 
+        }
     );
 
 }

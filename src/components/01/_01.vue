@@ -37,15 +37,15 @@
 
 // -- =====================================================================================
 
-import { Vue, Component }               from "vue-property-decorator"
+import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TM                          from "@/themes/themeManager"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+import { Najawa }                       from "@/db/N/Al-Najawa"
+
 import Najwa                            from "@/components/01/Najwa.vue"
 import Kalameh                          from "@/components/m/Kalameh.vue"
-import { Najawa }                       from "@/db/N/Al-Najawa"
-import store                            from "@/store/store"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
-import SearchBox                        from "@/components/m/SearchBox/Panel.vue"
-import * as TM                          from "@/themes/themeManager"
+import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 
