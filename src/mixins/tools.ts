@@ -71,10 +71,10 @@ export function hadithTextPreviewer ( id: number ) {
     let limit = 440,
         str = Hadith[ id ].a;
 
-    str = str.replace( "<Q> )", "" );
-    str = str.replace( "( </Q>", "" );
-    str = str.replace( "<Q>", "" );
-    str = str.replace( "</Q>", "" );
+    str = str.replace( /<Q> \)/g, "" );
+    str = str.replace( /\( <\/Q>/g, "" );
+    str = str.replace( /<Q>/g, "" );
+    str = str.replace( /<\/Q>/g, "" );
 
     if ( str.length > limit ) str = str.slice( 0, limit ) + " ...( المزيد )";
 
@@ -250,19 +250,41 @@ export function search_Q ( phrase: string ): TS.FoundContent[] {
 export function search_H ( phrase: string ): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
+    let words = phrase.split( " " );
+    let matrix: number[][] = [];
+    let tmpRow:number[];
+    let matches: number[] = [];
 
-    for ( let i = 0; i < Hadith.length; i++ ) {
-
-        // .. search in arabic text
-        if ( Hadith[i].aF.includes( phrase ) )
-            found.push( contentPreviewer( "H", i ) );
-
-        // .. search in farsi text ( if exists )
-        else if ( Hadith[i].bF )
-            if ( Hadith[i].bF.includes( phrase ) )
-                found.push( contentPreviewer( "H", i ) );
-
+    for ( let word of words ) {
+        tmpRow = [];
+        if ( word ) {
+            for ( let i = 0; i < Hadith.length; i++ ) {
+                // .. search in arabic|farsi text
+                if ( Hadith[i].aF.includes( word ) || Hadith[i].bF.includes( word ) )
+                    tmpRow.push(i);
+            }
+        }
+        matrix.push( tmpRow );
     }
+
+    // .. remove empty rows
+    for ( let i in matrix ) if ( !matrix[i].length ) matrix.splice( Number(i), 1 );
+
+    // .. check if it contains in all rows ( all words found in one Hadith )
+    let permission: number;
+    for ( let row of matrix ) {
+        for ( let cell of row ) {
+            permission = 0;
+            for ( let re_row of matrix ) if ( re_row.includes( cell ) ) permission++;
+            if ( permission === matrix.length ) matches.push( cell );
+        }
+    }
+
+    // .. remove duplicated
+    matches = [ ...new Set(matches) ];
+
+    for ( let id of matches ) found.push( contentPreviewer( "H", id ) );
+
     return found.filter( (x,i) => i<50 );
 
 }
