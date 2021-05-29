@@ -211,14 +211,19 @@ copy () {
 // -- =====================================================================================
 
 TagModeToggler () {
+
     if ( store.state.foundDataSlot === "M3" ) {
         store.state.foundDataSlot = "M4";
         store.state.foundData = tools.bounder_Q();
+        store.state.search_IN = "Q";
     }
+
     else {
         store.state.foundDataSlot = "M3";
         store.state.foundData = tools.getTags();
+        store.state.search_IN = "T";
     }
+
 }
 
 // -- =====================================================================================
