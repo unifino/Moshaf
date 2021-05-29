@@ -117,6 +117,7 @@ init ( me?: number ): void {
     let message = this.rouh( this.taghdir_aID, sura );
 
     // .. delivering ...
+    this.morsalStatus = "running";
     this.morsal( message );
 
 }
@@ -166,6 +167,7 @@ rouh ( aID: number, sura: number ) {
 
 // -- =====================================================================================
 
+morsalStatus: "silent"|"running"|"breaking" = "silent";
 async morsal ( message: TS.vahy ) {
 
     // .. preview
@@ -173,7 +175,7 @@ async morsal ( message: TS.vahy ) {
 
     await new Promise( _ => setTimeout( _, 700 ) );
 
-    for ( let x=100; x < message.length; x++ ) {
+    for ( let x=100; x < message.length && this.morsalStatus !== "breaking"; x++ ) {
 
         this.vahy.push( message[ x ] );
 
@@ -181,6 +183,8 @@ async morsal ( message: TS.vahy ) {
         if ( !(Number(x) % 7) ) await new Promise( _ => setTimeout( _, 7 ) );
 
     }
+
+    this.morsalStatus = "silent";
 
 }
 
@@ -199,7 +203,26 @@ kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 // -- =====================================================================================
 
 async complete () {
-    this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] );
+
+    switch ( this.morsalStatus ) {
+
+        case "breaking":
+            await new Promise( _ => setTimeout( _, 7 ) );
+            this.complete(); 
+        break;
+
+        case "running":
+            this.morsalStatus = "breaking"; 
+            await new Promise( _ => setTimeout( _, 7 ) );
+            this.complete(); 
+        break;
+
+        case "silent": 
+            this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] ); 
+        break;
+
+    }
+
 }
 
 // -- =====================================================================================
