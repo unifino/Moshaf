@@ -51,6 +51,31 @@ export function erabTrimmer ( str: string ) {
 
 // -- =====================================================================================
 
+export function inFarsiLetters ( str: string ) {
+
+    if ( !str ) return "";
+
+    str = erabTrimmer( str );
+    str = str
+        .replace( /ء/g, 'ا' )
+        .replace( /إ/g, 'ا' )
+        .replace( /أ/g, 'ا' )
+        .replace( /آ/g, 'ا' )
+        .replace( /ة/g, 'ه' )
+        .replace( /ؤ/g, 'و' )
+        .replace( /ك/g, 'ک' )
+        .replace( /ي/g, 'ی' )
+        .replace( /ﺉ/g, 'ی' )
+        .replace( /ئ/g, 'ی' )
+        .replace( /ى/g, 'ی' );
+        // .replace( /ڑ/g, 'ر' );
+
+    return str;
+
+}
+
+// -- =====================================================================================
+
 export function quranTextPreviewer ( id: number ) {
     const str = Quran[ id ].text;
     return str;
@@ -124,31 +149,6 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
     }
 
     return content;
-
-}
-
-// -- =====================================================================================
-
-export function inFarsiLetters ( str: string ) {
-
-    if ( !str ) return "";
-
-    str = erabTrimmer( str );
-    str = str
-        .replace( /ء/g, 'ا' )
-        .replace( /إ/g, 'ا' )
-        .replace( /أ/g, 'ا' )
-        .replace( /آ/g, 'ا' )
-        .replace( /ة/g, 'ه' )
-        .replace( /ؤ/g, 'و' )
-        .replace( /ك/g, 'ک' )
-        .replace( /ي/g, 'ی' )
-        .replace( /ﺉ/g, 'ی' )
-        .replace( /ئ/g, 'ی' )
-        .replace( /ى/g, 'ی' );
-        // .replace( /ڑ/g, 'ر' );
-
-    return str;
 
 }
 
