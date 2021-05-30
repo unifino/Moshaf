@@ -49,11 +49,6 @@ export function db_check (): Promise<void> {
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
 
-        for( let r of rawBound ) {
-            if ( r[0].slice(0,1) === "H" ) console.log("hhh");
-            if ( r[1].slice(0,1) === "H" ) 
-                console.log(  r[1] + " ", Quran[ r[0].slice(2) ].text ) ;
-        }
         // .. check integrity 
         if ( !trace_q ) saveDB( trace_q_File, [] );
         if ( !trace_h ) saveDB( trace_h_File, [] );
