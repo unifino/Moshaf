@@ -3,6 +3,7 @@ type db = {
     b: string,
     c: number,
     d?: string|number,
+    n: number,
 
     aF?: string,
     bF?: string,

@@ -5,6 +5,7 @@ declare var android; // required if tns-platform-declarations is not installed
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
 
 // -- =====================================================================================
 
@@ -48,6 +49,11 @@ export function db_check (): Promise<void> {
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
 
+        for( let r of rawBound ) {
+            if ( r[0].slice(0,1) === "H" ) console.log("hhh");
+            if ( r[1].slice(0,1) === "H" ) 
+                console.log(  r[1] + " ", Quran[ r[0].slice(2) ].text ) ;
+        }
         // .. check integrity 
         if ( !trace_q ) saveDB( trace_q_File, [] );
         if ( !trace_h ) saveDB( trace_h_File, [] );
@@ -86,81 +92,6 @@ export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string )
     let testFile = NS.File.fromPath ( NS.path.join( bp, name + "." + ext  ) );
     testFile.writeText( text );
 }
-
-// -- =====================================================================================
-
-export function unique ( hadith: { a: string, b: string, c: number, d?: string }[] ) {
-
-    console.log( hadith.length );
-
-    let unique = hadith.reduce( (f, x) => {
-
-        let dk = f.find( y =>
-            y.a === x.a
-            &&
-            y.b === x.b
-            &&
-            x.c === y.c
-            &&
-            x.d === y.d
-        );
-
-        return !dk ? f.concat([x]) : f;
-
-    }, [] );
-
-    console.log( unique.length );
-
-    let newC = JSON.stringify( unique, null, "\t" );
-    saveTest( "newC", "ts", newC );
-
-}
-
-// -- =====================================================================================
-
-export function some_tool ( data: {
-    a: string, 
-    b: string, 
-    c: number, 
-    d?: string,
-    ar?: string,
-    fa?: string,
-}[] ) {
-
-    let h = "الإمامُ الصّادقُ عليه السلام";
-
-    let ok = JSON.stringify( 
-        data.filter( x => x.ar === x.fa && x.fa === h ) , null, "\t"
-    );
-
-    let some = JSON.stringify( 
-        data.filter( x => x.ar !== x.fa && ( x.ar === h || x.fa === h ) ), null, "\t"
-    );
-
-    let other = JSON.stringify( 
-        data.filter( x => x.ar !== h && x.fa !== h ), null, "\t"
-    );
-
-    saveTest( "ok", "ts" , ok );
-    saveTest( "some", "ts" , some );
-    saveTest( "other", "ts" , other );
-
-}
-
-// -- =====================================================================================
-
-// export function test () {
-//     let newB: TS.Bound = [];
-//     bound.forEach( x=> {
-//         let p: TS.BoundItem;
-//         p = [ 
-//             [ x[0].slice(0,1) as "Q", Number(x[0].slice(2)) || x[0].slice(2) as any ], 
-//             [ x[1].slice(0,1) as "Q", Number(x[1].slice(2)) || x[1].slice(2) as any ] 
-//         ]
-//         newB.push( p )
-//     })
-//     saveTest( "newBound", "json" , JSON.stringify(newB) );
-// }
 
 // -- =====================================================================================
 

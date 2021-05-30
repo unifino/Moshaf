@@ -185,6 +185,9 @@ export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundConte
         id = Number( item.slice(2) ) as number,
         found: TS.FoundContent;
 
+    // .. convert N to ID
+    if ( source === "H" ) id = Hadith.findIndex( x => x.n === id );
+
     if ( source === "Q" || source === "H" ) {
 
         let text: string = "";
@@ -346,7 +349,14 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
 export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound { 
 
     let code_O = "Q_" + store.state.activeAyah,
-        code_X = item.source + "_" + ( item.source === "T" ? item.text : item.id );
+        code_X: string;
+
+    switch ( item.source ) {
+        // .. convert ID to N
+        case "H": code_X = "H_" + Hadith[ item.id ].n;  break;
+        case "T": code_X = "T_" + item.text;            break;
+        default : code_X = item.source + "_" + item.id; break;
+    }
 
     // .. insert New Bound Info!
     if ( !item.flags.isBounded ) storage.rawBound.push( [ code_O, code_X ] );

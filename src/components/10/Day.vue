@@ -123,9 +123,7 @@ init ( id: number = -1 ) {
 show ( id: number ) {
 
     // .. mini patch
-    if ( Hadith[ id ].c === null ) {
-        Hadith[ id ].c = 19;
-    }
+    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
 
     // .. assign the Name
     this.hadis.c = c_map[ Hadith[ id ].c ][0];
