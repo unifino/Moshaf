@@ -112,12 +112,12 @@ destroyed () {}
 
 /* ------------------------------------------- */
     .myPage {
-        padding: 12% 25% 27% 25%;
+        padding: 12% 20% 27% 20%;
     }
 
     .najwa {
         font-family: Amiri-Regular;
-        font-size: 16.5;
+        font-size: 15.5;
         text-align: center;
         line-height: 7;
         padding: 7 2;
