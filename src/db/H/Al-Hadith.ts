@@ -2,15 +2,23 @@ type db = {
     a: string,
     b: string,
     c: number,
-    d?: string|number,
+    d: string|number,
     n: number,
 
-    aF?: string,
-    bF?: string,
+    aF?: string,    // a in farsiLetters
+    bF?: string,    // b in farsiLetters
 }[];
 
-const Kafi = require( "./Al-Kafi.json" ) as db; 
-const misc = require( "./Misc.json" ) as db; 
-const mox = require( "./mox.json" ) as db; 
+const k = require( "./الکافی.json" ) as db;
+const q = require( "./غررالحکم.json" ) as db;
+const m = require( "./متفرقه.json" ) as db;
+const n = require( "./نهج‌الفصاحة.json" ) as db;
+const b = require( "./نهج‌البلاغة.json" ) as db;
+const z = require( "./كنز‌العمّال.json" ) as db;
+const h = require( "./بحار‌الأنوار.json" ) as db;
+const t = require( "./تحف‌العقول.json" ) as db;
+const v = require( "./وسائل‌الشيعه.json" ) as db;
 
-export const Hadith = [ ...mox ];
+export const Hadith = [ 
+    ...k,...q,...m,...n,...b,...z,...h,...t,...v
+];

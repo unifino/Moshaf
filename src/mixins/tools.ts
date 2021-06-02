@@ -42,7 +42,8 @@ export function erabTrimmer ( str: string ) {
     if ( !str ) return "";
     const erabs = [
         "ٕ", "ٓ", "ٖ", "ۡ", "ۚ", "ۢ", "ۖ", "ۗ", "ٌۚ", "ۥ", " ٌ",
-        "ً", "ٌ", "ٍ",  "َ", "ُ",  "ِ",  "ّ",  "ْ", "‎ٓ", "ٔ",  "ٰ"
+        "ً", "ٌ", "ٍ",  "َ", "ُ",  "ِ",  "ّ",  "ْ", "‎ٓ", "ٔ",  "ٰ", 
+        "ـ",
     ];
     for ( const erab of erabs ) str = str.replace( new RegExp( erab, 'g' ), "" );
     str = str.replace( /ٱ/g, 'ا' );
@@ -90,6 +91,8 @@ export function quranAddress ( id: number ) {
     return ( suraName + "(" + suraNumber + ") | " + arabicDigits( i.ayah +"" ) );
 
 }
+
+// -- =====================================================================================
 
 export function hadithTextPreviewer ( id: number ) {
 
