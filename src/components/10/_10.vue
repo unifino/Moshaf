@@ -68,7 +68,7 @@ pageLoaded () {
 // -- =====================================================================================
 
 open ( item: TS.FoundContent ) {
-    store.state.activeHadith.push(-1);
+    store.state.activeHadith.push( item.id );
     tools.searchBoxResetter();
 }
 

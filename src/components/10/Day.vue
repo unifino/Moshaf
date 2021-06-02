@@ -93,9 +93,7 @@ mounted () {
 
     store.watch(
         state => store.state.activeHadith.length, 
-        length => {
-            if ( store.state.activeHadith[ length-1 ] === -1 ) this.init();
-        }
+        length => this.init( store.state.activeHadith[ length-1 ] )
     );
 
 }
@@ -119,7 +117,8 @@ init ( id: number = -1 ) {
 
         // .. register the ID
         this.currentId = rand;
-
+        store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
+ 
         // .. show it
         this.show( rand );
 
@@ -130,13 +129,6 @@ init ( id: number = -1 ) {
 // -- =====================================================================================
 
 show ( id: number ) {
-
-    let activeTrace = store.state.activeHadith,
-        pid = activeTrace.length -1;
-    // .. soft registration of activeHadith (by replacing)
-    if ( activeTrace[ pid ] === -1 ) activeTrace[ pid ] = id;
-    // .. soft registration of activeHadith (by adding newOne)
-    else activeTrace.push( id );
 
     // .. mini patch
     if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
