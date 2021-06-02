@@ -7,8 +7,8 @@
         <v-template>
             <GridLayout 
                 rows="*,auto"
-                :class="itemClasser(item)" 
-                @tap="$emit( 'interact', item )"
+                :class="itemClasser(item)"
+                @tap="$emit( 'interact', item );itemClassToggler(item);"
             >
 
                 <Label row=0 :text="item.text" textWrap=true />
@@ -67,8 +67,17 @@ itemClasser ( item: TS.FoundContent ) {
 
 }
 
+// -- =====================================================================================
+
 isAddressed ( item: TS.FoundContent) {
     return item.flags.address ? 'address' : 'hidden';
+}
+
+// -- =====================================================================================
+
+itemClassToggler ( item: TS.FoundContent ) {
+    console.log(item);
+    item.flags.isBounded = !item.flags.isBounded;
 }
 
 // -- =====================================================================================

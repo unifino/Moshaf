@@ -45,7 +45,7 @@ mounted () {
 
     store.watch(
         state => store.state.search_IN, 
-        () => { if ( this.life ) this.activeClass()}
+        () => { if ( this.life ) this.activeClass() }
     );
 
     // .. init

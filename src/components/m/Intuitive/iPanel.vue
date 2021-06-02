@@ -198,8 +198,6 @@ bind ( item: TS.FoundContent ) {
 
     // .. Toggle Item
     store.state.cakeBound = tools.bound_Q_Toggler( item );
-    store.state.foundData = tools.bounder_Q();
-    tools.searchBoxResetter();
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.rawBound );

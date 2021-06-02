@@ -60,9 +60,13 @@ exchange ( rev: boolean ) {
 
     switch ( store.state.search_IN ) {
 
-        case "Q": store.state.search_IN = rev ? "T" : "H"; break;
-        case "H": store.state.search_IN = rev ? "Q" : "T"; break;
+        case "Q": store.state.search_IN = rev ? "H" : "H"; break;
+        case "H": store.state.search_IN = rev ? "Q" : "Q"; break;
         case "T": store.state.search_IN = rev ? "H" : "Q"; break;
+
+        // case "Q": store.state.search_IN = rev ? "T" : "H"; break;
+        // case "H": store.state.search_IN = rev ? "Q" : "T"; break;
+        // case "T": store.state.search_IN = rev ? "H" : "Q"; break;
 
         // case "Q": store.state.search_IN = rev ? "T" : "H"; break;
         // case "H": store.state.search_IN = rev ? "Q" : "N"; break;
@@ -92,10 +96,10 @@ exchange ( rev: boolean ) {
             }
         break;
 
-        case "T":
-            store.state.foundDataSlot = "M3";
-            store.state.foundData = tools.getTags();
-        break;
+        // case "T":
+        //     store.state.foundDataSlot = "M3";
+        //     store.state.foundData = tools.getTags();
+        // break;
 
         case "N": tools.searchBoxResetter(); break;
 
