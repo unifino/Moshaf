@@ -16,6 +16,7 @@ export default new Vuex.Store( {
                                                  
         here            : null                  ,
         activeAyah      : -1                    ,
+        activeHadith   : []                    ,
         search_By       : null                  ,
         search_IN       : "Q"                   ,
                                                  
@@ -48,6 +49,7 @@ interface state {
                                                  
         here            : TS.here               ,
         activeAyah      : number                ,
+        activeHadith   : number[]              ,
         search_By       : TS.search_By          ,
         search_IN       : TS.Source             ,
                                                  

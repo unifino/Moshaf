@@ -91,10 +91,12 @@ currentId: number;
 
 mounted () {
 
-    // store.watch(
-    //     state => store.state.foundData.length, 
-    //     () => { if ( this.life ) this.activeClass() }
-    // );
+    store.watch(
+        state => store.state.activeHadith.length, 
+        length => {
+            if ( store.state.activeHadith[ length-1 ] === -1 ) this.init();
+        }
+    );
 
 }
 
@@ -111,7 +113,6 @@ init ( id: number = -1 ) {
         // .. get a random one
         let saat = new Date();
         let rand = saat.getTime() % Hadith.length;
-        console.log(rand);
 
         // .. it has been read already
         while ( store.state.memo.H.includes( rand ) ) rand = saat.getTime() % Hadith.length;
@@ -129,6 +130,13 @@ init ( id: number = -1 ) {
 // -- =====================================================================================
 
 show ( id: number ) {
+
+    let activeTrace = store.state.activeHadith,
+        pid = activeTrace.length -1;
+    // .. soft registration of activeHadith (by replacing)
+    if ( activeTrace[ pid ] === -1 ) activeTrace[ pid ] = id;
+    // .. soft registration of activeHadith (by adding newOne)
+    else activeTrace.push( id );
 
     // .. mini patch
     if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;

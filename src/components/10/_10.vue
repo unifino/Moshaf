@@ -68,7 +68,7 @@ pageLoaded () {
 // -- =====================================================================================
 
 open ( item: TS.FoundContent ) {
-    ( this.$refs.day as Day ).init( item.id );
+    store.state.activeHadith.push(-1);
     tools.searchBoxResetter();
 }
 
