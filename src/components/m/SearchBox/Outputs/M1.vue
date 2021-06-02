@@ -76,7 +76,6 @@ isAddressed ( item: TS.FoundContent) {
 // -- =====================================================================================
 
 itemClassToggler ( item: TS.FoundContent ) {
-    console.log(item);
     item.flags.isBounded = !item.flags.isBounded;
 }
 

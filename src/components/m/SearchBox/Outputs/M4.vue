@@ -11,7 +11,7 @@
                 v-for="(item,i) in $store.state.foundData"
                 :key="i"
                 rows="*,auto" 
-                @tap="$emit( 'interact', item )"
+                @tap="$emit( 'interact', item );itemClassToggler(item);"
                 :class="itemClasser(item)"
             >
 
@@ -73,8 +73,18 @@ itemClasser ( item: TS.FoundContent ) {
     return itemClass;
 }
 
+// -- =====================================================================================
+
 isAddressed ( item: TS.FoundContent) {
     return item.flags.address ? 'address' : 'hidden';
+}
+
+// -- =====================================================================================
+
+itemClassToggler ( item: TS.FoundContent ) {
+    item.flags.isCached = !item.flags.isCached;
+    item.flags.isBounded = !item.flags.isBounded;
+    this.$forceUpdate();
 }
 
 // -- =====================================================================================
