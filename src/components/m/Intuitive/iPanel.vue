@@ -84,6 +84,7 @@ buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
     { icon: 'f292', class: 'tag'  , fnc: () => this.TagModeToggler()    } ,
+    { icon: 'f2f5', class: 'exit' , fnc: () => this.exitPanel()         } ,
 ]
 life = true;
 
@@ -112,6 +113,18 @@ mounted () {
 
 tapPassed ( args ) {
     
+}
+
+async exitPanel () {
+    // .. patch M4|M3 intuitive
+    if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
+    if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
+    // .. regular actions
+    store.state.foundData = [];
+    store.state.foundDataSlot = null;
+    store.state.searched_By = null;
+    await new Promise( _ => setTimeout( _, 10 ) );
+    store.state.fraseInSearch = null;
 }
 
 // -- =====================================================================================
@@ -279,4 +292,7 @@ destroyed () {
         color: #cacaca;
     }
 
+    .exit {
+        transform: rotateY(-180);
+    }
 </style>
