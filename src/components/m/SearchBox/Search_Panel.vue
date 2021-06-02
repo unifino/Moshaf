@@ -16,6 +16,7 @@
         <Dismiss  />
         <History  />
         <Favorite />
+        <Random :randomButton="randomButton" />
         <HashTag :hashTagButton="hashTagButton" />
         <Exchange :exchangeButton="exchangeButton" />
 
@@ -45,11 +46,12 @@ import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
 
 import Input                            from "@/components/m/SearchBox/Input.vue"
+import Random                           from "@/components/m/SearchBox/Buttons/Random.vue"
 import Search                           from "@/components/m/SearchBox/Buttons/Search.vue"
-import Dismiss                          from "@/components/m/SearchBox/Buttons/Dismiss.vue"
 import History                          from "@/components/m/SearchBox/Buttons/History.vue"
-import Favorite                         from "@/components/m/SearchBox/Buttons/Favorite.vue"
 import HashTag                          from "@/components/m/SearchBox/Buttons/HashTag.vue"
+import Dismiss                          from "@/components/m/SearchBox/Buttons/Dismiss.vue"
+import Favorite                         from "@/components/m/SearchBox/Buttons/Favorite.vue"
 import Exchange                         from "@/components/m/SearchBox/Buttons/Exchange.vue"
 import Output_M1                        from "@/components/m/SearchBox/Outputs/M1.vue"
 import Output_M2                        from "@/components/m/SearchBox/Outputs/M2.vue"
@@ -61,7 +63,7 @@ import Output_M4                        from "@/components/m/SearchBox/Outputs/M
 @Component ( {
     components: { 
         Input, 
-        Search, Dismiss, History, Favorite, HashTag, Exchange,
+        Search, Dismiss, History, Favorite, HashTag, Exchange, Random,
         Output_M1, Output_M2, Output_M3, Output_M4
     }
 } )
@@ -78,6 +80,7 @@ result_tag: TS.FoundContent[] = [];
 // -- =====================================================================================
 
 @Prop() source: TS.Source;
+@Prop() randomButton: boolean;
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
 @Prop() vividBG: boolean;

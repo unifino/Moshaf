@@ -89,7 +89,14 @@ currentId: number;
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+
+    // store.watch(
+    //     state => store.state.foundData.length, 
+    //     () => { if ( this.life ) this.activeClass() }
+    // );
+
+}
 
 // -- =====================================================================================
 
@@ -104,6 +111,7 @@ init ( id: number = -1 ) {
         // .. get a random one
         let saat = new Date();
         let rand = saat.getTime() % Hadith.length;
+        console.log(rand);
 
         // .. it has been read already
         while ( store.state.memo.H.includes( rand ) ) rand = saat.getTime() % Hadith.length;

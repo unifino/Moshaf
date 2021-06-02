@@ -14,6 +14,7 @@
         @orderByParent="open"
         source="H"
         :searchLock=!life
+        :randomButton="true"
     />
 
 <!---------------------------------------------------------------------------------------->
