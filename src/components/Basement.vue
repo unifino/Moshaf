@@ -9,7 +9,7 @@
 
     <Frame class="fx" id="_base_" ref="_base_" >
         <Page>
-            <GridLayout>
+            <GridLayout @tap="to_Unity()">
                 <Image src="res://moshaf" width=165 stretch="aspectFit" />
             </GridLayout>
         </Page>
@@ -140,6 +140,8 @@ setup (): Promise<void> {
 
 backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
+    // todo .. page stack could be defined!
+
     // .. prevent more actions by default
     e.cancel = true;
 
@@ -149,7 +151,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         case "Basement": e.cancel = true;  break;
 
         // .. exit
-        case "Unity": exit(); break;
+        // case "Unity": exit(); break;
 
         case "Base_00": if ( !store.state.foundData.length ) e.cancel = false; break;
         case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;
@@ -188,8 +190,10 @@ to_Unity ( direct = false ): void {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    if ( args.direction === NS.SwipeDirection.down ) this.to_Unity( true );
-    if ( args.direction === NS.SwipeDirection.up ) this.to_Unity( true );
+    if ( store.state.here !== "Unity" ) {
+        if ( args.direction === NS.SwipeDirection.down ) this.to_Unity( true );
+        if ( args.direction === NS.SwipeDirection.up   ) this.to_Unity( true );
+    }
 
 }
 
@@ -214,5 +218,7 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
-
+*{
+    color: #e4d60f
+}
 </style>
