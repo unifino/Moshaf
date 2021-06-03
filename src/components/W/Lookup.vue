@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="$store.state.here='Lookup'">
+<Page @navigatedTo="pageLoaded()">
 <GridLayout rows="88,27*,44,10*,44">
 
 <!---------------------------------------------------------------------------------------->
@@ -64,8 +64,10 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TM                          from "@/themes/themeManager"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
+import store                            from "@/store/store"
 
 import Meaning                          from "@/components/W/Meaning.vue"
 
@@ -93,9 +95,15 @@ loadedFrom: TS.here;
 // -- =====================================================================================
 
 mounted () {
-    //! this.loadedFrom = store.state.here;
     this.translate_ar( this.word );
     this.translate_fa( this.word );
+}
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here = "Lookup";
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================

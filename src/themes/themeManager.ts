@@ -53,14 +53,16 @@ export function themeApplier ( colorName: TS.ThemeName, that ): void {
 
 export function themePatcher ( that ) {
 
-    setTimeout( () => {
-        // .. cache it
-        let tmp = store.state.appConfig.theme;
-        // .. purge Theme
-        themeApplier( null, that );
-        // .. re-apply the Theme
-        themeApplier( tmp, that );
-    }, 700 );
+    for ( let time of [ 1,300,700 ] ) {
+        setTimeout( () => {
+            // .. cache it
+            let tmp = store.state.appConfig.theme;
+            // .. purge Theme
+            themeApplier( null, that );
+            // .. re-apply the Theme
+            themeApplier( tmp, that );
+        }, time );
+    }
 
 }
 

@@ -1,6 +1,22 @@
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
 
+.button,
+.sura, 
+.saat,
+.kalameh,
+.meaning,
+.divider,
+.baseClass,
+.item,
+.address,
+.ayah
+{ 
+    color: transparent; 
+    border-color: transparent;
+    background-color: transparent;
+}
+
 // .. GSS: Global Solid Settings
 Frame { 
     action-bar-visibility: never; 

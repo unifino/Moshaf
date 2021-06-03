@@ -1,7 +1,14 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="unityBox" ref="unityBox" rows="25*,15*,15*" columns="10*,17*">
+<GridLayout class="unityBox" ref="unityBox" rows="25*,15*,15*" columns="7*,17*">
 
+<!---------------------------------------------------------------------------------------->
+
+    <myButton 
+        :myClass="'button fas '"
+        :myLabel="String.fromCharCode('0x'+($store.state.appConfig.darkMode?'f185':'f186'))"
+        @tap=darkThemeToggler
+    />
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=0 col=1 rows="*,auto,auto,*" orientation="vertical">
@@ -42,12 +49,13 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import { Hadith }                       from "@/db/H/Al-Hadith"
 import { Najawa }                       from "@/db/N/Al-Najawa"
 import Saheb                            from "@/components/U/Saheb.vue"
-import { route } from "@/mixins/router"
+import DarkTheme                        from "@/components/U/DarkTheme.vue"
+import myButton                         from "@/components/X/myButton.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Saheb }
+    components: { Saheb, myButton }
 } )
 
 // -- =====================================================================================
@@ -62,6 +70,13 @@ mounted () {}
 
 pageLoaded () {
     store.state.here = "Unity";
+}
+
+// -- =====================================================================================
+
+async darkThemeToggler () {
+    let newThem: TS.ThemeName = store.state.appConfig.darkMode ? "Smoky" : "CoolGreen";
+    TM.themeApplier( newThem, this );
 }
 
 // -- =====================================================================================
@@ -93,6 +108,30 @@ destroyed () {
 
     .Smoky .unityBox {
         background-color: #e6e6e6;
+    }
+
+/* ------------------------------------------- */
+    .button {
+        text-align: center;
+        font-size: 23px;
+        width: 50;
+        height: 50;
+        margin: 3;
+        border-width: 1;
+        color:#cfe9f0;
+        border-radius: 50;
+    }
+
+    .Smoky .button {
+        color:#cfe9f0;
+        border-color: #9dd0d4;
+        background-color: #1a848b;
+    }
+
+    .CoolGreen .button {
+        color:#919a9c;
+        border-color: #2b5b7a;
+        background-color: #072429;
     }
 
 </style>

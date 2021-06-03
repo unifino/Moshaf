@@ -20,12 +20,12 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
     let paths: TS.Path = {
 
-        Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    in: "Q" },
-        Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    in: "N" },
-        Base_10: { page: Base_10, duration: 300, transition: "flipLeft",    in: "H" },
-        Qertas:  { page: Qertas , duration: 300, transition: "slideTop",            },
-        Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",            },
-        Lookup:  { page: Lookup , duration: 300, transition: "slideRight",          }, 
+        Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },
+        Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    },
+        Base_10: { page: Base_10, duration: 300, transition: "flipLeft",    },
+        Qertas:  { page: Qertas , duration: 300, transition: "slideTop",    },
+        Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",    },
+        Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  }, 
 
         Unity:   { 
             page: Unity , 
@@ -49,7 +49,6 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
     } );
 
     store.state.here = address;
-    if ( myPath.in ) store.state.search_IN = myPath.in;
 
 }
 

@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="$store.state.here='Qertas'">
+<Page @navigatedTo="pageLoaded()">
 <GridLayout class="fx" rows="40,*,auto,*,40">
 
     <Label :text="name" class="suraName" row=4 @tap="complete()" />
@@ -19,7 +19,7 @@
             flexDirection="row-reverse"
             justifyContent="space-between"
         >
-            <Kalameh 
+            <Kalameh
                 v-for="(kalameh,i) in vahy"
                 :ref="'kalameh_' + kalameh.aID"
                 :key="kalameh.aID + '_' + i"
@@ -58,6 +58,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TM                          from "@/themes/themeManager"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -92,6 +93,14 @@ taghdir_aID: number;
 mounted () {
     tools.searchBoxResetter();
     this.init( this.me );
+}
+
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here = 'Qertas';
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================

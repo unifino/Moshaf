@@ -109,7 +109,7 @@ itemClassToggler ( item: TS.FoundContent ) {
     }
 
     .CoolGreen .baseClass {
-        background-color: #171718;
+        background-color: #1d1e1f;
         color: #8b8b8b;
     }
 
@@ -118,17 +118,14 @@ itemClassToggler ( item: TS.FoundContent ) {
         color: #0c85aa;
     }
 
-    .CoolGreen .cached,
-    .Smoky .cached {
-        background-color: #222324;
-        color: #8b8b8b;
+    .CoolGreen .ayah {
+        color: #a0c4cf;
+    }
+    .Smoky .ayah {
+        color: #0c85aa;
     }
 
-    .CoolGreen .cached .ayah,
-    .Smoky .cached .ayah{
-        text-decoration: line-through;
-    }
-
+/* ------------------------------------------- */
     .CoolGreen .header,
     .Smoky .header {
         background-color: #0b2e10;
@@ -137,19 +134,46 @@ itemClassToggler ( item: TS.FoundContent ) {
         color: #cacaca;
     }
 
-    .transparent {
-        background-color: transparent;
-        padding: 20 24;
+    .CoolGreen .header .ayah,
+    .Smoky .header .ayah{
+        color: #cacaca;
     }
 
-    .address {
-        color: #037269;
+    .CoolGreen .address,
+    .Smoky .address{
         visibility: visible;
         font-size: 8;
         opacity: .8;
         padding: 10 0 0 0;
     }
 
+    .CoolGreen .address {
+        color: #037269;
+    }
+
+    .Smoky .address {
+        color: #037269;
+    }
+
+/* ------------------------------------------- */
+    .CoolGreen .cached {
+        background-color: #020202;
+    }
+    .Smoky .cached {
+        background-color: #1f2020;
+    }
+
+    .CoolGreen .cached .ayah,
+    .Smoky .cached .ayah{
+        text-decoration: line-through;
+        color: #393a3b;
+    }
+
+/* ------------------------------------------- */
+    .transparent {
+        background-color: transparent;
+        padding: 20 24;
+    }
     .hidden {
         visibility: collapse;
     }

@@ -17,7 +17,7 @@
             <myButton 
                 v-for="(button,i) in buttons" 
                 :key="i"
-                :myClass="'toolButton fas ' + button.class"
+                :myClass="'button fas ' + button.class"
                 :myLabel="String.fromCharCode( '0x' + button.icon )"
                 @tap=button.fnc
             />
@@ -139,12 +139,17 @@ async menuCtr ( id: number ) {
     let menuBox = ( this.$refs.menuBox as any ).nativeView,
         frame = ( this.$refs.frame as any ).nativeView,
         searchBoxes = ( this.$refs.searchBoxes as any ).nativeView,
+        bgColor: string,
         x_def: NS.AnimationDefinition = {},
         y_def: NS.AnimationDefinition = {},
         z_def: NS.AnimationDefinition = {},
         w_def: NS.AnimationDefinition = {};
 
     if ( this.menuBox_Animation ) this.menuBox_Animation.cancel();
+
+    bgColor = !~id ? "#000e1111" : 
+        // ! wont effect if toggle darkMode until re-call the function
+        store.state.appConfig.darkMode ? "#ee0e1111" : "#bb0e1111" ;
 
     x_def.target = menuBox;
     x_def.curve = NS.Enums.AnimationCurve.ease,
@@ -155,7 +160,7 @@ async menuCtr ( id: number ) {
     y_def.target = frame;
     y_def.curve = NS.Enums.AnimationCurve.ease,
     y_def.duration = 300;
-    y_def.backgroundColor = new NS.Color( !~id ? "#000e1111" : "#bb0e1111" );
+    y_def.backgroundColor = new NS.Color( bgColor );
 
     z_def.target = searchBoxes;
     z_def.curve = NS.Enums.AnimationCurve.ease,
@@ -257,6 +262,28 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
+    .button {
+        text-align: center;
+        font-size: 23px;
+        width: 50;
+        height: 50;
+        margin: 3;
+        border-width: 1;
+        border-radius: 12;
+    }
+
+    .Smoky .button {
+        color:#cfe9f0;
+        border-color: #9dd0d4;
+        background-color: #1a848b;
+    }
+
+    .CoolGreen .button {
+        color:#919a9c;
+        border-color: #2b5b7a;
+        background-color: #072429;
+    }
+
     .frame {
         background-color: #000e1111;
     }
@@ -293,4 +320,5 @@ destroyed () {
     .exit {
         transform: rotateY(-180);
     }
+
 </style>

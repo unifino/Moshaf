@@ -4,7 +4,7 @@
     <Label
         ref="kalameh"
         :text="myText"
-        :class="theType"
+        :class="'kalameh ' + theType"
         @tap="autoTranslate();$emit( 'tap', myText, myType, aID );"
         @touch=touched
     />

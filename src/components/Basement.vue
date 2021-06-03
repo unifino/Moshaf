@@ -71,6 +71,18 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
+    // ..  handle search engines
+    store.watch(
+        state => state.here, 
+        newPlace => {
+            switch ( newPlace ) {
+                case "Base_00": store.state.search_IN = "Q"; break;
+                case "Base_10": store.state.search_IN = "H"; break;
+                case "Base_01": store.state.search_IN = "N"; break;
+            }
+        }
+    );
+
     // store.watch(
     //     state => state.here, 
     //     (newVal, oldVal) => 
@@ -181,6 +193,8 @@ to_Unity ( init = false ): void {
 // -- =====================================================================================
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
+
+    console.log(store.state.here);
 
     if ( store.state.here !== "Unity" ) {
         if ( args.direction === NS.SwipeDirection.down ) this.to_Unity();

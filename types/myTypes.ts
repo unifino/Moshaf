@@ -149,7 +149,6 @@ export type Path = {
         page: any,
         transition: TransitionNames,
         duration: number,
-        in?: Source,
     } 
 }
 
