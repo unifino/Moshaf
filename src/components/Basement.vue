@@ -33,47 +33,18 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
-import Base_00                          from "@/components/00/_00.vue"
-import IntuitivePanel                   from "@/components/m/Intuitive/iPanel.vue"
-import Qertas                           from "@/components/00/Qertas.vue"
-import Base_10                          from "@/components/10/_10.vue"
-import Base_01                          from "@/components/01/_01.vue"
+import Unity                            from "@/components/U/Unity.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
-import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
 import { Hadith }                       from "@/db/H/Al-Hadith"
 import { asma, Quran }                  from "@/db/Q/Quran"
 
 // -- =====================================================================================
 
-import VueDevtools                      from 'nativescript-vue-devtools'
-if( TNS_ENV !== 'production' ) { 
-    Vue.use( VueDevtools ); 
-    console.log = function ( ...data: any[] ) {
-        const unwanted: any[] = [
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> AppendChild(",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> CreateElement",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> CreateComment()",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> ParentNode(",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> InsertBefore(",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> RemoveChild(",
-            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> NextSibling("
-        ];
-        let permission = true;
-        for ( let x of unwanted ) 
-            if ( typeof data[0] === "string" && data[0].includes(x) ) 
-                permission = false;
-        if ( permission ) console.info(data);
-    }; 
-}
-Vue.config.silent = ( TNS_ENV === 'production' );
-
-// -- =====================================================================================
-
 @Component ( {
-    components: {}
+    components: { Unity }
 } )
 
 // -- =====================================================================================
@@ -127,46 +98,6 @@ init (): void {
 
 // -- =====================================================================================
 
-backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
-
-    // .. prevent more actions by default
-    e.cancel = true;
-
-    let _base_ = this.$root.$children[0].$refs._base_ as any;
-
-    switch ( store.state.here ) {
-
-        case "Base_00":
-            // .. get elements(s)
-            let base_00 = _base_.$children[1] as Base_00;
-            let searchBox = base_00.$refs[ "search" ] as SearchBox;
-            // ..  just clear search
-            if ( store.state.foundData.length ) tools.searchBoxResetter();
-            // .. exit
-            else exit();
-        break;
-
-        case "Qertas":
-            // .. get elements(s)
-            let qertas = _base_.$children[2] as Qertas;
-            let intuitivePanel = qertas.$refs[ "IntuitivePanel" ] as IntuitivePanel;
-            // ..  just close IntuitivePanel by resetting activeAyah
-            if ( intuitivePanel.active ) store.state.activeAyah = -1;
-            else qertas.exit();
-        break;
-
-        // .. let do NOTHING!
-        case "Basement": e.cancel = true;  break;
-
-        // .. let do more actions
-        default: e.cancel = false; break;
-
-    }
-
-}
-
-// -- =====================================================================================
-
 permissionApplier (): Promise<any> {
 
     return new Promise ( (rs,rx) => { 
@@ -195,8 +126,8 @@ setup (): Promise<void> {
         // .. just applying default theme
         TM.themeApplier( "Smoky", this );
 
-        // .. first actual step! go to the Quran
-        this.to_Base_00( null );
+        // .. first actual step! bring-up the Unity
+        this.to_Unity();
 
         // .. basic steps has been resolved!
         rs();
@@ -207,64 +138,49 @@ setup (): Promise<void> {
 
 // -- =====================================================================================
 
-to_Base_00 ( direction: NS.SwipeDirection|null ): void {
+backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
-    let dir: string;
+    // .. prevent more actions by default
+    e.cancel = true;
 
-    switch ( direction ) {
-        case NS.SwipeDirection.left : dir = "slideLeft";    break;
-        case NS.SwipeDirection.right: dir = "slideRight";   break;
-        case NS.SwipeDirection.down : dir = "slideDown";    break;
-        case NS.SwipeDirection.up   : dir = "slideUp";      break;
-        default                     : dir = "fade";         break;
+    switch ( store.state.here ) {
+
+        // .. let do NOTHING!
+        case "Basement": e.cancel = true;  break;
+
+        // .. exit
+        case "Unity": exit(); break;
+
+        case "Base_00": if ( !store.state.foundData.length ) e.cancel = false; break;
+        case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;
+        case "Base_10": if ( !store.state.foundData.length ) e.cancel = false; break;
+
+        case "Qertas":
+            if ( !~store.state.activeAyah ) e.cancel = false;
+            else store.state.activeAyah = -1;
+        break;
+
+        // .. let do more actions
+        default: e.cancel = false; break;
+
     }
 
-    Vue.prototype.$navigateTo( Base_00, {
-
-        frame : '_base_',
-        backstackVisible : true,
-        transition : { name: dir, duration: direction ? 300 : 550 }
-
-    } );
-
     tools.searchBoxResetter();
-    store.state.search_IN = "Q";
+
 
 }
 
 // -- =====================================================================================
 
-to_Base_10 (): void {
+to_Unity ( direct = false ): void {
 
-    tools.searchBoxResetter();
-
-    Vue.prototype.$navigateTo( Base_10, {
-
+    Vue.prototype.$navigateTo( Unity, {
         frame : "_base_" ,
         backstackVisible : true,
-        transition : { name: "slideRight", duration: 300 } 
-
+        transition : { name: direct ? "flipLeft" : "fade", duration: 500 } 
     } );
 
-    store.state.search_IN = "H";
-
-}
-
-// -- =====================================================================================
-
-to_Base_01 (): void {
-
-    tools.searchBoxResetter();
-
-    Vue.prototype.$navigateTo( Base_01, {
-
-        frame : "_base_" ,
-        backstackVisible : true,
-        transition : { name: "slideLeft", duration: 300 }
-
-    } );
-
-    store.state.search_IN = "N";
+    if ( !direct ) store.state.here='Unity';
 
 }
 
@@ -272,28 +188,8 @@ to_Base_01 (): void {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    if ( store.state.here === "Base_00" ) {
-        if ( args.direction === NS.SwipeDirection.right ) this.to_Base_10();
-        if ( args.direction === NS.SwipeDirection.left ) this.to_Base_01();
-    }
-
-    else if
-    (
-        ( store.state.here === "Base_01" && args.direction === NS.SwipeDirection.right ) ||
-        ( store.state.here === "Base_10" && args.direction === NS.SwipeDirection.left )
-    )
-    {
-        tools.searchBoxResetter();
-        let _base_ = this.$root.$children[0].$refs._base_ as any;
-        let base_00 = _base_.$children[1] as any;
-        base_00.$navigateBack();
-        store.state.search_IN = "Q";
-    }
-
-    // .. theme changer
-    if ( args.direction === NS.SwipeDirection.down ) TM.themeApplier( "CoolGreen", this );
-    if ( args.direction === NS.SwipeDirection.up ) TM.themeApplier( "Smoky", this );
-
+    if ( args.direction === NS.SwipeDirection.down ) this.to_Unity( true );
+    if ( args.direction === NS.SwipeDirection.up ) this.to_Unity( true );
 
 }
 

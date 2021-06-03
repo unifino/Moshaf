@@ -9,6 +9,30 @@ import * as NS                          from "@nativescript/core"
 
 // -- =====================================================================================
 
+import VueDevtools                      from 'nativescript-vue-devtools'
+if ( TNS_ENV !== 'production' ) {
+    Vue.use( VueDevtools );
+    console.log = function ( ...data: any[] ) {
+        const unwanted: any[] = [
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> AppendChild(",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> CreateElement",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> CreateComment()",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> ParentNode(",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> InsertBefore(",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> RemoveChild(",
+            "{NSVue (Vue: 2.6.12 | NSVue: 2.9.0)} -> NextSibling("
+        ];
+        let permission = true;
+        for ( let x of unwanted )
+            if ( typeof data[0] === "string" && data[0].includes(x) )
+                permission = false;
+        if ( permission ) console.info(data);
+    };
+}
+Vue.config.silent = ( TNS_ENV === 'production' );
+
+// -- =====================================================================================
+
 if ( NS.isAndroid ) {
 
     NS.TextBase.prototype[ NS.fontSizeProperty.setNative ] = function ( v ) {
