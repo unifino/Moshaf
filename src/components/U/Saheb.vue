@@ -3,7 +3,8 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout >
+    <GridLayout>
+        <Label :text="str" textWrap="true" class="text" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -41,18 +42,29 @@ export default class Saheb extends Vue {
 
 // -- =====================================================================================
 
+str: string = "";
+id: number = -1;
+
+// -- =====================================================================================
+
 @Prop() source: TS.Source;
 
 // -- =====================================================================================
 
 mounted () {
 
+    this.id = tools.saheb( this.source as "Q"|"H" );
+
+    if ( this.source === "H" ) this.str = tools.getHadith( this.id ).obj.a;
+    if ( this.source === "Q" ) this.str = Quran[ this.id ].text;
+
 }
 
 // -- =====================================================================================
 
 tapped () {
-    
+    let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
+    route( address, { me: this.id } )
 }
 
 // -- =====================================================================================
@@ -75,6 +87,7 @@ destroyed () {
 
 /* ------------------------------------------- */
     .saheb {
+        padding: 10 14;
         width: 240;
         height: 140;
         border-radius: 7;
@@ -87,6 +100,12 @@ destroyed () {
 
     .Smoky .saheb {
         background-color: #2a9de0;
+    }
+
+    .text {
+        font-family: Amiri-regular;
+        font-size: 13;
+        color: white;
     }
 
 </style>

@@ -300,7 +300,6 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
 export function bounder_Q (): TS.FoundContent[] { 
 
     let found: TS.FoundContent[] = [],
-        tmp: TS.FoundContent,
         code_O = "Q_" + store.state.activeAyah,
         code_Xs = store.state.cakeBound[ code_O ] || [],
         isBounded: boolean;
@@ -308,8 +307,7 @@ export function bounder_Q (): TS.FoundContent[] {
     // .. convert codes to the content
     for ( let raw of code_Xs ) {
         isBounded = store.state.cakeBound[ raw ].includes( code_O );
-        tmp = boundParser( raw, { isBounded: isBounded } );
-        if ( tmp ) found.push( tmp );
+        found.push( boundParser( raw, { isBounded: isBounded } ) );
     }
 
     if ( found ) {
@@ -322,9 +320,11 @@ export function bounder_Q (): TS.FoundContent[] {
         found.unshift( boundParser( code_O, { isHeader: true } ) );
 
         // .. append cached Items
-        return bounder_Q_Cache( found );
+        found = bounder_Q_Cache( found );
 
     }
+
+    return found.filter( x => x );
 
 }
 
@@ -333,7 +333,8 @@ export function bounder_Q (): TS.FoundContent[] {
 export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] { 
 
     let origin = "Q_" + store.state.activeAyah,
-        cache: string[];
+        cache: string[],
+        tmp: TS.FoundContent;
 
     cache = store.state.cacheBound.reduce( (soFar, xxx) => {
         if ( xxx[0] === origin ) soFar.push( xxx[1] );
