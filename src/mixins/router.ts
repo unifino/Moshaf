@@ -16,6 +16,14 @@ import Unity                            from "@/components/U/Unity.vue"
 
 // -- =====================================================================================
 
+declare module "vue-property-decorator" {
+    interface Vue {
+        $navigateTo( args );
+    }
+}
+
+// -- =====================================================================================
+
 export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
     let paths: TS.Path = {

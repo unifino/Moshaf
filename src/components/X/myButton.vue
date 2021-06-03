@@ -1,6 +1,6 @@
 <template>
 <GridLayout
-    :class="'button ' + myClass"
+    :class="bClass"
     @tap="$emit( 'tap' )"
     @touch="buttonTouched"
     ref="button"
@@ -9,7 +9,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rows="*,auto,*"  >
-        <Label row=1 :text="' ' + myLabel + ' '" />
+        <Label row=1 :text="' ' + String.fromCharCode( '0x' + icon ) + ' '" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -35,8 +35,8 @@ export default class myButton extends Vue {
 
 // -- =====================================================================================
 
-@Prop() myLabel: string;
-@Prop() myClass: string;
+@Prop() icon: string;
+@Prop() bClass: string;
 
 // -- =====================================================================================
 
@@ -46,12 +46,12 @@ buttonTouched ( args ) {
     switch ( args.action ) {
 
         case "down":
-            args.object.className = this.myClass + " pressed"; 
+            args.object.className = this.bClass + " pressed"; 
             break;
 
         case "up":
         case "cancel":
-            args.object.className = this.myClass; 
+            args.object.className = this.bClass; 
             break;
 
     }

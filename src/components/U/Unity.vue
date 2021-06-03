@@ -1,13 +1,14 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="unityBox" ref="unityBox" rows="25*,15*,15*" columns="7*,17*">
+<GridLayout class="unityBox" ref="unityBox" rows="6*,4*,100" columns="110,*">
 
 <!---------------------------------------------------------------------------------------->
 
     <myButton 
-        :myClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
-        :myLabel="String.fromCharCode( '0x'+ 'f0eb' )"
+        :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
+        icon="f0eb"
         @tap=darkThemeToggler
+        marginLeft=20
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -24,8 +25,11 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=2 col=1 >
-    </GridLayout>
+    <StackLayout row=2 colSpan=2 orientation="horizontal" horizontalAlignment="center" >
+        <myButton bClass="button big fas" icon="f5bb" @tap='route( "Base_10" )' />
+        <myButton bClass="button big fas" icon="f02d" @tap='route( "Base_00" )' />
+        <myButton bClass="button big fas" icon="f67f" @tap='route( "Base_01" )' />
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -117,16 +121,23 @@ destroyed () {
         font-size: 23px;
         width: 50;
         height: 50;
-        margin: 3;
+        margin: 3 7;
         border-width: 1;
         color:#cfe9f0;
         border-radius: 50;
     }
 
+    .big {
+        font-size: 30px;
+        width: 65;
+        height: 65;
+        border-radius: 10;
+    }
+
     .CoolGreen .button {
-        color:#1e9dd8;
-        border-color: #2b5b7a;
-        background-color: #1f292b;
+        color:#1ed2d8;
+        border-color: #1f2422;
+        background-color: #273b31;
     }
 
     .Smoky .button {

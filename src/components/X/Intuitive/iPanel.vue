@@ -17,8 +17,8 @@
             <myButton 
                 v-for="(button,i) in buttons" 
                 :key="i"
-                :myClass="'button fas ' + button.class"
-                :myLabel="String.fromCharCode( '0x' + button.icon )"
+                :bClass="'button fas ' + button.class"
+                :icon="button.icon"
                 @tap=button.fnc
             />
 

@@ -3,6 +3,7 @@ declare var android; // required if tns-platform-declarations is not installed
 // -- =====================================================================================
 
 import Vue                              from 'nativescript-vue'
+import { mixins } from 'vue-class-component'
 import App_Basement                     from '@/components/Basement.vue'
 import store                            from '@/store/store'
 import { route }                        from '@/mixins/router'
@@ -56,12 +57,18 @@ if ( NS.isAndroid ) {
 
 // -- =====================================================================================
 
-new Vue( {
+Vue.mixin( {
+    methods: {
+        route: route
+    },
+} )
 
+new Vue( {
     store,
     components: { App_Basement },
     template: `<GridLayout> <App_Basement /> </GridLayout>`,
 
 } ).$start();
+
 
 // -- =====================================================================================

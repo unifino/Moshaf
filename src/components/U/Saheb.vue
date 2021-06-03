@@ -52,8 +52,7 @@ mounted () {
 // -- =====================================================================================
 
 tapped () {
-    if ( this.source === "Q" ) route( "Base_00" );
-    if ( this.source === "H" ) route( "Base_10" );
+    
 }
 
 // -- =====================================================================================
@@ -76,11 +75,18 @@ destroyed () {
 
 /* ------------------------------------------- */
     .saheb {
-        width: 200;
-        height: 110;
-        background-color: rgb(10, 49, 75);
+        width: 240;
+        height: 140;
         border-radius: 7;
         margin: 5;
+    }
+
+    .CoolGreen .saheb {
+        background-color: #1a1d1d;
+    }
+
+    .Smoky .saheb {
+        background-color: #2a9de0;
     }
 
 </style>
