@@ -23,8 +23,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-
-import Lookup                           from "@/components/xx/Lookup.vue"
+import { route }                        from '@/mixins/router'
 
 // -- =====================================================================================
 
@@ -123,16 +122,7 @@ autoTranslate () {
 // -- =====================================================================================
 
 lookup ( text: string ): void {
-
-    Vue.prototype.$navigateTo( Lookup, {
-
-        frame : "_base_" ,
-        props : { word : tools.erabTrimmer( text ) },
-        backstackVisible : true,
-        transition : { name: "slideLeft", duration: 300 }
-
-    } );
-
+    route( "Lookup", { word : tools.erabTrimmer( text ) } )
 }
 
 // -- =====================================================================================

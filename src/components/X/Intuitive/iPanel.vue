@@ -61,11 +61,11 @@ import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
 
 import Qertas                           from "@/components/00/Qertas.vue"
-import Kalameh                          from "@/components/m/Kalameh.vue"
-import myButton                         from "@/components/m/myButton.vue"
-import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
+import Kalameh                          from "@/components/X/Kalameh.vue"
+import myButton                         from "@/components/X/myButton.vue"
+import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
-import Output_M4                        from "@/components/m/SearchBox/Outputs/M4.vue"
+import Output_M4                        from "@/components/X/SearchBox/Outputs/M4.vue"
 
 // -- =====================================================================================
 

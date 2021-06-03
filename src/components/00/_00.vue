@@ -67,16 +67,16 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TM                          from "@/themes/themeManager"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import { route }                        from '@/mixins/router'
 import { asma, Quran }                  from "@/db/Q/Quran"
 
-import Qertas                           from "@/components/00/Qertas.vue"
-import Kalameh                          from "@/components/m/Kalameh.vue"
-import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
+import Kalameh                          from "@/components/X/Kalameh.vue"
+import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, Qertas, SearchBox }
+    components: { Kalameh, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -102,26 +102,13 @@ mounted () {
 // -- =====================================================================================
 
 pageLoaded () {
-    store.state.here='Base_00';
     TM.themePatcher( this );
-    this.search( null );
 }
 
 // -- =====================================================================================
 
 open ( num: number ): void {
-
-    Vue.prototype.$navigateTo( Qertas, {
-
-        frame : "_base_" ,
-        props : { me : num },
-        backstackVisible : true,
-        transition : { name: "slideTop", duration: 300 }
-
-    } );
-
-    store.state.here = "Qertas";
-
+    route( "Qertas", { me: num } );
 }
 
 // -- =====================================================================================

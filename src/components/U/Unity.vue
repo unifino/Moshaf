@@ -4,17 +4,19 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=0 col=1 @tap="to_Base_00()">
+    <GridLayout row=0 col=1 rows="*,auto,auto,*" orientation="vertical">
+        <Saheb row=1 source="Q" />
+        <Saheb row=2 source="H" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 col=1 @tap="to_Base_10()">
+    <GridLayout row=1 col=1 >
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=2 col=1 @tap="to_Base_01()">
+    <GridLayout row=2 col=1 >
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -39,20 +41,18 @@ import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import { Hadith }                       from "@/db/H/Al-Hadith"
 import { Najawa }                       from "@/db/N/Al-Najawa"
-
-import Base_00                          from "@/components/00/_00.vue"
-import Base_10                          from "@/components/10/_10.vue"
-import Base_01                          from "@/components/01/_01.vue"
+import Saheb                            from "@/components/U/Saheb.vue"
+import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: {}
+    components: { Saheb }
 } )
 
 // -- =====================================================================================
 
-export default class template extends Vue {
+export default class Unity extends Vue {
 
 // -- =====================================================================================
 
@@ -64,59 +64,6 @@ pageLoaded () {
     store.state.here = "Unity";
 }
 
-// -- =====================================================================================
-
-to_Base_00 ( direction: NS.SwipeDirection|null ): void {
-
-    tools.searchBoxResetter();
-
-    Vue.prototype.$navigateTo( Base_00, {
-
-        frame : '_base_',
-        backstackVisible : true,
-        transition : { name: "flip", duration: 300 } 
-
-    } );
-
-    store.state.search_IN = "Q";
-
-}
-
-// -- =====================================================================================
-
-to_Base_10 (): void {
-
-    tools.searchBoxResetter();
-
-    Vue.prototype.$navigateTo( Base_10, {
-
-        frame : "_base_" ,
-        backstackVisible : true,
-        transition : { name: "flip", duration: 300 } 
-
-    } );
-
-    store.state.search_IN = "H";
-
-}
-
-// -- =====================================================================================
-
-to_Base_01 (): void {
-
-    tools.searchBoxResetter();
-
-    Vue.prototype.$navigateTo( Base_01, {
-
-        frame : "_base_" ,
-        backstackVisible : true,
-        transition : { name: "flip", duration: 300 }
-
-    } );
-
-    store.state.search_IN = "N";
-
-}
 // -- =====================================================================================
 
 destroyed () {
@@ -136,12 +83,16 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
-    /* .CoolGreen .unityBox {
-        background-color: chocolate;
+    .unityBox {
+        padding: 44 0;
+    }
+
+    .CoolGreen .unityBox {
+        background-color: #08332f;
     }
 
     .Smoky .unityBox {
-        background-color: #dad9d9;
-    } */
+        background-color: #e6e6e6;
+    }
 
 </style>

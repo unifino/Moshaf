@@ -43,7 +43,7 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
-import Kalameh                          from "@/components/m/Kalameh.vue"
+import Kalameh                          from "@/components/X/Kalameh.vue"
 
 // -- =====================================================================================
 

@@ -1,10 +1,18 @@
 <template>
-<!---------------------------------------------------------------------------------------->
-
-    <Label ref="meaning" :text="myText" class="meaning" textWrap=true />
+<GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
+
+<!---------------------------------------------------------------------------------------->
+
+
+<!---------------------------------------------------------------------------------------->
+
+
+<!---------------------------------------------------------------------------------------->
+
+</GridLayout>
 </template>
 
 // -- =====================================================================================
@@ -14,37 +22,42 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-
-import Lookup                           from "@/components/xx/Lookup.vue"
+import * as NS                          from "@nativescript/core"
+import * as TS                          from "@/../types/myTypes"
+import * as TM                          from "@/themes/themeManager"
+import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
+import store                            from "@/store/store"
+import { route }                        from '@/mixins/router'
+import { asma, Quran }                  from "@/db/Q/Quran"
+import { Hadith }                       from "@/db/H/Al-Hadith"
+import { Najawa }                       from "@/db/N/Al-Najawa"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Lookup }
+    components: {}
 } )
 
 // -- =====================================================================================
 
-export default class Meaning extends Vue {
+export default class template extends Vue {
 
 // -- =====================================================================================
 
-@Prop() myText: string;
+@Prop() Property = [];
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+
+}
 
 // -- =====================================================================================
 
-init (): void {}
+destroyed () {
 
-// -- =====================================================================================
-
-
-// -- =====================================================================================
-
-destroyed () {}
+}
 
 // -- =====================================================================================
 
@@ -59,24 +72,6 @@ destroyed () {}
 <style scoped>
 
 /* ------------------------------------------- */
-    .meaning {
-        font-family: Homa;
-        width: 88%;
-        padding: 14;
-        margin-bottom: 14; 
-        font-size: 14.4;
-        border-radius: 7;
-        border-width: 1;
-    }
 
-    .CoolGreen .meaning {
-        color: #d3d3d3;
-        border-color: #888675;
-    }
-
-    .Smoky .meaning {
-        color: #696868;
-        border-color: #909192;
-    }
 
 </style>

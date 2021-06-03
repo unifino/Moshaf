@@ -42,16 +42,14 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TM                          from "@/themes/themeManager"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import { route }                        from '@/mixins/router'
 import { Najawa }                       from "@/db/N/Al-Najawa"
-
-import Najwa                            from "@/components/01/Najwa.vue"
-import Kalameh                          from "@/components/m/Kalameh.vue"
-import SearchBox                        from "@/components/m/SearchBox/Search_Panel.vue"
+import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Najwa, SearchBox }
+    components: { SearchBox }
 } )
 
 // -- =====================================================================================
@@ -80,7 +78,6 @@ mounted () {
 // -- =====================================================================================
 
 pageLoaded () {
-    store.state.here='Base_01';
     TM.themePatcher( this );
 }
 
@@ -102,16 +99,7 @@ search ( frase: string ) {
 // -- =====================================================================================
 
 open ( num: number ): void {
-
-    Vue.prototype.$navigateTo( Najwa, {
-
-        frame : "_base_" ,
-        props : { najwaID : num },
-        backstackVisible : true,
-        transition : { name: "slideTop", duration: 300 }
-
-    } );
-
+    route ( "Najwa", { najwaID : num } )
 }
 
 // -- =====================================================================================

@@ -143,3 +143,32 @@ export type CakeBound = {
 }
 
 // -- =====================================================================================
+
+export type Path = { 
+    [ K in here ]?: { 
+        page: any,
+        transition: TransitionNames,
+        duration: number,
+        in?: Source,
+    } 
+}
+
+export type TransitionNames = AndroidTransitionNames;
+// {
+//     ios: AndroidTransitionNames | IOSTransitionNames,
+//     android: AndroidTransitionNames
+// }
+// type IOSTransitionNames = "curlUp" | "curlDown";
+type AndroidTransitionNames = 
+      "explode" 
+    | "fade"
+    | "flipRight"
+    | "flipLeft"
+    | "slideLeft"
+    | "slideRight"
+    | "slideTop"
+    | "slideBottom"
+    ;
+
+
+

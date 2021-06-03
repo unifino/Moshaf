@@ -1,26 +1,10 @@
 <template>
-<Page @navigatedTo="pageLoaded()">
-<GridLayout class="myPage" rows="88,44,*,7">
+<!---------------------------------------------------------------------------------------->
+
+    <Label ref="meaning" :text="myText" class="meaning" textWrap=true />
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day ref="day" row=2 rowSpan=3 />
-
-<!---------------------------------------------------------------------------------------->
-
-    <SearchBox
-        row=1
-        rowSpan=2
-        @orderByParent="open"
-        source="H"
-        :searchLock=!life
-        :randomButton="true"
-    />
-
-<!---------------------------------------------------------------------------------------->
-
-</GridLayout>
-</Page>
 </template>
 
 // -- =====================================================================================
@@ -30,52 +14,37 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as TS                          from "@/../types/myTypes"
-import * as TM                          from "@/themes/themeManager"
-import * as tools                       from "@/mixins/tools"
-import store                            from "@/store/store"
 
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
-import Day                              from "@/components/10/Day.vue"
+import Lookup                           from "@/components/W/Lookup.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox, Day }
+    components: { Lookup }
 } )
 
 // -- =====================================================================================
 
-export default class Base_10 extends Vue {
+export default class Meaning extends Vue {
 
 // -- =====================================================================================
 
-life = true;
+@Prop() myText: string;
 
 // -- =====================================================================================
 
-mounted () {
-    ( this.$refs.day as Day ).init();
-}
+mounted () {}
 
 // -- =====================================================================================
 
-pageLoaded () {
-    TM.themePatcher( this );
-}
+init (): void {}
 
 // -- =====================================================================================
 
-open ( item: TS.FoundContent ) {
-    store.state.activeHadith.push( item.id );
-    tools.searchBoxResetter();
-}
 
 // -- =====================================================================================
 
-destroyed () {
-    this.life = false;
-}
+destroyed () {}
 
 // -- =====================================================================================
 
@@ -90,8 +59,24 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .myPage {
-        width: 300;
+    .meaning {
+        font-family: Homa;
+        width: 88%;
+        padding: 14;
+        margin-bottom: 14; 
+        font-size: 14.4;
+        border-radius: 7;
+        border-width: 1;
+    }
+
+    .CoolGreen .meaning {
+        color: #d3d3d3;
+        border-color: #888675;
+    }
+
+    .Smoky .meaning {
+        color: #696868;
+        border-color: #909192;
     }
 
 </style>

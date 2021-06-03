@@ -67,7 +67,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 
-import Meaning                          from "@/components/xx/Meaning.vue"
+import Meaning                          from "@/components/W/Meaning.vue"
 
 // -- =====================================================================================
 

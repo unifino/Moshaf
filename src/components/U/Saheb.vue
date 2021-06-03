@@ -1,14 +1,10 @@
 <template>
-<GridLayout>
+<GridLayout class="saheb" @tap="tapped">
 
 <!---------------------------------------------------------------------------------------->
 
-
-<!---------------------------------------------------------------------------------------->
-
-
-<!---------------------------------------------------------------------------------------->
-
+    <GridLayout >
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -28,6 +24,7 @@ import * as TM                          from "@/themes/themeManager"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import { route }                        from '@/mixins/router'
 import { asma, Quran }                  from "@/db/Q/Quran"
 import { Hadith }                       from "@/db/H/Al-Hadith"
 import { Najawa }                       from "@/db/N/Al-Najawa"
@@ -40,16 +37,23 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 
 // -- =====================================================================================
 
-export default class template extends Vue {
+export default class Saheb extends Vue {
 
 // -- =====================================================================================
 
-@Prop() Property = [];
+@Prop() source: TS.Source;
 
 // -- =====================================================================================
 
 mounted () {
 
+}
+
+// -- =====================================================================================
+
+tapped () {
+    if ( this.source === "Q" ) route( "Base_00" );
+    if ( this.source === "H" ) route( "Base_10" );
 }
 
 // -- =====================================================================================
@@ -71,6 +75,12 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
-
+    .saheb {
+        width: 200;
+        height: 110;
+        background-color: rgb(10, 49, 75);
+        border-radius: 7;
+        margin: 5;
+    }
 
 </style>

@@ -64,8 +64,8 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
 
-import Kalameh                          from "@/components/m/Kalameh.vue"
-import IntuitivePanel                   from "@/components/m/Intuitive/iPanel.vue"
+import Kalameh                          from "@/components/X/Kalameh.vue"
+import IntuitivePanel                   from "@/components/X/Intuitive/iPanel.vue"
 
 // -- =====================================================================================
 

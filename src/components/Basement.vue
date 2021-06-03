@@ -9,7 +9,7 @@
 
     <Frame class="fx" id="_base_" ref="_base_" >
         <Page>
-            <GridLayout @tap="to_Unity()">
+            <GridLayout @tap="to_Unity(true)">
                 <Image src="res://moshaf" width=165 stretch="aspectFit" />
             </GridLayout>
         </Page>
@@ -32,8 +32,8 @@ import * as TM                          from "@/themes/themeManager"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import { route }                        from '@/mixins/router'
 
-import Unity                            from "@/components/U/Unity.vue"
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
 // * npm i nativescript-exit
@@ -44,7 +44,7 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Unity }
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -127,7 +127,7 @@ setup (): Promise<void> {
         TM.themeApplier( "Smoky", this );
 
         // .. first actual step! bring-up the Unity
-        this.to_Unity();
+        this.to_Unity( true );
 
         // .. basic steps has been resolved!
         rs();
@@ -174,16 +174,8 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
 // -- =====================================================================================
 
-to_Unity ( direct = false ): void {
-
-    Vue.prototype.$navigateTo( Unity, {
-        frame : "_base_" ,
-        backstackVisible : true,
-        transition : { name: direct ? "flipLeft" : "fade", duration: 500 } 
-    } );
-
-    if ( !direct ) store.state.here='Unity';
-
+to_Unity ( init = false ): void {
+    route( "Unity", null, init );
 }
 
 // -- =====================================================================================
@@ -191,8 +183,8 @@ to_Unity ( direct = false ): void {
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
     if ( store.state.here !== "Unity" ) {
-        if ( args.direction === NS.SwipeDirection.down ) this.to_Unity( true );
-        if ( args.direction === NS.SwipeDirection.up   ) this.to_Unity( true );
+        if ( args.direction === NS.SwipeDirection.down ) this.to_Unity();
+        if ( args.direction === NS.SwipeDirection.up   ) this.to_Unity();
     }
 
 }

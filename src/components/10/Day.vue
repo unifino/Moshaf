@@ -62,7 +62,7 @@ import { Hadith }                       from "@/db/H/Al-Hadith"
 import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
-import Kalameh                          from "@/components/m/Kalameh.vue"
+import Kalameh                          from "@/components/X/Kalameh.vue"
 
 // -- =====================================================================================
 
