@@ -194,8 +194,6 @@ to_Unity ( init = false ): void {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    console.log(store.state.here);
-
     if ( store.state.here !== "Unity" ) {
         if ( args.direction === NS.SwipeDirection.down ) this.to_Unity();
         if ( args.direction === NS.SwipeDirection.up   ) this.to_Unity();
