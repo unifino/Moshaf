@@ -27,32 +27,25 @@ let themeValues = function ( color: string ): themeValues{
 
 export function themeApplier ( colorName: TS.ThemeName, that ): void {
 
-    // .. absolute locating
-    that = that.$root.$children[0].$refs;
-
     // .. get values of the Theme and Element(s)
     let palette = themeValues( colorName );
 
+    // .. absolute locating
+    that = that.$root.$children[0].$refs.root.nativeView;
+    // .. apply root ClassName
+    that.className = palette.contrast + ' ' + palette.name;
+    // .. apply root Background value
+    that.backgroundColor = palette.color;
+
     // .. applying barIcon Color
     statusBarIconStyleApplier( palette.statusBarIconsColor );
-
-    // .. this elements need to be cared of
-    let obj = [ "root" ];
-
-    // .. apply root ClassName
-    that[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
- 
-    // .. apply Background values
-    for ( let x of obj ) that[x].nativeView.backgroundColor = palette.color;
+    // .. applying fullScreen Policy
+    fullScreenApplier();
 
     // .. register Theme
     store.state.appConfig.theme = colorName as TS.ThemeName;
-
     // .. register DarkMode
     store.state.appConfig.darkMode = palette.contrast === "dark" ? true : false;
-
-    // .. applying fullScreen Policy
-    fullScreenApplier();
 
 }
 
