@@ -276,6 +276,10 @@ destroyed () {}
         color: #c5c5c5;
     }
 
+    .Smoky .farsi {
+        color: #333333;
+    }
+
     .name, .name_e {
         font-family: Amiri-Regular;
         text-align: center;

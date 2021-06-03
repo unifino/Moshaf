@@ -102,6 +102,10 @@ itemClassToggler ( item: TS.FoundContent ) {
         color: #e0e0e0;
     }
 
+    .Smoky .item {
+        color: #575858;
+    }
+
     .address {
         color: #037269;
         visibility: visible;

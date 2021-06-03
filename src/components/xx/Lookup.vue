@@ -1,6 +1,6 @@
 <template>
 <Page @navigatedTo="$store.state.here='Lookup'">
-<GridLayout rows="88,*,44,*,44">
+<GridLayout rows="88,27*,44,10*,44">
 
 <!---------------------------------------------------------------------------------------->
 

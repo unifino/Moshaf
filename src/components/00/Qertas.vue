@@ -314,6 +314,10 @@ scrollTo ( step: 1|-1 ) {
         color: #e6e6e6;
     }
 
+    .Smoky .quran {
+        color: #696868;
+    }
+
     .CoolGreen .sajdeh {
         color: #2b99e2;
     }
@@ -345,19 +349,34 @@ scrollTo ( step: 1|-1 ) {
         color: #e6e6e6;
     }
 
-    .CoolGreen .fav {
-        background-color: #a31f87;
-    }
-
-    .Smoky .fav {
-        background-color: #a31f87;
-    }
-
     .bounded {
         font-size: 13;
         border-width: 3;
         padding-top: .25;
-        border-color: #dd5c07;
+
+    }
+
+    .CoolGreen .bounded {
+        background-color: #f0b12a;
+        border-color: #e48407;
+        color: #64645b;
+    }
+
+    .Smoky .bounded {
+        background-color: #f0b12a;
+        border-color: #e48407;
+        color: #64645b;
+    }
+
+/* ------------------------------------------- */
+    .CoolGreen .fav {
+        background-color: #da0f74;
+        color: #e6e6e6;
+    }
+
+    .Smoky .fav {
+        background-color: #da0f74;
+        color: #e6e6e6;
     }
 
 </style>

@@ -115,4 +115,12 @@ mounted() {
         margin-left: -5;
     }
 
+    .CoolGreen .button {
+        color: #b3b3b3
+    }
+
+    .Smoky .button {
+        color: #606363
+    }
+
 </style>

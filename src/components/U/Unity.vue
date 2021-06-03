@@ -1,20 +1,20 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout ref="unityBox" rows="*,*,*">
+<GridLayout class="unityBox" ref="unityBox" rows="25*,15*,15*" columns="10*,17*">
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=0 background="darkGray" @tap="to_Base_00()">
+    <GridLayout row=0 col=1 background="darkGray" @tap="to_Base_00()">
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 background="gray" @tap="to_Base_10()">
+    <GridLayout row=1 col=1 background="gray" @tap="to_Base_10()">
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=2 background="darkGray" @tap="to_Base_01()">
+    <GridLayout row=2 col=1 background="darkGray" @tap="to_Base_01()">
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -136,6 +136,8 @@ destroyed () {
 <style scoped>
 
 /* ------------------------------------------- */
-
+    .unityBox {
+        background-color: chocolate;
+    }
 
 </style>

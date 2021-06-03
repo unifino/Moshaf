@@ -74,4 +74,9 @@ destroyed () {}
         border-color: #888675;
     }
 
+    .Smoky .meaning {
+        color: #696868;
+        border-color: #909192;
+    }
+
 </style>
