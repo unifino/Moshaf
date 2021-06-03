@@ -62,12 +62,13 @@ get theType (): string {
         "عليه‌السلام",
         "صلى‌الله‌عليه‌وآله‌وسلم",
         "عليهما‌السلام",
-        "عزوجل",
-        "(",
-        ")"
+        "عزوجل"
     ];
 
+    let alaem = [ "(", ")" ]
+
     for ( const x of salam ) if ( x === this.myText ) theType = "salam";
+    for ( const x of alaem ) if ( x === this.myText ) theType = "alaem";
 
     if ( this.myText === "!BREAKLINE!" ) theType = "BREAKLINE";
     if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";

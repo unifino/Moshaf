@@ -3,7 +3,7 @@ import * as storage                     from "@/mixins/storage"
 import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
 import { Hadith }                       from "@/db/H/Al-Hadith"
-
+import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
 
@@ -408,6 +408,67 @@ export function getTags (): TS.FoundContent[] {
     } );
 
     return found;
+
+}
+
+// -- =====================================================================================
+
+export function saheb ( from: "Q"|"H" ) {
+    let saat = new Date();
+    let rand = saat.getTime() % ( from === "Q" ? Quran.length : Hadith.length );
+    return rand;
+}
+
+// -- =====================================================================================
+
+export function getHadith ( id: number ) {
+
+    let hadith: TS.Hadith = { obj: Hadith[ id ] } as any;
+
+    // .. mini patch
+    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
+
+    // .. assign the from whom
+    hadith.from = c_map[ Hadith[ id ].c ][0];
+    hadith.salam = c_map[ Hadith[ id ].c ][1];
+    // .. assign arabic part
+    hadith.kalamat = [];
+    // .. assign farsi part
+    hadith.farsi = Hadith[ id ].b || "";
+    // .. assign source
+    hadith.source = Hadith[ id ].d.toString() || "";
+
+    let tmpBox = Hadith[ id ].a.replace( / +/g, " " ).trim().split( ' ' );
+    let gFuse = false;
+    for ( let tmp of tmpBox ) {
+        if ( tmp.includes( "<Q>" ) || tmp.includes( "</Q>" ) ) {
+            gFuse = !gFuse;
+            tmp = tmp.replace( "<Q>", "" );
+            tmp = tmp.replace( "</Q>", "" );
+        }
+        if ( tmp ) hadith.kalamat.push( { text: tmp, isGreen: gFuse } );
+    }
+
+    hadith.toShare = getSharedText( hadith )
+
+    return hadith;
+
+}
+
+// -- =====================================================================================
+
+function getSharedText ( hadith: TS.Hadith ) {
+
+    let str: string = "";
+
+    str += hadith.from;
+    str += " (" + hadith.salam + "):\n\n";
+    str += hadith.kalamat.reduce( (f,x) => f + " " + x.text , "" ).trim();
+
+    if ( hadith.farsi ) str += "\n\n" + hadith.farsi;
+    if ( hadith.source ) str += "\n\n" + hadith.source;
+
+    return str;
 
 }
 

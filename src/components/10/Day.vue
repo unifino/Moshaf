@@ -7,7 +7,6 @@
         class="paper"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
-        @swipe="swipePass=true"
     >
 
         <FlexboxLayout 
@@ -16,21 +15,21 @@
             justifyContent="center"
         >
 
-            <Label :text=hadis.c textWrap=true class="name" @tap="copy()" />
-            <Label :text=hadis.e textWrap=true class="name_e" @tap="copy()" />
+            <Label :text=hadith.from textWrap=true class="name" @tap="copy()" />
+            <Label :text=hadith.salam textWrap=true class="name_e" @tap="copy()" />
 
             <Label class="divider" />
 
             <Kalameh 
-                v-for="(kalameh, i) in hadis.a"
+                v-for="(kalameh, i) in hadith.kalamat"
                 :key=i
                 :myText=kalameh.text
-                :myType=kalameh.type
+                :myType="'hadith' + ( kalameh.isGreen ? ' green' : '' )"
             />
 
             <Label class="divider" />
 
-            <Label :text=hadis.b textWrap=true class="farsi" />
+            <Label :text=hadith.farsi textWrap=true class="farsi" />
 
         </FlexboxLayout>
 
@@ -54,12 +53,10 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { Hadith }                       from "@/db/H/Al-Hadith"
-
-import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
 import Kalameh                          from "@/components/X/Kalameh.vue"
@@ -76,16 +73,7 @@ export default class Day extends Vue {
 
 // -- =====================================================================================
 
-hadis: {
-    a: { text: string, type: "hadis"|"hadis green" }[],
-    b: string,
-    c: string,
-    d: string|number,
-    e: string
-} = { 
-    a: null, b: null, c: null, d: null, e: null 
-};
-currentId: number;
+hadith: TS.Hadith = {} as any;
 
 // -- =====================================================================================
 
@@ -102,27 +90,18 @@ mounted () {
 
 init ( id: number = -1 ) {
 
-    this.currentId = id;
-
     if ( ~id ) this.show( id );
 
     else {
-
-        // .. get a random one
-        let saat = new Date();
-        let rand = saat.getTime() % Hadith.length;
-
+        let rand = tools.saheb( "H" );
         // .. it has been read already
-        while ( store.state.memo.H.includes( rand ) ) rand = saat.getTime() % Hadith.length;
-
-        // .. register the ID
-        this.currentId = rand;
-        store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
- 
+        while ( store.state.memo.H.includes( rand ) ) rand = tools.saheb( "H" );
         // .. show it
         this.show( rand );
-
     }
+
+    // .. register the ID
+    store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
 
 }
 
@@ -130,37 +109,7 @@ init ( id: number = -1 ) {
 
 show ( id: number ) {
 
-    // .. mini patch
-    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
-
-    // .. assign the Name
-    this.hadis.c = c_map[ Hadith[ id ].c ][0];
-    this.hadis.e = c_map[ Hadith[ id ].c ][1];
-    // .. assign arabic part
-    this.hadis.a = [];
-    let tmpBox = Hadith[ id ].a.trim().split( ' ' );
-    let green = false;
-    for ( let tmp of tmpBox ) {
-
-        if ( tmp.includes( "<Q>" ) || tmp.includes( "</Q>" ) ) {
-            green = !green;
-            tmp = tmp.replace( "<Q>", "" );
-            tmp = tmp.replace( "</Q>", "" );
-        }
-
-        if ( tmp ) {
-            this.hadis.a.push( 
-                {
-                    text: tmp,
-                    type: green ? "hadis green" : "hadis"
-                }
-            );
-        }
-
-    }
-    // .. assign farsi part
-    this.hadis.b = Hadith[ id ].b || "";
-    this.hadis.d = Hadith[ id ].d || "";
+    this.hadith = tools.getHadith( id );
 
     // .. add new trace
     let old = store.state.memo.H.findIndex( x => x === id );
@@ -174,33 +123,17 @@ show ( id: number ) {
 // -- =====================================================================================
 
 copy () {
-
-    let full = "";
-    full += this.hadis.c;
-    full += " (" + this.hadis.e + "):\n\n";
-    full += this.hadis.a.reduce( (f,x) => f + " " + x.text , "" ).trim();
-
-    if ( this.hadis.b ) {
-        full += "\n\n";
-        full += this.hadis.b;
-    }
-
-    if ( this.hadis.d ) {
-        full += "\n\n";
-        full += this.hadis.d;
-    }
-
-    setText( full );
+    setText( this.hadith.toShare );
     tools.toaster( "حدیث کپی شد.", "short" );
-
 }
 
 // -- =====================================================================================
 
 toggleFavorite () {
-    let trace = store.state.fav.H.indexOf( this.currentId );
+    let currentId = store.state.activeHadith[ store.state.activeHadith.length -1 ];
+    let trace = store.state.fav.H.indexOf( currentId );
     // .. add to Favorite
-    if ( !~trace ) store.state.fav.H.push( this.currentId );
+    if ( !~trace ) store.state.fav.H.push( currentId );
     // .. pop out of Favorite
     else store.state.fav.H.splice( trace, 1 );
     // .. Toast it
@@ -240,7 +173,7 @@ destroyed () {}
         height: 72%;
     }
 
-    .hadis {
+    .hadith {
         font-family: Amiri-Regular;
         text-align: center;
         font-size: 15.5;
@@ -249,11 +182,11 @@ destroyed () {}
         border-radius: 5;
     }
 
-    .CoolGreen .hadis {
+    .CoolGreen .hadith {
         color: #d8d8d8;
     }
 
-    .Smoky .hadis {
+    .Smoky .hadith {
         color: #1e2224;
     }
 
@@ -318,16 +251,22 @@ destroyed () {}
         height: 1;
     }
 
-    .salam {
+    .alaem, .salam {
+        font-size: 20;
         font-family: Alaem;
-        padding-top: 20;
+        padding-top: 15;
+    }
+    .alaem {
+        padding: 15 7 0 7;
     }
 
-    .CoolGreen .salam {
+    .CoolGreen .salam,
+    .CoolGreen .alaem {
         color: #4dbae6;
     }
 
-    .Smoky .salam {
+    .Smoky .salam,
+    .Smoky .alaem {
         color: #1d80a7;
     }
 

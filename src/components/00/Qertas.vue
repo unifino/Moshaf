@@ -108,8 +108,7 @@ pageLoaded () {
 morsal_TO: NodeJS.Timeout | any;
 init ( me?: number ): void {
 
-    let saat = new Date();
-    this.taghdir_aID = !~me ? saat.getTime() % Quran.length : me;
+    this.taghdir_aID = !~me ? tools.saheb( "Q" ) : me;
 
     // .. get the name
     const sura = Quran[ this.taghdir_aID ].sura;

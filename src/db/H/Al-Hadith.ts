@@ -1,23 +1,14 @@
-type db = {
-    a: string,
-    b: string,
-    c: number,
-    d: string|number,
-    n: number,
+import * as TS                          from "@/../types/myTypes"
 
-    aF?: string,    // a in farsiLetters
-    bF?: string,    // b in farsiLetters
-}[];
-
-const k = require( "./الکافی.json" ) as db;
-const q = require( "./غررالحکم.json" ) as db;
-const m = require( "./متفرقه.json" ) as db;
-const n = require( "./نهج‌الفصاحة.json" ) as db;
-const b = require( "./نهج‌البلاغة.json" ) as db;
-const z = require( "./كنز‌العمّال.json" ) as db;
-const h = require( "./بحار‌الأنوار.json" ) as db;
-const t = require( "./تحف‌العقول.json" ) as db;
-const v = require( "./وسائل‌الشيعه.json" ) as db;
+const k = require( "./الکافی.json" ) as TS.HDB;
+const q = require( "./غررالحکم.json" ) as TS.HDB;
+const m = require( "./متفرقه.json" ) as TS.HDB;
+const n = require( "./نهج‌الفصاحة.json" ) as TS.HDB;
+const b = require( "./نهج‌البلاغة.json" ) as TS.HDB;
+const z = require( "./كنز‌العمّال.json" ) as TS.HDB;
+const h = require( "./بحار‌الأنوار.json" ) as TS.HDB;
+const t = require( "./تحف‌العقول.json" ) as TS.HDB;
+const v = require( "./وسائل‌الشيعه.json" ) as TS.HDB;
 
 export const Hadith = [ 
     ...k,...q,...m,...n,...b,...z,...h,...t,...v

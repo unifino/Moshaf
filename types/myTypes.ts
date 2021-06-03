@@ -101,6 +101,7 @@ export type Kalameh =
     | "hadis"
     | "salam"
     | "green"
+    | "alaem"
     | "najwa"
     | "BREAKLINE"
     | "BIG_BREAKLINE"
@@ -169,5 +170,28 @@ type AndroidTransitionNames =
     | "slideBottom"
     ;
 
+// -- =====================================================================================
 
+export type hadithCell = {
+    a: string,
+    b: string,
+    c: number,
+    d: string|number,
+    n: number
 
+    aF?: string,    // a in farsiLetters
+    bF?: string,    // b in farsiLetters
+}
+export type HDB = hadithCell[];
+
+export type Hadith = {
+    from: string,
+    salam: string,
+    kalamat: { text: string, isGreen: boolean }[],
+    farsi: string,
+    source: string,
+    toShare: string,
+    obj: hadithCell,
+};
+
+// -- =====================================================================================
