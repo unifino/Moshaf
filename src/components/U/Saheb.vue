@@ -104,7 +104,7 @@ destroyed () {
 
     .Smoky .saheb {
         background-color: #2a9de0;
-        background-color: #acb3b8;
+        background-color: #dfe2e2;
     }
 
     .text {
