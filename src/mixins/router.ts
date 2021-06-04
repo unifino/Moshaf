@@ -26,6 +26,15 @@ declare module "vue-property-decorator" {
 
 export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
+    // if ( store.state.routeStack.includes( address ) ) {
+    //     store.state.routeStack.pop();
+    //     Vue.prototype.$navigateBack();
+    //     return;
+    // }
+
+    store.state.routeStack.push( address );
+    console.log( store.state.routeStack );
+
     let paths: TS.Path = {
 
         Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },

@@ -36,6 +36,7 @@ export default new Vuex.Store( {
         }                                       ,
                                                  
         cakeBound       : {}                    ,
+        routeStack      : []                    ,
                                                  
     } as state,
 
@@ -68,6 +69,8 @@ interface state {
             H           : number[]              ,
         }                                       ,
         cakeBound       : TS.CakeBound          ,
+                                                 
+        routeStack      : string[]              ,
                                                  
 }
 

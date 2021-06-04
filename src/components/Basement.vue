@@ -159,8 +159,8 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     switch ( store.state.here ) {
 
-        // .. let do NOTHING!
-        case "Basement": e.cancel = true;  break;
+        // // .. let do NOTHING!
+        // case "Basement": e.cancel = true;  break;
 
         // .. exit
         // case "Unity": exit(); break;
@@ -181,6 +181,10 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     tools.searchBoxResetter();
 
+    if ( !e.cancel ) {
+        store.state.routeStack.pop();
+        console.log( store.state.routeStack );
+    }
 
 }
 
