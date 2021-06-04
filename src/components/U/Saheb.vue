@@ -103,7 +103,6 @@ destroyed () {
     }
 
     .Smoky .saheb {
-        background-color: #2a9de0;
         background-color: #dfe2e2;
     }
 
@@ -111,6 +110,13 @@ destroyed () {
         font-family: Amiri-Regular;
         font-size: 14;
         line-height: 14;
+    }
+
+    .CoolGreen .saheb {
+        color: #9bc0c0;
+    }
+
+    .Smoky .saheb {
         color: #243333;
     }
 
