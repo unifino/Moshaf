@@ -11,14 +11,14 @@
             @tap=darkThemeToggler
             margin=5
         />
-        <myButton bClass="button fas" icon="f559" @tap=getNew margin5 />
+        <myButton bClass="button fas" icon="f559" @tap="refresh" margin=5 />
     </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=0 col=1 rows="*,auto,auto,*" orientation="vertical">
-        <Saheb row=1 source="Q" />
-        <Saheb row=2 source="H" />
+        <Saheb ref="Saheb_Q" row=1 source="Q" />
+        <Saheb ref="Saheb_H" row=2 source="H" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -72,6 +72,13 @@ export default class Unity extends Vue {
 
 // -- =====================================================================================
 
+refresh () {
+    ( this.$refs.Saheb_Q as Saheb ).refresh();
+    ( this.$refs.Saheb_H as Saheb ).refresh();
+};
+
+// -- =====================================================================================
+
 mounted () {}
 
 // -- =====================================================================================
@@ -82,7 +89,7 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-async darkThemeToggler () {
+darkThemeToggler () {
     let newThem: TS.ThemeName = store.state.appConfig.darkMode ? "Smoky" : "CoolGreen";
     TM.themeApplier( newThem, this );
 }
