@@ -4,12 +4,15 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <myButton 
-        :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
-        icon="f0eb"
-        @tap=darkThemeToggler
-        marginLeft=20
-    />
+    <StackLayout row=0 col=0 marginLeft=20 verticalAlignment="middle" >
+        <myButton 
+            :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
+            icon="f0eb"
+            @tap=darkThemeToggler
+            margin=5
+        />
+        <myButton bClass="button fas" icon="f559" @tap=getNew margin5 />
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
