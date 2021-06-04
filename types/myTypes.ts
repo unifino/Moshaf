@@ -98,7 +98,7 @@ export type Kalameh =
     | "number"
     | "ESM"
     | "sajdeh"
-    | "hadis"
+    | "hadith"
     | "salam"
     | "green"
     | "alaem"
@@ -176,7 +176,7 @@ export type hadithCell = {
     a: string,
     b: string,
     c: number,
-    d: string|number,
+    d: string,
     n: number
 
     aF?: string,    // a in farsiLetters
@@ -188,6 +188,7 @@ export type Hadith = {
     from: string,
     salam: string,
     kalamat: { text: string, isGreen: boolean }[],
+    arabi: string,
     farsi: string,
     source: string,
     toShare: string,

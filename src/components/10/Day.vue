@@ -79,10 +79,10 @@ hadith: TS.Hadith = {} as any;
 
 mounted () {
 
-    store.watch(
-        state => store.state.activeHadith.length, 
-        length => this.init( store.state.activeHadith[ length-1 ] )
-    );
+    // store.watch(
+    //     state => store.state.activeHadith.length, 
+    //     length => this.init( store.state.activeHadith[ length-1 ] )
+    // );
 
 }
 

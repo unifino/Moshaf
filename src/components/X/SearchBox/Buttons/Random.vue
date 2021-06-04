@@ -50,8 +50,9 @@ mounted () {
 
 // -- =====================================================================================
 
+// ! totally deactivated!
 activeClass () {
-    this.myClass = this.randomButton ? 'activate' : 'deactivate';
+    this.myClass = this.randomButton ? 'deactivate' : 'deactivate';
 }
 
 // -- =====================================================================================

@@ -434,23 +434,24 @@ export function getHadith ( id: number ) {
     hadith.salam = c_map[ Hadith[ id ].c ][1];
     // .. assign arabic part
     hadith.kalamat = [];
+    // .. assign arabi part
+    hadith.arabi = simpleText( Hadith[ id ].a );
     // .. assign farsi part
     hadith.farsi = Hadith[ id ].b || "";
     // .. assign source
-    hadith.source = Hadith[ id ].d.toString() || "";
+    hadith.source = Hadith[ id ].d || "";
 
     let tmpBox = Hadith[ id ].a.replace( / +/g, " " ).trim().split( ' ' );
     let gFuse = false;
     for ( let tmp of tmpBox ) {
-        if ( tmp.includes( "<Q>" ) || tmp.includes( "</Q>" ) ) {
+        if ( ( tmp.match( /<.?Q>/ ) || [] ).length ) {
             gFuse = !gFuse;
-            tmp = tmp.replace( "<Q>", "" );
-            tmp = tmp.replace( "</Q>", "" );
+            tmp = tmp.replace( /<.?Q>/g, '' );
         }
         if ( tmp ) hadith.kalamat.push( { text: tmp, isGreen: gFuse } );
     }
 
-    hadith.toShare = getSharedText( hadith )
+    hadith.toShare = getSharedText( hadith );
 
     return hadith;
 
@@ -463,14 +464,27 @@ function getSharedText ( hadith: TS.Hadith ) {
     let str: string = "";
 
     str += hadith.from;
-    str += " (" + hadith.salam + "):\n\n";
+    str += " )" + hadith.salam + "(:\n\n";
     str += hadith.kalamat.reduce( (f,x) => f + " " + x.text , "" ).trim();
 
     if ( hadith.farsi ) str += "\n\n" + hadith.farsi;
     if ( hadith.source ) str += "\n\n" + hadith.source;
 
+    str = simpleText( str );
+
     return str;
 
+}
+
+// -- =====================================================================================
+
+function simpleText ( str ) {
+    str = str.replace( /<.?Q>/g, ' ' );
+    str = str.replace( /\(/g, 'HBT_v1' );
+    str = str.replace( /\)/g, '(' );
+    str = str.replace( /HBT_v1/g, ')' );
+    str = str.replace( / +/g, ' ' );
+    return str;
 }
 
 // -- =====================================================================================

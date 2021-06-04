@@ -80,7 +80,7 @@ export default class Qertas extends Vue {
 
 // -- =====================================================================================
 
-@Prop() me: number;
+@Prop() id: number;
 
 // -- =====================================================================================
 
@@ -92,7 +92,7 @@ taghdir_aID: number;
 
 mounted () {
     tools.searchBoxResetter();
-    this.init( this.me );
+    this.init( this.id );
 }
 
 
@@ -106,9 +106,9 @@ pageLoaded () {
 // -- =====================================================================================
 
 morsal_TO: NodeJS.Timeout | any;
-init ( me?: number ): void {
+init ( id?: number ): void {
 
-    this.taghdir_aID = !~me ? tools.saheb( "Q" ) : me;
+    this.taghdir_aID = !~id ? tools.saheb( "Q" ) : id;
 
     // .. get the name
     const sura = Quran[ this.taghdir_aID ].sura;

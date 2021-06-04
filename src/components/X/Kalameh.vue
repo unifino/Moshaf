@@ -114,7 +114,7 @@ autoTranslate () {
     if
     (
         this.myType === "quran" ||
-        this.myType === "hadis" ||
+        this.myType === "hadith" ||
         this.myType === "najwa"
     )
         this.lookup( this.myText );

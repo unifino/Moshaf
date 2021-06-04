@@ -55,7 +55,7 @@ mounted () {
 
     this.id = tools.saheb( this.source as "Q"|"H" );
 
-    if ( this.source === "H" ) this.str = tools.getHadith( this.id ).obj.a;
+    if ( this.source === "H" ) this.str = tools.getHadith( this.id ).arabi;
     if ( this.source === "Q" ) this.str = Quran[ this.id ].text;
 
 }
@@ -64,7 +64,7 @@ mounted () {
 
 tapped () {
     let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
-    route( address, { me: this.id } )
+    route( address, { id: this.id } );
 }
 
 // -- =====================================================================================
@@ -87,7 +87,7 @@ destroyed () {
 
 /* ------------------------------------------- */
     .saheb {
-        padding: 10 14;
+        padding: 10 17;
         width: 240;
         height: 140;
         border-radius: 7;
@@ -103,9 +103,10 @@ destroyed () {
     }
 
     .text {
-        font-family: Amiri-regular;
-        font-size: 13;
-        color: white;
+        font-family: Amiri-Regular;
+        font-size: 14;
+        line-height: 14;
+        color: #f2fdfd;
     }
 
 </style>
