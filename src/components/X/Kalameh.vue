@@ -74,6 +74,7 @@ get theType (): string {
     for ( const x of salam ) if ( x === this.myText ) theType = "salam";
     for ( const x of alaem ) if ( x === this.myText ) theType = "alaem";
 
+    if ( this.myText === "؛" ) theType = "BREAKLINE";
     if ( this.myText === "!BREAKLINE!" ) theType = "BREAKLINE";
     if ( this.myText === "!BIG_BREAKLINE!" ) theType = "BIG_BREAKLINE";
 
