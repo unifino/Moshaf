@@ -104,13 +104,14 @@ destroyed () {
 
     .Smoky .saheb {
         background-color: #2a9de0;
+        background-color: #acb3b8;
     }
 
     .text {
         font-family: Amiri-Regular;
         font-size: 14;
         line-height: 14;
-        color: #f2fdfd;
+        color: #243333;
     }
 
 </style>
