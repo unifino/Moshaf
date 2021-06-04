@@ -26,14 +26,10 @@ declare module "vue-property-decorator" {
 
 export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
-    // if ( store.state.routeStack.includes( address ) ) {
-    //     store.state.routeStack.pop();
-    //     Vue.prototype.$navigateBack();
-    //     return;
-    // }
-
-    store.state.routeStack.push( address );
-    console.log( store.state.routeStack );
+    // .. register pageStack
+    let stack = store.state.routeStack;
+    stack.push( address );
+    if ( stack.length > 5 ) stack.shift();
 
     let paths: TS.Path = {
 

@@ -159,11 +159,8 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     switch ( store.state.here ) {
 
-        // // .. let do NOTHING!
-        // case "Basement": e.cancel = true;  break;
-
-        // .. exit
-        // case "Unity": exit(); break;
+        // .. prevent exit
+        case "Unity": if ( store.state.routeStack.length>1 ) e.cancel = false; break;
 
         case "Base_00": if ( !store.state.foundData.length ) e.cancel = false; break;
         case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;
@@ -181,10 +178,10 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     tools.searchBoxResetter();
 
-    if ( !e.cancel ) {
-        store.state.routeStack.pop();
-        console.log( store.state.routeStack );
-    }
+    // .. reduce pageStack
+    if ( !e.cancel )
+        if ( store.state.routeStack.length > 1 ) 
+            store.state.routeStack.pop();
 
 }
 
