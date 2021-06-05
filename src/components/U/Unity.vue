@@ -30,7 +30,12 @@
 
     <StackLayout row=2 colSpan=2 orientation="horizontal" horizontalAlignment="center" >
         <myButton bClass="button big fas" icon="f5bb" @tap='route( "Base_10" )' />
-        <myButton bClass="button big fas" icon="f02d" @tap='route( "Base_00" )' />
+        <myButton 
+            bClass="button big fas"
+            icon="f02d"
+            @tap='route( "Base_00" )'
+            @longPress="saheb()"
+        />
         <myButton bClass="button big fas" icon="f67f" @tap='route( "Base_01" )' />
     </StackLayout>
 
@@ -59,6 +64,7 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 import Saheb                            from "@/components/U/Saheb.vue"
 import DarkTheme                        from "@/components/U/DarkTheme.vue"
 import myButton                         from "@/components/X/myButton.vue"
+import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
@@ -92,6 +98,13 @@ pageLoaded () {
 darkThemeToggler () {
     let newThem: TS.ThemeName = store.state.appConfig.darkMode ? "Smoky" : "CoolGreen";
     TM.themeApplier( newThem, this );
+}
+
+// -- =====================================================================================
+
+saheb () {
+    tools.toaster( "اللَّـهُمَّ صَلِّ عَلَى مُحَمَّد وآلِ مُحَمَّد", "long" );
+    route( "Qertas", { id: tools.saheb( "Q" ) } );
 }
 
 // -- =====================================================================================

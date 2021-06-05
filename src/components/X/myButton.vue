@@ -2,6 +2,7 @@
 <GridLayout
     :class="bClass"
     @tap="$emit( 'tap' )"
+    @longPress="$emit( 'longPress' )"
     @touch="buttonTouched"
     ref="button"
 >
