@@ -19,7 +19,8 @@
                 :key="i"
                 :bClass="'button fas ' + button.class"
                 :icon="button.icon"
-                @tap=button.fnc
+                @tap="button.fnc(false)"
+                @longPress="button.fnc(true)"
             />
 
         </StackLayout>
@@ -86,6 +87,7 @@ buttons = [
     { icon: 'f004', class: 'fav'  , fnc: () => this.toggleFavorite()    } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
     { icon: 'f292', class: 'tag'  , fnc: () => this.TagModeToggler()    } ,
+    { icon: 'f1e0', class: 'share', fnc: r  => this.share(r)            } ,
     { icon: 'f2f5', class: 'exit' , fnc: () => this.exitPanel()         } ,
 ]
 life = true;
@@ -242,6 +244,30 @@ copy () {
     // .. exit
     store.state.activeAyah = -1;
 
+}
+
+// -- =====================================================================================
+
+share ( opt: boolean ) {
+
+    let shareString = "";
+    for ( let x of store.state.foundData ) {
+        if ( shareString.length ) {
+            shareString += "\n\n ";
+            for ( let i=0; i<(opt?19:23); i++ ) shareString += "﹋";
+            shareString += "\n";
+        }
+        if ( x.source === "Q" ) {
+            shareString += tools.quranTextPreviewer( x.id );
+            shareString += "\n\n";
+            shareString += tools.quranAddress( x.id );
+        }
+        if ( x.source === "H" )
+            shareString += tools.getSharedText_H( tools.getHadith( x.id ) );
+    }
+    setText( shareString );
+    let msg = "Generated! Optimized for " + ( opt ? "TELEGRAM": "WhatsApp" );
+    tools.toaster( msg, "short" );
 }
 
 // -- =====================================================================================

@@ -110,18 +110,6 @@ export function hadithTextPreviewer ( id: number ) {
 
 }
 
-export function hadithAddress ( id: number ) {
-
-    const i = Hadith[ id ];
-    if ( typeof i.d === "number" ) {
-        const bookName = "الکافی";
-        const hadithNumber = arabicDigits( i.d +"" );
-        return ( bookName + " | " + hadithNumber );
-    }
-    else return null;
-
-}
-
 // -- =====================================================================================
 
 export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
@@ -147,7 +135,7 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
     }
     if ( source === "H" ) {
         content.text = hadithTextPreviewer( id );
-        content.flags.address = hadithAddress( id );
+        content.flags.address = Hadith[ id ].d || "";
 
     }
 
@@ -202,7 +190,7 @@ export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundConte
         }
         if ( source === "H" ) {
             found.text = hadithTextPreviewer(id);
-            found.flags.address = hadithAddress(id);
+            found.flags.address = Hadith[ id ].d || "";
         }
 
     }
@@ -470,7 +458,7 @@ export function getHadith ( id: number ) {
         if ( tmp ) hadith.kalamat.push( { text: tmp, isGreen: gFuse } );
     }
 
-    hadith.toShare = getSharedText( hadith );
+    hadith.toShare = getSharedText_H( hadith );
 
     return hadith;
 
@@ -478,7 +466,7 @@ export function getHadith ( id: number ) {
 
 // -- =====================================================================================
 
-function getSharedText ( hadith: TS.Hadith ) {
+export function getSharedText_H ( hadith: TS.Hadith ) {
 
     let str: string = "";
 
