@@ -64,7 +64,11 @@ mounted () {
 
 refresh () {
     this.id = tools.saheb( this.source as "Q"|"H" );
-    if ( this.source === "H" ) this.str = tools.getHadith( this.id ).arabi;
+    if ( this.source === "H" ) {
+        this.str = tools.getHadith( this.id ).arabi;
+        let hadith = tools.getHadith( this.id );
+        this.adr = hadith.from + " " + hadith.salam ;
+    }
     if ( this.source === "Q" ) {
         this.str = Quran[ this.id ].text;
         this.adr = tools.quranAddress( this.id );
@@ -92,7 +96,7 @@ tapped () {
 
 /* ------------------------------------------- */
     .saheb {
-        padding: 10 17 5 17;
+        padding: 7 17 5 17;
         width: 240;
         height: 144;
         border-radius: 7;
@@ -125,7 +129,7 @@ tapped () {
         font-family: Amiri-Regular;
         font-size: 7;
         color: #585858;
-        padding: -5 3 0 0;
+        padding: -2 3 0 0;
     }
 
 </style>
