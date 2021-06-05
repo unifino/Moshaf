@@ -80,6 +80,8 @@ getFavorite () {
     store.state.foundData = tools.getFavorite();
     store.state.foundDataSlot = "M1";
 
+    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+
 }
 
 // -- =====================================================================================

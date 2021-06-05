@@ -104,6 +104,8 @@ getSearchResult ( force?: boolean ) {
 
     if ( store.state.search_IN === "N" ) this.search_N();
 
+    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+
 }
 
 // -- =====================================================================================

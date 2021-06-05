@@ -217,11 +217,30 @@ export function getHistory (): TS.FoundContent[] {
 
     let found: TS.FoundContent[] = [];
 
-    for ( const m of store.state.memo[ store.state.search_IN ] ) 
-        found.unshift( contentPreviewer( store.state.search_IN, m ) );
+    if ( store.state.search_IN === "Q" )
+        for ( const m of store.state.memo[ "Q" ] )
+            if ( m !== store.state.activeAyah )
+                found.unshift( contentPreviewer( "Q", m ) );
+
+
+    if ( store.state.search_IN === "H" )
+        for ( const m of store.state.memo[ "Q" ] )
+            found.unshift( contentPreviewer( "H", m ) );
 
     return found;
 
+}
+
+// -- =====================================================================================
+
+export function setHistory ( source: TS.Source, id: number ) {
+    // .. add trace ( unique! )
+    let old = store.state.memo[ source ].findIndex( x => x === id );
+    if ( ~old ) store.state.memo[ source ].splice( old, 1 );
+    store.state.memo[ source ].push( id );
+    // .. hard registration
+    let traceName = 'trace_' + source.toLowerCase();
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ], 44 );
 }
 
 // -- =====================================================================================

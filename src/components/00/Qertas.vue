@@ -27,6 +27,7 @@
                 :myText=kalameh.text
                 :myType=kalameh.type
                 @tap=kalamehTapped
+                @longPress=kalamehLongPressed
             />
             <Label
                 v-for="i in [1,2,3,4,5,6,7]"
@@ -113,12 +114,7 @@ init ( id?: number ): void {
     // .. get the name
     const sura = Quran[ this.taghdir_aID ].sura;
 
-    // .. add trace ( unique! )
-    let old = store.state.memo.Q.findIndex( x => x === this.taghdir_aID );
-    if ( ~old ) store.state.memo.Q.splice( old, 1 );
-    store.state.memo.Q.push( this.taghdir_aID );
-    // .. hard registration
-    storage.saveDB( storage.trace_q_File, store.state.memo.Q, 44 );
+    tools.setHistory( "Q", this.taghdir_aID );
     // .. title of sura
     this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 
@@ -201,9 +197,19 @@ async morsal ( message: TS.vahy ) {
 kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 
     if ( type === "number" ) {
-        // .. implanting ...
         store.state.activeAyah = aID;
         store.state.foundData = tools.bounder_Q();
+    }
+
+}
+
+// -- =====================================================================================
+
+kalamehLongPressed ( text: string, type: TS.Kalameh, aID: number ) {
+
+    if ( type === "number" ) {
+        tools.setHistory( "Q", aID );
+        tools.toaster( "Added to Clipboard: History" )
     }
 
 }

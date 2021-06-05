@@ -6,6 +6,7 @@
         :text="myText"
         :class="'kalameh ' + theType"
         @tap="autoTranslate();$emit( 'tap', myText, myType, aID );"
+        @longPress="autoTranslate();$emit( 'longPress', myText, myType, aID );"
         @touch=touched
     />
 

@@ -183,8 +183,6 @@ toggleFavorite () {
     if ( !~trace ) store.state.fav.Q.push( aID );
     // .. pop out of Favorite
     else store.state.fav.Q.splice( trace, 1 );
-    // .. Toast it
-    tools.toaster( !~trace ? "💚" : "💔" );
     // .. hard registration
     storage.saveDB( storage.fav_q_File, store.state.fav.Q );
     // .. toggle style
