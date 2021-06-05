@@ -1,6 +1,6 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="unityBox" ref="unityBox" rows="6*,4*,100" columns="110,*">
+<GridLayout class="unityBox" ref="unityBox" rows="6*,4*,100" columns="7*,23*">
 
 <!---------------------------------------------------------------------------------------->
 

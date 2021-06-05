@@ -68,7 +68,7 @@ export enum contentColorType {
 
 export type here =
 
-      'Basement'
+      'Welcome'
     | 'Unity'
 
     | 'Base_00'

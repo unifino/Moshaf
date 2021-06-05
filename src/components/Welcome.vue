@@ -1,19 +1,12 @@
 <template>
-<GridLayout class="saheb" rows="*,auto">
+<Page @navigatedTo="pageLoaded()">
 
 <!---------------------------------------------------------------------------------------->
-
-    <ScrollView row=0 @tap="tapped">
-        <StackLayout horizontalAlignment="center" verticalAlignment="center">
-            <Label :text="str" textWrap="true" class="text" />
-        </StackLayout>
-    </ScrollView>
-
-    <Label row=1 :text=adr class="address" />
-
+    <GridLayout @tap="route( 'Unity', null, false );">
+        <Image src="res://moshaf" width=165 stretch="aspectFit" />
+    </GridLayout>
 <!---------------------------------------------------------------------------------------->
-
-</GridLayout>
+</Page>
 </template>
 
 // -- =====================================================================================
@@ -42,44 +35,18 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 
 // -- =====================================================================================
 
-export default class Saheb extends Vue {
-
-// -- =====================================================================================
-
-str: string = "";
-adr: string = "";
-id: number = -1;
-
-// -- =====================================================================================
-
-@Prop() source: TS.Source;
+export default class Welcome extends Vue {
 
 // -- =====================================================================================
 
 mounted () {
-    this.refresh();
+
 }
 
 // -- =====================================================================================
 
-refresh () {
-    this.id = tools.saheb( this.source as "Q"|"H" );
-    if ( this.source === "H" ) {
-        this.str = tools.getHadith( this.id ).arabi;
-        let hadith = tools.getHadith( this.id );
-        this.adr = hadith.from + " " + hadith.salam ;
-    }
-    if ( this.source === "Q" ) {
-        this.str = Quran[ this.id ].text;
-        this.adr = tools.quranAddress( this.id );
-    }
-}
-
-// -- =====================================================================================
-
-tapped () {
-    let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
-    route( address, { id: this.id } );
+pageLoaded () {
+    store.state.here = "Welcome";
 }
 
 // -- =====================================================================================
@@ -95,41 +62,6 @@ tapped () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .saheb {
-        padding: 7 17 5 17;
-        width: 240;
-        height: 144;
-        border-radius: 7;
-        margin: 5;
-    }
 
-    .CoolGreen .saheb {
-        background-color: #1a1d1d;
-    }
-
-    .Smoky .saheb {
-        background-color: #dfe2e2;
-    }
-
-    .text {
-        font-family: Amiri-Regular;
-        font-size: 14;
-        line-height: 14;
-    }
-
-    .CoolGreen .saheb {
-        color: #9bc0c0;
-    }
-
-    .Smoky .saheb {
-        color: #243333;
-    }
-
-    .address {
-        font-family: Amiri-Regular;
-        font-size: 7;
-        color: #585858;
-        padding: -2 3 -1 0;
-    }
 
 </style>

@@ -1,22 +1,12 @@
 <template>
-<AbsoluteLayout
-    class="fx"
-    ref="root"
-    @swipe="swipeControl"
->
-
+<AbsoluteLayout class="fx" ref="root" @swipe="swipeControl">
 <!---------------------------------------------------------------------------------------->
 
     <Frame class="fx" id="_base_" ref="_base_" >
-        <Page>
-            <GridLayout @tap="to_Unity(true)">
-                <Image src="res://moshaf" width=165 stretch="aspectFit" />
-            </GridLayout>
-        </Page>
+        <Welcome />
     </Frame>
 
 <!---------------------------------------------------------------------------------------->
-
 </AbsoluteLayout>
 </template>
 
@@ -33,6 +23,7 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { route }                        from '@/mixins/router'
+import Welcome                          from "@/components/Welcome.vue"
 
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
@@ -44,7 +35,7 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 // -- =====================================================================================
 
 @Component ( {
-    components: {}
+    components: { Welcome }
 } )
 
 // -- =====================================================================================
@@ -87,10 +78,7 @@ mounted () {
     //     state => state.here, 
     //     (newVal, oldVal) => 
     //         console.log( "\tFrom:\t" +oldVal +"     \tTo:\t" +newVal +"     \t" ) 
-    // );
-
-    // .. initial Here Statement
-    store.state.here = "Basement";
+    // )
 
 }
 
@@ -159,8 +147,12 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     switch ( store.state.here ) {
 
-        // .. prevent exit
-        case "Unity": if ( store.state.routeStack.length>1 ) e.cancel = false; break;
+        case "Welcome": exit(); break;
+
+        case "Unity": 
+            if ( store.state.routeStack.length>1 ) e.cancel = false; 
+            else route( "Welcome" );
+            break;
 
         case "Base_00": if ( !store.state.foundData.length ) e.cancel = false; break;
         case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;

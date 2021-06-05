@@ -6,6 +6,7 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
+import Welcome                          from "@/components/Welcome.vue"
 import Base_00                          from "@/components/00/_00.vue"
 import Base_10                          from "@/components/10/_10.vue"
 import Base_01                          from "@/components/01/_01.vue"
@@ -33,6 +34,7 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
     let paths: TS.Path = {
 
+        Welcome: { page: Welcome, duration: 300, transition: "flipLeft",    },
         Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },
         Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    },
         Base_10: { page: Base_10, duration: 300, transition: "flipLeft",    },
@@ -50,7 +52,7 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
     let myPath = paths[ address ];
 
-    tools.clearSearchBox();
+    // tools.clearSearchBox();
 
     Vue.prototype.$navigateTo( myPath.page, {
 

@@ -134,8 +134,12 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
         content.flags.address = quranAddress( id );
     }
     if ( source === "H" ) {
-        content.text = hadithTextPreviewer( id );
-        content.flags.address = Hadith[ id ].d || "";
+        // ! bad Patch
+        if ( !Hadith[ id ] ) id = Hadith.findIndex( x => x.n === id );
+        if ( ~id ) {
+            content.text = hadithTextPreviewer( id );
+            content.flags.address = Hadith[ id ].d || "";
+        }
 
     }
 
