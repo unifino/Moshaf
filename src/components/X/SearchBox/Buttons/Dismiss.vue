@@ -74,9 +74,9 @@ async dismiss () {
     if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
     if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
     // .. regular actions
-    tools.searchBoxResetter( true );
+    tools.clearSearchBox( true );
     await new Promise( _ => setTimeout( _, 10 ) );
-    tools.searchBoxResetter( false );
+    tools.clearSearchBox( false );
 }
 
 // -- =====================================================================================

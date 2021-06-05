@@ -60,13 +60,13 @@ listRetriever () {
     // .. re-tap situation
     if ( store.state.foundData.length ) {
         if ( store.state.foundDataSlot === "M2" ) {
-            tools.searchBoxResetter();
+            tools.clearSearchBox();
             return;
         }
     }
 
     // .. preparing
-    tools.searchBoxResetter();
+    tools.clearSearchBox();
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 

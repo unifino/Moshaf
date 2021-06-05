@@ -101,7 +101,7 @@ exchange ( rev: boolean ) {
         //     store.state.foundData = tools.getTags();
         // break;
 
-        case "N": tools.searchBoxResetter(); break;
+        case "N": tools.clearSearchBox(); break;
 
     }
 

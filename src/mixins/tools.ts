@@ -172,7 +172,7 @@ export function scapeCheck ( mode: TS.search_By ) {
 
 // -- =====================================================================================
 
-export function searchBoxResetter ( limited=false ) {
+export function clearSearchBox ( limited=false ) {
     store.state.searched_By = null;
     store.state.foundData = [];
     store.state.foundDataSlot = null;

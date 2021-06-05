@@ -74,7 +74,7 @@ getHistory () {
 
     // .. re-tap situation
     if ( tools.scapeCheck( "history" ) ) return;
-    tools.searchBoxResetter();
+    tools.clearSearchBox();
 
     // .. register action
     store.state.searched_By = "history";

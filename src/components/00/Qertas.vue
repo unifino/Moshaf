@@ -92,7 +92,7 @@ taghdir_aID: number;
 // -- =====================================================================================
 
 mounted () {
-    tools.searchBoxResetter();
+    tools.clearSearchBox();
     this.init( this.id );
 }
 

@@ -73,7 +73,7 @@ pageLoaded () {
 
 open ( item: TS.FoundContent ) {
     ( this.$refs.day as Day ).init( item.id );
-    tools.searchBoxResetter();
+    tools.clearSearchBox();
 }
 
 // -- =====================================================================================

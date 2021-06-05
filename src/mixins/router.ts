@@ -50,7 +50,7 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
     let myPath = paths[ address ];
 
-    tools.searchBoxResetter();
+    tools.clearSearchBox();
 
     Vue.prototype.$navigateTo( myPath.page, {
 

@@ -94,7 +94,7 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( store.state.search_IN !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
-        else tools.searchBoxResetter();
+        else tools.clearSearchBox();
     }
 
     // .. Just in Tag-Section
