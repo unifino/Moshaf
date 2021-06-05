@@ -1,13 +1,15 @@
 <template>
-<GridLayout class="saheb" >
+<GridLayout class="saheb" rows="*,auto">
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView @tap="tapped">
+    <ScrollView row=0 @tap="tapped">
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
             <Label :text="str" textWrap="true" class="text" />
         </StackLayout>
     </ScrollView>
+
+    <Label row=1 :text=adr class="address" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -45,6 +47,7 @@ export default class Saheb extends Vue {
 // -- =====================================================================================
 
 str: string = "";
+adr: string = "";
 id: number = -1;
 
 // -- =====================================================================================
@@ -56,30 +59,23 @@ id: number = -1;
 mounted () {
     this.refresh();
 }
-s
+
 // -- =====================================================================================
 
 refresh () {
     this.id = tools.saheb( this.source as "Q"|"H" );
     if ( this.source === "H" ) this.str = tools.getHadith( this.id ).arabi;
-    if ( this.source === "Q" ) this.str = Quran[ this.id ].text;
+    if ( this.source === "Q" ) {
+        this.str = Quran[ this.id ].text;
+        this.adr = tools.quranAddress( this.id );
+    }
 }
-
 
 // -- =====================================================================================
 
-tapped ( args: NS.EventData ) {
-    // (<any>args.object).isPassThroughParentEnabled = false;
-    console.log("Touch on " + args.object);
-
+tapped () {
     let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
     route( address, { id: this.id } );
-}
-
-// -- =====================================================================================
-
-destroyed () {
-
 }
 
 // -- =====================================================================================
@@ -96,9 +92,9 @@ destroyed () {
 
 /* ------------------------------------------- */
     .saheb {
-        padding: 10 17;
+        padding: 10 17 5 17;
         width: 240;
-        height: 140;
+        height: 144;
         border-radius: 7;
         margin: 5;
     }
@@ -123,6 +119,13 @@ destroyed () {
 
     .Smoky .saheb {
         color: #243333;
+    }
+
+    .address {
+        font-family: Amiri-Regular;
+        font-size: 7;
+        color: #585858;
+        padding: -5 3 0 0;
     }
 
 </style>
