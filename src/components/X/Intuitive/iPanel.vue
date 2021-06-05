@@ -34,6 +34,7 @@
             ref='search_Q'
             :exchangeButton="true"
             @orderByParent="bind"
+            @orderByParent_2="shiftTo"
             :vividBG=true
             source="Q"
             :searchLock=!life
@@ -66,6 +67,7 @@ import myButton                         from "@/components/X/myButton.vue"
 import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
 import Output_M4                        from "@/components/X/SearchBox/Outputs/M4.vue"
+import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
@@ -120,11 +122,9 @@ async exitPanel () {
     if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
     if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
     // .. regular actions
-    store.state.foundData = [];
-    store.state.foundDataSlot = null;
-    store.state.searched_By = null;
+    tools.searchBoxResetter( true );
     await new Promise( _ => setTimeout( _, 10 ) );
-    store.state.fraseInSearch = null;
+    tools.searchBoxResetter( false );
 }
 
 // -- =====================================================================================
@@ -204,6 +204,28 @@ bind ( item: TS.FoundContent ) {
 
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.rawBound );
+
+}
+
+
+// -- =====================================================================================
+
+shiftTo ( item: TS.FoundContent ) {
+
+    if ( item.flags.isHeader ) return;
+
+    if ( item.source === "Q" ) {
+        store.state.activeAyah = item.id;
+        store.state.foundData = tools.bounder_Q();
+    }
+
+    if ( item.source === "H" ) {
+        // .. patch M4|M3 intuitive
+        store.state.activeAyah = -1;
+        // .. regular actions
+        tools.searchBoxResetter( true );
+        route( "Base_10", { id: item.id } )
+    }
 
 }
 

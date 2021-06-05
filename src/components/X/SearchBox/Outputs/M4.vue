@@ -12,6 +12,7 @@
                 :key="i"
                 rows="*,auto" 
                 @tap="$emit( 'interact', item );itemClassToggler(item);"
+                @longPress="$emit( 'interact_2', item )"
                 :class="itemClasser(item)"
             >
 
@@ -172,7 +173,7 @@ itemClassToggler ( item: TS.FoundContent ) {
 /* ------------------------------------------- */
     .transparent {
         background-color: transparent;
-        padding: 20 24;
+        padding: 17 5 17 20;
     }
     .hidden {
         visibility: collapse;

@@ -28,7 +28,11 @@
     <Output_M1 row=1 @interact="e => $emit('orderByParent', e)" />
     <Output_M2 row=1 />
     <Output_M3 row=1 />
-    <Output_M4 row=1 @interact="e => $emit('orderByParent', e)" :vividBG=vividBG />
+    <Output_M4 row=1 
+        @interact="e => $emit('orderByParent', e)" 
+        @interact_2="e => $emit('orderByParent_2', e)"
+        :vividBG=vividBG 
+    />
 
 <!---------------------------------------------------------------------------------------->
 

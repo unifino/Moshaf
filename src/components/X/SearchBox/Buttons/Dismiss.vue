@@ -20,6 +20,7 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
+import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
@@ -73,11 +74,9 @@ async dismiss () {
     if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
     if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
     // .. regular actions
-    store.state.foundData = [];
-    store.state.foundDataSlot = null;
-    store.state.searched_By = null;
+    tools.searchBoxResetter( true );
     await new Promise( _ => setTimeout( _, 10 ) );
-    store.state.fraseInSearch = null;
+    tools.searchBoxResetter( false );
 }
 
 // -- =====================================================================================
