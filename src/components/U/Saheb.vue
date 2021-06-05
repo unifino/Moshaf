@@ -1,11 +1,13 @@
 <template>
-<GridLayout class="saheb" @tap="tapped">
+<GridLayout class="saheb" >
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout>
-        <Label :text="str" textWrap="true" class="text" />
-    </GridLayout>
+    <ScrollView @tap="tapped">
+        <StackLayout horizontalAlignment="center" verticalAlignment="center">
+            <Label :text="str" textWrap="true" class="text" />
+        </StackLayout>
+    </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -54,7 +56,7 @@ id: number = -1;
 mounted () {
     this.refresh();
 }
-
+s
 // -- =====================================================================================
 
 refresh () {
@@ -66,7 +68,10 @@ refresh () {
 
 // -- =====================================================================================
 
-tapped () {
+tapped ( args: NS.EventData ) {
+    // (<any>args.object).isPassThroughParentEnabled = false;
+    console.log("Touch on " + args.object);
+
     let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
     route( address, { id: this.id } );
 }
