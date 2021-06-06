@@ -134,13 +134,10 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundConte
         content.flags.address = quranAddress( id );
     }
     if ( source === "H" ) {
-        // ! bad Patch
-        if ( !Hadith[ id ] ) id = Hadith.findIndex( x => x.n === id );
         if ( ~id ) {
             content.text = hadithTextPreviewer( id );
             content.flags.address = Hadith[ id ].d || "";
         }
-
     }
 
     return content;
@@ -180,9 +177,6 @@ export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundConte
         id = Number( item.slice(2) ) as number,
         found: TS.FoundContent;
 
-    // .. convert N to ID
-    if ( source === "H" ) id = Hadith.findIndex( x => x.n === id );
-
     if ( source === "Q" || source === "H" ) {
 
         let text: string = "";
@@ -216,7 +210,7 @@ export function getHistory (): TS.FoundContent[] {
 
 
     if ( store.state.search_IN === "H" )
-        for ( const m of store.state.memo[ "Q" ] )
+        for ( const m of store.state.memo[ "H" ] )
             found.unshift( contentPreviewer( "H", m ) );
 
     return found;
@@ -367,8 +361,6 @@ export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound {
         code_X: string;
 
     switch ( item.source ) {
-        // .. convert ID to N
-        case "H": code_X = "H_" + Hadith[ item.id ].n;  break;
         case "T": code_X = "T_" + item.text;            break;
         default : code_X = item.source + "_" + item.id; break;
     }

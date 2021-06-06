@@ -38,7 +38,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rowSpan=5 rows="*,230" >
-        <GridLayout row=1 @tap="init()" @doubleTap="toggleFavorite()" />
+        <GridLayout row=1 @doubleTap="toggleFavorite()" />
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->

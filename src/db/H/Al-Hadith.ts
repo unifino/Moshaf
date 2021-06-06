@@ -10,6 +10,10 @@ const h = require( "./بحار‌الأنوار.json" ) as TS.HDB;
 const t = require( "./تحف‌العقول.json" ) as TS.HDB;
 const v = require( "./وسائل‌الشيعه.json" ) as TS.HDB;
 
-export const Hadith = [ 
-    ...k,...q,...m,...n,...b,...z,...h,...t,...v
-];
+// .. temporary collection
+let nHadith = [];
+// .. create db based on N
+for ( let p of [ ...k,...q,...m,...n,...b,...z,...h,...t,...v ] ) 
+    nHadith[ p.n ] = p;
+// .. register it
+export const Hadith = nHadith;

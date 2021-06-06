@@ -89,14 +89,19 @@ getHistory () {
 // -- =====================================================================================
 
 purgeHistory () {
+
     // .. get Name
-    let traceName = 'trace_' + store.state.search_IN.toLowerCase();
+    let src = store.state.search_IN;
+    let traceName = 'trace_' + src.toLowerCase();
+
     // .. soft Purge
-    store.state.memo.Q.splice(0);
+    store.state.memo[ src ].splice(0);
     // .. hard registration
-    storage.saveDB( storage[ traceName + "_File" ], store.state.memo.Q );
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ src ] );
+
     // .. notify
     tools.toaster( "🗑: History Purged!" );
+
 }
 
 // -- =====================================================================================
