@@ -135,9 +135,7 @@ favoriteClass ( source: TS.Source, id: number ) {
 // -- =====================================================================================
 
 tapPassed ( args ) {
-    console.log((<any>args.object).isPassThroughParentEnabled);
-    
-    (<any>args.object).isPassThroughParentEnabled = false
+    // (<any>args.object).isPassThroughParentEnabled = false;
 }
 
 // -- =====================================================================================

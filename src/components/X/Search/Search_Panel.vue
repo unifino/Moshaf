@@ -86,7 +86,6 @@ display ( data: TS.ItemFound[], target: "List_1"|"List_2"|"Flex_1"|"Flex_2" ) {
 
     // .. reset
     this.clearSearch();
-console.log(data.length, target);
 
     // .. assign
     ( <any>this.$refs[ target ] ).init( data );
