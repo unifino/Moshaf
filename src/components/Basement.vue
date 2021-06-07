@@ -62,17 +62,18 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
-    // ..  handle search engines
-    store.watch(
-        state => state.here, 
-        newPlace => {
-            switch ( newPlace ) {
-                case "Base_00": store.state.search_IN = "Q"; break;
-                case "Base_10": store.state.search_IN = "H"; break;
-                case "Base_01": store.state.search_IN = "N"; break;
-            }
-        }
-    );
+    // ! check this
+    // // ..  handle search engines
+    // store.watch(
+    //     state => state.here, 
+    //     newPlace => {
+    //         switch ( newPlace ) {
+    //             case "Base_00": store.state.search_IN = "Q"; break;
+    //             case "Base_10": store.state.search_IN = "H"; break;
+    //             case "Base_01": store.state.search_IN = "N"; break;
+    //         }
+    //     }
+    // );
 
     // store.watch(
     //     state => state.here, 
@@ -160,13 +161,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         case "Base_00": e.cancel = false; break;
         case "Base_01": e.cancel = false; break;
         case "Base_10": e.cancel = false; break;
-
         case "Paper"  : e.cancel = store.state.iPanel_ON; break;
-
-        case "Qertas":
-            e.cancel = !~store.state.activeAyah;
-            if ( ~store.state.activeAyah ) store.state.activeAyah = -1;
-        break;
 
         // .. let do more actions
         default: e.cancel = false; break;

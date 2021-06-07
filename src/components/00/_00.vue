@@ -45,7 +45,7 @@
         row=1
         rowSpan=2
         ref="search"
-        @orderByParent="item => open( item.id )"
+        @orderByParent="item => openItem( item.id )"
         :hashTagButton="true"
         source="Q"
     />
@@ -107,7 +107,7 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-open ( num: number ): void {
+openItem ( num: number ): void {
     route( "Qertas", { id: num } );
 }
 

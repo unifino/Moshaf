@@ -3,7 +3,8 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label
-        :class="'fas button ' + myClass" 
+        :class="'fas button ' + myClass"
+        :visibility="$store.state.search_ON ? 'visible' : 'collapsed'"
         :text="String.fromCharCode( '0x' + 'f004' )"
         @tap="getFavorite()"
     />
@@ -40,27 +41,7 @@ SearchPanel: SearchPanel = this.$parent as any;
 
 // -- =====================================================================================
 
-mounted () {
-
-    // .. init
-    this.activeClass();
-
-}
-
-// -- =====================================================================================
-
-activeClass () {
-
-    // .. reset Class
-    let activeClass = false,
-        source = store.state.search_IN;
-
-    if ( source === "Q" ) if ( store.state.fav.Q.length ) activeClass = true;
-    if ( source === "H" ) if ( store.state.fav.H.length ) activeClass = true;
-
-    this.myClass = activeClass ? 'activate' : 'deactivate';
-
-}
+mounted () {}
 
 // -- =====================================================================================
 
@@ -75,7 +56,7 @@ getFavorite () {
     // .. register action
     store.state.search_CH = "favorite";
 
-    this.SearchPanel.display( tools.getFavorite(), "List_1" );
+    this.SearchPanel.display( tools.getFavorite( store.state.search_IN ), "List_1" );
 
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 

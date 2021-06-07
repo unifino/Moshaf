@@ -4,7 +4,7 @@
 
     <Label
         class="fas button"
-        :visibility=visibility 
+        :visibility="$store.state.search_ON ? 'visible' : 'collapsed'"
         :text="String.fromCharCode( '0x' + 'f00d' )"
         @tap="dismiss()"
     />
@@ -41,22 +41,6 @@ SearchPanel: SearchPanel = this.$parent as any;
 // -- =====================================================================================
 
 mounted () {}
-
-// -- =====================================================================================
-
-get visibility () {
-
-    // .. reset Class
-    let activeClass = false,
-        source = store.state.search_IN;
-
-    if ( store.state.search_ON )
-        if ( source ==='Q' || source ==='H' || source ==='N' ) 
-            activeClass = true;
-
-    return activeClass ? 'visible' : 'collapsed';
-
-}
 
 // -- =====================================================================================
 

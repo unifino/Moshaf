@@ -101,7 +101,12 @@ mounted () {
     NS.Application.android.on( 
         NS.AndroidApplication.activityBackPressedEvent, 
         e => {
-            if ( store.state.here === "Paper" && store.state.iPanel_ON ) {
+            if
+            (
+                store.state.iPanel_ON &&
+                ( store.state.here === "Paper" || store.state.here === "Qertas" )
+            )
+            {
                 this.menuCtr(-1);
                 ( e as any ).cancel = true;
             }
@@ -165,7 +170,7 @@ async menuCtr ( id: number ) {
     y_def.opacity = !~id ? 0 : 1;
 
     z_def.target = searchBox;
-    z_def.duration = !~id ? 100 : 650;
+    z_def.duration = !~id ? 100 : 450;
     z_def.opacity = !~id ? 0 : 1;
 
     this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );

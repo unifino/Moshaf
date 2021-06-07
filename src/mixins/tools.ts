@@ -143,20 +143,10 @@ export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.Ite
 
 // -- =====================================================================================
 
-export function getHistory (): TS.ItemFound[] {
+export function getHistory ( src: TS.Source ): TS.ItemFound[] {
 
     let found: TS.ItemFound[] = [];
-
-    if ( store.state.search_IN === "Q" )
-        for ( const m of store.state.memo[ "Q" ] )
-            if ( m !== store.state.activeAyah )
-                found.unshift( contentPreviewer( "Q", m ) );
-
-
-    if ( store.state.search_IN === "H" )
-        for ( const m of store.state.memo[ "H" ] )
-            found.unshift( contentPreviewer( "H", m ) );
-
+    for ( const m of store.state.memo[ src ] ) found.unshift( contentPreviewer( src, m ) );
     return found;
 
 }
@@ -175,13 +165,10 @@ export function setHistory ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
-export function getFavorite (): TS.ItemFound[] {
+export function getFavorite ( src: TS.Source ): TS.ItemFound[] {
 
     let items: TS.ItemFound[] = [];
-
-    for ( const m of store.state.fav[ store.state.search_IN ] ) 
-        items.unshift( contentPreviewer( store.state.search_IN, m ) );
-
+    for ( let m of store.state.fav[ src ] ) items.unshift( contentPreviewer( src, m ) );
     return items;
 
 }

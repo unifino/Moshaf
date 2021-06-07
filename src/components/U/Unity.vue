@@ -46,9 +46,10 @@
         width="300"
         row=1
         rowSpan=3
-        ref="search"
+        ref="searchPanel"
         :hashTagButton="true"
         :exchangeButton="true"
+        @orderByParent="item => openItem( item.source ,item.id )"
         source="Q"
     />
 
@@ -105,6 +106,7 @@ mounted () {}
 
 pageLoaded () {
     store.state.here = "Unity";
+    ( this.$refs.searchPanel as SearchPanel ).clearSearch();
 }
 
 // -- =====================================================================================
@@ -123,8 +125,11 @@ saheb () {
 
 // -- =====================================================================================
 
-destroyed () {
-
+openItem ( source: TS.Source, id: number ) {
+    switch ( source ) {
+        case "Q": route( "Qertas", { id: id } ); break;
+        case "H": route( "Paper" , { id: id } ); break;
+    }
 }
 
 // -- =====================================================================================

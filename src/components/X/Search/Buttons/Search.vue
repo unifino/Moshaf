@@ -41,19 +41,7 @@ SearchPanel: SearchPanel = this.$parent as any;
 
 // -- =====================================================================================
 
-mounted () {
-
-    // ! check this
-    // store.watch(
-    //     state => store.state.fraseInSearch, 
-    //     ( newVal, oldVal ) => {
-    //         if ( this.life && !this.searchLock )
-    //            if ( newVal && ( newVal !== oldVal ) )
-    //                 this.getSearchResult( newVal.length > 3 );
-    //     }
-    // );
-
-}
+mounted () {}
 
 // -- =====================================================================================
 
@@ -88,9 +76,10 @@ getSearchResult ( force?: boolean ) {
     store.state.search_CH = "phrase";
 
     if ( force ) {
-        let str = store.state.fraseInSearch.trim();
+        let str = "";
+        try { str = store.state.fraseInSearch.trim() } catch {}
         let data = tools[ "search_" + store.state.search_IN ]( str );
-        this.SearchPanel.display(  data, "List_1");
+        this.SearchPanel.display(  data, "List_1" );
     }
 
     if ( store.state.search_IN === "N" ) this.search_N();

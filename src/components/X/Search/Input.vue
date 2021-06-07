@@ -84,7 +84,10 @@ textChanged ( phrase: string, force?: boolean ) {
 
     if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     this.textChanged_TO = setTimeout( () => {
-        store.state.fraseInSearch = tools.inFarsiLetters( phrase )
+        let str = tools.inFarsiLetters( phrase );
+        let data = tools[ "search_" + store.state.search_IN ]( str );
+        this.SearchPanel.display(  data, "List_1" );
+        store.state.fraseInSearch = str;
     }, force ? 0 : 500 );
 
 }
@@ -96,8 +99,7 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( store.state.search_IN !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
-        // ! check this
-        // else this.SearchPanel.clear;
+        else this.SearchPanel.clearSearch();
     }
 
     // .. Just in Tag-Section
@@ -108,8 +110,7 @@ returnPressed ( phrase: string ) {
 
         if ( text ) {
             store.state.cakeBound = tools.bound_Q_Toggler( newTag );
-            // ! check this
-            // this.SearchPanel.display( tools.getTags(), "" )
+            this.SearchPanel.display( tools.getTags(), "Flex_1" )
         }
 
         // .. hard registration
