@@ -77,8 +77,6 @@ getFavorite () {
 
     this.SearchPanel.display( tools.getFavorite(), "List_1" );
 
-    store.state.foundDataSlot = "M1";
-
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }

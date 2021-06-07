@@ -62,11 +62,6 @@ init ( data: TS.ItemFound[] = [] ) {
 
 openTag ( tag: TS.ItemFound ) {
 
-    // .. preparing
-    // ! chcek this
-    // this.SearchPanel.found = [];
-    store.state.foundDataSlot = "M4";
-
     let result: TS.ItemFound[] = [],
         x_codes = store.state.cakeBound[ "T_" + tag.text ] || [];
 

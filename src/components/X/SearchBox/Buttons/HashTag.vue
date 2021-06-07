@@ -19,6 +19,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import SearchPanel                      from "../Search_Panel.vue";
@@ -60,20 +61,20 @@ activeClass () {
 listRetriever () {
 
     // .. re-tap situation
-    if ( store.state.search_ON ) {
-        if ( store.state.foundDataSlot === "M2" ) {
-            tools.clearSearchBox();
-            return;
-        }
+    if ( store.state.search_ON && store.state.search_CH === "tag" ) {
+        this.SearchPanel.clearSearch();
+        return;
     }
+
+    // .. register action
+    store.state.search_CH = "tag";
 
     // .. preparing
     tools.clearSearchBox();
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
-    store.state.foundDataSlot = "M2";
-    let data = Object.values( rawTags ).map( (x, i) => { 
+    let data: TS.ItemFound[] = Object.values( rawTags ).map( (x, i) => { 
         return {
             id: i,
             text: x.slice(2),
@@ -83,7 +84,7 @@ listRetriever () {
             }
         }
     } );
-    // this.SearchPanel.displayResult( data, "M2" )
+    this.SearchPanel.display( data, "List_2" );
 
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 

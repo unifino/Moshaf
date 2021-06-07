@@ -85,8 +85,8 @@ exchange ( rev: boolean ) {
 
         case "Q":
         case "H":
-            store.state.foundDataSlot = "M1";
             // ! Check it
+            // store.state.foundDataSlot = "M1";
             // switch ( store.state.searched_By ) {
             //     case "history" : this.SearchPanel.displayResult( tools.getHistory(), "M1"); break;
             //     case "favorite": this.SearchPanel.displayResult( tools.getFavorite(), "M1"); break;

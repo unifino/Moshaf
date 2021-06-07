@@ -271,18 +271,10 @@ export function foundBounds ( source: TS.Source, id: number ): TS.ItemFound[] {
     }
 
     if ( found ) {
-
-        // .. preparing
-        // ! chcek this
-        // store.state.foundData = [];
-        store.state.foundDataSlot = "M4";
-
         // .. add Header
         found.unshift( bindItem_Generator( code_O, { isHeader: true } ) );
-
         // .. append cached Items
         found = bounder_Q_Cache( found );
-
     }
 
     return found.filter( x => x );

@@ -47,7 +47,7 @@ export default class Input extends Vue {
 // -- =====================================================================================
 
 hint: string = "بحث";
-SearchPanel: SearchPanel = this.$parent as any; 
+SearchPanel: SearchPanel = this.$parent as SearchPanel; 
 
 // -- =====================================================================================
 
@@ -107,9 +107,8 @@ returnPressed ( phrase: string ) {
 
         if ( text ) {
             store.state.cakeBound = tools.bound_Q_Toggler( newTag );
-            store.state.foundDataSlot = "M3";
             // ! check this
-            // this.SearchPanel. = tools.getTags();
+            // this.SearchPanel.display( tools.getTags(), "" )
         }
 
         // .. hard registration

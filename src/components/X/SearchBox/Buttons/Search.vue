@@ -92,7 +92,6 @@ getSearchResult ( force?: boolean ) {
 
     if ( force ) {
         let str = store.state.fraseInSearch.trim();
-        store.state.foundDataSlot = "M1";
         let data = tools[ "search_" + store.state.search_IN ]( str );
         this.SearchPanel.display(  data, "List_1");
     }
@@ -108,7 +107,6 @@ getSearchResult ( force?: boolean ) {
 search_N (): void {
     // this.$emit( 'search', str );
     this.SearchPanel.clearSearch();
-    store.state.foundDataSlot = null;
 }
 
 // -- =====================================================================================

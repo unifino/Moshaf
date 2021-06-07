@@ -21,7 +21,6 @@ export default new Vuex.Store( {
         search_IN       : "Q"                   ,
                                                  
         fraseInSearch   : null                  ,
-        foundDataSlot   : null                  ,
         cacheBound      : []                    ,
         iPanel_ON       : false                 ,
         search_ON       : false                 ,
@@ -56,7 +55,6 @@ interface state {
         search_IN       : TS.Source             ,
                                                  
         fraseInSearch   : string                ,
-        foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
         cacheBound      : TS.RawBound           ,
         iPanel_ON       : boolean               ,
         search_ON       : boolean               ,

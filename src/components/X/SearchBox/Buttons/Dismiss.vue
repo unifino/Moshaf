@@ -61,9 +61,10 @@ activeClass () {
 // -- =====================================================================================
 
 async dismiss () {
-    // .. patch M4|M3 intuitive
-    if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
-    if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
+    // ! check this
+    // // .. patch M4|M3 intuitive
+    // if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
+    // if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
     // .. regular actions
     tools.clearSearchBox( true );
     await new Promise( _ => setTimeout( _, 10 ) );

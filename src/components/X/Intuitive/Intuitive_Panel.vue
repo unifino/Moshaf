@@ -276,16 +276,15 @@ shiftTo ( item: TS.ItemFound ) {
 
 // -- =====================================================================================
 
+tagModeActivated = false;
 TagModeToggler () {
 
-    if ( store.state.foundDataSlot === "M3" ) {
-        store.state.foundDataSlot = "M4";
+    if ( this.tagModeActivated ) {
         this.searchBox.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
         store.state.search_IN = this.source;
     }
 
     else {
-        store.state.foundDataSlot = "M3";
         this.searchBox.display( tools.getTags(), "Flex_1" );
         store.state.search_IN = "T";
     }

@@ -125,7 +125,6 @@ clearSearch () {
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state
     store.state.search_ON = false;
-    store.state.search_CH = null;
 }
 
 // -- =====================================================================================
