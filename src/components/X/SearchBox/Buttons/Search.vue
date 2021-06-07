@@ -3,7 +3,8 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label
-        :class="'fas button ' + myClass" 
+        class="fas button"
+        :visibility=visibility 
         :text="String.fromCharCode( '0x' + 'f002' )"
         @tap="getSearchResult( true )"
     />
@@ -21,7 +22,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import SearchPanel                      from "../Search_Panel.vue";
+import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
 import { type } from "node:os";
 
 // -- =====================================================================================
@@ -36,7 +37,6 @@ export default class Search extends Vue {
 
 // -- =====================================================================================
 
-myClass = "";
 SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
@@ -53,24 +53,21 @@ mounted () {
     //     }
     // );
 
-    // .. init
-    this.activeClass();
-
 }
 
 // -- =====================================================================================
 
-activeClass () {
+get visibility () {
 
     // .. reset Class
-    let activeClass = false,
+    let activeClass = true,
         source = store.state.search_IN;
 
-    if ( !store.state.search_ON )
+    if ( store.state.search_ON )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
-            activeClass = true;
+            activeClass = false;
 
-    this.myClass = activeClass ? 'activate' : 'deactivate';
+    return activeClass ? 'visible' : 'collapsed';
 
 }
 

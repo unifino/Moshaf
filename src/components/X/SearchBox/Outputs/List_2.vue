@@ -33,7 +33,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import SearchPanel                      from "../Search_Panel.vue";
+import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
 
 // -- =====================================================================================
 

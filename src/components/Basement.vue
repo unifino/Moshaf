@@ -173,7 +173,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     }
 
-    tools.clearSearchBox();
+    // ! check this tools.clearSearchBox();
 
     // .. reduce pageStack
     if ( !e.cancel )

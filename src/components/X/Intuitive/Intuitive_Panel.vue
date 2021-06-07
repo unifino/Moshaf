@@ -267,8 +267,6 @@ shiftTo ( item: TS.ItemFound ) {
     if ( item.source === "H" ) {
         // .. patch M4|M3 intuitive
         store.state.activeAyah = -1;
-        // .. regular actions
-        tools.clearSearchBox( true );
         route( "Base_10", { id: item.id } )
     }
 
@@ -296,10 +294,11 @@ TagModeToggler () {
 async exitPanel () {
     await new Promise( _ => setTimeout( _, 10 ) );
     this.menuCtr(-1);
-    // .. regular actions
-    tools.clearSearchBox( true );
-    await new Promise( _ => setTimeout( _, 10 ) );
-    tools.clearSearchBox( false );
+    // ! check this
+    // // .. regular actions
+    // tools.clearSearchBox( true );
+    // await new Promise( _ => setTimeout( _, 10 ) );
+    // tools.clearSearchBox( false );
 }
 
 // -- =====================================================================================

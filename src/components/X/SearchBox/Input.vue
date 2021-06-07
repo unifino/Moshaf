@@ -27,7 +27,7 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import SearchPanel                      from "../Search_Panel.vue";
+import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -96,7 +96,8 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( store.state.search_IN !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
-        else tools.clearSearchBox();
+        // ! check this
+        // else this.SearchPanel.clear;
     }
 
     // .. Just in Tag-Section

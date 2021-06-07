@@ -118,17 +118,6 @@ export function scapeCheck ( mode: TS.search_By ) {
 
 // -- =====================================================================================
 
-// ! remove this
-export function clearSearchBox ( limited=false ) {
-    // store.state.searched_By = null;
-    // store.state.foundData = [];
-    // store.state.foundDataSlot = null;
-    // if ( limited ) return;
-    // store.state.fraseInSearch = null;
-} 
-
-// -- =====================================================================================
-
 export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.ItemFound {
 
     let source = code.slice(0, 1) as TS.Source,

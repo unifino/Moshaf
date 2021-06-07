@@ -3,7 +3,8 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label
-        :class="'fas button ' + myClass" 
+        class="fas button"
+        :visibility=visibility 
         :text="String.fromCharCode( '0x' + 'f00d' )"
         @tap="dismiss()"
     />
@@ -21,7 +22,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
-import SearchPanel                      from "../Search_Panel.vue";
+import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -35,7 +36,6 @@ export default class Dismiss extends Vue {
 
 // -- =====================================================================================
 
-myClass = "";
 SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
@@ -44,17 +44,17 @@ mounted () {}
 
 // -- =====================================================================================
 
-activeClass () {
+get visibility () {
 
     // .. reset Class
-    let activeClass = true,
+    let activeClass = false,
         source = store.state.search_IN;
 
     if ( store.state.search_ON )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
-            activeClass = false;
+            activeClass = true;
 
-    this.myClass = activeClass ? 'activate' : 'deactivate';
+    return activeClass ? 'visible' : 'collapsed';
 
 }
 
@@ -65,10 +65,10 @@ async dismiss () {
     // // .. patch M4|M3 intuitive
     // if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
     // if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
+    // await new Promise( _ => setTimeout( _, 10 ) );
+    // tools.clearSearchBox( false );
     // .. regular actions
-    tools.clearSearchBox( true );
-    await new Promise( _ => setTimeout( _, 10 ) );
-    tools.clearSearchBox( false );
+    this.SearchPanel.clearSearch();
 }
 
 // -- =====================================================================================
@@ -84,8 +84,5 @@ async dismiss () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .deactivate {
-        visibility: collapse;
-    }
 
 </style>

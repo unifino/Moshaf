@@ -22,7 +22,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import SearchPanel                      from "../Search_Panel.vue";
+import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -68,9 +68,6 @@ listRetriever () {
 
     // .. register action
     store.state.search_CH = "tag";
-
-    // .. preparing
-    tools.clearSearchBox();
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
