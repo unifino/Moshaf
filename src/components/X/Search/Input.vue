@@ -99,16 +99,18 @@ returnPressed ( phrase: string ) {
     // .. Just in Tag-Section
     else {
 
-        let text = tools.inFarsiLetters( phrase ),
-            newTag: TS.ItemFound = { text: text, id: -1, source: "T", flags: {} };
+        console.log("Code It!");
 
-        if ( text ) {
-            store.state.cakeBound = tools.bound_Q_Toggler( newTag );
-            this.SearchPanel.display( tools.getTags(), "Flex_1" )
-        }
+        // let text = tools.inFarsiLetters( phrase ),
+        //     newTag: TS.ItemFound = { text: text, id: -1, source: "T", flags: {} };
 
-        // .. hard registration
-        storage.saveDB( storage.bound_File, storage.rawBound );
+        // if ( text ) {
+        //    // store.state.cakeBound = tools.toggleBound( newTag );
+        //     // this.SearchPanel.display( tools.getTags(), "Flex_1" )
+        // }
+
+        // // .. hard registration
+        // storage.saveDB( storage.bound_File, storage.rawBound );
 
     }
 

@@ -264,18 +264,15 @@ export function bounder_Q_Cache ( base: TS.ItemFound[] ): TS.ItemFound[] {
 
 // -- =====================================================================================
 
-export function bound_Q_Toggler ( item: TS.ItemFound ): TS.CakeBound { 
+export function toggleBound ( code_O: string, code_X: string ): TS.CakeBound { 
 
-    let code_O = "Q_" + store.state.activeAyah,
-        code_X: string;
-
-    switch ( item.source ) {
-        case "T": code_X = "T_" + item.text;            break;
-        default : code_X = item.source + "_" + item.id; break;
-    }
+    // .. determine current BoundStatus
+    let isBounded: boolean;
+    isBounded = !!store.state.cakeBound[ code_O ];
+    if ( isBounded ) isBounded = store.state.cakeBound[ code_O ].includes( code_X );
 
     // .. insert New Bound Info!
-    if ( !item.flags.isBounded ) storage.rawBound.push( [ code_O, code_X ] );
+    if ( !isBounded ) storage.rawBound.push( [ code_O, code_X ] );
     // .. remove CrossBound Info
     else {
         let r: number;
@@ -288,7 +285,7 @@ export function bound_Q_Toggler ( item: TS.ItemFound ): TS.CakeBound {
     }
 
     // .. trim cacheBound
-    if ( !item.flags.isBounded ) {
+    if ( !isBounded ) {
         store.state.cacheBound = store.state.cacheBound.filter( x => {
             if ( x[0] === code_O && x[1] === code_X ) return false;
             if ( x[1] === code_O && x[0] === code_X ) return false;

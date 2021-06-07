@@ -250,10 +250,10 @@ share ( opt: boolean ) {
 bind ( item: TS.ItemFound ) {
 
     if ( item.flags.isHeader ) return;
-
     // .. Toggle Item
-    store.state.cakeBound = tools.bound_Q_Toggler( item );
-
+    let code_O = this.source + "_" + this.id;
+    let code_X = item.source + "+" + item.id;
+    store.state.cakeBound = tools.toggleBound( code_O, code_X );
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.rawBound );
 
