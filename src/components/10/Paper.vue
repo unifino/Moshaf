@@ -1,5 +1,6 @@
 <template>
-<GridLayout>
+<Page @navigatedTo="pageLoaded()">
+<GridLayout class="fx">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -14,12 +15,10 @@
             flexDirection="row-reverse"
             justifyContent="center"
         >
-
             <Label :text=hadith.from textWrap=true class="name" @tap="copy()" />
             <Label :text=hadith.salam textWrap=true class="name_e" @tap="copy()" />
 
             <Label class="divider" />
-
             <Kalameh 
                 v-for="(kalameh, i) in hadith.kalamat"
                 :key=i
@@ -30,7 +29,6 @@
             <Label class="divider" />
 
             <Label :text=hadith.farsi textWrap=true class="farsi" />
-
         </FlexboxLayout>
 
     </ScrollView>
@@ -41,9 +39,12 @@
         <GridLayout row=1 @doubleTap="toggleFavorite()" />
     </GridLayout>
 
+    <IntuitivePanel ref="IntuitivePanel" />
+
 <!---------------------------------------------------------------------------------------->
 
 </GridLayout>
+</Page>
 </template>
 
 // -- =====================================================================================
@@ -60,11 +61,12 @@ import store                            from "@/store/store"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
 import Kalameh                          from "@/components/X/Kalameh.vue"
+import IntuitivePanel                   from "@/components/X/Intuitive/iPanel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh }
+    components: { Kalameh, IntuitivePanel }
 } )
 
 // -- =====================================================================================
@@ -73,17 +75,29 @@ export default class Day extends Vue {
 
 // -- =====================================================================================
 
+@Prop() id;
+
+// -- =====================================================================================
+
 hadith: TS.Hadith = {} as any;
 
 // -- =====================================================================================
 
 mounted () {
-
+    this.init( this.id )
     // store.watch(
     //     state => store.state.activeHadith.length, 
     //     length => this.init( store.state.activeHadith[ length-1 ] )
     // );
 
+}
+
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here = 'Paper';
+    // TM.themePatcher( this );
 }
 
 // -- =====================================================================================
@@ -171,6 +185,7 @@ destroyed () {}
 /* ------------------------------------------- */
     .paper {
         height: 72%;
+        width: 72%;
     }
 
     .hadith {

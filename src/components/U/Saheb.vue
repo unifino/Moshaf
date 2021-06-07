@@ -78,7 +78,7 @@ refresh () {
 // -- =====================================================================================
 
 tapped () {
-    let address: TS.here = this.source === "Q" ? "Qertas" : "Base_10";
+    let address: TS.here = this.source === "Q" ? "Qertas" : "Paper";
     route( address, { id: this.id } );
 }
 

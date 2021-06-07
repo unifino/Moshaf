@@ -75,7 +75,7 @@ export type here =
     | 'Qertas'
 
     | 'Base_01'
-    // | 'Day'
+    | 'Paper'
 
     | 'Base_10'
     | 'Najwa'

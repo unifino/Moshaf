@@ -30,7 +30,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <StackLayout row=4 orientation="horizontal" horizontalAlignment="center" >
-        <myButton bClass="button big fas" icon="f5bb" @tap='route( "Base_10" )' />
+        <myButton bClass="button big fas" icon="f5bb" @tap='route( "Paper" )' />
         <myButton 
             bClass="button big fas"
             icon="f02d"

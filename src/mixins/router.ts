@@ -8,7 +8,7 @@ import store                            from "@/store/store"
 
 import Welcome                          from "@/components/Welcome.vue"
 import Base_00                          from "@/components/00/_00.vue"
-import Base_10                          from "@/components/10/_10.vue"
+import Paper                          from "@/components/10/Paper.vue"
 import Base_01                          from "@/components/01/_01.vue"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Najwa                            from "@/components/01/Najwa.vue"
@@ -37,7 +37,7 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
         Welcome: { page: Welcome, duration: 300, transition: "flipLeft",    },
         Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },
         Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    },
-        Base_10: { page: Base_10, duration: 300, transition: "flipLeft",    },
+        Paper:   { page: Paper, duration: 300, transition: "flipLeft",    },
         Qertas:  { page: Qertas , duration: 300, transition: "slideTop",    },
         Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",    },
         Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  }, 

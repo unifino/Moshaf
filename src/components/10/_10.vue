@@ -36,7 +36,7 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
 import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
-import Day                              from "@/components/10/Day.vue"
+import Day                              from "@/components/10/Paper.vue"
 
 // -- =====================================================================================
 
