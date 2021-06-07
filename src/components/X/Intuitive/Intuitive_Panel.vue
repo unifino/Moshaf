@@ -36,7 +36,6 @@
             @orderByParent="bind"
             @orderByParent_2="shiftTo"
             :vividBG=true
-            source="Q"
             :searchLock=false
         />
 

@@ -41,11 +41,6 @@ life = true;
 
 mounted () {
 
-    store.watch(
-        state => store.state.search_IN, 
-        () => { if ( this.life ) this.activeClass() }
-    );
-
     // .. init
     this.activeClass();
 

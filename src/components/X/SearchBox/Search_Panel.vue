@@ -83,7 +83,6 @@ result_tag: TS.ItemFound[] = [];
 
 // -- =====================================================================================
 
-@Prop() source: TS.Source;
 @Prop() randomButton: boolean;
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
@@ -92,9 +91,7 @@ result_tag: TS.ItemFound[] = [];
 
 // -- =====================================================================================
 
-mounted() {
-    store.state.search_IN = this.source;
-}
+mounted() {}
 
 // -- =====================================================================================
 

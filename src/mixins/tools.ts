@@ -187,12 +187,13 @@ export function setHistory ( source: TS.Source, id: number ) {
 
 export function getFavorite (): TS.ItemFound[] {
 
-    let found: TS.ItemFound[] = [];
+    let items: TS.ItemFound[] = [];
 
     for ( const m of store.state.fav[ store.state.search_IN ] ) 
-        found.unshift( contentPreviewer( store.state.search_IN, m ) );
+        items.unshift( contentPreviewer( store.state.search_IN, m ) );
+console.log(items);
 
-    return found;
+    return items;
 
 }
 
