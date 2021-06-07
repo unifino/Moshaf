@@ -11,7 +11,7 @@
     <SearchPanel
         row=1
         rowSpan=2
-        @orderByParent="open"
+        @orderByParent="openItem"
         source="H"
         :randomButton="true"
     />
@@ -71,7 +71,7 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-open ( item: TS.ItemFound ) {
+openItem ( item: TS.ItemFound ) {
     ( this.$refs.paper as Paper ).init( item.id );
 }
 

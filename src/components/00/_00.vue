@@ -25,14 +25,14 @@
                 :ref="i"
                 :text=x[1]
                 class="sura"
-                @tap="open(x[2])"
+                @tap="openItem(x[2])"
             />
-            <Label
+            <!-- <Label
                 ref="-1"
                 text="صاحب‌الزمان"
                 class="saat"
-                @tap="open(-1)"
-            />
+                @tap="openItem(-1)"
+            /> -->
         </FlexboxLayout>
 
 <!---------------------------------------------------------------------------------------->
