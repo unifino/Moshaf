@@ -81,33 +81,6 @@ exchange ( rev: boolean ) {
     let str: string = "";
     try { str = store.state.fraseInSearch.trim() } catch {}
 
-    switch ( S ) {
-
-        case "Q":
-        case "H":
-            // ! Check it
-            // store.state.foundDataSlot = "M1";
-            // switch ( store.state.searched_By ) {
-            //     case "history" : this.SearchPanel.displayResult( tools.getHistory(), "M1"); break;
-            //     case "favorite": this.SearchPanel.displayResult( tools.getFavorite(), "M1"); break;
-            //     case "phrase"  : 
-            //         if ( str )  this.SearchPanel.displayResult( tools[ "search_" +S ](str), "M1") ;
-            //         else store.state.foundDataSlot = null;
-            //     break;
-
-            //     default: store.state.foundDataSlot = null; break;
-            // }
-        break;
-
-        // case "T":
-        //     store.state.foundDataSlot = "M3";
-        //     store.state.foundData = tools.getTags();
-        // break;
-
-        case "N": this.SearchPanel.clearSearch(); break;
-
-    }
-
 }
 
 // -- =====================================================================================

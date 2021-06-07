@@ -78,6 +78,7 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Base_01";
+    store.state.search_IN = "N";
     TM.themePatcher( this );
 }
 

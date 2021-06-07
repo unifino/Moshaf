@@ -134,7 +134,11 @@ favoriteClass ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
-tapPassed ( args ) {}
+tapPassed ( args ) {
+    console.log((<any>args.object).isPassThroughParentEnabled);
+    
+    (<any>args.object).isPassThroughParentEnabled = false
+}
 
 // -- =====================================================================================
 
@@ -299,11 +303,6 @@ TagModeToggler () {
 async exitPanel () {
     await new Promise( _ => setTimeout( _, 10 ) );
     this.menuCtr(-1);
-    // ! check this
-    // // .. regular actions
-    // tools.clearSearchBox( true );
-    // await new Promise( _ => setTimeout( _, 10 ) );
-    // tools.clearSearchBox( false );
 }
 
 // -- =====================================================================================

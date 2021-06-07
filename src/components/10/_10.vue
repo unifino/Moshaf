@@ -65,6 +65,7 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Base_10";
+    store.state.search_IN = "H";
     TM.themePatcher( this );
 }
 
@@ -72,7 +73,6 @@ pageLoaded () {
 
 open ( item: TS.ItemFound ) {
     ( this.$refs.paper as Paper ).init( item.id );
-    // ! check this tools.clearSearchBox();
 }
 
 // -- =====================================================================================

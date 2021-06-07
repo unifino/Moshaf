@@ -67,12 +67,6 @@ mounted () {
     if ( this.hashTagButton  ) pad += 23;
     try { ( this.$refs.search as any ).nativeView.paddingLeft = pad } catch {}
 
-    // ! check this
-    // store.watch(
-    //     state => store.state.fraseInSearch, 
-    //     newVal => { if ( this.life && !newVal ) this.dismiss() }
-    // );
-
 }
 
 // -- =====================================================================================

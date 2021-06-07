@@ -62,19 +62,6 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
-    // ! check this
-    // // ..  handle search engines
-    // store.watch(
-    //     state => state.here, 
-    //     newPlace => {
-    //         switch ( newPlace ) {
-    //             case "Base_00": store.state.search_IN = "Q"; break;
-    //             case "Base_10": store.state.search_IN = "H"; break;
-    //             case "Base_01": store.state.search_IN = "N"; break;
-    //         }
-    //     }
-    // );
-
     // store.watch(
     //     state => state.here, 
     //     (newVal, oldVal) => 
@@ -167,8 +154,6 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         default: e.cancel = false; break;
 
     }
-
-    // ! check this tools.clearSearchBox();
 
     // .. reduce pageStack
     if ( !e.cancel )

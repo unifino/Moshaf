@@ -45,12 +45,6 @@ mounted () {}
 // -- =====================================================================================
 
 async dismiss () {
-    // ! check this
-    // // .. patch M4|M3 intuitive
-    // if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
-    // if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
-    // await new Promise( _ => setTimeout( _, 10 ) );
-    // tools.clearSearchBox( false );
     // .. regular actions
     this.SearchPanel.clearSearch();
 }

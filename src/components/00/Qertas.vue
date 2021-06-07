@@ -92,8 +92,6 @@ taghdir_aID: number;
 // -- =====================================================================================
 
 mounted () {
-    // ! check this
-    // tools.clearSearchBox();
     this.init( this.id );
 }
 
@@ -101,6 +99,7 @@ mounted () {
 
 pageLoaded () {
     store.state.here = 'Qertas';
+    store.state.search_IN = "Q";
     TM.themePatcher( this );
 }
 

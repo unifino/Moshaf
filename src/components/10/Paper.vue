@@ -84,21 +84,14 @@ hadith: TS.Hadith = {} as any;
 // -- =====================================================================================
 
 mounted () {
-
     this.init( this.id );
-    // ! reconsider it
-    // store.watch(
-    //     state => store.state.activeHadith.length, 
-    //     length => this.init( store.state.activeHadith[ length-1 ] )
-    // );
-
 }
-
 
 // -- =====================================================================================
 
 pageLoaded () {
     store.state.here = 'Paper';
+    store.state.search_IN = "H";
     TM.themePatcher( this );
 }
 
@@ -116,10 +109,6 @@ init ( id: number = -1 ) {
 
     // .. show it
     this.show( this.myID );
-
-    // .. register the ID
-    // ! remove it | reconsider it
-    // store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
 
 }
 
@@ -141,7 +130,9 @@ show ( id: number ) {
 // -- =====================================================================================
 
 panel () {
-    ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "H", this.myID );
+    let IntuitivePanel = this.$refs.IntuitivePanel as IntuitivePanel;
+    // .. prevent action when it already activated
+    if ( !store.state.iPanel_ON ) IntuitivePanel.init( "H", this.myID );
 }
 
 // -- =====================================================================================

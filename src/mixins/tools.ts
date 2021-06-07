@@ -103,21 +103,6 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.ItemFound 
 
 // -- =====================================================================================
 
-export function scapeCheck ( mode: TS.search_By ) {
-
-    // ! check this
-    // if ( store.state.foundData.length && store.state.searched_By === mode ) {
-    //     store.state.searched_By = null;
-    //     store.state.foundDataSlot = null;
-    //     return true;
-    // }
-
-    return false;
-
-}
-
-// -- =====================================================================================
-
 export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.ItemFound {
 
     let source = code.slice(0, 1) as TS.Source,
