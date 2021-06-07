@@ -196,3 +196,5 @@ export type Hadith = {
 };
 
 // -- =====================================================================================
+
+export type DisplayTypes = "ListSimple" | "ListTag" | "FlexTag" | "FlexBound";

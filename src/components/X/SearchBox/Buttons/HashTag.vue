@@ -21,6 +21,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -39,6 +40,7 @@ export default class HashTag extends Vue {
 // -- =====================================================================================
 
 myClass = "";
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
@@ -58,7 +60,7 @@ activeClass () {
 listRetriever () {
 
     // .. re-tap situation
-    if ( store.state.foundData.length ) {
+    if ( this.SearchPanel.result.data.length ) {
         if ( store.state.foundDataSlot === "M2" ) {
             tools.clearSearchBox();
             return;
@@ -71,7 +73,7 @@ listRetriever () {
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
     store.state.foundDataSlot = "M2";
-    store.state.foundData = Object.values( rawTags ).map( (x, i) => { 
+    let data = Object.values( rawTags ).map( (x, i) => { 
         return {
             id: i,
             text: x.slice(2),
@@ -81,8 +83,10 @@ listRetriever () {
             }
         }
     } );
+    // ! check this
+    // this.SearchPanel.displayResult( data, "M2" )
 
-    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

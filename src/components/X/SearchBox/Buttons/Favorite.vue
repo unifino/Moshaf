@@ -21,6 +21,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -35,7 +36,7 @@ export default class Favorite extends Vue {
 // -- =====================================================================================
 
 myClass = "";
-life = true;
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
@@ -66,23 +67,21 @@ activeClass () {
 getFavorite () {
 
     // .. re-tap situation
-    if ( tools.scapeCheck( "favorite" ) ) return;
-    tools.clearSearchBox();
+    // if ( tools.scapeCheck( "favorite" ) ) return;
+    // tools.clearSearchBox();
 
     // .. register action
     store.state.searched_By = "favorite";
 
-    store.state.foundData = tools.getFavorite();
+    this.SearchPanel.result = {
+        data: tools.getFavorite(),
+        target: "List",
+        type: "ListSimple"
+    }
     store.state.foundDataSlot = "M1";
 
-    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================

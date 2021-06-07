@@ -127,8 +127,8 @@ setup (): Promise<void> {
         TM.themeApplier( "Smoky", this );
 
         // .. first actual step! bring-up the Unity
-        // this.to_Unity( true );
-        route( "Paper" );
+        this.to_Unity( true );
+        // route( "Paper" );
         // .. basic steps has been resolved!
         rs();
 
@@ -157,9 +157,9 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
             else route( "Welcome" );
             break;
 
-        case "Base_00": if ( !store.state.foundData.length ) e.cancel = false; break;
-        case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;
-        case "Base_10": if ( !store.state.foundData.length ) e.cancel = false; break;
+        case "Base_00": e.cancel = false; break;
+        case "Base_01": e.cancel = false; break;
+        case "Base_10": e.cancel = false; break;
 
         case "Paper"  : e.cancel = store.state.iPanel_ON; break;
 

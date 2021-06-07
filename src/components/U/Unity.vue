@@ -50,7 +50,6 @@
         :hashTagButton="true"
         :exchangeButton="true"
         source="Q"
-        :searchLock=false
     />
 
 <!---------------------------------------------------------------------------------------->

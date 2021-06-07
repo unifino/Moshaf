@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView for="item in $store.state.foundData" >
+    <ListView for="item in data">
         <v-template>
 
             <GridLayout columns="33,2,*" class="tagLine" @tap="openTag(item)">
@@ -33,6 +33,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -46,9 +47,14 @@ export default class Output_M2 extends Vue {
 
 // -- =====================================================================================
 
-get visibility () {
-    return store.state.foundData.length && store.state.foundDataSlot === "M2" ? 
-        'visible' : 'hidden';
+data = [];
+visibility = "collapsed";
+SearchPanel: SearchPanel = this.$parent as any; 
+
+// -- =====================================================================================
+
+init ( data: TS.ItemFound[] ) {
+    this.visibility = data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================
@@ -56,16 +62,21 @@ get visibility () {
 openTag ( tag: TS.ItemFound ) {
 
     // .. preparing
-    store.state.foundData = [];
+    // ! chcek this
+    // this.SearchPanel.found = [];
     store.state.foundDataSlot = "M4";
 
-    let tmpBoundItem: TS.ItemFound,
+    let result: TS.ItemFound[] = [],
         x_codes = store.state.cakeBound[ "T_" + tag.text ] || [];
 
     // .. convert codes to the content
-    for ( let code_X of x_codes ) {
-        tmpBoundItem = tools.bindItem_Generator( code_X );
-        if ( tmpBoundItem ) store.state.foundData.push( tmpBoundItem );
+    for ( let code_X of x_codes ) result.push( tools.bindItem_Generator( code_X ) );
+    result = result.filter( x => x );
+
+    this.SearchPanel.result = {
+        data: result,
+        type: "FlexBound",
+        target: "Flex"
     }
 
 }

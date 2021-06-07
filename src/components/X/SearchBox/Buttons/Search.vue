@@ -21,6 +21,8 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
+import { type } from "node:os";
 
 // -- =====================================================================================
 
@@ -34,30 +36,22 @@ export default class Search extends Vue {
 
 // -- =====================================================================================
 
-@Prop() searchLock: boolean;
-
-// -- =====================================================================================
-
 myClass = "";
-life = true;
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
 mounted () {
 
-    store.watch(
-        state => store.state.foundData.length,
-        () => { if ( this.life ) this.activeClass() }
-    );
-
-    store.watch(
-        state => store.state.fraseInSearch, 
-        ( newVal, oldVal ) => {
-            if ( this.life && !this.searchLock )
-               if ( newVal && ( newVal !== oldVal ) )
-                    this.getSearchResult( newVal.length > 3 );
-        }
-    );
+    // ! check this
+    // store.watch(
+    //     state => store.state.fraseInSearch, 
+    //     ( newVal, oldVal ) => {
+    //         if ( this.life && !this.searchLock )
+    //            if ( newVal && ( newVal !== oldVal ) )
+    //                 this.getSearchResult( newVal.length > 3 );
+    //     }
+    // );
 
     // .. init
     this.activeClass();
@@ -72,7 +66,7 @@ activeClass () {
     let activeClass = false,
         source = store.state.search_IN;
 
-    if ( !store.state.foundData.length )
+    if ( !this.SearchPanel.result.data.length )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = true;
 
@@ -95,16 +89,17 @@ getSearchResult ( force?: boolean ) {
 
     if ( force ) {
         let str = store.state.fraseInSearch.trim();
-        switch ( store.state.search_IN ) {
-            case "Q": store.state.foundData = tools.search_Q( str ); break;
-            case "H": store.state.foundData = tools.search_H( str ); break;
-        }
         store.state.foundDataSlot = "M1";
+        this.SearchPanel.result = {
+            data: tools[ "search_" + store.state.search_IN ]( str ),
+            type: "ListSimple",
+            target: "List"
+        }
     }
 
     if ( store.state.search_IN === "N" ) this.search_N();
 
-    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 
@@ -112,14 +107,8 @@ getSearchResult ( force?: boolean ) {
 
 search_N (): void {
     // this.$emit( 'search', str );
-    store.state.foundData = [];
+    this.SearchPanel.clearSearch();
     store.state.foundDataSlot = null;
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================

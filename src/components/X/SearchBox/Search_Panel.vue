@@ -2,7 +2,7 @@
 <GridLayout rows="60,*">
 <!---------------------------------------------------------------------------------------->
 
-    <Input 
+    <Input
         row=0 
         :hashTagButton="hashTagButton" 
         :exchangeButton="exchangeButton" 
@@ -12,7 +12,7 @@
 
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
-        <Search :searchLock=searchLock />
+        <Search />
         <Dismiss  />
         <History  />
         <Favorite />
@@ -25,14 +25,16 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Output_M1 row=1 @interact="e => $emit('orderByParent', e)" />
-    <Output_M2 row=1 />
-    <Output_M3 row=1 />
-    <Output_M4 row=1 
-        @interact="e => $emit('orderByParent', e)" 
-        @interact_2="e => $emit('orderByParent_2', e)"
-        :vividBG=vividBG 
-    />
+    <GridLayout row=1>
+        <List_1 ref="List_1" @interact="e => $emit('orderByParent', e)" />
+        <List_2 ref="List_2"  />
+        <Flex_1 ref="Flex_1"  />
+        <Flex_2 ref="Flex_2" 
+            @interact="e => $emit('orderByParent', e)"
+            @interact_2="e => $emit('orderByParent_2', e)"
+            :vividBG=vividBG 
+        />
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -46,6 +48,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
 
@@ -57,10 +60,11 @@ import HashTag                          from "@/components/X/SearchBox/Buttons/H
 import Dismiss                          from "@/components/X/SearchBox/Buttons/Dismiss.vue"
 import Favorite                         from "@/components/X/SearchBox/Buttons/Favorite.vue"
 import Exchange                         from "@/components/X/SearchBox/Buttons/Exchange.vue"
-import Output_M1                        from "@/components/X/SearchBox/Outputs/M1.vue"
-import Output_M2                        from "@/components/X/SearchBox/Outputs/M2.vue"
-import Output_M3                        from "@/components/X/SearchBox/Outputs/M3.vue"
-import Output_M4                        from "@/components/X/SearchBox/Outputs/M4.vue"
+import List_1                           from "@/components/X/SearchBox/Outputs/List_1.vue"
+import List_2                           from "@/components/X/SearchBox/Outputs/List_2.vue"
+import Flex_1                           from "@/components/X/SearchBox/Outputs/Flex_1.vue"
+import Flex_2                           from "@/components/X/SearchBox/Outputs/Flex_2.vue"
+
 
 // -- =====================================================================================
 
@@ -68,7 +72,7 @@ import Output_M4                        from "@/components/X/SearchBox/Outputs/M
     components: { 
         Input, 
         Search, Dismiss, History, Favorite, HashTag, Exchange, Random,
-        Output_M1, Output_M2, Output_M3, Output_M4
+        List_1, List_2, Flex_1, Flex_2,
     }
 } )
 
@@ -78,8 +82,11 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
-result: TS.ItemFound[] = [];
-result_tag: TS.ItemFound[] = [];
+result: {
+    data: TS.ItemFound[],
+    target: "List"|"Flex",
+    type: TS.DisplayTypes
+} = { data: [], type:null, target: null };
 
 // -- =====================================================================================
 
@@ -87,11 +94,30 @@ result_tag: TS.ItemFound[] = [];
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
 @Prop() vividBG: boolean;
-@Prop() searchLock: boolean;
 
 // -- =====================================================================================
 
-mounted() {}
+mounted() {
+
+    // .. listen for Back-Button
+    NS.Application.android.on( 
+        NS.AndroidApplication.activityBackPressedEvent, 
+        e => {
+            if ( store.state.search_ON ) {
+                this.clearSearch();
+                ( e as any ).cancel = true;
+            }
+        },
+    );
+
+}
+
+// -- =====================================================================================
+
+clearSearch () {
+    this.result = { data: [], type:null, target: null };
+    store.state.search_ON = false;
+}
 
 // -- =====================================================================================
 

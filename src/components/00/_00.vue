@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="pageLoaded();life=true" @navigatingFrom="life=false" >
+<Page @navigatedTo="pageLoaded()">
 <GridLayout rows="88,44,*,7" width="300">
 
 <!---------------------------------------------------------------------------------------->
@@ -48,7 +48,6 @@
         @orderByParent="item => open( item.id )"
         :hashTagButton="true"
         source="Q"
-        :searchLock=!life
     />
 
 <!---------------------------------------------------------------------------------------->

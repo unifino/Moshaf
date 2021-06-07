@@ -22,6 +22,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -40,6 +41,7 @@ export default class Exchange extends Vue {
 // -- =====================================================================================
 
 myClass = "";
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
@@ -84,16 +86,17 @@ exchange ( rev: boolean ) {
         case "Q":
         case "H":
             store.state.foundDataSlot = "M1";
-            switch ( store.state.searched_By ) {
-                case "history" : store.state.foundData = tools.getHistory();    break;
-                case "favorite": store.state.foundData = tools.getFavorite();   break;
-                case "phrase"  : 
-                    if ( str ) store.state.foundData = tools[ "search_" +S ](str);
-                    else store.state.foundDataSlot = null;
-                break;
+            // ! Check it
+            // switch ( store.state.searched_By ) {
+            //     case "history" : this.SearchPanel.displayResult( tools.getHistory(), "M1"); break;
+            //     case "favorite": this.SearchPanel.displayResult( tools.getFavorite(), "M1"); break;
+            //     case "phrase"  : 
+            //         if ( str )  this.SearchPanel.displayResult( tools[ "search_" +S ](str), "M1") ;
+            //         else store.state.foundDataSlot = null;
+            //     break;
 
-                default: store.state.foundDataSlot = null; break;
-            }
+            //     default: store.state.foundDataSlot = null; break;
+            // }
         break;
 
         // case "T":

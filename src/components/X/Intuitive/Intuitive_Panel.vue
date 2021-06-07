@@ -35,8 +35,8 @@
             :exchangeButton="true"
             @orderByParent="bind"
             @orderByParent_2="shiftTo"
+            @found=[]
             :vividBG=true
-            :searchLock=false
         />
 
     </GridLayout>
@@ -65,13 +65,12 @@ import Kalameh                          from "@/components/X/Kalameh.vue"
 import myButton                         from "@/components/X/myButton.vue"
 import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
-import Output_M4                        from "@/components/X/SearchBox/Outputs/M4.vue"
 import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { myButton, SearchBox, Output_M4 }
+    components: { myButton, SearchBox }
 } )
 
 // -- =====================================================================================
@@ -82,6 +81,7 @@ export default class ToolBar extends Vue {
 
 source: TS.Source;
 id: number;
+searchBox: SearchBox;
 
 buttons = [
     { icon: 'f004', class: ''     , fnc: () => this.toggleFavorite()    } ,
@@ -94,6 +94,8 @@ buttons = [
 // -- =====================================================================================
 
 mounted () {
+
+    this.searchBox = this.$refs.searchBoxes as any;
 
     // .. listen for Back-Button
     NS.Application.android.on( 
@@ -116,7 +118,11 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    store.state.foundData = tools.foundBounds( this.source, this.id );
+    this.searchBox.result = {
+        data: tools.foundBounds( this.source, this.id ),
+        type: "FlexBound",
+        target: "Flex"
+    };
 }
 
 // -- =====================================================================================
@@ -259,7 +265,11 @@ shiftTo ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         store.state.activeAyah = item.id;
-        store.state.foundData = tools.foundBounds( "Q", item.id );
+        this.searchBox.result = {
+            data: tools.foundBounds( "Q", item.id ),
+            type: "FlexBound",
+            target: "Flex",
+        }
     }
 
     if ( item.source === "H" ) {
@@ -278,13 +288,21 @@ TagModeToggler () {
 
     if ( store.state.foundDataSlot === "M3" ) {
         store.state.foundDataSlot = "M4";
-        store.state.foundData = tools.foundBounds( this.source, this.id );
+        this.searchBox.result = {
+            data: tools.foundBounds( this.source, this.id ),
+            type: "FlexBound",
+            target: "Flex",
+        }
         store.state.search_IN = this.source;
     }
 
     else {
         store.state.foundDataSlot = "M3";
-        store.state.foundData = tools.getTags();
+        this.searchBox.result = {
+            data: tools.getTags(),
+            type: "FlexTag",
+            target: "Flex",
+        }
         store.state.search_IN = "T";
     }
 

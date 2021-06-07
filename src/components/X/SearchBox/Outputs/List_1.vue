@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView for="item in $store.state.foundData" >
+    <ListView for="item in data">
         <v-template>
             <GridLayout 
                 rows="*,auto"
@@ -45,9 +45,13 @@ export default class Output_M1 extends Vue {
 
 // -- =====================================================================================
 
-get visibility () {
-    return store.state.foundData.length && store.state.foundDataSlot === "M1" ? 
-        'visible' : 'hidden';
+data = [];
+visibility = "collapsed";
+
+// -- =====================================================================================
+
+init ( data: TS.ItemFound[] ) {
+    this.visibility = data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================

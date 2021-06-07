@@ -27,6 +27,7 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -46,7 +47,7 @@ export default class Input extends Vue {
 // -- =====================================================================================
 
 hint: string = "بحث";
-life = true;
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
@@ -66,10 +67,11 @@ mounted () {
     if ( this.hashTagButton  ) pad += 23;
     try { ( this.$refs.search as any ).nativeView.paddingLeft = pad } catch {}
 
-    store.watch(
-        state => store.state.fraseInSearch, 
-        newVal => { if ( this.life && !newVal ) this.dismiss() }
-    );
+    // ! check this
+    // store.watch(
+    //     state => store.state.fraseInSearch, 
+    //     newVal => { if ( this.life && !newVal ) this.dismiss() }
+    // );
 
 }
 
@@ -106,7 +108,8 @@ returnPressed ( phrase: string ) {
         if ( text ) {
             store.state.cakeBound = tools.bound_Q_Toggler( newTag );
             store.state.foundDataSlot = "M3";
-            store.state.foundData = tools.getTags();
+            // ! check this
+            // this.SearchPanel. = tools.getTags();
         }
 
         // .. hard registration
@@ -122,12 +125,6 @@ dismiss () {
     store.state.fraseInSearch = null;
     try { ( this.$refs.search as any ).nativeView.text = null } catch {}
     try { ( this.$refs.search as any ).nativeView.dismissSoftInput() } catch {}
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================

@@ -105,12 +105,12 @@ export function contentPreviewer ( source:TS.Source, id: number ): TS.ItemFound 
 
 export function scapeCheck ( mode: TS.search_By ) {
 
-    if ( store.state.foundData.length && store.state.searched_By === mode ) {
-        store.state.searched_By = null;
-        store.state.foundData = [];
-        store.state.foundDataSlot = null;
-        return true;
-    }
+    // ! check this
+    // if ( store.state.foundData.length && store.state.searched_By === mode ) {
+    //     store.state.searched_By = null;
+    //     store.state.foundDataSlot = null;
+    //     return true;
+    // }
 
     return false;
 
@@ -118,12 +118,13 @@ export function scapeCheck ( mode: TS.search_By ) {
 
 // -- =====================================================================================
 
+// ! remove this
 export function clearSearchBox ( limited=false ) {
-    store.state.searched_By = null;
-    store.state.foundData = [];
-    store.state.foundDataSlot = null;
-    if ( limited ) return;
-    store.state.fraseInSearch = null;
+    // store.state.searched_By = null;
+    // store.state.foundData = [];
+    // store.state.foundDataSlot = null;
+    // if ( limited ) return;
+    // store.state.fraseInSearch = null;
 } 
 
 // -- =====================================================================================
@@ -191,7 +192,6 @@ export function getFavorite (): TS.ItemFound[] {
 
     for ( const m of store.state.fav[ store.state.search_IN ] ) 
         items.unshift( contentPreviewer( store.state.search_IN, m ) );
-console.log(items);
 
     return items;
 
@@ -273,7 +273,8 @@ export function foundBounds ( source: TS.Source, id: number ): TS.ItemFound[] {
     if ( found ) {
 
         // .. preparing
-        store.state.foundData = [];
+        // ! chcek this
+        // store.state.foundData = [];
         store.state.foundDataSlot = "M4";
 
         // .. add Header

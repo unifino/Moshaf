@@ -39,6 +39,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -52,14 +53,18 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
-@Prop() vividBG: boolean;
+data = [];
+visibility = "collapsed";
 
 // -- =====================================================================================
 
-get visibility () {
-    return store.state.foundData.length && store.state.foundDataSlot === "M4" ? 
-        'visible' : 'hidden';
+init ( data: TS.ItemFound[] ) {
+    this.visibility = data.length ? "visible" : "collapsed";
 }
+
+@Prop() vividBG: boolean;
+
+// -- =====================================================================================
 
 get outputBoxClass () {
     return this.vividBG ? 'outputBox transparent' : 'outputBox';

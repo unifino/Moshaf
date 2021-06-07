@@ -21,6 +21,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -35,21 +36,11 @@ export default class Dismiss extends Vue {
 // -- =====================================================================================
 
 myClass = "";
-life = true;
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
-mounted () {
-
-    store.watch(
-        state => store.state.foundData.length, 
-        () => { if ( this.life ) this.activeClass() }
-    );
-
-    // .. init
-    this.activeClass();
-
-}
+mounted () {}
 
 // -- =====================================================================================
 
@@ -59,7 +50,7 @@ activeClass () {
     let activeClass = true,
         source = store.state.search_IN;
 
-    if ( !store.state.foundData.length )
+    if ( this.SearchPanel.result.data.length )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = false;
 
@@ -77,12 +68,6 @@ async dismiss () {
     tools.clearSearchBox( true );
     await new Promise( _ => setTimeout( _, 10 ) );
     tools.clearSearchBox( false );
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================

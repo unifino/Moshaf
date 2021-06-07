@@ -23,6 +23,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import SearchPanel                      from "../Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -37,20 +38,13 @@ export default class History extends Vue {
 // -- =====================================================================================
 
 myClass = "";
-life = true;
+SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
 mounted () {
-
-    store.watch(
-        state => store.state.search_IN, 
-        () => { if ( this.life ) this.activeClass() }
-    );
-
     // .. init
     this.activeClass();
-
 }
 
 // -- =====================================================================================
@@ -79,10 +73,14 @@ getHistory () {
     // .. register action
     store.state.searched_By = "history";
 
-    store.state.foundData = tools.getHistory();
+    this.SearchPanel.result = {
+        data: tools.getHistory(),
+        type: "ListSimple",
+        target: "List",
+    }
     store.state.foundDataSlot = "M1";
 
-    if ( !store.state.foundData.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 
@@ -102,12 +100,6 @@ purgeHistory () {
     // .. notify
     tools.toaster( "🗑: History Purged!" );
 
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================
