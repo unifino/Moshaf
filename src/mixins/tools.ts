@@ -6,6 +6,7 @@ import { Hadith }                       from "@/db/H/Al-Hadith"
 import { c_map }                        from "@/db/H/info"
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
+import { info } from "node:console"
 
 // -- =====================================================================================
 
@@ -72,23 +73,6 @@ export function inFarsiLetters ( str: string ) {
         // .replace( /ڑ/g, 'ر' );
 
     return str;
-
-}
-
-// -- =====================================================================================
-
-export function quranTextPreviewer ( id: number ) {
-    const str = Quran[ id ].text;
-    return str;
-}
-
-export function quranAddress ( id: number ) {
-
-    const i = Quran[ id ];
-    const suraName = asma[ i.sura -1 ][1];
-    const suraNumber = arabicDigits( asma[ i.sura -1 ][0] +"" );
-
-    return ( suraName + "(" + suraNumber + ") | " + arabicDigits( i.ayah +"" ) );
 
 }
 
@@ -462,6 +446,56 @@ export function getHadith ( id: number ) {
 
 // -- =====================================================================================
 
+function simpleText ( str ) {
+    str = str.replace( /<.?Q>/g, ' ' );
+    str = str.replace( /\(/g, 'HBT_v1' );
+    str = str.replace( /\)/g, '(' );
+    str = str.replace( /HBT_v1/g, ')' );
+    str = str.replace( / +/g, ' ' );
+    return str;
+}
+
+// -- =====================================================================================
+
+export function getInfo ( source: TS.Source, id: number ) {
+
+    let info: {
+        source: TS.Source,
+        id: number,
+        text: string,
+    } = <any>{};
+
+    info.source = source;
+    info.id = id;
+
+    if ( source === "Q" ) {
+        info.text = Quran[ id ].text + "\n\n" + quranAddress( id );
+    }
+
+    if ( source === "H" ) {
+        info.text = textOfHadith( id );
+    }
+
+    return info;
+}
+
+// ! remove it
+export function quranTextPreviewer ( id: number ) {
+    const str = Quran[ id ].text;
+    return str;
+}
+
+export function quranAddress ( id: number ) {
+
+    const i = Quran[ id ];
+    const suraName = asma[ i.sura -1 ][1];
+    const suraNumber = arabicDigits( asma[ i.sura -1 ][0] +"" );
+
+    return ( suraName + "(" + suraNumber + ") | " + arabicDigits( i.ayah +"" ) );
+
+}
+
+// ! remove it
 export function getSharedText_H ( hadith: TS.Hadith ) {
 
     let str: string = "";
@@ -479,15 +513,25 @@ export function getSharedText_H ( hadith: TS.Hadith ) {
 
 }
 
-// -- =====================================================================================
+export function textOfHadith ( id: number ) {
 
-function simpleText ( str ) {
-    str = str.replace( /<.?Q>/g, ' ' );
-    str = str.replace( /\(/g, 'HBT_v1' );
-    str = str.replace( /\)/g, '(' );
-    str = str.replace( /HBT_v1/g, ')' );
-    str = str.replace( / +/g, ' ' );
+    let str: string = "";
+
+    // .. mini patch
+    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
+
+    str += c_map[ Hadith[ id ].c ][0];
+    str += " )" + c_map[ Hadith[ id ].c ][1] + "(:\n\n";
+    str += Hadith[ id ].a.replace( /<.?Q>/g, '' );
+
+    if ( Hadith[ id ].b ) str += "\n\n" + Hadith[ id ].b;
+    if ( Hadith[ id ].d ) str += "\n\n" + Hadith[ id ].d;
+
+
+    str = simpleText( str );
+
     return str;
+
 }
 
 // -- =====================================================================================

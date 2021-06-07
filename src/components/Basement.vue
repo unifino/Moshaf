@@ -127,8 +127,8 @@ setup (): Promise<void> {
         TM.themeApplier( "Smoky", this );
 
         // .. first actual step! bring-up the Unity
-        this.to_Unity( true );
-
+        // this.to_Unity( true );
+        route( "Paper" );
         // .. basic steps has been resolved!
         rs();
 
@@ -139,6 +139,9 @@ setup (): Promise<void> {
 // -- =====================================================================================
 
 backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
+
+    // .. somewhere else controls this actions
+    if ( e.cancel ) return 0;
 
     // todo .. page stack could be defined!
 
@@ -158,9 +161,11 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         case "Base_01": if ( !store.state.foundData.length ) e.cancel = false; break;
         case "Base_10": if ( !store.state.foundData.length ) e.cancel = false; break;
 
+        case "Paper"  : e.cancel = store.state.iPanel_ON; break;
+
         case "Qertas":
-            if ( !~store.state.activeAyah ) e.cancel = false;
-            else store.state.activeAyah = -1;
+            e.cancel = !~store.state.activeAyah;
+            if ( ~store.state.activeAyah ) store.state.activeAyah = -1;
         break;
 
         // .. let do more actions

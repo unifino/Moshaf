@@ -1,6 +1,6 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="fx">
+<GridLayout class="fx" @tap="panel()">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -8,6 +8,7 @@
         class="paper"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
+        @tap="panel()"
     >
 
         <FlexboxLayout 
@@ -15,8 +16,8 @@
             flexDirection="row-reverse"
             justifyContent="center"
         >
-            <Label :text=hadith.from textWrap=true class="name" @tap="copy()" />
-            <Label :text=hadith.salam textWrap=true class="name_e" @tap="copy()" />
+            <Label :text=hadith.from textWrap=true class="name" />
+            <Label :text=hadith.salam textWrap=true class="name_e" />
 
             <Label class="divider" />
             <Kalameh 
@@ -32,12 +33,6 @@
         </FlexboxLayout>
 
     </ScrollView>
-
-<!---------------------------------------------------------------------------------------->
-
-    <GridLayout rowSpan=5 rows="*,230" >
-        <GridLayout row=1 @doubleTap="toggleFavorite()" />
-    </GridLayout>
 
     <IntuitivePanel ref="IntuitivePanel" />
 
@@ -55,13 +50,14 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as TM                          from "@/themes/themeManager"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
 import Kalameh                          from "@/components/X/Kalameh.vue"
-import IntuitivePanel                   from "@/components/X/Intuitive/iPanel.vue"
+import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
 // -- =====================================================================================
 
@@ -75,7 +71,11 @@ export default class Paper extends Vue {
 
 // -- =====================================================================================
 
-@Prop() id;
+@Prop() id: number;
+
+// -- =====================================================================================
+
+myID: number;
 
 // -- =====================================================================================
 
@@ -84,7 +84,9 @@ hadith: TS.Hadith = {} as any;
 // -- =====================================================================================
 
 mounted () {
-    this.init( this.id )
+
+    this.init( this.id );
+    // ! reconsider it
     // store.watch(
     //     state => store.state.activeHadith.length, 
     //     length => this.init( store.state.activeHadith[ length-1 ] )
@@ -97,25 +99,27 @@ mounted () {
 
 pageLoaded () {
     store.state.here = 'Paper';
-    // TM.themePatcher( this );
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================
 
 init ( id: number = -1 ) {
 
-    if ( ~id ) this.show( id );
+    this.myID = id ;
 
-    else {
-        let rand = tools.saheb( "H" );
-        // .. it has been read already
-        while ( store.state.memo.H.includes( rand ) ) rand = tools.saheb( "H" );
-        // .. show it
-        this.show( rand );
+    if ( !~this.myID ) {
+        // .. found a new Hadith
+        while ( !~this.myID || store.state.memo.H.includes( this.myID ) )
+            this.myID = tools.saheb( "H" );
     }
 
+    // .. show it
+    this.show( this.myID );
+
     // .. register the ID
-    store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
+    // ! remove it | reconsider it
+    // store.state.activeHadith[ store.state.activeHadith.length -1 ] = id;
 
 }
 
@@ -136,23 +140,8 @@ show ( id: number ) {
 
 // -- =====================================================================================
 
-copy () {
-    setText( this.hadith.toShare );
-    tools.toaster( "حدیث کپی شد.", "short" );
-}
-
-// -- =====================================================================================
-
-toggleFavorite () {
-    let currentId = store.state.activeHadith[ store.state.activeHadith.length -1 ];
-    let trace = store.state.fav.H.indexOf( currentId );
-    // .. add to Favorite
-    if ( !~trace ) store.state.fav.H.push( currentId );
-    // .. pop out of Favorite
-    else store.state.fav.H.splice( trace, 1 );
-    // .. Toast it
-    tools.toaster( !~trace ? "💚" : "💔" );
-    storage.saveDB( storage.fav_h_File, store.state.fav.H );
+panel () {
+    ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "H", this.myID );
 }
 
 // -- =====================================================================================
@@ -184,7 +173,7 @@ destroyed () {}
 
 /* ------------------------------------------- */
     .paper {
-        height: 72%;
+        height: 63%;
         width: 72%;
     }
 

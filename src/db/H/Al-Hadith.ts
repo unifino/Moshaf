@@ -11,7 +11,7 @@ const t = require( "./تحف‌العقول.json" ) as TS.HDB;
 const v = require( "./وسائل‌الشيعه.json" ) as TS.HDB;
 
 // .. temporary collection
-let nHadith = [];
+let nHadith: TS.hadithCell[] = [];
 // .. create db based on N
 for ( let p of [ ...k,...q,...m,...n,...b,...z,...h,...t,...v ] ) 
     nHadith[ p.n ] = p;

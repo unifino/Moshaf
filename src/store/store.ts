@@ -25,6 +25,7 @@ export default new Vuex.Store( {
         foundData       : []                    ,
         foundDataSlot   : null                  ,
         cacheBound      : []                    ,
+        iPanel_ON       : false                 ,
                                                  
         fav             : {                      
             Q           : []                    ,
@@ -59,6 +60,7 @@ interface state {
         foundData       : TS.FoundContent []    ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
         cacheBound      : TS.RawBound           ,
+        iPanel_ON       : boolean               ,
                                                  
         fav             : {                      
             Q           : number[]              ,
