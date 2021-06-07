@@ -67,13 +67,13 @@ activeClass () {
 getFavorite () {
 
     // .. re-tap situation
-    if ( store.state.search_ON ) {
+    if ( store.state.search_ON && store.state.search_CH === "favorite" ) {
         this.SearchPanel.clearSearch();
         return;
     }
 
     // .. register action
-    store.state.searched_By = "favorite";
+    store.state.search_CH = "favorite";
 
     this.SearchPanel.display( tools.getFavorite(), "List_1" );
 

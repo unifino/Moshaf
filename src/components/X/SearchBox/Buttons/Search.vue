@@ -82,10 +82,13 @@ getSearchResult ( force?: boolean ) {
     if ( store.state.search_IN === "T" ) return;
 
     // .. re-tap situation
-    if ( !force && tools.scapeCheck( "phrase" ) ) return;
+    if ( !force && store.state.search_ON && store.state.search_CH === "phrase" ) {
+        this.SearchPanel.clearSearch();
+        return;
+    }
 
     // .. register action
-    store.state.searched_By = "phrase";
+    store.state.search_CH = "phrase";
 
     if ( force ) {
         let str = store.state.fraseInSearch.trim();

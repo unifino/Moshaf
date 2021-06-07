@@ -67,11 +67,13 @@ activeClass () {
 getHistory () {
 
     // .. re-tap situation
-    if ( tools.scapeCheck( "history" ) ) return;
-    tools.clearSearchBox();
+    if ( store.state.search_ON && store.state.search_CH === "history" ) {
+        this.SearchPanel.clearSearch();
+        return;
+    }
 
     // .. register action
-    store.state.searched_By = "history";
+    store.state.search_CH = "history";
 
     this.SearchPanel.display( tools.getHistory(), "List_1" );
 

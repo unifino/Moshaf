@@ -21,12 +21,11 @@ export default new Vuex.Store( {
         search_IN       : "Q"                   ,
                                                  
         fraseInSearch   : null                  ,
-        searched_By     : null                  ,
-        foundData       : []                    ,
         foundDataSlot   : null                  ,
         cacheBound      : []                    ,
         iPanel_ON       : false                 ,
         search_ON       : false                 ,
+        search_CH       : null                  ,
                                                  
         fav             : {                      
             Q           : []                    ,
@@ -57,11 +56,11 @@ interface state {
         search_IN       : TS.Source             ,
                                                  
         fraseInSearch   : string                ,
-        searched_By     : TS.search_By          ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
         cacheBound      : TS.RawBound           ,
         iPanel_ON       : boolean               ,
         search_ON       : boolean               ,
+        search_CH       : TS.search_By          ,
                                                  
         fav             : {                      
             Q           : number[]              ,
