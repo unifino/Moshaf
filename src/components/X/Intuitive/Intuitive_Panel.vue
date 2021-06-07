@@ -28,10 +28,10 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 rowSpan=3 col=2 ref="searchBoxes" opacity=0>
+    <GridLayout row=1 rowSpan=3 col=2 opacity=0 ref="searchBox">
 
-        <SearchBox
-            ref='search_Q'
+        <SearchPanel
+            ref='searchPanel'
             :exchangeButton="true"
             @orderByParent="bind"
             @orderByParent_2="shiftTo"
@@ -63,14 +63,14 @@ import { asma, Quran }                  from "@/db/Q/Quran"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import myButton                         from "@/components/X/myButton.vue"
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
 import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { myButton, SearchBox }
+    components: { myButton, SearchPanel }
 } )
 
 // -- =====================================================================================
@@ -81,7 +81,7 @@ export default class ToolBar extends Vue {
 
 source: TS.Source;
 id: number;
-searchBox: SearchBox;
+SearchPanel: SearchPanel;
 
 buttons = [
     { icon: 'f004', class: ''     , fnc: () => this.toggleFavorite()    } ,
@@ -95,7 +95,7 @@ buttons = [
 
 mounted () {
 
-    this.searchBox = this.$refs.searchBoxes as any;
+    this.SearchPanel = this.$refs.searchPanel as any;
 
     // .. listen for Back-Button
     NS.Application.android.on( 
@@ -118,7 +118,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.searchBox.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
+    this.SearchPanel.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
 }
 
 // -- =====================================================================================
@@ -140,7 +140,7 @@ async menuCtr ( id: number ) {
 
     let panel = ( this.$refs.panel as any ).nativeView,
         menuBox = ( this.$refs.menuBox as any ).nativeView,
-        searchBoxes = ( this.$refs.searchBoxes as any ).nativeView,
+        searchBox = ( this.$refs.searchBox as any ).nativeView,
         bgColor: string,
         x_def: NS.AnimationDefinition = {},
         y_def: NS.AnimationDefinition = {},
@@ -164,7 +164,7 @@ async menuCtr ( id: number ) {
     y_def.translate = { x: !~id ? -23 : 14, y: 0 };
     y_def.opacity = !~id ? 0 : 1;
 
-    z_def.target = searchBoxes;
+    z_def.target = searchBox;
     z_def.duration = !~id ? 100 : 650;
     z_def.opacity = !~id ? 0 : 1;
 
@@ -261,7 +261,7 @@ shiftTo ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         store.state.activeAyah = item.id;
-        this.searchBox.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
+        this.SearchPanel.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
     }
 
     if ( item.source === "H" ) {
@@ -278,12 +278,12 @@ tagModeActivated = false;
 TagModeToggler () {
 
     if ( this.tagModeActivated ) {
-        this.searchBox.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
+        this.SearchPanel.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
         store.state.search_IN = this.source;
     }
 
     else {
-        this.searchBox.display( tools.getTags(), "Flex_1" );
+        this.SearchPanel.display( tools.getTags(), "Flex_1" );
         store.state.search_IN = "T";
     }
 

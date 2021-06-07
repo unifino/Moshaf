@@ -27,7 +27,7 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
 

@@ -3,10 +3,10 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label
-        class="fas button"
-        :visibility=visibility 
-        :text="String.fromCharCode( '0x' + 'f00d' )"
-        @tap="dismiss()"
+        :class="'fas button ' + myClass" 
+        :text="String.fromCharCode( '0x' + 'f1da' )"
+        @tap="getHistory()"
+        @longPress="purgeHistory()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -20,9 +20,10 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import store                            from "@/store/store"
+import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
-import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
+import store                            from "@/store/store"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -32,43 +33,70 @@ import SearchPanel                      from "@/components/X/SearchBox/Search_Pa
 
 // -- =====================================================================================
 
-export default class Dismiss extends Vue {
+export default class History extends Vue {
 
 // -- =====================================================================================
 
+myClass = "";
 SearchPanel: SearchPanel = this.$parent as any; 
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    // .. init
+    this.activeClass();
+}
 
 // -- =====================================================================================
 
-get visibility () {
+activeClass () {
 
     // .. reset Class
     let activeClass = false,
         source = store.state.search_IN;
 
-    if ( store.state.search_ON )
-        if ( source ==='Q' || source ==='H' || source ==='N' ) 
-            activeClass = true;
+    if ( source === "Q" ) if ( store.state.memo.Q.length ) activeClass = true;
+    if ( source === "H" ) if ( store.state.memo.H.length ) activeClass = true;
 
-    return activeClass ? 'visible' : 'collapsed';
+    this.myClass = activeClass ? 'activate' : 'deactivate';
 
 }
 
 // -- =====================================================================================
 
-async dismiss () {
-    // ! check this
-    // // .. patch M4|M3 intuitive
-    // if ( store.state.foundDataSlot === "M4" ) store.state.activeAyah = -1;
-    // if ( store.state.foundDataSlot === "M3" ) store.state.activeAyah = -1;
-    // await new Promise( _ => setTimeout( _, 10 ) );
-    // tools.clearSearchBox( false );
-    // .. regular actions
-    this.SearchPanel.clearSearch();
+getHistory () {
+
+    // .. re-tap situation
+    if ( store.state.search_ON && store.state.search_CH === "history" ) {
+        this.SearchPanel.clearSearch();
+        return;
+    }
+
+    // .. register action
+    store.state.search_CH = "history";
+
+    this.SearchPanel.display( tools.getHistory(), "List_1" );
+
+    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
+
+}
+
+// -- =====================================================================================
+
+purgeHistory () {
+
+    // .. get Name
+    let src = store.state.search_IN;
+    let traceName = 'trace_' + src.toLowerCase();
+
+    // .. soft Purge
+    store.state.memo[ src ].splice(0);
+    // .. hard registration
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ src ] );
+
+    // .. notify
+    tools.toaster( "🗑: History Purged!" );
+
 }
 
 // -- =====================================================================================
@@ -84,5 +112,8 @@ async dismiss () {
 <style scoped>
 
 /* ------------------------------------------- */
+    .deactivate {
+        visibility: collapse;
+    }
 
 </style>

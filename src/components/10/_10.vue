@@ -8,7 +8,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox
+    <SearchPanel
         row=1
         rowSpan=2
         @orderByParent="open"
@@ -34,13 +34,13 @@ import * as TM                          from "@/themes/themeManager"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 import Paper                              from "@/components/10/Paper.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox, Paper }
+    components: { SearchPanel, Paper }
 } )
 
 // -- =====================================================================================

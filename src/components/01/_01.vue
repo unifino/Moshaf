@@ -17,7 +17,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox
+    <SearchPanel
         ref="search"
         row=1
         rowSpan=2
@@ -43,12 +43,12 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { route }                        from '@/mixins/router'
 import { Najawa }                       from "@/db/N/Al-Najawa"
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox }
+    components: { SearchPanel }
 } )
 
 // -- =====================================================================================

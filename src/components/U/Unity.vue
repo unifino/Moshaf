@@ -42,7 +42,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox
+    <SearchPanel
         width="300"
         row=1
         rowSpan=3
@@ -78,12 +78,12 @@ import Saheb                            from "@/components/U/Saheb.vue"
 import DarkTheme                        from "@/components/U/DarkTheme.vue"
 import myButton                         from "@/components/X/myButton.vue"
 import { route }                        from "@/mixins/router"
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Saheb, myButton, SearchBox }
+    components: { Saheb, myButton, SearchPanel }
 } )
 
 // -- =====================================================================================

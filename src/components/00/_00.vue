@@ -41,7 +41,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <SearchBox
+    <SearchPanel
         row=1
         rowSpan=2
         ref="search"
@@ -70,12 +70,12 @@ import { route }                        from '@/mixins/router'
 import { asma, Quran }                  from "@/db/Q/Quran"
 
 import Kalameh                          from "@/components/X/Kalameh.vue"
-import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, SearchBox }
+    components: { Kalameh, SearchPanel }
 } )
 
 // -- =====================================================================================

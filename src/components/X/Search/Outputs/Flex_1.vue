@@ -39,7 +39,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
-import SearchPanel                      from "@/components/X/SearchBox/Search_Panel.vue";
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -53,10 +53,6 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
-SearchPanel: SearchPanel = this.$parent as any; 
-
-// -- =====================================================================================
-
 @Prop() vividBG: boolean;
 
 // -- =====================================================================================
@@ -66,15 +62,15 @@ visibility = "collapsed";
 
 // -- =====================================================================================
 
-init ( data: TS.ItemFound[] = [] ) {
-    this.data = data;
-    this.visibility = data.length ? "visible" : "collapsed";
+get outputBoxClass () {
+    return this.vividBG ? 'outputBox transparent' : 'outputBox';
 }
 
 // -- =====================================================================================
 
-get outputBoxClass () {
-    return this.vividBG ? 'outputBox transparent' : 'outputBox';
+init ( data: TS.ItemFound[] = [] ) {
+    this.data = data;
+    this.visibility = data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================
