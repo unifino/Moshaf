@@ -117,8 +117,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    if ( source === "Q" ) store.state.foundData = tools.bounder_Q();
-    // else if ( source === "H" ) tools.toaster( "Code IT" );
+    store.state.foundData = tools.foundBounds( this.source, this.id );
 }
 
 // -- =====================================================================================

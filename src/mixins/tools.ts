@@ -286,6 +286,38 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
+export function foundBounds ( source: TS.Source, id: number ): TS.FoundContent[] { 
+
+    let found: TS.FoundContent[] = [],
+        code_O = source + "_" + id,
+        code_Xs = store.state.cakeBound[ code_O ] || [],
+        isBounded: boolean;
+
+    // .. convert codes to the content
+    for ( let raw of code_Xs ) {
+        isBounded = store.state.cakeBound[ raw ].includes( code_O );
+        found.push( boundParser( raw, { isBounded: isBounded } ) );
+    }
+
+    if ( found ) {
+
+        // .. preparing
+        store.state.foundData = [];
+        store.state.foundDataSlot = "M4";
+
+        // .. add Header
+        found.unshift( boundParser( code_O, { isHeader: true } ) );
+
+        // .. append cached Items
+        found = bounder_Q_Cache( found );
+
+    }
+
+    return found.filter( x => x );
+
+}
+
+// ! .. remove it
 export function bounder_Q (): TS.FoundContent[] { 
 
     let found: TS.FoundContent[] = [],
