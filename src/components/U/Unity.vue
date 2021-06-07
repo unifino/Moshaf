@@ -1,34 +1,35 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="unityBox" ref="unityBox" rows="6*,4*,100" columns="7*,23*">
+<GridLayout class="unityBox" ref="unityBox" rows="44,88,6*,4*,100">
 
 <!---------------------------------------------------------------------------------------->
 
-    <StackLayout row=0 col=0 marginLeft=20 verticalAlignment="middle" >
-        <myButton 
-            :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
-            icon="f0eb"
-            @tap=darkThemeToggler
-            margin=5
-        />
-        <myButton bClass="button fas" icon="f559" @tap="refresh" margin=5 />
-    </StackLayout>
+    <GridLayout 
+        row=2 
+        columns="7*,23*" 
+        :visibility="$store.state.foundData.length ? 'hidden' : 'visible'"
+    >
 
-<!---------------------------------------------------------------------------------------->
+        <StackLayout col=0 marginLeft=20 verticalAlignment="middle" >
+            <myButton 
+                :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
+                icon="f0eb"
+                @tap=darkThemeToggler
+                margin=5
+            />
+            <myButton bClass="button fas" icon="f559" @tap="refresh" margin=5 />
+        </StackLayout>
 
-    <GridLayout row=0 col=1 rows="*,auto,auto,*" orientation="vertical">
-        <Saheb ref="Saheb_Q" row=1 source="Q" />
-        <Saheb ref="Saheb_H" row=2 source="H" />
+        <GridLayout col=1 rows="*,auto,auto,*" orientation="vertical">
+            <Saheb ref="Saheb_Q" row=1 source="Q" />
+            <Saheb ref="Saheb_H" row=2 source="H" />
+        </GridLayout>
+
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 col=1 >
-    </GridLayout>
-
-<!---------------------------------------------------------------------------------------->
-
-    <StackLayout row=2 colSpan=2 orientation="horizontal" horizontalAlignment="center" >
+    <StackLayout row=4 orientation="horizontal" horizontalAlignment="center" >
         <myButton bClass="button big fas" icon="f5bb" @tap='route( "Base_10" )' />
         <myButton 
             bClass="button big fas"
@@ -38,6 +39,19 @@
         />
         <myButton bClass="button big fas" icon="f67f" @tap='route( "Base_01" )' />
     </StackLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+    <SearchBox
+        width="300"
+        row=1
+        rowSpan=3
+        ref="search"
+        :hashTagButton="true"
+        :exchangeButton="true"
+        source="Q"
+        :searchLock=false
+    />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -64,12 +78,13 @@ import { Najawa }                       from "@/db/N/Al-Najawa"
 import Saheb                            from "@/components/U/Saheb.vue"
 import DarkTheme                        from "@/components/U/DarkTheme.vue"
 import myButton                         from "@/components/X/myButton.vue"
-import { route } from "@/mixins/router"
+import { route }                        from "@/mixins/router"
+import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { Saheb, myButton }
+    components: { Saheb, myButton, SearchBox }
 } )
 
 // -- =====================================================================================

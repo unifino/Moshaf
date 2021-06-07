@@ -17,8 +17,8 @@
         <History  />
         <Favorite />
         <Random :randomButton="randomButton" />
-        <HashTag :hashTagButton="hashTagButton" />
         <Exchange :exchangeButton="exchangeButton" />
+        <!-- <HashTag :hashTagButton="hashTagButton" /> -->
 
     </StackLayout>
 
