@@ -78,52 +78,25 @@ export function inFarsiLetters ( str: string ) {
 
 // -- =====================================================================================
 
-export function hadithTextPreviewer ( id: number ) {
-
-    let limit = 440,
-        str = Hadith[ id ].a;
-
-    str = str.replace( /<Q> \)/g, "" );
-    str = str.replace( /\( <\/Q>/g, "" );
-    str = str.replace( /<Q>/g, "" );
-    str = str.replace( /<\/Q>/g, "" );
-
-    if ( str.length > limit ) str = str.slice( 0, limit ) + " ...( المزيد )";
-
-    return str;
-
-}
-
-// -- =====================================================================================
-
-export function contentPreviewer ( source:TS.Source, id: number ): TS.FoundContent {
+export function contentPreviewer ( source:TS.Source, id: number ): TS.ItemFound {
 
     let code_O = "Q_" + store.state.activeAyah,
         code_X = source + "_" + id,
-        isBounded: boolean;
+        isBounded: boolean,
+        info = getInfo( source, id );
 
     try { isBounded = store.state.cakeBound[ code_O ].includes( code_X ) } catch {}
 
-    let content: TS.FoundContent = {
+    let content: TS.ItemFound = {
         id: id,
         source: source,
-        text: null,
+        text: info.previewText,
         flags: {
-            isBounded: isBounded
+            isBounded: isBounded,
+            address: info.address,
         }
     };
-
-    if ( source === "Q" ) {
-        content.text = quranTextPreviewer( id );
-        content.flags.address = quranAddress( id );
-    }
-    if ( source === "H" ) {
-        if ( ~id ) {
-            content.text = hadithTextPreviewer( id );
-            content.flags.address = Hadith[ id ].d || "";
-        }
-    }
-
+ 
     return content;
 
 }
@@ -155,37 +128,34 @@ export function clearSearchBox ( limited=false ) {
 
 // -- =====================================================================================
 
-export function boundParser ( item: string, flags: TS.Flags ={} ): TS.FoundContent {
+export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.ItemFound {
 
-    let source = item.slice(0, 1) as TS.Source,
-        id = Number( item.slice(2) ) as number,
-        found: TS.FoundContent;
+    let source = code.slice(0, 1) as TS.Source,
+        id = Number( code.slice(2) ) as number,
+        item: TS.ItemFound;
 
-    if ( source === "Q" || source === "H" ) {
+    // ! check other sources!
+    let text: string = "";
+    item = { id: id, text: text, source: source, flags: flags };
 
-        let text: string = "";
-        found = { id: id, text: text, source: source, flags: flags };
+    item.text = getInfo( source, id ).previewText;
 
-        if ( source === "Q" ) {
-            found.text = quranTextPreviewer(id);
-            found.flags.address = quranAddress(id);
-        }
-        if ( source === "H" ) {
-            found.text = hadithTextPreviewer(id);
-            found.flags.address = Hadith[ id ].d || "";
-        }
-
+    if ( source === "Q" ) {
+        item.flags.address = quranAddress(id);
+    }
+    if ( source === "H" ) {
+        item.flags.address = Hadith[ id ].d || "";
     }
 
-    return found;
+    return item;
 
 }
 
 // -- =====================================================================================
 
-export function getHistory (): TS.FoundContent[] {
+export function getHistory (): TS.ItemFound[] {
 
-    let found: TS.FoundContent[] = [];
+    let found: TS.ItemFound[] = [];
 
     if ( store.state.search_IN === "Q" )
         for ( const m of store.state.memo[ "Q" ] )
@@ -215,9 +185,9 @@ export function setHistory ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
-export function getFavorite (): TS.FoundContent[] {
+export function getFavorite (): TS.ItemFound[] {
 
-    let found: TS.FoundContent[] = [];
+    let found: TS.ItemFound[] = [];
 
     for ( const m of store.state.fav[ store.state.search_IN ] ) 
         found.unshift( contentPreviewer( store.state.search_IN, m ) );
@@ -228,9 +198,9 @@ export function getFavorite (): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function search_Q ( phrase: string ): TS.FoundContent[] {
+export function search_Q ( phrase: string ): TS.ItemFound[] {
 
-    let found: TS.FoundContent[] = [];
+    let found: TS.ItemFound[] = [];
 
     for ( let i = 0; i < Quran.length; i++ )
         if ( Quran[i].simpleInFarsiLetters.includes( phrase ) )
@@ -242,9 +212,9 @@ export function search_Q ( phrase: string ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function search_H ( phrase: string ): TS.FoundContent[] {
+export function search_H ( phrase: string ): TS.ItemFound[] {
 
-    let found: TS.FoundContent[] = [];
+    let found: TS.ItemFound[] = [];
     let words = phrase.split( " " );
     let matrix: number[][] = [];
     let tmpRow:number[];
@@ -286,17 +256,17 @@ export function search_H ( phrase: string ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function foundBounds ( source: TS.Source, id: number ): TS.FoundContent[] { 
+export function foundBounds ( source: TS.Source, id: number ): TS.ItemFound[] { 
 
-    let found: TS.FoundContent[] = [],
+    let found: TS.ItemFound[] = [],
         code_O = source + "_" + id,
-        code_Xs = store.state.cakeBound[ code_O ] || [],
+        x_codes = store.state.cakeBound[ code_O ] || [],
         isBounded: boolean;
 
     // .. convert codes to the content
-    for ( let raw of code_Xs ) {
-        isBounded = store.state.cakeBound[ raw ].includes( code_O );
-        found.push( boundParser( raw, { isBounded: isBounded } ) );
+    for ( let code_X of x_codes ) {
+        isBounded = store.state.cakeBound[ code_X ].includes( code_O );
+        found.push( bindItem_Generator( code_X, { isBounded: isBounded } ) );
     }
 
     if ( found ) {
@@ -306,39 +276,7 @@ export function foundBounds ( source: TS.Source, id: number ): TS.FoundContent[]
         store.state.foundDataSlot = "M4";
 
         // .. add Header
-        found.unshift( boundParser( code_O, { isHeader: true } ) );
-
-        // .. append cached Items
-        found = bounder_Q_Cache( found );
-
-    }
-
-    return found.filter( x => x );
-
-}
-
-// ! .. remove it
-export function bounder_Q (): TS.FoundContent[] { 
-
-    let found: TS.FoundContent[] = [],
-        code_O = "Q_" + store.state.activeAyah,
-        code_Xs = store.state.cakeBound[ code_O ] || [],
-        isBounded: boolean;
-
-    // .. convert codes to the content
-    for ( let raw of code_Xs ) {
-        isBounded = store.state.cakeBound[ raw ].includes( code_O );
-        found.push( boundParser( raw, { isBounded: isBounded } ) );
-    }
-
-    if ( found ) {
-
-        // .. preparing
-        store.state.foundData = [];
-        store.state.foundDataSlot = "M4";
-
-        // .. add Header
-        found.unshift( boundParser( code_O, { isHeader: true } ) );
+        found.unshift( bindItem_Generator( code_O, { isHeader: true } ) );
 
         // .. append cached Items
         found = bounder_Q_Cache( found );
@@ -351,11 +289,11 @@ export function bounder_Q (): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] { 
+export function bounder_Q_Cache ( base: TS.ItemFound[] ): TS.ItemFound[] { 
 
     let origin = "Q_" + store.state.activeAyah,
         cache: string[],
-        tmp: TS.FoundContent;
+        tmp: TS.ItemFound;
 
     cache = store.state.cacheBound.reduce( (soFar, xxx) => {
         if ( xxx[0] === origin ) soFar.push( xxx[1] );
@@ -363,7 +301,7 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
         return soFar;
     }, [] as string[] );
 
-    for ( let c of cache ) base.push( boundParser( c, { isCached: true } ) );
+    for ( let c of cache ) base.push( bindItem_Generator( c, { isCached: true } ) );
 
     return base;
 
@@ -371,7 +309,7 @@ export function bounder_Q_Cache ( base: TS.FoundContent[] ): TS.FoundContent[] {
 
 // -- =====================================================================================
 
-export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound { 
+export function bound_Q_Toggler ( item: TS.ItemFound ): TS.CakeBound { 
 
     let code_O = "Q_" + store.state.activeAyah,
         code_X: string;
@@ -410,12 +348,12 @@ export function bound_Q_Toggler ( item: TS.FoundContent ): TS.CakeBound {
 
 // -- =====================================================================================
 
-export function getTags (): TS.FoundContent[] {
+export function getTags (): TS.ItemFound[] {
 
     let code_O = "Q_" + store.state.activeAyah,
         tagsName: string[],
-        item: TS.FoundContent,
-        found: TS.FoundContent[] = [];
+        item: TS.ItemFound,
+        found: TS.ItemFound[] = [];
 
     // .. filter Tags
     tagsName = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
@@ -491,30 +429,36 @@ function simpleText ( str ) {
 
 export function getInfo ( source: TS.Source, id: number ) {
 
-    let info: {
+    let tmp: string,
+        limit = 440,
+        info: {
         source: TS.Source,
         id: number,
         text: string,
+        previewText: string,
+        address: string,
     } = <any>{};
 
     info.source = source;
     info.id = id;
 
     if ( source === "Q" ) {
-        info.text = Quran[ id ].text + "\n\n" + quranAddress( id );
+        info.address = quranAddress( id );
+        info.text = Quran[ id ].text + "\n\n" + info.address;
+        tmp = Quran[ id ].text;
+        if ( tmp.length > limit ) tmp = tmp.slice( 0, limit ) + " ...";
+        info.previewText = tmp;
     }
 
     if ( source === "H" ) {
+        info.address = Hadith[ id ].d || "";
         info.text = textOfHadith( id );
+        tmp = Hadith[ id ].a.replace( /<.?Q>/g, "" );
+        if ( tmp.length > limit ) tmp = tmp.slice( 0, limit ) + " ...( المزيد )";
+        info.previewText = tmp;
     }
 
     return info;
-}
-
-// ! remove it
-export function quranTextPreviewer ( id: number ) {
-    const str = Quran[ id ].text;
-    return str;
 }
 
 export function quranAddress ( id: number ) {

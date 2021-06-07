@@ -78,8 +78,8 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
-result: TS.FoundContent[] = [];
-result_tag: TS.FoundContent[] = [];
+result: TS.ItemFound[] = [];
+result_tag: TS.ItemFound[] = [];
 
 // -- =====================================================================================
 

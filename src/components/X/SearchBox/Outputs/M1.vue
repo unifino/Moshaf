@@ -52,7 +52,7 @@ get visibility () {
 
 // -- =====================================================================================
 
-itemClasser ( item: TS.FoundContent ) {
+itemClasser ( item: TS.ItemFound ) {
 
     // .. Patch if activated ( SAME AYAH )
     if ( item.source + "_" + item.id === "Q_" + store.state.activeAyah ) 
@@ -69,13 +69,13 @@ itemClasser ( item: TS.FoundContent ) {
 
 // -- =====================================================================================
 
-isAddressed ( item: TS.FoundContent) {
+isAddressed ( item: TS.ItemFound) {
     return item.flags.address ? 'address' : 'hidden';
 }
 
 // -- =====================================================================================
 
-itemClassToggler ( item: TS.FoundContent ) {
+itemClassToggler ( item: TS.ItemFound ) {
     item.flags.isBounded = !item.flags.isBounded;
 }
 

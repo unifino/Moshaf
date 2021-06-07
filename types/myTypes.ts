@@ -121,7 +121,7 @@ export type RawBound = [ string, string ][];
 
 // -- =====================================================================================
 
-export type FoundContent = {
+export type ItemFound = {
     id              : number    ,
     text            : string    ,
     source          : Source    ,

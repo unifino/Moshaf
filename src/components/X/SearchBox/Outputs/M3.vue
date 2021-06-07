@@ -59,7 +59,7 @@ get visibility () {
 
 // -- =====================================================================================
 
-tagClasser ( item: TS.FoundContent ) {
+tagClasser ( item: TS.ItemFound ) {
     let tagClass = 'tag';
     if ( item.flags.isBounded ) tagClass += ' bounded';
     if ( item.flags.isCached ) tagClass += ' cached';
@@ -68,7 +68,7 @@ tagClasser ( item: TS.FoundContent ) {
 
 // -- =====================================================================================
 
-tagToggler ( item: TS.FoundContent ) {
+tagToggler ( item: TS.ItemFound ) {
     store.state.cakeBound = tools.bound_Q_Toggler( item );
     store.state.foundData = tools.getTags();
 }

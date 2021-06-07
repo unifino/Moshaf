@@ -67,7 +67,7 @@ import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
 
 import Kalameh                          from "@/components/X/Kalameh.vue"
-import IntuitivePanel                   from "@/components/X/Intuitive/iPanel.vue"
+import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
 // -- =====================================================================================
 
@@ -197,7 +197,7 @@ kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 
     if ( type === "number" ) {
         store.state.activeAyah = aID;
-        store.state.foundData = tools.bounder_Q();
+        ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "Q", aID );
     }
 
 }

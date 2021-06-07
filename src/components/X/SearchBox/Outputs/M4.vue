@@ -67,7 +67,7 @@ get outputBoxClass () {
 
 // -- =====================================================================================
 
-itemClasser ( item: TS.FoundContent ) {
+itemClasser ( item: TS.ItemFound ) {
     let itemClass = "baseClass";
     if ( item.flags.isCached ) itemClass += " cached";
     if ( item.flags.isHeader ) itemClass += " header";
@@ -76,13 +76,13 @@ itemClasser ( item: TS.FoundContent ) {
 
 // -- =====================================================================================
 
-isAddressed ( item: TS.FoundContent) {
+isAddressed ( item: TS.ItemFound) {
     return item.flags.address ? 'address' : 'hidden';
 }
 
 // -- =====================================================================================
 
-itemClassToggler ( item: TS.FoundContent ) {
+itemClassToggler ( item: TS.ItemFound ) {
     item.flags.isCached = !item.flags.isCached;
     item.flags.isBounded = !item.flags.isBounded;
     this.$forceUpdate();

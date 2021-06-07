@@ -101,7 +101,7 @@ returnPressed ( phrase: string ) {
     else {
 
         let text = tools.inFarsiLetters( phrase ),
-            newTag: TS.FoundContent = { text: text, id: -1, source: "T", flags: {} };
+            newTag: TS.ItemFound = { text: text, id: -1, source: "T", flags: {} };
 
         if ( text ) {
             store.state.cakeBound = tools.bound_Q_Toggler( newTag );

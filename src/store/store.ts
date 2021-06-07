@@ -57,7 +57,7 @@ interface state {
                                                  
         fraseInSearch   : string                ,
         searched_By     : TS.search_By          ,
-        foundData       : TS.FoundContent []    ,
+        foundData       : TS.ItemFound []    ,
         foundDataSlot   : "M1"|"M2"|"M3"|"M4"   ,
         cacheBound      : TS.RawBound           ,
         iPanel_ON       : boolean               ,

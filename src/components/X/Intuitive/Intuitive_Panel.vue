@@ -239,7 +239,7 @@ share ( opt: boolean ) {
 
 // -- =====================================================================================
 
-bind ( item: TS.FoundContent ) {
+bind ( item: TS.ItemFound ) {
 
     if ( item.flags.isHeader ) return;
 
@@ -254,13 +254,13 @@ bind ( item: TS.FoundContent ) {
 
 // -- =====================================================================================
 
-shiftTo ( item: TS.FoundContent ) {
+shiftTo ( item: TS.ItemFound ) {
 
     if ( item.flags.isHeader ) return;
 
     if ( item.source === "Q" ) {
         store.state.activeAyah = item.id;
-        store.state.foundData = tools.bounder_Q();
+        store.state.foundData = tools.foundBounds( "Q", item.id );
     }
 
     if ( item.source === "H" ) {
@@ -279,8 +279,8 @@ TagModeToggler () {
 
     if ( store.state.foundDataSlot === "M3" ) {
         store.state.foundDataSlot = "M4";
-        store.state.foundData = tools.bounder_Q();
-        store.state.search_IN = "Q";
+        store.state.foundData = tools.foundBounds( this.source, this.id );
+        store.state.search_IN = this.source;
     }
 
     else {

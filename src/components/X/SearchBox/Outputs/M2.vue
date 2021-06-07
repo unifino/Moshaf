@@ -53,18 +53,18 @@ get visibility () {
 
 // -- =====================================================================================
 
-openTag ( tag: TS.FoundContent ) {
+openTag ( tag: TS.ItemFound ) {
 
     // .. preparing
     store.state.foundData = [];
     store.state.foundDataSlot = "M4";
 
-    let tmpBoundItem: TS.FoundContent,
-        code_Xs = store.state.cakeBound[ "T_" + tag.text ] || [];
+    let tmpBoundItem: TS.ItemFound,
+        x_codes = store.state.cakeBound[ "T_" + tag.text ] || [];
 
     // .. convert codes to the content
-    for ( let item of code_Xs ) {
-        tmpBoundItem = tools.boundParser( item );
+    for ( let code_X of x_codes ) {
+        tmpBoundItem = tools.bindItem_Generator( code_X );
         if ( tmpBoundItem ) store.state.foundData.push( tmpBoundItem );
     }
 

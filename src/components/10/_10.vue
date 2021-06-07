@@ -71,7 +71,7 @@ pageLoaded () {
 
 // -- =====================================================================================
 
-open ( item: TS.FoundContent ) {
+open ( item: TS.ItemFound ) {
     ( this.$refs.paper as Paper ).init( item.id );
     tools.clearSearchBox();
 }
