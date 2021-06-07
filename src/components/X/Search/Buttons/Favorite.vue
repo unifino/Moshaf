@@ -4,7 +4,6 @@
 
     <Label
         :class="'fas button ' + myClass"
-        :visibility="$store.state.search_ON ? 'visible' : 'collapsed'"
         :text="String.fromCharCode( '0x' + 'f004' )"
         @tap="getFavorite()"
     />
@@ -41,7 +40,27 @@ SearchPanel: SearchPanel = this.$parent as any;
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+
+    // .. init
+    this.activeClass();
+
+}
+
+// -- =====================================================================================
+
+activeClass () {
+
+    // .. reset Class
+    let activeClass = false,
+        source = store.state.search_IN;
+
+    if ( source === "Q" ) if ( store.state.fav.Q.length ) activeClass = true;
+    if ( source === "H" ) if ( store.state.fav.H.length ) activeClass = true;
+
+    this.myClass = activeClass ? 'activate' : 'deactivate';
+
+}
 
 // -- =====================================================================================
 

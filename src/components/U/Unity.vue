@@ -93,6 +93,10 @@ export default class Unity extends Vue {
 
 // -- =====================================================================================
 
+SearchPanel: SearchPanel; 
+
+// -- =====================================================================================
+
 refresh () {
     ( this.$refs.Saheb_Q as Saheb ).refresh();
     ( this.$refs.Saheb_H as Saheb ).refresh();
@@ -100,13 +104,15 @@ refresh () {
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    this.SearchPanel = this.$refs.searchPanel as SearchPanel;
+}
 
 // -- =====================================================================================
 
 pageLoaded () {
     store.state.here = "Unity";
-    ( this.$refs.searchPanel as SearchPanel ).clearSearch();
+    this.SearchPanel.clearSearch();
 }
 
 // -- =====================================================================================
@@ -126,10 +132,15 @@ saheb () {
 // -- =====================================================================================
 
 openItem ( source: TS.Source, id: number ) {
+
+    // .. reset searchPanel;
+    this.SearchPanel.clearSearch();
+
     switch ( source ) {
         case "Q": route( "Qertas", { id: id } ); break;
         case "H": route( "Paper" , { id: id } ); break;
     }
+
 }
 
 // -- =====================================================================================

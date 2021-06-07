@@ -75,7 +75,7 @@ getHistory () {
     // .. register action
     store.state.search_CH = "history";
 
-    this.SearchPanel.display( tools.getHistory(), "List_1" );
+    this.SearchPanel.display( tools.getHistory( store.state.search_IN ), "List_1" );
 
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
