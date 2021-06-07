@@ -71,7 +71,7 @@ import IntuitivePanel                   from "@/components/X/Intuitive/iPanel.vu
 
 // -- =====================================================================================
 
-export default class Day extends Vue {
+export default class Paper extends Vue {
 
 // -- =====================================================================================
 

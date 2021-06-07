@@ -4,7 +4,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Day ref="day" row=1 rowSpan=2 />
+    <Paper ref="paper" row=1 rowSpan=2 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -36,12 +36,12 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
 import SearchBox                        from "@/components/X/SearchBox/Search_Panel.vue"
-import Day                              from "@/components/10/Paper.vue"
+import Paper                              from "@/components/10/Paper.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { SearchBox, Day }
+    components: { SearchBox, Paper }
 } )
 
 // -- =====================================================================================
@@ -59,7 +59,7 @@ life = true;
 // -- =====================================================================================
 
 mounted () {
-    ( this.$refs.day as Day ).init( this.id );
+    ( this.$refs.paper as Paper ).init( this.id );
 }
 
 // -- =====================================================================================
@@ -72,7 +72,7 @@ pageLoaded () {
 // -- =====================================================================================
 
 open ( item: TS.FoundContent ) {
-    ( this.$refs.day as Day ).init( item.id );
+    ( this.$refs.paper as Paper ).init( item.id );
     tools.clearSearchBox();
 }
 
