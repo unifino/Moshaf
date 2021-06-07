@@ -82,11 +82,16 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
-result: {
-    data: TS.ItemFound[],
-    target: "List"|"Flex",
-    type: TS.DisplayTypes
-} = { data: [], type:null, target: null };
+display ( data: TS.ItemFound[], target: "List_1"|"List_2"|"Flex_1"|"Flex_2" ) {
+
+    // .. reset
+    this.clearSearch();
+
+    // .. assign
+    ( <any>this.$refs[ target ] ).init( data );
+    store.state.search_ON = !!data.length;
+
+}
 
 // -- =====================================================================================
 
@@ -115,7 +120,10 @@ mounted() {
 // -- =====================================================================================
 
 clearSearch () {
-    this.result = { data: [], type:null, target: null };
+    let outputs = [ "List_1", "List_2", "Flex_1", "Flex_2" ];
+    // ..  reset
+    for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
+    // .. register state
     store.state.search_ON = false;
 }
 

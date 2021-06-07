@@ -67,20 +67,19 @@ activeClass () {
 getFavorite () {
 
     // .. re-tap situation
-    // if ( tools.scapeCheck( "favorite" ) ) return;
-    // tools.clearSearchBox();
+    if ( store.state.search_ON ) {
+        this.SearchPanel.clearSearch();
+        return;
+    }
 
     // .. register action
     store.state.searched_By = "favorite";
 
-    this.SearchPanel.result = {
-        data: tools.getFavorite(),
-        target: "List",
-        type: "ListSimple"
-    }
+    this.SearchPanel.display( tools.getFavorite(), "List_1" );
+
     store.state.foundDataSlot = "M1";
 
-    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

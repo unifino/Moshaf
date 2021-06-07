@@ -7,7 +7,7 @@
     <GridLayout 
         row=2 
         columns="7*,23*" 
-        :visibility="$store.state.foundData.length ? 'hidden' : 'visible'"
+        :visibility="$store.state.search_ON ? 'hidden' : 'visible'"
     >
 
         <StackLayout col=0 marginLeft=20 verticalAlignment="middle" >

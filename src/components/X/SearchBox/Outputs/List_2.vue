@@ -53,7 +53,8 @@ SearchPanel: SearchPanel = this.$parent as any;
 
 // -- =====================================================================================
 
-init ( data: TS.ItemFound[] ) {
+init ( data: TS.ItemFound[] = [] ) {
+    this.data = data;
     this.visibility = data.length ? "visible" : "collapsed";
 }
 
@@ -73,11 +74,7 @@ openTag ( tag: TS.ItemFound ) {
     for ( let code_X of x_codes ) result.push( tools.bindItem_Generator( code_X ) );
     result = result.filter( x => x );
 
-    this.SearchPanel.result = {
-        data: result,
-        type: "FlexBound",
-        target: "Flex"
-    }
+    this.SearchPanel.display( result, "Flex_2" );
 
 }
 

@@ -50,7 +50,7 @@ activeClass () {
     let activeClass = true,
         source = store.state.search_IN;
 
-    if ( this.SearchPanel.result.data.length )
+    if ( store.state.search_ON )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = false;
 

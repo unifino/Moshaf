@@ -73,14 +73,11 @@ getHistory () {
     // .. register action
     store.state.searched_By = "history";
 
-    this.SearchPanel.result = {
-        data: tools.getHistory(),
-        type: "ListSimple",
-        target: "List",
-    }
+    this.SearchPanel.display( tools.getHistory(), "List_1" );
+
     store.state.foundDataSlot = "M1";
 
-    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

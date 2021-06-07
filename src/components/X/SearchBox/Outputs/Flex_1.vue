@@ -53,21 +53,24 @@ export default class Output_M4 extends Vue {
 
 // -- =====================================================================================
 
+@Prop() vividBG: boolean;
+
+// -- =====================================================================================
+
 data = [];
 visibility = "collapsed";
 
 // -- =====================================================================================
 
-init ( data: TS.ItemFound[] ) {
-    this.visibility = data.length ? "visible" : "collapsed";
+get outputBoxClass () {
+    return this.vividBG ? 'outputBox transparent' : 'outputBox';
 }
-
-@Prop() vividBG: boolean;
 
 // -- =====================================================================================
 
-get outputBoxClass () {
-    return this.vividBG ? 'outputBox transparent' : 'outputBox';
+init ( data: TS.ItemFound[] = [] ) {
+    this.data = data;
+    this.visibility = data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================

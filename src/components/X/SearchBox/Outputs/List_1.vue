@@ -50,7 +50,8 @@ visibility = "collapsed";
 
 // -- =====================================================================================
 
-init ( data: TS.ItemFound[] ) {
+init ( data: TS.ItemFound[] = [] ) {
+    this.data = data;
     this.visibility = data.length ? "visible" : "collapsed";
 }
 

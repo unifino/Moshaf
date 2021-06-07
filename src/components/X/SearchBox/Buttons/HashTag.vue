@@ -60,7 +60,7 @@ activeClass () {
 listRetriever () {
 
     // .. re-tap situation
-    if ( this.SearchPanel.result.data.length ) {
+    if ( store.state.search_ON ) {
         if ( store.state.foundDataSlot === "M2" ) {
             tools.clearSearchBox();
             return;
@@ -83,10 +83,9 @@ listRetriever () {
             }
         }
     } );
-    // ! check this
     // this.SearchPanel.displayResult( data, "M2" )
 
-    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

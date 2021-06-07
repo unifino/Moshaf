@@ -66,7 +66,7 @@ activeClass () {
     let activeClass = false,
         source = store.state.search_IN;
 
-    if ( !this.SearchPanel.result.data.length )
+    if ( !store.state.search_ON )
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             activeClass = true;
 
@@ -90,16 +90,13 @@ getSearchResult ( force?: boolean ) {
     if ( force ) {
         let str = store.state.fraseInSearch.trim();
         store.state.foundDataSlot = "M1";
-        this.SearchPanel.result = {
-            data: tools[ "search_" + store.state.search_IN ]( str ),
-            type: "ListSimple",
-            target: "List"
-        }
+        let data = tools[ "search_" + store.state.search_IN ]( str );
+        this.SearchPanel.display(  data, "List_1");
     }
 
     if ( store.state.search_IN === "N" ) this.search_N();
 
-    if ( !this.SearchPanel.result.data.length ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

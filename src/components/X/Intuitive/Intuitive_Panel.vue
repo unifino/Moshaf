@@ -118,11 +118,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.searchBox.result = {
-        data: tools.foundBounds( this.source, this.id ),
-        type: "FlexBound",
-        target: "Flex"
-    };
+    this.searchBox.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
 }
 
 // -- =====================================================================================
@@ -265,11 +261,7 @@ shiftTo ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         store.state.activeAyah = item.id;
-        this.searchBox.result = {
-            data: tools.foundBounds( "Q", item.id ),
-            type: "FlexBound",
-            target: "Flex",
-        }
+        this.searchBox.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
     }
 
     if ( item.source === "H" ) {
@@ -288,21 +280,13 @@ TagModeToggler () {
 
     if ( store.state.foundDataSlot === "M3" ) {
         store.state.foundDataSlot = "M4";
-        this.searchBox.result = {
-            data: tools.foundBounds( this.source, this.id ),
-            type: "FlexBound",
-            target: "Flex",
-        }
+        this.searchBox.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
         store.state.search_IN = this.source;
     }
 
     else {
         store.state.foundDataSlot = "M3";
-        this.searchBox.result = {
-            data: tools.getTags(),
-            type: "FlexTag",
-            target: "Flex",
-        }
+        this.searchBox.display( tools.getTags(), "Flex_1" );
         store.state.search_IN = "T";
     }
 
