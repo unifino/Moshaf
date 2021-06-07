@@ -30,14 +30,16 @@
 <!---------------------------------------------------------------------------------------->
 
     <StackLayout row=4 orientation="horizontal" horizontalAlignment="center" >
-        <myButton bClass="button big fas" icon="f5bb" @tap='route( "Paper" )' />
+
         <myButton 
-            bClass="button big fas"
-            icon="f02d"
-            @tap='route( "Base_00" )'
-            @longPress="saheb()"
+            v-for="(button,i) in buttons" 
+            :key="i"
+            :bClass="'button big fas ' + button.class"
+            :icon="button.icon"
+            @tap="button.f1()"
+            @longPress="button.f2()"
         />
-        <myButton bClass="button big fas" icon="f67f" @tap='route( "Base_01" )' />
+
     </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -94,6 +96,17 @@ export default class Unity extends Vue {
 // -- =====================================================================================
 
 SearchPanel: SearchPanel; 
+buttons = [
+    { icon: 'f5bb', class: '', f1: () => this.f( 0, "Paper" )  , f2: () => {}           } ,
+    { icon: 'f02d', class: '', f1: () => this.f( 1, "Base_00" ), f2: () => this.saheb() } ,
+    { icon: 'f67f', class: '', f1: () => this.f( 2, "Base_01" ), f2: () => {}           } ,
+];
+
+f ( buttonId: number, page: TS.here ) {
+    this.buttons[ buttonId ].class = "pressed";
+    setTimeout( () => this.buttons[ buttonId ].class = "", 300 );
+    route( page );
+}
 
 // -- =====================================================================================
 
@@ -199,4 +212,13 @@ openItem ( source: TS.Source, id: number ) {
         background-color: #cfe9f0;
     }
 
+/* ------------------------------------------- */
+    .CoolGreen .pressed {
+        background-color: #333636;
+    }
+
+    .Smoky .pressed {
+        background-color: #3d9ca1;
+        color: white;
+    }
 </style>
