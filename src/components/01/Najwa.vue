@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="$store.state.here='Najwa'">
+<Page @navigatedTo="pageLoaded()">
 <GridLayout class="myPage" rows="44,44,*,44,5">
 
 <!---------------------------------------------------------------------------------------->
@@ -40,9 +40,8 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import { Najawa }                       from "@/db/N/Al-Najawa"
-
-// * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
+import * as TM                          from "@/themes/themeManager"
+import store                            from "@/store/store"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 
 // -- =====================================================================================
@@ -67,6 +66,13 @@ najwa: string[] = [];
 
 mounted () {
     this.morsal();
+}
+
+// -- =====================================================================================
+
+pageLoaded () {
+    store.state.here = "Najwa";
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================

@@ -20,8 +20,6 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as tools                       from "@/mixins/tools"
-import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
@@ -60,26 +58,22 @@ activeClass () {
 
 exchange ( rev: boolean ) {
 
-    switch ( store.state.search_IN ) {
+    switch ( this.SearchPanel.activeMode ) {
 
-        case "Q": store.state.search_IN = rev ? "H" : "H"; break;
-        case "H": store.state.search_IN = rev ? "Q" : "Q"; break;
-        case "T": store.state.search_IN = rev ? "H" : "Q"; break;
+        case "Q": this.SearchPanel.activeMode = rev ? "H" : "H"; break;
+        case "H": this.SearchPanel.activeMode = rev ? "Q" : "Q"; break;
+        case "T": this.SearchPanel.activeMode = rev ? "H" : "Q"; break;
 
-        // case "Q": store.state.search_IN = rev ? "T" : "H"; break;
-        // case "H": store.state.search_IN = rev ? "Q" : "T"; break;
-        // case "T": store.state.search_IN = rev ? "H" : "Q"; break;
+        // case "Q": this.SearchPanel.activeMode = rev ? "T" : "H"; break;
+        // case "H": this.SearchPanel.activeMode = rev ? "Q" : "T"; break;
+        // case "T": this.SearchPanel.activeMode = rev ? "H" : "Q"; break;
 
-        // case "Q": store.state.search_IN = rev ? "T" : "H"; break;
-        // case "H": store.state.search_IN = rev ? "Q" : "N"; break;
-        // case "N": store.state.search_IN = rev ? "H" : "T"; break;
-        // case "T": store.state.search_IN = rev ? "N" : "Q"; break;
+        // case "Q": this.SearchPanel.activeMode = rev ? "T" : "H"; break;
+        // case "H": this.SearchPanel.activeMode = rev ? "Q" : "N"; break;
+        // case "N": this.SearchPanel.activeMode = rev ? "H" : "T"; break;
+        // case "T": this.SearchPanel.activeMode = rev ? "N" : "Q"; break;
 
     }
-
-    const S = store.state.search_IN;
-    let str: string = "";
-    try { str = store.state.fraseInSearch.trim() } catch {}
 
 }
 

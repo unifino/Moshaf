@@ -35,7 +35,6 @@
             :exchangeButton="true"
             @orderByParent_1="bind"
             @orderByParent_2="open_item"
-            @found=[]
             :vividBG=true
         />
 
@@ -280,7 +279,7 @@ TagModeToggler () {
 
     if ( this.tagModeActivated ) {
         this.SearchPanel.display( this.tagItems, "Flex_T" );
-        store.state.search_IN = "T";
+        // ! store.state.search_IN = "T";
     }
 
     else this.SearchPanel.display( null, null, true );

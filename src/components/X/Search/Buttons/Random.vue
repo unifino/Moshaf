@@ -20,8 +20,6 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as tools                       from "@/mixins/tools"
-import store                            from "@/store/store"
 
 // -- =====================================================================================
 

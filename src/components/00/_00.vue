@@ -47,7 +47,6 @@
         ref="search"
         @orderByParent_1="item => openItem( item.id )"
         :hashTagButton="true"
-        source="Q"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -94,7 +93,6 @@ mounted () {}
 
 pageLoaded () {
     store.state.here = "Base_00";
-    store.state.search_IN = "Q";
     TM.themePatcher( this );
 }
 

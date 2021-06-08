@@ -1,5 +1,5 @@
 <template>
-<Page @navigatedTo="pageLoaded()" >
+<Page @navigatedTo="pageLoaded()">
 <GridLayout class="myPage" rows="88,44,*,72" >
 
 <!---------------------------------------------------------------------------------------->
@@ -21,8 +21,6 @@
         ref="search"
         row=1
         rowSpan=2
-        @search="search"
-        source="N"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -70,7 +68,6 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Base_01";
-    store.state.search_IN = "N";
     TM.themePatcher( this );
 }
 

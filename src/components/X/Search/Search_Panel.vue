@@ -93,12 +93,16 @@ export default class SearchBox extends Vue {
 
 alive = false;
 IntuitivePanel: IntuitivePanel;
+activeMode: TS.Source;
 
 // -- =====================================================================================
 
 mounted() {
 
     this.alive = true;
+    setTimeout(() => {
+        console.log( this.activeMode );
+    }, 1000);
 
     // .. listen for Back-Button
     NS.Application.android.on( 
@@ -166,7 +170,6 @@ clearSearch () {
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state
     store.state.search_ON = false;
-    store.state.search_IN = "Q";
 }
 
 // -- =====================================================================================

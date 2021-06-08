@@ -51,7 +51,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = false,
-        source = store.state.search_IN;
+        source = this.SearchPanel.activeMode;
 
     if ( source === "Q" ) if ( store.state.fav.Q.length ) activeClass = true;
     if ( source === "H" ) if ( store.state.fav.H.length ) activeClass = true;
@@ -72,8 +72,9 @@ getFavorite () {
 
     // .. register action
     store.state.search_CH = "favorite";
+    let source = this.SearchPanel.activeMode;
 
-    this.SearchPanel.display( tools.getFavorite( store.state.search_IN ), "List_1" );
+    this.SearchPanel.display( tools.getFavorite( source ), "List_1" );
 
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 

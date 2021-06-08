@@ -61,7 +61,6 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TM                          from "@/themes/themeManager"
 import * as TS                          from "@/../types/myTypes"
-import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
@@ -99,7 +98,6 @@ mounted () {
 
 pageLoaded () {
     store.state.here = 'Qertas';
-    store.state.search_IN = "Q";
     TM.themePatcher( this );
 }
 

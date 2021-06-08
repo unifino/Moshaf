@@ -12,7 +12,6 @@
         row=1
         rowSpan=2
         @orderByParent_1="openItem"
-        source="H"
         :randomButton="true"
     />
 
@@ -31,9 +30,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
-import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 import Paper                              from "@/components/10/Paper.vue"
 
@@ -61,7 +58,6 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Base_10";
-    store.state.search_IN = "H";
     TM.themePatcher( this );
 }
 

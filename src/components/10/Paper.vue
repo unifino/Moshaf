@@ -90,7 +90,6 @@ mounted () {
 
 pageLoaded () {
     store.state.here = 'Paper';
-    store.state.search_IN = "H";
     TM.themePatcher( this );
 }
 

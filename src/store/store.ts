@@ -16,7 +16,7 @@ export default new Vuex.Store( {
                                                  
         here            : null                  ,
         search_By       : null                  ,
-        search_IN       : "Q"                   ,
+        // search_IN       : "Q"                   ,
                                                  
         fraseInSearch   : null                  ,
         cacheBound      : []                    ,
@@ -48,7 +48,7 @@ interface state {
                                                  
         here            : TS.here               ,
         search_By       : TS.search_By          ,
-        search_IN       : TS.Source             ,
+        // search_IN       : TS.Source             ,
                                                  
         fraseInSearch   : string                ,
         cacheBound      : TS.RawBound           ,

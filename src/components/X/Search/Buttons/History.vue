@@ -53,7 +53,7 @@ activeClass () {
 
     // .. reset Class
     let activeClass = false,
-        source = store.state.search_IN;
+        source = this.SearchPanel.activeMode;
 
     if ( source === "Q" ) if ( store.state.memo.Q.length ) activeClass = true;
     if ( source === "H" ) if ( store.state.memo.H.length ) activeClass = true;
@@ -74,8 +74,9 @@ getHistory () {
 
     // .. register action
     store.state.search_CH = "history";
+    let source = this.SearchPanel.activeMode;
 
-    this.SearchPanel.display( tools.getHistory( store.state.search_IN ), "List_1" );
+    this.SearchPanel.display( tools.getHistory( source ), "List_1" );
 
     if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
 
@@ -86,13 +87,13 @@ getHistory () {
 purgeHistory () {
 
     // .. get Name
-    let src = store.state.search_IN;
-    let traceName = 'trace_' + src.toLowerCase();
+    let source = this.SearchPanel.activeMode;
+    let traceName = 'trace_' + source.toLowerCase();
 
     // .. soft Purge
-    store.state.memo[ src ].splice(0);
+    store.state.memo[ source ].splice(0);
     // .. hard registration
-    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ src ] );
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ] );
 
     // .. notify
     tools.toaster( "🗑: History Purged!" );

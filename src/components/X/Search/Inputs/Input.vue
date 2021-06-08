@@ -52,10 +52,10 @@ SearchPanel: SearchPanel = this.$parent as SearchPanel;
 // -- =====================================================================================
 
 get appendHint () {
-    if ( store.state.search_IN === "Q" ) return " في القرآن";
-    if ( store.state.search_IN === "H" ) return " في الحادیث";
-    if ( store.state.search_IN === "T" ) return " في العناوين";
-    if ( store.state.search_IN === "N" ) return " في النجاوى";
+    if ( this.SearchPanel.activeMode === "Q" ) return " في القرآن";
+    if ( this.SearchPanel.activeMode === "H" ) return " في الحادیث";
+    if ( this.SearchPanel.activeMode === "T" ) return " في العناوين";
+    if ( this.SearchPanel.activeMode === "N" ) return " في النجاوى";
 }
 
 // -- =====================================================================================
@@ -79,7 +79,7 @@ textChanged ( phrase: string, force?: boolean ) {
     if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     this.textChanged_TO = setTimeout( () => {
         let str = tools.inFarsiLetters( phrase );
-        let data = tools.getPhrase( store.state.search_IN, str );
+        let data = tools.getPhrase( this.SearchPanel.activeMode, str );
         this.SearchPanel.display(  data, "List_1" );
         store.state.fraseInSearch = str;
     }, force ? 0 : 500 );
@@ -91,7 +91,7 @@ textChanged ( phrase: string, force?: boolean ) {
 returnPressed ( phrase: string ) {
 
     // .. Not in Tag-Section!
-    if ( store.state.search_IN !== "T" ) {
+    if ( this.SearchPanel.activeMode !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
         else this.SearchPanel.display( null, null, true );
     }

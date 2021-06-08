@@ -20,8 +20,6 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import store                            from "@/store/store"
-import * as tools                       from "@/mixins/tools"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 

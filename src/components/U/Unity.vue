@@ -52,7 +52,6 @@
         :hashTagButton="true"
         :exchangeButton="true"
         @orderByParent_1="item => openItem( item.source ,item.id )"
-        source="Q"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -68,17 +67,11 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import * as TM                          from "@/themes/themeManager"
-import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { asma, Quran }                  from "@/db/Q/Quran"
-import { Hadith }                       from "@/db/H/Al-Hadith"
-import { Najawa }                       from "@/db/N/Al-Najawa"
 import Saheb                            from "@/components/U/Saheb.vue"
-import DarkTheme                        from "@/components/U/DarkTheme.vue"
 import myButton                         from "@/components/X/myButton.vue"
 import { route }                        from "@/mixins/router"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
@@ -126,6 +119,7 @@ mounted () {
 pageLoaded () {
     store.state.here = "Unity";
     this.SearchPanel.display( null, null, true );
+    this.SearchPanel.activeMode = "Q";
     TM.themePatcher( this );
 }
 
