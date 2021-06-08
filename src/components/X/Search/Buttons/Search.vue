@@ -68,7 +68,7 @@ getSearchResult ( force?: boolean ) {
 
     // .. re-tap situation
     if ( !force && store.state.search_ON && store.state.search_CH === "phrase" ) {
-        this.SearchPanel.clearSearch();
+        this.SearchPanel.display( null, null, true );
         return;
     }
 
@@ -92,7 +92,7 @@ getSearchResult ( force?: boolean ) {
 
 search_N (): void {
     // this.$emit( 'search', str );
-    this.SearchPanel.clearSearch();
+    this.SearchPanel.display( null, null, true );
 }
 
 // -- =====================================================================================

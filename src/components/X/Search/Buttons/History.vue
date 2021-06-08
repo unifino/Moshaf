@@ -68,7 +68,7 @@ getHistory () {
 
     // .. re-tap situation
     if ( store.state.search_ON && store.state.search_CH === "history" ) {
-        this.SearchPanel.clearSearch();
+        this.SearchPanel.display( null, null, true );
         return;
     }
 

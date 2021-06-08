@@ -78,6 +78,7 @@ isAddressed ( item: TS.ItemFound) {
 
 itemClassToggler ( item: TS.ItemFound ) {
     item.flags.isBounded = !item.flags.isBounded;
+    this.$forceUpdate();
 }
 
 // -- =====================================================================================

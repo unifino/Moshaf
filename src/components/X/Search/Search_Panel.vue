@@ -51,6 +51,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
+import * as tools                       from "@/mixins/tools"
 
 import Input                            from "@/components/X/Search/Input.vue"
 import Random                           from "@/components/X/Search/Buttons/Random.vue"
@@ -64,6 +65,7 @@ import List_1                           from "@/components/X/Search/Outputs/List
 import List_2                           from "@/components/X/Search/Outputs/List_2.vue"
 import Flex_1                           from "@/components/X/Search/Outputs/Flex_1.vue"
 import Flex_2                           from "@/components/X/Search/Outputs/Flex_2.vue"
+import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
 
 // -- =====================================================================================
@@ -90,6 +92,7 @@ export default class SearchBox extends Vue {
 // -- =====================================================================================
 
 alive = false;
+IntuitivePanel: IntuitivePanel;
 
 // -- =====================================================================================
 
@@ -108,25 +111,39 @@ mounted() {
         },
     );
 
+    this.IntuitivePanel = this.$parent as any;
+    if ( !Object.keys( this.IntuitivePanel.$refs ).includes( "intuitivePanel" ) )
+        this.IntuitivePanel = null;
+
 }
 
 // -- =====================================================================================
 
-display ( data: TS.ItemFound[], target: "List_1"|"List_2"|"Flex_1"|"Flex_2" ) {
 
-    // .. reset
+display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
+
+    // .. general reset
     this.clearSearch();
 
-    // .. assign
-    ( <any>this.$refs[ target ] ).init( data );
-    store.state.search_ON = !!data.length;
+    // .. reset mode
+    if ( reset ) {
+        if ( this.IntuitivePanel ) {
+            let source = this.IntuitivePanel.source;
+            let id = this.IntuitivePanel.id;
+            this.display( tools.getBounds( source, id ), "Flex_2" );
+        }
+    }
+    // .. assign mode
+    else ( <any>this.$refs[ target ] ).init( data );
+
+    store.state.search_ON = ( !!data && !!data.length );
 
 }
 
 // -- =====================================================================================
 
 clearSearch () {
-    let outputs = [ "List_1", "List_2", "Flex_1", "Flex_2" ];
+    let outputs: TS.DisplayTypes[] = [ "List_1", "List_2", "Flex_1", "Flex_2" ];
     // ..  reset
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state

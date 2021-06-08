@@ -54,8 +54,6 @@ import * as TM                          from "@/themes/themeManager"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-// * tns plugin add nativescript-clipboard
-import { setText }                      from "nativescript-clipboard"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 

@@ -93,7 +93,7 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( store.state.search_IN !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
-        else this.SearchPanel.clearSearch();
+        else this.SearchPanel.display( null, null, true );
     }
 
     // .. Just in Tag-Section

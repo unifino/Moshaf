@@ -197,4 +197,4 @@ export type Hadith = {
 
 // -- =====================================================================================
 
-export type DisplayTypes = "ListSimple" | "ListTag" | "FlexTag" | "FlexBound";
+export type DisplayTypes = "List_1" | "List_2" | "Flex_1" | "Flex_2";

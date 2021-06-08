@@ -125,7 +125,7 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Unity";
-    this.SearchPanel.clearSearch();
+    this.SearchPanel.display( null, null, true );
 }
 
 // -- =====================================================================================
@@ -147,7 +147,7 @@ saheb () {
 openItem ( source: TS.Source, id: number ) {
 
     // .. reset searchPanel;
-    this.SearchPanel.clearSearch();
+    this.SearchPanel.display( null, null, true );
 
     switch ( source ) {
         case "Q": route( "Qertas", { id: id } ); break;

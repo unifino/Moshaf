@@ -62,7 +62,7 @@ listRetriever () {
 
     // .. re-tap situation
     if ( store.state.search_ON && store.state.search_CH === "tag" ) {
-        this.SearchPanel.clearSearch();
+        this.SearchPanel.display( null, null, true );
         return;
     }
 

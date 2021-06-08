@@ -1,7 +1,7 @@
 <template>
 <GridLayout
-    ref="panel"
-    class="panel"
+    ref="intuitivePanel"
+    class="intuitivePanel"
     rows="88,*,auto,*,44"
     columns="60,20,*,20"
     @tap="tapPassed"
@@ -75,7 +75,7 @@ import { route } from "@/mixins/router"
 
 // -- =====================================================================================
 
-export default class ToolBar extends Vue {
+export default class IntuitivePanel extends Vue {
 
 // -- =====================================================================================
 
@@ -145,7 +145,7 @@ async menuCtr ( id: number ) {
 
     await new Promise( _ => setTimeout( _ , 0 ) );
 
-    let panel = ( this.$refs.panel as any ).nativeView,
+    let panel = ( this.$refs.intuitivePanel as any ).nativeView,
         menuBox = ( this.$refs.menuBox as any ).nativeView,
         searchBox = ( this.$refs.searchBox as any ).nativeView,
         bgColor: string,
@@ -333,7 +333,7 @@ async exitPanel () {
         background-color: #072429;
     }
 
-    .panel {
+    .intuitivePanel {
         background-color: #000e1111;
         visibility: collapse;
     }
