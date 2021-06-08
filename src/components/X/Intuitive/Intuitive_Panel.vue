@@ -276,34 +276,37 @@ open_item ( item: TS.ItemFound ) {
 tagModeActivated = false;
 TagModeToggler () {
 
-    let bounds = tools.getBounds( this.source, this.id );
+    this.tagModeActivated = !this.tagModeActivated;
 
-    if ( this.tagModeActivated ) this.SearchPanel.display( null, null, true );
-
-    else {
-
-        let tags: string[],
-            tagItems: TS.ItemFound[] = [];
-        tags = Object.keys( store.state.cakeBound ).filter( x => x[0].slice(0,1) === "T" );
-
-        tagItems = tags.map( (x,i) => {
-            let itemTag: TS.ItemFound = {
-                source: "T",
-                id: i,
-                text: x,
-                flags: {
-                    isBounded: !!bounds.find( b => b.text === x )
-                }
-            }
-            return itemTag;
-        } );
-
-        this.SearchPanel.display( tagItems, "Flex_T" );
+    if ( this.tagModeActivated ) {
+        this.SearchPanel.display( this.tagItems, "Flex_T" );
         store.state.search_IN = "T";
-
     }
 
-    this.tagModeActivated = !this.tagModeActivated;
+    else this.SearchPanel.display( null, null, true );
+
+}
+
+// -- =====================================================================================
+
+get tagItems () {
+
+    let t_bounds = tools.getBounds( this.source, this.id ).filter( x => x.source === "T" ),
+        tags: string[],
+        tagItems: TS.ItemFound[] = [],
+        isBounded: boolean;
+
+    tags = Object.keys( store.state.cakeBound ).filter( x => x[0].slice(0,1) === "T" );
+
+    tagItems = tags.map( (x,i) => {
+        // .. get bound status
+        isBounded = false;
+        try { isBounded = t_bounds.find( b => b.text === x ).flags.isBounded } catch {}
+        return { source: "T", id: i, text: x, flags: { isBounded: isBounded } };
+
+    } );
+
+    return tagItems;
 
 }
 

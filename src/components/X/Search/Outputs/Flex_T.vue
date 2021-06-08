@@ -85,7 +85,8 @@ tagToggler ( item: TS.ItemFound ) {
     let code_O = IntuitivePanel.source + "_" + IntuitivePanel.id;
     let code_X = item.text;
     store.state.cakeBound = tools.toggleBound( code_O, code_X );
-    item.flags.isBounded = !item.flags.isBounded;
+    try { item.flags.isBounded = store.state.cakeBound[ code_X ].includes( code_O ) } 
+    catch { item.flags.isBounded = false }
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.rawBound );
 }
