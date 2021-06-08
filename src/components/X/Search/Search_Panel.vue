@@ -53,7 +53,7 @@ import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 
-import Input                            from "@/components/X/Search/Input.vue"
+import Input                            from "@/components/X/Search/Inputs/Input.vue"
 import Random                           from "@/components/X/Search/Buttons/Random.vue"
 import Search                           from "@/components/X/Search/Buttons/Search.vue"
 import History                          from "@/components/X/Search/Buttons/History.vue"
@@ -173,6 +173,7 @@ clearSearch () {
 
 destroyed() {
     this.alive = false;
+    store.state.search_CH = null;
 }
 
 // -- =====================================================================================

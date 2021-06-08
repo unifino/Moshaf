@@ -177,6 +177,7 @@ async menuCtr ( id: number ) {
 
     this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => {
+        store.state.search_CH = null;
         store.state.iPanel_ON = !!~id;
         if ( !~id ) panel.visibility = "collapsed";
     } );
