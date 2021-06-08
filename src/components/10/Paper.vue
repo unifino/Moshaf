@@ -85,6 +85,7 @@ hadith: TS.Hadith = {} as any;
 
 mounted () {
     this.init( this.id );
+    store.state.iPanel_ON = false;
 }
 
 // -- =====================================================================================

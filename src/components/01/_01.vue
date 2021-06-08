@@ -59,19 +59,11 @@ export default class Base_01 extends Vue {
 
 najawa: { title: string, content: string }[] = [];
 found = [];
-life = true;
 
 // -- =====================================================================================
 
 mounted () {
-
     this.najawa = Najawa;
-
-    store.watch(
-        state => store.state.fraseInSearch, 
-        newVal => { if ( this.life ) this.search( newVal ) }
-    );
-
 }
 
 // -- =====================================================================================
@@ -101,12 +93,6 @@ search ( frase: string ) {
 
 open ( num: number ): void {
     route ( "Najwa", { najwaID : num } )
-}
-
-// -- =====================================================================================
-
-destroyed () {
-    this.life = false;
 }
 
 // -- =====================================================================================

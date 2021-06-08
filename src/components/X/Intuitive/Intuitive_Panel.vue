@@ -34,7 +34,7 @@
             ref='searchPanel'
             :exchangeButton="true"
             @orderByParent="bind"
-            @orderByParent_2="shiftTo"
+            @orderByParent_2="open_item"
             @found=[]
             :vividBG=true
         />
@@ -252,7 +252,7 @@ bind ( item: TS.ItemFound ) {
     if ( item.flags.isHeader ) return;
     // .. Toggle Item
     let code_O = this.source + "_" + this.id;
-    let code_X = item.source + "+" + item.id;
+    let code_X = item.source + "_" + item.id;
     store.state.cakeBound = tools.toggleBound( code_O, code_X );
     // .. hard registration
     storage.saveDB( storage.bound_File, storage.rawBound );
@@ -262,19 +262,22 @@ bind ( item: TS.ItemFound ) {
 
 // -- =====================================================================================
 
-shiftTo ( item: TS.ItemFound ) {
+open_item ( item: TS.ItemFound ) {
 
     if ( item.flags.isHeader ) return;
 
     if ( item.source === "Q" ) {
-        store.state.activeAyah = item.id;
-        this.SearchPanel.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
+        if ( store.state.here === "Qertas" )
+            this.SearchPanel.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
+        if ( store.state.here === "Paper" )
+            route( "Qertas", { id: item.id } )
     }
 
     if ( item.source === "H" ) {
-        // .. patch M4|M3 intuitive
-        store.state.activeAyah = -1;
-        route( "Base_10", { id: item.id } )
+        if ( store.state.here === "Paper" )
+            this.SearchPanel.display( tools.foundBounds( "H", item.id ), "Flex_2" );
+        if ( store.state.here === "Qertas" )
+            route( "Paper", { id: item.id } )
     }
 
 }

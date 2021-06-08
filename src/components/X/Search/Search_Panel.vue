@@ -82,6 +82,36 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
+@Prop() randomButton: boolean;
+@Prop() exchangeButton: boolean;
+@Prop() hashTagButton: boolean;
+@Prop() vividBG: boolean;
+
+// -- =====================================================================================
+
+alive = false;
+
+// -- =====================================================================================
+
+mounted() {
+
+    this.alive = true;
+
+    // .. listen for Back-Button
+    NS.Application.android.on( 
+        NS.AndroidApplication.activityBackPressedEvent, 
+        e => {
+            if ( this.alive && store.state.search_ON ) {
+                this.clearSearch();
+                ( e as any ).cancel = true;
+            }
+        },
+    );
+
+}
+
+// -- =====================================================================================
+
 display ( data: TS.ItemFound[], target: "List_1"|"List_2"|"Flex_1"|"Flex_2" ) {
 
     // .. reset
@@ -95,36 +125,18 @@ display ( data: TS.ItemFound[], target: "List_1"|"List_2"|"Flex_1"|"Flex_2" ) {
 
 // -- =====================================================================================
 
-@Prop() randomButton: boolean;
-@Prop() exchangeButton: boolean;
-@Prop() hashTagButton: boolean;
-@Prop() vividBG: boolean;
-
-// -- =====================================================================================
-
-mounted() {
-
-    // .. listen for Back-Button
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityBackPressedEvent, 
-        e => {
-            if ( store.state.search_ON ) {
-                this.clearSearch();
-                ( e as any ).cancel = true;
-            }
-        },
-    );
-
-}
-
-// -- =====================================================================================
-
 clearSearch () {
     let outputs = [ "List_1", "List_2", "Flex_1", "Flex_2" ];
     // ..  reset
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state
     store.state.search_ON = false;
+}
+
+// -- =====================================================================================
+
+destroyed() {
+    this.alive = false;
 }
 
 // -- =====================================================================================
