@@ -126,6 +126,7 @@ mounted () {
 pageLoaded () {
     store.state.here = "Unity";
     this.SearchPanel.display( null, null, true );
+    TM.themePatcher( this );
 }
 
 // -- =====================================================================================
