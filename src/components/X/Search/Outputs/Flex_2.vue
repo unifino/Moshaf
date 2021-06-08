@@ -11,7 +11,7 @@
                 v-for="(item,i) in data"
                 :key="i"
                 rows="*,auto" 
-                @tap="$emit( 'interact', item );itemClassToggler(item);"
+                @tap="$emit( 'interact_1', item );itemClassToggler(item);"
                 @longPress="$emit( 'interact_2', item )"
                 :class="itemClasser(item)"
             >

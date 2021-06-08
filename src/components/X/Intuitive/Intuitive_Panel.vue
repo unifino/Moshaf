@@ -33,7 +33,7 @@
         <SearchPanel
             ref='searchPanel'
             :exchangeButton="true"
-            @orderByParent="bind"
+            @orderByParent_1="bind"
             @orderByParent_2="open_item"
             @found=[]
             :vividBG=true

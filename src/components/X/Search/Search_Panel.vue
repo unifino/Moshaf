@@ -26,12 +26,12 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1>
-        <List_1 ref="List_1" @interact="e => $emit('orderByParent', e)" />
+        <List_1 ref="List_1" @interact_1="e => $emit( 'orderByParent_1', e )" />
         <List_2 ref="List_2"  />
         <Flex_1 ref="Flex_1"  />
         <Flex_2 ref="Flex_2" 
-            @interact="e => $emit('orderByParent', e)"
-            @interact_2="e => $emit('orderByParent_2', e)"
+            @interact_1="e => $emit( 'orderByParent_1', e )"
+            @interact_2="e => $emit( 'orderByParent_2', e )"
             :vividBG=vividBG 
         />
     </GridLayout>
@@ -119,23 +119,42 @@ mounted() {
 
 // -- =====================================================================================
 
-
 display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
 
     // .. general reset
     this.clearSearch();
 
-    // .. reset mode
-    if ( reset ) {
-        if ( this.IntuitivePanel ) {
-            let source = this.IntuitivePanel.source;
-            let id = this.IntuitivePanel.id;
-            this.display( tools.getBounds( source, id ), "Flex_2" );
-        }
-    }
-    // .. assign mode
-    else ( <any>this.$refs[ target ] ).init( data );
+    // .. special-steps for Intuitive_Panel
+    if ( this.IntuitivePanel ) {
 
+        let source = this.IntuitivePanel.source,
+            id = this.IntuitivePanel.id;
+
+        // .. reset mode
+        if ( reset ) this.display( tools.getBounds( source, id ), "Flex_2" );
+
+        // .. assign mode
+        else {
+            // .. get bounds
+            let bounds = tools.getBounds( source, id );
+            // .. let out header itself [ not in Flex_2 ]
+            if ( target !== "Flex_2" )
+                data = data.filter( x => !( x.source === source && x.id === id ) );
+            // .. update flags
+            for ( let p of data )
+                for ( let q of bounds )
+                    if ( p.source === q.source && p.id === q.id )
+                        p.flags.isBounded = true;
+            // .. set data
+            ( <any>this.$refs[ target ] ).init( data );
+        }
+
+    }
+
+    // .. not in reset mode
+    if ( !reset ) ( <any>this.$refs[ target ] ).init( data );
+
+    // .. register state
     store.state.search_ON = ( !!data && !!data.length );
 
 }

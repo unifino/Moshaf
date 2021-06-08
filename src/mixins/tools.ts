@@ -97,6 +97,10 @@ export function getItem ( source:TS.Source, id: number ): TS.ItemFound {
         text: info.previewText,
         flags: {
             address: info.address,
+            // .. default values
+            isHeader: false,
+            isCached: false,
+            isBounded: false,
         }
     };
  

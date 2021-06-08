@@ -8,7 +8,8 @@
             <GridLayout 
                 rows="*,auto"
                 :class="itemClasser(item)"
-                @tap="$emit( 'interact', item );itemClassToggler(item);"
+                @tap="$emit( 'interact_1', item );itemClassToggler(item);"
+                @longPress="$emit( 'interact_2', item )"
             >
 
                 <Label row=0 :text="item.text" textWrap=true />
@@ -61,7 +62,6 @@ itemClasser ( item: TS.ItemFound ) {
 
     // .. regular actions
     let tagClass = 'item';
-    if ( item.flags.isActivated ) tagClass += ' activated';
     if ( item.flags.isBounded ) tagClass += ' bounded';
     if ( item.flags.isCached ) tagClass += ' cached';
     return tagClass
@@ -131,11 +131,6 @@ itemClassToggler ( item: TS.ItemFound ) {
         background-color: #488d3f;
         color: white;
         border-radius: 4;
-    }
-
-    .activated {
-        visibility: collapse;
-        height: 1;
     }
 
     .bounded .address {

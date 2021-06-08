@@ -51,7 +51,7 @@
         ref="searchPanel"
         :hashTagButton="true"
         :exchangeButton="true"
-        @orderByParent="item => openItem( item.source ,item.id )"
+        @orderByParent_1="item => openItem( item.source ,item.id )"
         source="Q"
     />
 

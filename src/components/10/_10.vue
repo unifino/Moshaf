@@ -11,7 +11,7 @@
     <SearchPanel
         row=1
         rowSpan=2
-        @orderByParent="openItem"
+        @orderByParent_1="openItem"
         source="H"
         :randomButton="true"
     />

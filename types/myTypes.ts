@@ -129,7 +129,6 @@ export type ItemFound = {
 };
 
 export type Flags = {
-    isActivated?    : boolean   ,
     isBounded?      : boolean   ,
     isHeader?       : boolean   ,
     isCached?       : boolean   ,
