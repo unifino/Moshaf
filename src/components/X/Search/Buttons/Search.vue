@@ -78,7 +78,7 @@ getSearchResult ( force?: boolean ) {
     if ( force ) {
         let str = "";
         try { str = store.state.fraseInSearch.trim() } catch {}
-        let data = tools[ "search_" + store.state.search_IN ]( str );
+        let data = tools.getPhrase( store.state.search_IN, str );
         this.SearchPanel.display(  data, "List_1" );
     }
 

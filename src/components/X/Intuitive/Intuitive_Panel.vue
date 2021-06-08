@@ -123,7 +123,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.SearchPanel.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
+    this.SearchPanel.display( tools.getBounds( this.source, this.id ), "Flex_2" );
 }
 
 // -- =====================================================================================
@@ -192,23 +192,13 @@ toggleFavorite () {
     if ( !~trace ) store.state.fav[ this.source ].push( this.id );
     // .. pop out of Favorite
     else store.state.fav[ this.source ].splice( trace, 1 );
+    // .. toggle favButtonClass
+    this.favoriteClass( this.source, this.id );
+    // .. close panel
+    this.menuCtr(-1);
     // .. hard registration
     let fileName = "fav_" + this.source.toLocaleLowerCase();
     storage.saveDB( storage[ fileName + "_File" ], store.state.fav[ this.source ] );
-    // .. toggle favButtonClass
-    this.favoriteClass( this.source, this.id );
-
-    // .. for Quran
-    if ( this.source === "Q" ) {
-        tools.toaster( "Code IT" );
-        // // .. toggle style
-        // let ayahSeq = this.$parent.$parent.$refs[ "kalameh_" + aID ] as Kalameh[];
-        // ayahSeq[ ayahSeq.length -1 ].isFav = !~trace;
-        // // .. exit
-        // store.state.activeAyah = -1;
-    }
-
-    this.menuCtr(-1);
 
 }
 
@@ -217,7 +207,7 @@ toggleFavorite () {
 copy () {
 
     if ( this.id && this.source ) setText( tools.getInfo( this.source, this.id ).text );
-    tools.toaster( "متن کپی شد.", "short" );
+    tools.toaster( "تم نسخ النص", "short" );
 
 }
 
@@ -225,24 +215,24 @@ copy () {
 
 share ( opt: boolean ) {
 
-    // let shareString = "";
-    // for ( let x of store.state.foundData ) {
-    //     if ( shareString.length ) {
-    //         shareString += "\n\n ";
-    //         for ( let i=0; i<(opt?19:23); i++ ) shareString += "﹋";
-    //         shareString += "\n";
-    //     }
-    //     if ( x.source === "Q" ) {
-    //         shareString += tools.quranTextPreviewer( x.id );
-    //         shareString += "\n\n";
-    //         shareString += tools.quranAddress( x.id );
-    //     }
-    //     if ( x.source === "H" )
-    //         shareString += tools.getSharedText_H( tools.getHadith( x.id ) );
-    // }
-    // setText( shareString );
-    // let msg = "Generated! Optimized for " + ( opt ? "TELEGRAM": "WhatsApp" );
-    // tools.toaster( msg, "short" );
+    let shareString = "";
+
+    for ( let x of tools.getBounds( this.source, this.id ) ) {
+        // .. add divider
+        if ( shareString.length ) {
+            shareString += "\n\n ";
+            for ( let i=0; i<(opt?19:23); i++ ) shareString += "﹋";
+            shareString += "\n";
+        }
+        // .. add text
+        shareString += tools.getInfo(  x.source, x.id ).text;
+    }
+
+    setText( shareString );
+
+    let msg = "Generated! Optimized for " + ( opt ? "TELEGRAM": "WhatsApp" );
+    tools.toaster( msg, "short" );
+
 }
 
 // -- =====================================================================================
@@ -268,14 +258,14 @@ open_item ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         if ( store.state.here === "Qertas" )
-            this.SearchPanel.display( tools.foundBounds( "Q", item.id ), "Flex_2" );
+            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_2" );
         if ( store.state.here === "Paper" )
             route( "Qertas", { id: item.id } )
     }
 
     if ( item.source === "H" ) {
         if ( store.state.here === "Paper" )
-            this.SearchPanel.display( tools.foundBounds( "H", item.id ), "Flex_2" );
+            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_2" );
         if ( store.state.here === "Qertas" )
             route( "Paper", { id: item.id } )
     }
@@ -287,13 +277,15 @@ open_item ( item: TS.ItemFound ) {
 tagModeActivated = false;
 TagModeToggler () {
 
+    let bounds = tools.getBounds( this.source, this.id );
+
     if ( this.tagModeActivated ) {
-        this.SearchPanel.display( tools.foundBounds( this.source, this.id ), "Flex_2" );
+        this.SearchPanel.display( bounds.filter( x => x.source !== "T" ), "Flex_2" );
         store.state.search_IN = this.source;
     }
 
     else {
-        this.SearchPanel.display( tools.getTags(), "Flex_1" );
+        this.SearchPanel.display( bounds.filter( x => x.source === "T" ), "Flex_1" );
         store.state.search_IN = "T";
     }
 

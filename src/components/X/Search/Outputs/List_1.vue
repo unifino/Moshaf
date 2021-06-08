@@ -41,7 +41,7 @@ import store                            from "@/store/store"
 
 // -- =====================================================================================
 
-export default class Output_M1 extends Vue {
+export default class List_1 extends Vue {
 
 // -- =====================================================================================
 
@@ -58,10 +58,6 @@ init ( data: TS.ItemFound[] = [] ) {
 // -- =====================================================================================
 
 itemClasser ( item: TS.ItemFound ) {
-
-    // .. Patch if activated ( SAME AYAH )
-    if ( item.source + "_" + item.id === "Q_" + store.state.activeAyah ) 
-        item.flags.isActivated = true;
 
     // .. regular actions
     let tagClass = 'item';

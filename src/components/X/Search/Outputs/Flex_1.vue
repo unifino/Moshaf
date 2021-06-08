@@ -49,7 +49,7 @@ import SearchPanel                      from "@/components/X/Search/Search_Panel
 
 // -- =====================================================================================
 
-export default class Output_M4 extends Vue {
+export default class Flex_1 extends Vue {
 
 // -- =====================================================================================
 
@@ -70,7 +70,7 @@ get outputBoxClass () {
 
 init ( data: TS.ItemFound[] = [] ) {
     this.data = data;
-    this.visibility = data.length ? "visible" : "collapsed";
+    this.visibility = this.data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================

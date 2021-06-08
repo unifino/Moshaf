@@ -8,6 +8,15 @@ import { c_map }                        from "@/db/H/info"
 import * as Toast                       from "nativescript-toast"
 import { info } from "node:console"
 
+
+// -- =====================================================================================
+
+export function saheb ( from: "Q"|"H" ) {
+    let saat = new Date();
+    let rand = saat.getTime() % ( from === "Q" ? Quran.length : Hadith.length );
+    return rand;
+}
+
 // -- =====================================================================================
 
 let toaster_TO: NodeJS.Timeout | any;
@@ -78,50 +87,34 @@ export function inFarsiLetters ( str: string ) {
 
 // -- =====================================================================================
 
-export function contentPreviewer ( source:TS.Source, id: number ): TS.ItemFound {
+export function getItem ( source:TS.Source, id: number ): TS.ItemFound {
 
-    let code_O = "Q_" + store.state.activeAyah,
-        code_X = source + "_" + id,
-        isBounded: boolean,
-        info = getInfo( source, id );
+    let info = getInfo( source, id );
 
-    try { isBounded = store.state.cakeBound[ code_O ].includes( code_X ) } catch {}
-
-    let content: TS.ItemFound = {
+    let item: TS.ItemFound = {
         id: id,
         source: source,
         text: info.previewText,
         flags: {
-            isBounded: isBounded,
             address: info.address,
         }
     };
  
-    return content;
+    return item;
 
 }
 
 // -- =====================================================================================
 
-export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.ItemFound {
+export function getItemPlus ( code: string, flags: TS.Flags ={} ): TS.ItemFound {
 
     let source = code.slice(0, 1) as TS.Source,
         id = Number( code.slice(2) ) as number,
         item: TS.ItemFound;
 
-    // ! check other sources!
-    let text: string = "";
-    item = { id: id, text: text, source: source, flags: flags };
-
-    item.text = getInfo( source, id ).previewText;
-
-    if ( source === "Q" ) {
-        item.flags.address = quranAddress(id);
-    }
-    if ( source === "H" ) {
-        item.flags.address = Hadith[ id ].d || "";
-    }
-
+    item = getItem( source, id );
+    // .. overwrite | add flags
+    item.flags = { ...item.flags, ...flags };
     return item;
 
 }
@@ -130,22 +123,10 @@ export function bindItem_Generator ( code: string, flags: TS.Flags ={} ): TS.Ite
 
 export function getHistory ( src: TS.Source ): TS.ItemFound[] {
 
-    let found: TS.ItemFound[] = [];
-    for ( const m of store.state.memo[ src ] ) found.unshift( contentPreviewer( src, m ) );
-    return found;
+    let items: TS.ItemFound[] = [];
+    for ( const m of store.state.memo[ src ] ) items.unshift( getItem( src, m ) );
+    return items;
 
-}
-
-// -- =====================================================================================
-
-export function setHistory ( source: TS.Source, id: number ) {
-    // .. add trace ( unique! )
-    let old = store.state.memo[ source ].findIndex( x => x === id );
-    if ( ~old ) store.state.memo[ source ].splice( old, 1 );
-    store.state.memo[ source ].push( id );
-    // .. hard registration
-    let traceName = 'trace_' + source.toLowerCase();
-    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ], 44 );
 }
 
 // -- =====================================================================================
@@ -153,30 +134,37 @@ export function setHistory ( source: TS.Source, id: number ) {
 export function getFavorite ( src: TS.Source ): TS.ItemFound[] {
 
     let items: TS.ItemFound[] = [];
-    for ( let m of store.state.fav[ src ] ) items.unshift( contentPreviewer( src, m ) );
+    for ( let m of store.state.fav[ src ] ) items.unshift( getItem( src, m ) );
     return items;
 
 }
 
 // -- =====================================================================================
 
-export function search_Q ( phrase: string ): TS.ItemFound[] {
+export function getPhrase ( src: TS.Source, str: string ) {  
+    if ( src === "Q" ) return search_Q( str );
+    if ( src === "H" ) return search_H( str );
+}
 
-    let found: TS.ItemFound[] = [];
+// -- =====================================================================================
+
+function search_Q ( phrase: string ): TS.ItemFound[] {
+
+    let items: TS.ItemFound[] = [];
 
     for ( let i = 0; i < Quran.length; i++ )
         if ( Quran[i].simpleInFarsiLetters.includes( phrase ) )
-            found.push( contentPreviewer( "Q", i ) );
+            items.push( getItem( "Q", i ) );
 
-    return found;
+    return items;
 
 }
 
 // -- =====================================================================================
 
-export function search_H ( phrase: string ): TS.ItemFound[] {
+function search_H ( phrase: string ): TS.ItemFound[] {
 
-    let found: TS.ItemFound[] = [];
+    let items: TS.ItemFound[] = [];
     let words = phrase.split( " " );
     let matrix: number[][] = [];
     let tmpRow:number[];
@@ -185,10 +173,11 @@ export function search_H ( phrase: string ): TS.ItemFound[] {
     for ( let word of words ) {
         tmpRow = [];
         if ( word ) {
-            for ( let i = 0; i < Hadith.length; i++ ) {
+            // .. Hadith N index starts from 1!
+            for ( let n = 1; n < Hadith.length; n++ ) {
                 // .. search in arabic|farsi text
-                if ( Hadith[i].aF.includes( word ) || Hadith[i].bF.includes( word ) )
-                    tmpRow.push(i);
+                if ( Hadith[n].aF.includes( word ) || Hadith[n].bF.includes( word ) )
+                    tmpRow.push(n);
             }
         }
         matrix.push( tmpRow );
@@ -210,17 +199,17 @@ export function search_H ( phrase: string ): TS.ItemFound[] {
     // .. remove duplicated
     matches = [ ...new Set(matches) ];
 
-    for ( let id of matches ) found.push( contentPreviewer( "H", id ) );
+    for ( let id of matches ) items.push( getItem( "H", id ) );
 
-    return found.filter( (x,i) => i<50 );
+    return items.filter( (x,i) => i<50 );
 
 }
 
 // -- =====================================================================================
 
-export function foundBounds ( source: TS.Source, id: number ): TS.ItemFound[] { 
+export function getBounds ( source: TS.Source, id: number ): TS.ItemFound[] { 
 
-    let found: TS.ItemFound[] = [],
+    let items: TS.ItemFound[] = [],
         code_O = source + "_" + id,
         x_codes = store.state.cakeBound[ code_O ] || [],
         isBounded: boolean;
@@ -228,38 +217,49 @@ export function foundBounds ( source: TS.Source, id: number ): TS.ItemFound[] {
     // .. convert codes to the content
     for ( let code_X of x_codes ) {
         isBounded = store.state.cakeBound[ code_X ].includes( code_O );
-        found.push( bindItem_Generator( code_X, { isBounded: isBounded } ) );
+        items.push( getItemPlus( code_X, { isBounded: isBounded } ) );
     }
 
-    if ( found ) {
+    if ( items ) {
         // .. add Header
-        found.unshift( bindItem_Generator( code_O, { isHeader: true } ) );
+        items.unshift( getItemPlus( code_O, { isHeader: true } ) );
         // .. append cached Items
-        found = bounder_Q_Cache( found );
+        items = [ ...items, ...appendCachedBounds( code_O ) ];
     }
 
-    return found.filter( x => x );
+    return items.filter( x => x );
 
 }
 
 // -- =====================================================================================
 
-export function bounder_Q_Cache ( base: TS.ItemFound[] ): TS.ItemFound[] { 
+export function appendCachedBounds ( code_O: string ): TS.ItemFound[] { 
 
-    let origin = "Q_" + store.state.activeAyah,
-        cache: string[],
-        tmp: TS.ItemFound;
+    let cache: string[],
+        append: TS.ItemFound[] = [];
 
-    cache = store.state.cacheBound.reduce( (soFar, xxx) => {
-        if ( xxx[0] === origin ) soFar.push( xxx[1] );
-        else if ( xxx[1] === origin ) soFar.push( xxx[0] );
+    cache = store.state.cacheBound.reduce( (soFar, nextOne) => {
+        if ( nextOne[0] === origin ) soFar.push( nextOne[1] );
+        else if ( nextOne[1] === origin ) soFar.push( nextOne[0] );
         return soFar;
     }, [] as string[] );
 
-    for ( let c of cache ) base.push( bindItem_Generator( c, { isCached: true } ) );
+    for ( let c of cache ) append.push( getItemPlus( c, { isCached: true } ) );
 
-    return base;
+    return append;
 
+}
+
+// -- =====================================================================================
+
+export function setHistory ( source: TS.Source, id: number ) {
+    // .. add trace ( unique! )
+    let old = store.state.memo[ source ].findIndex( x => x === id );
+    if ( ~old ) store.state.memo[ source ].splice( old, 1 );
+    store.state.memo[ source ].push( id );
+    // .. hard registration
+    let traceName = 'trace_' + source.toLowerCase();
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ], 44 );
 }
 
 // -- =====================================================================================
@@ -300,37 +300,6 @@ export function toggleBound ( code_O: string, code_X: string ): TS.CakeBound {
 
 // -- =====================================================================================
 
-export function getTags (): TS.ItemFound[] {
-
-    let code_O = "Q_" + store.state.activeAyah,
-        tagsName: string[],
-        item: TS.ItemFound,
-        found: TS.ItemFound[] = [];
-
-    // .. filter Tags
-    tagsName = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
-
-    // .. convert list to found
-    found = Object.values( tagsName ).map( (x, i) => {
-        item = { id: i, text: x.slice(2), source: "T", flags: {} };
-        item.flags.isBounded = store.state.cakeBound[x].includes( code_O );
-        return item;
-    } );
-
-    return found;
-
-}
-
-// -- =====================================================================================
-
-export function saheb ( from: "Q"|"H" ) {
-    let saat = new Date();
-    let rand = saat.getTime() % ( from === "Q" ? Quran.length : Hadith.length );
-    return rand;
-}
-
-// -- =====================================================================================
-
 export function getHadith ( id: number ) {
 
     let hadith: TS.Hadith = { obj: Hadith[ id ] } as any;
@@ -360,7 +329,7 @@ export function getHadith ( id: number ) {
         if ( tmp ) hadith.kalamat.push( { text: tmp, isGreen: gFuse } );
     }
 
-    hadith.toShare = getSharedText_H( hadith );
+    hadith.toShare = getInfo( "H", id ).text;
 
     return hadith;
 
@@ -384,12 +353,12 @@ export function getInfo ( source: TS.Source, id: number ) {
     let tmp: string,
         limit = 440,
         info: {
-        source: TS.Source,
-        id: number,
-        text: string,
-        previewText: string,
-        address: string,
-    } = <any>{};
+            source: TS.Source,
+            id: number,
+            text: string,
+            previewText: string,
+            address: string,
+        } = <any>{};
 
     info.source = source;
     info.id = id;
@@ -420,24 +389,6 @@ export function quranAddress ( id: number ) {
     const suraNumber = arabicDigits( asma[ i.sura -1 ][0] +"" );
 
     return ( suraName + "(" + suraNumber + ") | " + arabicDigits( i.ayah +"" ) );
-
-}
-
-// ! remove it
-export function getSharedText_H ( hadith: TS.Hadith ) {
-
-    let str: string = "";
-
-    str += hadith.from;
-    str += " )" + hadith.salam + "(:\n\n";
-    str += hadith.kalamat.reduce( (f,x) => f + " " + x.text , "" ).trim();
-
-    if ( hadith.farsi ) str += "\n\n" + hadith.farsi;
-    if ( hadith.source ) str += "\n\n" + hadith.source;
-
-    str = simpleText( str );
-
-    return str;
 
 }
 

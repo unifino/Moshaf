@@ -49,7 +49,7 @@ import SearchPanel                      from "@/components/X/Search/Search_Panel
 
 // -- =====================================================================================
 
-export default class Output_M4 extends Vue {
+export default class Flex_2 extends Vue {
 
 // -- =====================================================================================
 
@@ -68,7 +68,7 @@ visibility = "collapsed";
 
 init ( data: TS.ItemFound[] = [] ) {
     this.data = data;
-    this.visibility = data.length ? "visible" : "collapsed";
+    this.visibility = this.data.length ? "visible" : "collapsed";
 }
 
 // -- =====================================================================================
@@ -95,9 +95,11 @@ isAddressed ( item: TS.ItemFound) {
 // -- =====================================================================================
 
 itemClassToggler ( item: TS.ItemFound ) {
-    item.flags.isCached = !item.flags.isCached;
-    item.flags.isBounded = !item.flags.isBounded;
-    this.$forceUpdate();
+    if ( !item.flags.isHeader ) {
+        item.flags.isCached = !item.flags.isCached;
+        item.flags.isBounded = !item.flags.isBounded;
+        this.$forceUpdate();
+    }
 }
 
 // -- =====================================================================================

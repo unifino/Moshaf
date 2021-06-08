@@ -15,9 +15,8 @@ export default new Vuex.Store( {
         }                                       ,
                                                  
         here            : null                  ,
-        activeAyah      : -1                    ,
         search_By       : null                  ,
-        search_IN       : "H"                   ,
+        search_IN       : "Q"                   ,
                                                  
         fraseInSearch   : null                  ,
         cacheBound      : []                    ,
@@ -48,7 +47,6 @@ interface state {
         appConfig       : appConfig             ,
                                                  
         here            : TS.here               ,
-        activeAyah      : number                ,
         search_By       : TS.search_By          ,
         search_IN       : TS.Source             ,
                                                  

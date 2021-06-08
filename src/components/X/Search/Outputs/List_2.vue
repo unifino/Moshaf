@@ -43,7 +43,7 @@ import SearchPanel                      from "@/components/X/Search/Search_Panel
 
 // -- =====================================================================================
 
-export default class Output_M2 extends Vue {
+export default class List_2 extends Vue {
 
 // -- =====================================================================================
 
@@ -66,7 +66,7 @@ openTag ( tag: TS.ItemFound ) {
         x_codes = store.state.cakeBound[ "T_" + tag.text ] || [];
 
     // .. convert codes to the content
-    for ( let code_X of x_codes ) result.push( tools.bindItem_Generator( code_X ) );
+    for ( let code_X of x_codes ) result.push( tools.getItemPlus( code_X ) );
     result = result.filter( x => x );
 
     this.SearchPanel.display( result, "Flex_2" );

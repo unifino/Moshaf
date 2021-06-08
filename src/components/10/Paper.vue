@@ -132,8 +132,9 @@ show ( id: number ) {
 
 panel () {
     let IntuitivePanel = this.$refs.IntuitivePanel as IntuitivePanel;
-    // .. prevent action when it already activated
-    if ( !store.state.iPanel_ON ) IntuitivePanel.init( "H", this.myID );
+    // .. prevent action when it has been already activated | Heading to Lookup!
+    if ( !store.state.iPanel_ON && store.state.here === "Paper" ) 
+        IntuitivePanel.init( "H", this.myID );
 }
 
 // -- =====================================================================================

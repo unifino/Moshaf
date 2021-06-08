@@ -196,7 +196,6 @@ async morsal ( message: TS.vahy ) {
 kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
 
     if ( type === "number" ) {
-        store.state.activeAyah = aID;
         ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "Q", aID );
     }
 

@@ -79,7 +79,7 @@ textChanged ( phrase: string, force?: boolean ) {
     if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     this.textChanged_TO = setTimeout( () => {
         let str = tools.inFarsiLetters( phrase );
-        let data = tools[ "search_" + store.state.search_IN ]( str );
+        let data = tools.getPhrase( store.state.search_IN, str );
         this.SearchPanel.display(  data, "List_1" );
         store.state.fraseInSearch = str;
     }, force ? 0 : 500 );
