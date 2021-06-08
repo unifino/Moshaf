@@ -239,8 +239,8 @@ export function appendCachedBounds ( code_O: string ): TS.ItemFound[] {
         append: TS.ItemFound[] = [];
 
     cache = store.state.cacheBound.reduce( (soFar, nextOne) => {
-        if ( nextOne[0] === origin ) soFar.push( nextOne[1] );
-        else if ( nextOne[1] === origin ) soFar.push( nextOne[0] );
+        if ( nextOne[0] === code_O ) soFar.push( nextOne[1] );
+        else if ( nextOne[1] === code_O ) soFar.push( nextOne[0] );
         return soFar;
     }, [] as string[] );
 

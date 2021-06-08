@@ -37,7 +37,7 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
         Welcome: { page: Welcome, duration: 300, transition: "flipLeft",    },
         Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },
         Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    },
-        Paper:   { page: Paper, duration: 300, transition: "flipLeft",    },
+        Paper:   { page: Paper,   duration: 300, transition: "flipLeft",    },
         Qertas:  { page: Qertas , duration: 300, transition: "slideTop",    },
         Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",    },
         Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  }, 
@@ -51,8 +51,6 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
     };
 
     let myPath = paths[ address ];
-
-    // tools.clearSearchBox();
 
     Vue.prototype.$navigateTo( myPath.page, {
 
