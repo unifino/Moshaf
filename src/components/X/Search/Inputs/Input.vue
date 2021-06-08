@@ -106,7 +106,7 @@ returnPressed ( phrase: string ) {
 
         // if ( text ) {
         //    // store.state.cakeBound = tools.toggleBound( newTag );
-        //     // this.SearchPanel.display( tools.getTags(), "Flex_1" )
+        //     // this.SearchPanel.display( tools.getTags(), "Flex_T" )
         // }
 
         // // .. hard registration

@@ -58,10 +58,7 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { asma, Quran }                  from "@/db/Q/Quran"
 
-import Qertas                           from "@/components/00/Qertas.vue"
-import Kalameh                          from "@/components/X/Kalameh.vue"
 import myButton                         from "@/components/X/myButton.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
@@ -123,7 +120,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.SearchPanel.display( tools.getBounds( this.source, this.id ), "Flex_2" );
+    this.SearchPanel.display( tools.getBounds( this.source, this.id ), "Flex_B" );
 }
 
 // -- =====================================================================================
@@ -179,6 +176,7 @@ async menuCtr ( id: number ) {
     this.menuBox_Animation.play().then( () => {
         store.state.search_CH = null;
         store.state.iPanel_ON = !!~id;
+        this.tagModeActivated = false;
         if ( !~id ) panel.visibility = "collapsed";
     } );
 
@@ -259,14 +257,14 @@ open_item ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         if ( store.state.here === "Qertas" )
-            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_2" );
+            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_B" );
         if ( store.state.here === "Paper" )
             route( "Qertas", { id: item.id } )
     }
 
     if ( item.source === "H" ) {
         if ( store.state.here === "Paper" )
-            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_2" );
+            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_B" );
         if ( store.state.here === "Qertas" )
             route( "Paper", { id: item.id } )
     }
@@ -281,14 +279,30 @@ TagModeToggler () {
     let bounds = tools.getBounds( this.source, this.id );
 
     if ( this.tagModeActivated ) {
-        this.SearchPanel.display( bounds.filter( x => x.source !== "T" ), "Flex_2" );
+        this.SearchPanel.display( bounds.filter( x => x.source !== "T" ), "Flex_B" );
         store.state.search_IN = this.source;
     }
 
     else {
-        this.SearchPanel.display( bounds.filter( x => x.source === "T" ), "Flex_1" );
+        let tags: string[],
+            tagItems: TS.ItemFound[] = [];
+        tags = Object.keys( store.state.cakeBound ).filter( x => x[0].slice(0,1) === "T" );
+        tagItems = tags.map( (x,i) => {
+            let itemTag: TS.ItemFound = {
+                source: "T",
+                id: i,
+                text: x,
+                flags: {
+                    isBounded: !!bounds.find( x => x.source === "T" && x.id === <any>x )
+                }
+            }
+            return itemTag;
+        } );
+        this.SearchPanel.display( tagItems, "Flex_T" );
         store.state.search_IN = "T";
     }
+
+    this.tagModeActivated = !this.tagModeActivated;
 
 }
 

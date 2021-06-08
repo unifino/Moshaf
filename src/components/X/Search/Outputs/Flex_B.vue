@@ -11,7 +11,7 @@
                 v-for="(item,i) in data"
                 :key="i"
                 rows="*,auto" 
-                @tap="$emit( 'interact_1', item );itemClassToggler(item);"
+                @tap="$emit( 'interact', item );itemClassToggler(item);"
                 @longPress="$emit( 'interact_2', item )"
                 :class="itemClasser(item)"
             >
@@ -49,7 +49,7 @@ import SearchPanel                      from "@/components/X/Search/Search_Panel
 
 // -- =====================================================================================
 
-export default class Flex_2 extends Vue {
+export default class Flex_B extends Vue {
 
 // -- =====================================================================================
 

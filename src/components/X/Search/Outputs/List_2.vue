@@ -69,7 +69,7 @@ openTag ( tag: TS.ItemFound ) {
     for ( let code_X of x_codes ) result.push( tools.getItemPlus( code_X ) );
     result = result.filter( x => x );
 
-    this.SearchPanel.display( result, "Flex_2" );
+    this.SearchPanel.display( result, "Flex_B" );
 
 }
 

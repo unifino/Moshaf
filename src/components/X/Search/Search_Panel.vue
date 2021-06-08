@@ -28,8 +28,8 @@
     <GridLayout row=1>
         <List_1 ref="List_1" @interact_1="e => $emit( 'orderByParent_1', e )" />
         <List_2 ref="List_2"  />
-        <Flex_1 ref="Flex_1"  />
-        <Flex_2 ref="Flex_2" 
+        <Flex_T ref="Flex_T"  />
+        <Flex_B ref="Flex_B" 
             @interact_1="e => $emit( 'orderByParent_1', e )"
             @interact_2="e => $emit( 'orderByParent_2', e )"
             :vividBG=vividBG 
@@ -63,8 +63,8 @@ import Favorite                         from "@/components/X/Search/Buttons/Favo
 import Exchange                         from "@/components/X/Search/Buttons/Exchange.vue"
 import List_1                           from "@/components/X/Search/Outputs/List_1.vue"
 import List_2                           from "@/components/X/Search/Outputs/List_2.vue"
-import Flex_1                           from "@/components/X/Search/Outputs/Flex_1.vue"
-import Flex_2                           from "@/components/X/Search/Outputs/Flex_2.vue"
+import Flex_T                           from "@/components/X/Search/Outputs/Flex_T.vue"
+import Flex_B                           from "@/components/X/Search/Outputs/Flex_B.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
 
@@ -74,7 +74,7 @@ import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive
     components: { 
         Input, 
         Search, Dismiss, History, Favorite, HashTag, Exchange, Random,
-        List_1, List_2, Flex_1, Flex_2,
+        List_1, List_2, Flex_T, Flex_B,
     }
 } )
 
@@ -131,14 +131,14 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
             id = this.IntuitivePanel.id;
 
         // .. reset mode
-        if ( reset ) this.display( tools.getBounds( source, id ), "Flex_2" );
+        if ( reset ) this.display( tools.getBounds( source, id ), "Flex_B" );
 
         // .. assign mode
         else {
             // .. get bounds
             let bounds = tools.getBounds( source, id );
-            // .. let out header itself [ not in Flex_2 ]
-            if ( target !== "Flex_2" )
+            // .. let out header itself [ not in Flex_B ]
+            if ( target !== "Flex_B" )
                 data = data.filter( x => !( x.source === source && x.id === id ) );
             // .. update flags
             for ( let p of data )
@@ -162,7 +162,7 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
 // -- =====================================================================================
 
 clearSearch () {
-    let outputs: TS.DisplayTypes[] = [ "List_1", "List_2", "Flex_1", "Flex_2" ];
+    let outputs: TS.DisplayTypes[] = [ "List_1", "List_2", "Flex_T", "Flex_B" ];
     // ..  reset
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state

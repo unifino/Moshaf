@@ -196,4 +196,4 @@ export type Hadith = {
 
 // -- =====================================================================================
 
-export type DisplayTypes = "List_1" | "List_2" | "Flex_1" | "Flex_2";
+export type DisplayTypes = "List_1" | "List_2" | "Flex_T" | "Flex_B";
