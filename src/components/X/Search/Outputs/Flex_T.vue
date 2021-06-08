@@ -84,10 +84,10 @@ tagToggler ( item: TS.ItemFound ) {
     let IntuitivePanel = this.SearchPanel.IntuitivePanel;
     let code_O = IntuitivePanel.source + "_" + IntuitivePanel.id;
     let code_X = item.text;
-    console.log( code_O, code_X );
-    // ! tools.toggleBound( code_O, code_X );
+    store.state.cakeBound = tools.toggleBound( code_O, code_X );
+    item.flags.isBounded = !item.flags.isBounded;
     // .. hard registration
-    // ! storage.saveDB( storage.bound_File, storage.rawBound );
+    storage.saveDB( storage.bound_File, storage.rawBound );
 }
 
 // -- =====================================================================================

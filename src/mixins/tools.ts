@@ -119,6 +119,9 @@ export function getItemPlus ( code: string, flags: TS.Flags ={} ): TS.ItemFound 
     item = getItem( source, id );
     // .. overwrite | add flags
     item.flags = { ...item.flags, ...flags };
+    // .. patch for T
+    if ( isNaN( id ) ) item.text = code;
+
     return item;
 
 }
@@ -272,8 +275,8 @@ export function toggleBound ( code_O: string, code_X: string ): TS.CakeBound {
 
     // .. determine current BoundStatus
     let isBounded: boolean;
-    isBounded = !!store.state.cakeBound[ code_O ];
-    if ( isBounded ) isBounded = store.state.cakeBound[ code_O ].includes( code_X );
+    isBounded = !!store.state.cakeBound[ code_X ];
+    if ( isBounded ) isBounded = store.state.cakeBound[ code_X ].includes( code_O );
 
     // .. insert New Bound Info!
     if ( !isBounded ) storage.rawBound.push( [ code_O, code_X ] );
@@ -384,7 +387,10 @@ export function getInfo ( source: TS.Source, id: number ) {
     }
 
     return info;
+
 }
+
+// -- =====================================================================================
 
 export function quranAddress ( id: number ) {
 

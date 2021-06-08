@@ -120,7 +120,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.SearchPanel.display( tools.getBounds( this.source, this.id ), "Flex_B" );
+    this.SearchPanel.display( null, null, true );
 }
 
 // -- =====================================================================================
@@ -278,28 +278,29 @@ TagModeToggler () {
 
     let bounds = tools.getBounds( this.source, this.id );
 
-    if ( this.tagModeActivated ) {
-        this.SearchPanel.display( bounds.filter( x => x.source !== "T" ), "Flex_B" );
-        store.state.search_IN = this.source;
-    }
+    if ( this.tagModeActivated ) this.SearchPanel.display( null, null, true );
 
     else {
+
         let tags: string[],
             tagItems: TS.ItemFound[] = [];
         tags = Object.keys( store.state.cakeBound ).filter( x => x[0].slice(0,1) === "T" );
+
         tagItems = tags.map( (x,i) => {
             let itemTag: TS.ItemFound = {
                 source: "T",
                 id: i,
                 text: x,
                 flags: {
-                    isBounded: !!bounds.find( x => x.source === "T" && x.id === <any>x )
+                    isBounded: !!bounds.find( b => b.text === x )
                 }
             }
             return itemTag;
         } );
+
         this.SearchPanel.display( tagItems, "Flex_T" );
         store.state.search_IN = "T";
+
     }
 
     this.tagModeActivated = !this.tagModeActivated;

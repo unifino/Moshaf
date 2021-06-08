@@ -128,21 +128,20 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
     if ( this.IntuitivePanel ) {
 
         let source = this.IntuitivePanel.source,
-            id = this.IntuitivePanel.id;
+            id = this.IntuitivePanel.id,
+            items = tools.getBounds( source, id ).filter( x => x.source !== "T" );
 
         // .. reset mode
-        if ( reset ) this.display( tools.getBounds( source, id ), "Flex_B" );
+        if ( reset ) this.display( items, "Flex_B" );
 
         // .. assign mode
         else {
-            // .. get bounds
-            let bounds = tools.getBounds( source, id );
             // .. let out header itself [ not in Flex_B ]
             if ( target !== "Flex_B" )
                 data = data.filter( x => !( x.source === source && x.id === id ) );
             // .. update flags
             for ( let p of data )
-                for ( let q of bounds )
+                for ( let q of items )
                     if ( p.source === q.source && p.id === q.id )
                         p.flags.isBounded = true;
             // .. set data
