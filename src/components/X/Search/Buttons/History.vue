@@ -68,16 +68,17 @@ getHistory () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "history" ) {
-        this.SearchPanel.display( null, null, true );
+        this.SearchPanel.display( null, null, null, true );
         return;
     }
 
-    // .. register chanel
-    this.SearchPanel.search_CH = "history";
-    let source = this.SearchPanel.activeMode;
+    // .. patch for T mode
+    let src = this.SearchPanel.activeMode;
+    if ( src !== "Q" && src !== "H" ) 
+        this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
 
-    let data = tools.getHistory( source );
-    this.SearchPanel.display( data, "List_1" );
+    let data = tools.getHistory( this.SearchPanel.activeMode );
+    this.SearchPanel.display( data, "List_1", "history" );
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 

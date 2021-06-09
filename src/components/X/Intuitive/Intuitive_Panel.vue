@@ -120,7 +120,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.SearchPanel.display( null, null, true );
+    this.SearchPanel.display( null, null, null, true );
 }
 
 // -- =====================================================================================
@@ -251,14 +251,14 @@ open_item ( item: TS.ItemFound ) {
 
     if ( item.source === "Q" ) {
         if ( store.state.here === "Qertas" )
-            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_B" );
+            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_B", null );
         if ( store.state.here === "Paper" )
             route( "Qertas", { id: item.id } )
     }
 
     if ( item.source === "H" ) {
         if ( store.state.here === "Paper" )
-            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_B" );
+            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_B", null );
         if ( store.state.here === "Qertas" )
             route( "Paper", { id: item.id } )
     }
@@ -273,11 +273,11 @@ TagModeToggler () {
     this.tagModeActivated = !this.tagModeActivated;
 
     if ( this.tagModeActivated ) {
-        this.SearchPanel.display( this.tagItems, "Flex_T" );
+        this.SearchPanel.display( this.tagItems, "Flex_T", "tag" );
         this.SearchPanel.activeMode = "T";
     }
 
-    else this.SearchPanel.display( null, null, true );
+    else this.SearchPanel.display( null, null, null, true );
 
 }
 

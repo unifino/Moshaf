@@ -53,6 +53,8 @@ get visibility () {
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             visible = false;
 
+    if ( source === "T" ) visible = false;
+
     return visible ? 'visible' : 'collapsed';
 
 }
@@ -66,17 +68,19 @@ getSearchResult ( force?: boolean ) {
 
     // .. re-tap situation
     if ( !force && this.SearchPanel.search_CH === "phrase" ) {
-        this.SearchPanel.display( null, null, true );
+        this.SearchPanel.display( null, null, null, true );
         return;
     }
 
-    // .. register chanel
-    this.SearchPanel.search_CH = "phrase";
+    // .. patch for T mode
+    let src = this.SearchPanel.activeMode;
+    if ( src !== "Q" && src !== "H" ) 
+        this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
 
     if ( force ) {
         let str = (<any>this.SearchPanel.$refs.input).$refs.textField.nativeView.text || "";
         let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-        this.SearchPanel.display( data, "List_1" );
+        this.SearchPanel.display( data, "List_1", "phrase" );
         if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
     }
 
@@ -88,7 +92,7 @@ getSearchResult ( force?: boolean ) {
 
 search_N (): void {
     // this.$emit( 'search', str );
-    this.SearchPanel.display( null, null, true );
+    this.SearchPanel.display( null, null, null, true );
 }
 
 // -- =====================================================================================

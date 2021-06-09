@@ -131,6 +131,7 @@ export function getItemPlus ( code: string, flags: TS.Flags ={} ): TS.ItemFound 
 export function getHistory ( src: TS.Source ): TS.ItemFound[] {
 
     let items: TS.ItemFound[] = [];
+    if ( src !== "Q" && src !== "H" ) return items;
     for ( const m of store.state.memo[ src ] ) items.unshift( getItem( src, m ) );
     return items;
 
@@ -141,6 +142,7 @@ export function getHistory ( src: TS.Source ): TS.ItemFound[] {
 export function getFavorite ( src: TS.Source ): TS.ItemFound[] {
 
     let items: TS.ItemFound[] = [];
+    if ( src !== "Q" && src !== "H" ) return items;
     for ( let m of store.state.fav[ src ] ) items.unshift( getItem( src, m ) );
     return items;
 

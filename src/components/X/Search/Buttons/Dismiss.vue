@@ -57,6 +57,8 @@ get visibility () {
         if ( source ==='Q' || source ==='H' || source ==='N' ) 
             visible = true;
 
+    if ( source === "T" ) visible = true;
+
     return visible ? 'visible' : 'collapsed';
 
 }
@@ -65,7 +67,7 @@ get visibility () {
 
 async dismiss () {
     // .. regular actions
-    this.SearchPanel.display( null, null, true );
+    this.SearchPanel.display( null, null, null, true );
 }
 
 // -- =====================================================================================

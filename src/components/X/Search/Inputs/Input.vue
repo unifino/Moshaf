@@ -75,11 +75,16 @@ textChanged ( phrase: string, force?: boolean ) {
 
     if ( this.textChanged_TO ) clearTimeout( this.textChanged_TO );
 
+    // .. patch for T mode
+    let src = this.SearchPanel.activeMode;
+    if ( src !== "Q" && src !== "H" ) 
+        this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
+
     this.textChanged_TO = setTimeout( () => {
         if ( phrase.length > 3 ) {
             let str = tools.inFarsiLetters( phrase );
             let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-            if ( data ) this.SearchPanel.display( data, "List_1" );
+            if ( data ) this.SearchPanel.display( data, "List_1", "phrase" );
         }
     }, force ? 0 : 500 );
 
@@ -92,7 +97,7 @@ returnPressed ( phrase: string ) {
     // .. Not in Tag-Section!
     if ( this.SearchPanel.activeMode !== "T" ) {
         if ( phrase ) this.textChanged( phrase, true );
-        else this.SearchPanel.display( null, null, true );
+        else this.SearchPanel.display( null, null, null, true );
     }
 
     // .. Just in Tag-Section

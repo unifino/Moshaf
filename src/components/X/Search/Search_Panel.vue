@@ -132,7 +132,7 @@ mounted() {
 
 // -- =====================================================================================
 
-display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
+display ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.search_Chanel, reset?:boolean ) {
 
     // .. general reset
     this.clearSearch();
@@ -145,7 +145,7 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
             items = tools.getBounds( source, id ).filter( x => x.source !== "T" );
 
         // .. reset mode
-        if ( reset ) this.display( items, "Flex_B" );
+        if ( reset ) this.display( items, "Flex_B", null );
 
         // .. assign mode
         else {
@@ -159,6 +159,8 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
                         p.flags.isBounded = true;
             // .. set data
             ( <any>this.$refs[ target ] ).init( data );
+            // .. register chanel
+            this.search_CH = chanel;
         }
 
     }

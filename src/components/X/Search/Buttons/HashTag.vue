@@ -62,12 +62,9 @@ listRetriever () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "tag" ) {
-        this.SearchPanel.display( null, null, true );
+        this.SearchPanel.display( null, null, null, true );
         return;
     }
-
-    // .. register chanel
-    this.SearchPanel.search_CH = "tag";
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
@@ -81,7 +78,7 @@ listRetriever () {
             }
         }
     } );
-    this.SearchPanel.display( data, "List_2" );
+    this.SearchPanel.display( data, "List_2", "tag" );
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 

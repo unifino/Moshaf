@@ -75,7 +75,7 @@ exchange ( rev: boolean ) {
 
     }
 
-    console.log();
+    console.log( this.SearchPanel.search_CH );
     
 
 }

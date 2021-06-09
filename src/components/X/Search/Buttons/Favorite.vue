@@ -66,16 +66,17 @@ getFavorite () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "favorite" ) {
-        this.SearchPanel.display( null, null, true );
+        this.SearchPanel.display( null, null, null, true );
         return;
     }
 
-    // .. register action
-    this.SearchPanel.search_CH = "favorite";
-    let source = this.SearchPanel.activeMode;
+    // .. patch for T mode
+    let src = this.SearchPanel.activeMode;
+    if ( src !== "Q" && src !== "H" ) 
+        this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
 
-    let data = tools.getFavorite( source );
-    this.SearchPanel.display( data, "List_1" );
+    let data = tools.getFavorite( this.SearchPanel.activeMode );
+    this.SearchPanel.display( data, "List_1", "favorite" );
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
