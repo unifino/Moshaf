@@ -21,6 +21,10 @@
 
             </GridLayout>
 
+            <GridLayout class="baseClass comment">
+                <Label row=0 text="+" textWrap=true class="addNewComment" />
+            </GridLayout>
+
         </StackLayout>
 
     </ScrollView>

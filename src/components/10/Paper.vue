@@ -115,16 +115,8 @@ init ( id: number = -1 ) {
 // -- =====================================================================================
 
 show ( id: number ) {
-
     this.hadith = tools.getHadith( id );
-
-    // .. add new trace
-    let old = store.state.memo.H.findIndex( x => x === id );
-    if ( ~old ) store.state.memo.H.splice( old, 1 );
-    store.state.memo.H.push( id );
-    // .. hard registration
-    storage.saveDB( storage.trace_h_File, store.state.memo.H, 44 );
-
+    tools.setHistory( "H", id );
 }
 
 // -- =====================================================================================

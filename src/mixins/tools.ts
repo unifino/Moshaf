@@ -266,7 +266,7 @@ export function setHistory ( source: TS.Source, id: number ) {
     store.state.memo[ source ].push( id );
     // .. hard registration
     let traceName = 'trace_' + source.toLowerCase();
-    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ], 44 );
+    storage.saveDB( storage[ traceName + "_File" ], store.state.memo[ source ], 110 );
 }
 
 // -- =====================================================================================
