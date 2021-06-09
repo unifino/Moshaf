@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView>
+    <ScrollView ref="rail">
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
@@ -11,19 +11,31 @@
                 v-for="(item,i) in data"
                 :key="i"
                 rows="*,auto" 
-                @tap="$emit( 'interact', item );itemClassToggler(item);"
+                @tap="$emit( 'interact_1', item );itemClassToggler(item);"
                 @longPress="$emit( 'interact_2', item )"
                 :class="itemClasser(item)"
             >
 
-                <Label row=0 :text="item.text" textWrap=true class="ayah" />
+                <Label row=0 :text="item.text" textWrap=true class="mainText" />
                 <Label row=1 :text="item.flags.address" :class="isAddressed(item)" />
 
             </GridLayout>
 
-            <GridLayout class="baseClass comment">
-                <Label row=0 text="+" textWrap=true class="addNewComment" />
-            </GridLayout>
+            <StackLayout>
+                <TextField
+                    :visibility="newCommentVisible ? 'visible':'collapsed'"
+                    ref="newComment"
+                    class="baseClass comment newComment"
+                    @returnPress="addComment( $event.object.text )"
+                    textWrap="true"
+                />
+                <Label 
+                    :visibility="newCommentVisible ? 'collapsed':'visible'"
+                    text="+ أضف تعليق" 
+                    @tap="addComment()" 
+                    class="baseClass comment" 
+                />
+            </StackLayout>
 
         </StackLayout>
 
@@ -42,6 +54,9 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as storage                     from "@/mixins/storage"
+import store                            from "@/store/store"
+import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
@@ -66,6 +81,7 @@ SearchPanel: SearchPanel = this.$parent as any;
 
 data = [];
 visibility = "collapsed";
+newCommentVisible = false;
 
 // -- =====================================================================================
 
@@ -84,8 +100,9 @@ get outputBoxClass () {
 
 itemClasser ( item: TS.ItemFound ) {
     let itemClass = "baseClass";
-    if ( item.flags.isCached ) itemClass += " cached";
     if ( item.flags.isHeader ) itemClass += " header";
+    if ( item.source === "C" ) itemClass += " comment";
+    if ( item.flags.isCached ) itemClass += " cached";
     return itemClass;
 }
 
@@ -103,6 +120,56 @@ itemClassToggler ( item: TS.ItemFound ) {
         item.flags.isBounded = !item.flags.isBounded;
         this.$forceUpdate();
     }
+}
+
+// -- =====================================================================================
+
+addComment ( str?: string ) {
+
+    let newComment = ( this.$refs.newComment as any ).nativeView,
+        rail = ( this.$refs.rail as any ).nativeView;
+
+    if ( typeof str === "string" ) {
+        if ( str ) {
+            this.registerComment( str );
+            // .. reset textFiled
+            newComment.text = "";
+        }
+        this.newCommentVisible = false;
+    }
+    else {
+
+        this.newCommentVisible = true;
+        setTimeout( () => {
+            newComment.focus();
+            rail.scrollToVerticalOffset( rail.scrollableHeight, true );
+        }, 10 );
+
+    }
+
+}
+
+// -- =====================================================================================
+
+registerComment ( str: string ) {
+
+    let IntuitivePanel = this.SearchPanel.$parent as IntuitivePanel,
+        code_O = IntuitivePanel.source + "_" + IntuitivePanel.id,
+        id: number;
+
+    // .. register comment
+    id = store.state.comments.push( str ) -1;
+    storage.rawBound.push( [ code_O, "C_" +id ] );
+    // .. hard registrations
+    storage.saveDB( storage.comments_File, store.state.comments );
+    storage.saveDB( storage.bound_File, storage.rawBound );
+
+    // .. re-calculation
+    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );;
+
+    // .. re-Display
+    this.SearchPanel.display( null, null, null, true );
+
 }
 
 // -- =====================================================================================
@@ -136,24 +203,12 @@ itemClassToggler ( item: TS.ItemFound ) {
         color: #0c85aa;
     }
 
-    .CoolGreen .ayah {
-        color: #a0c4cf;
-    }
-    .Smoky .ayah {
-        color: #0c85aa;
-    }
-
 /* ------------------------------------------- */
     .CoolGreen .header,
     .Smoky .header {
         background-color: #0b2e10;
         border-width: 1;
         border-color: #8b8b8b;
-        color: #cacaca;
-    }
-
-    .CoolGreen .header .ayah,
-    .Smoky .header .ayah{
         color: #cacaca;
     }
 
@@ -173,6 +228,20 @@ itemClassToggler ( item: TS.ItemFound ) {
         color: #037269;
     }
 
+    .CoolGreen .comment {
+        background-color: #201d05;
+        color: white;
+    }
+
+    .Smoky .comment {
+        background-color: #ece29d;
+        color: #5f6466;
+    }
+
+    .newComment {
+        margin: 5 0 300 0;
+    }
+
 /* ------------------------------------------- */
     .CoolGreen .cached {
         background-color: #020202;
@@ -181,8 +250,8 @@ itemClassToggler ( item: TS.ItemFound ) {
         background-color: #1f2020;
     }
 
-    .CoolGreen .cached .ayah,
-    .Smoky .cached .ayah{
+    .CoolGreen .cached .mainText,
+    .Smoky .cached .mainText{
         text-decoration: line-through;
         color: #393a3b;
     }

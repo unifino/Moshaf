@@ -389,6 +389,11 @@ export function getInfo ( source: TS.Source, id: number ) {
         info.previewText = tmp;
     }
 
+    if ( source === "C" ) {
+        info.text = store.state.comments[ id ];
+        info.previewText = store.state.comments[ id ];
+    }
+
     return info;
 
 }

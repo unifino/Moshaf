@@ -13,17 +13,19 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
+let comments: string[];
 export let rawBound: TS.RawBound;
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
 
-let myFolder : NS.Folder;    // * do not initiate it
-export let trace_q_File: NS.File;   // * do not initiate it
-export let trace_h_File: NS.File;   // * do not initiate it
-export let fav_q_File: NS.File;     // * do not initiate it
-export let fav_h_File: NS.File;     // * do not initiate it
-export let bound_File: NS.File;     // * do not initiate it
+let myFolder : NS.Folder;           // * do not initiate it
+export let trace_q_File : NS.File;  // * do not initiate it
+export let trace_h_File : NS.File;  // * do not initiate it
+export let fav_q_File   : NS.File;  // * do not initiate it
+export let fav_h_File   : NS.File;  // * do not initiate it
+export let bound_File   : NS.File;  // * do not initiate it
+export let comments_File: NS.File;  // * do not initiate it
 
 // -- =====================================================================================
 
@@ -38,9 +40,10 @@ export function db_check (): Promise<void> {
         let bp = myFolder.path;
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
-        fav_q_File   = NS.File.fromPath ( NS.path.join( bp, "fav_q.json"  ) );
-        fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"  ) );
-        bound_File   = NS.File.fromPath ( NS.path.join( bp, "bind.json"  ) );
+        fav_q_File   = NS.File.fromPath ( NS.path.join( bp, "fav_q.json"    ) );
+        fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"    ) );
+        bound_File   = NS.File.fromPath ( NS.path.join( bp, "bind.json"     ) );
+        comments_File= NS.File.fromPath ( NS.path.join( bp, "comments.json" ) );
 
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
@@ -48,18 +51,21 @@ export function db_check (): Promise<void> {
         try { fav_q   = JSON.parse( fav_q_File.readTextSync()   ) } catch { fav_q   = [] }
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
+        try { comments= JSON.parse( comments_File.readTextSync()) } catch { comments= [] }
 
         // .. check integrity 
-        if ( !trace_q ) saveDB( trace_q_File, [] );
-        if ( !trace_h ) saveDB( trace_h_File, [] );
-        if ( !fav_q   ) saveDB( fav_q_File, [] );
-        if ( !fav_h   ) saveDB( fav_h_File, [] );
-        if ( !rawBound) saveDB( bound_File, [] );
+        if ( !trace_q ) saveDB( trace_q_File,  [] );
+        if ( !trace_h ) saveDB( trace_h_File,  [] );
+        if ( !fav_q   ) saveDB( fav_q_File,    [] );
+        if ( !fav_h   ) saveDB( fav_h_File,    [] );
+        if ( !rawBound) saveDB( bound_File,    [] );
+        if ( !comments) saveDB( comments_File, [] );
 
-        store.state.fav.Q = fav_q;
-        store.state.fav.H = fav_h;
-        store.state.memo.Q = trace_q;
-        store.state.memo.H = trace_h;
+        store.state.fav.Q     = fav_q;
+        store.state.fav.H     = fav_h;
+        store.state.memo.Q    = trace_q;
+        store.state.memo.H    = trace_h;
+        store.state.comments  = comments;
         store.state.cakeBound = rawBoundConvertor( rawBound );
 
         // .. resolve
