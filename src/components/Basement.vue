@@ -110,7 +110,7 @@ setup (): Promise<void> {
 
         // .. first actual step! bring-up the Unity
         this.to_Unity( true );
-        route( "Paper" );
+
         // .. basic steps has been resolved!
         rs();
 

@@ -96,7 +96,6 @@ mounted () {
 pageLoaded () {
     store.state.here = 'Paper';
     TM.themePatcher( this );
-    this.paperTapped()
 }
 
 // -- =====================================================================================

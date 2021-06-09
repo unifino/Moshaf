@@ -250,16 +250,16 @@ open_item ( item: TS.ItemFound ) {
     if ( item.flags.isHeader ) return;
 
     if ( item.source === "Q" ) {
-        if ( store.state.here === "Qertas" )
-            this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_B", null );
-        if ( store.state.here === "Paper" )
+        // if ( store.state.here === "Qertas" )
+        //     this.SearchPanel.display( tools.getBounds( "Q", item.id ), "Flex_B", null );
+        // if ( store.state.here === "Paper" )
             route( "Qertas", { id: item.id } )
     }
 
     if ( item.source === "H" ) {
-        if ( store.state.here === "Paper" )
-            this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_B", null );
-        if ( store.state.here === "Qertas" )
+        // if ( store.state.here === "Paper" )
+        //     this.SearchPanel.display( tools.getBounds( "H", item.id ), "Flex_B", null );
+        // if ( store.state.here === "Qertas" )
             route( "Paper", { id: item.id } )
     }
 

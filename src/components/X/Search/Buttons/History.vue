@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f1da' )"
-        @tap="getHistory()"
+        @tap="getResult()"
         @longPress="purgeHistory()"
     />
 
@@ -64,7 +64,7 @@ activeClass () {
 
 // -- =====================================================================================
 
-getHistory () {
+getResult () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "history" ) {

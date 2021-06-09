@@ -6,7 +6,7 @@
         class="fas button"
         :visibility=visibility 
         :text="String.fromCharCode( '0x' + 'f002' )"
-        @tap="getSearchResult( true )"
+        @tap="getResult( true )"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -21,7 +21,6 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as tools                       from "@/mixins/tools"
-import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
@@ -61,7 +60,7 @@ get visibility () {
 
 // -- =====================================================================================
 
-getSearchResult ( force?: boolean ) {
+getResult ( force?: boolean ) {
 
     // .. Tag Mode
     if ( this.SearchPanel.activeMode === "T" ) return;

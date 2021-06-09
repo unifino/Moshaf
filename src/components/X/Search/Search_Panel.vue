@@ -14,13 +14,13 @@
 
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
-        <Search   />
-        <Dismiss  />
-        <History  />
-        <Favorite />
-        <Random :randomButton="randomButton" />
-        <Exchange :exchangeButton="exchangeButton" />
-        <!-- <HashTag :hashTagButton="hashTagButton" /> -->
+        <Search   ref="phrase"                      />
+        <Dismiss                                    />
+        <History  ref="history"                     />
+        <Favorite ref="favorite"                    />
+        <Random   :randomButton="randomButton"      />
+        <Exchange :exchangeButton="exchangeButton"  />
+        <!-- <HashTag :hashTagButton="hashTagButton"     /> -->
 
     </StackLayout>
 
@@ -52,7 +52,6 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
-import store                            from "@/store/store"
 import * as tools                       from "@/mixins/tools"
 
 import Input                            from "@/components/X/Search/Inputs/Input.vue"
@@ -68,6 +67,7 @@ import List_2                           from "@/components/X/Search/Outputs/List
 import Flex_T                           from "@/components/X/Search/Outputs/Flex_T.vue"
 import Flex_B                           from "@/components/X/Search/Outputs/Flex_B.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
+import Unity                            from "@/components/U/Unity.vue"
 
 
 // -- =====================================================================================
@@ -159,18 +159,26 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.search_Chane
                         p.flags.isBounded = true;
             // .. set data
             ( <any>this.$refs[ target ] ).init( data );
-            // .. register chanel
-            this.search_CH = chanel;
         }
 
     }
 
     // .. not in reset mode
-    if ( !reset ) ( <any>this.$refs[ target ] ).init( data );
+    if ( !reset ) {
+        ( <any>this.$refs[ target ] ).init( data );
+        // .. register chanel
+        this.search_CH = chanel;
+    }
 
     // .. register state
     this.activated = ( !!data && !!data.length );
     if ( !this.activated ) this.activeMode = this.defaultActiveMode;
+
+    // .. patch for unity
+    try {
+        let unity = this.$parent.$parent as Unity;
+        unity.unity_v( this.activated ? 'hidden' : 'visible' );
+    } catch {}
 
 }
 

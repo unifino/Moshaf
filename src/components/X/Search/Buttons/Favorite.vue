@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass"
         :text="String.fromCharCode( '0x' + 'f004' )"
-        @tap="getFavorite()"
+        @tap="getResult()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -62,7 +62,7 @@ activeClass () {
 
 // -- =====================================================================================
 
-getFavorite () {
+getResult () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "favorite" ) {

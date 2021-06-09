@@ -7,7 +7,7 @@
     <GridLayout 
         row=2 
         columns="7*,23*" 
-        :visibility="$store.state.search_ON ? 'hidden' : 'visible'"
+        :visibility="visibility_c"
     >
 
         <StackLayout col=0 marginLeft=20 verticalAlignment="middle" >
@@ -88,6 +88,7 @@ export default class Unity extends Vue {
 
 // -- =====================================================================================
 
+visibility_c: "visible"|"hidden" = "visible";
 SearchPanel: SearchPanel; 
 buttons = [
     { icon: 'f5bb', class: '', f1: () => this.f( 0, "Paper" )  , f2: () => {}           } ,
@@ -100,6 +101,10 @@ f ( buttonId: number, page: TS.here ) {
     setTimeout( () => this.buttons[ buttonId ].class = "", 300 );
     route( page );
 }
+
+// -- =====================================================================================
+
+unity_v ( state: "visible"|"hidden" ) { this.visibility_c = state }
 
 // -- =====================================================================================
 
