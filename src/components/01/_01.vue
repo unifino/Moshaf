@@ -21,6 +21,7 @@
         ref="searchPanel"
         row=1
         rowSpan=2
+        @orderByParent_3="text => search( text )"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -79,6 +80,7 @@ search ( frase: string ) {
 
     // .. reset Najawa
     this.najawa = Najawa;
+
     // .. filter Najawa
     if ( frase ) {
         this.najawa = this.najawa.filter( x => {

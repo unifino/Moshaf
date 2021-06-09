@@ -75,8 +75,7 @@ getSearchResult ( force?: boolean ) {
     store.state.search_CH = "phrase";
 
     if ( force ) {
-        let str = "";
-        try { str = store.state.fraseInSearch.trim() } catch {}
+        let str = (<any>this.SearchPanel.$refs.input).$refs.textField.nativeView.text || "";
         let data = tools.getPhrase( this.SearchPanel.activeMode, str );
         this.SearchPanel.display(  data, "List_1" );
     }

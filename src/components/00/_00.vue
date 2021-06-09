@@ -46,6 +46,7 @@
         rowSpan=2
         ref="searchPanel"
         @orderByParent_1="item => openItem( item.id )"
+        @orderByParent_3="text => search( text )"
         :hashTagButton="true"
     />
 

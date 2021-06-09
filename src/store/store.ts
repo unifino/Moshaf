@@ -16,9 +16,7 @@ export default new Vuex.Store( {
                                                  
         here            : null                  ,
         search_By       : null                  ,
-        // search_IN       : "Q"                   ,
                                                  
-        fraseInSearch   : null                  ,
         cacheBound      : []                    ,
         iPanel_ON       : false                 ,
         search_ON       : false                 ,
@@ -48,9 +46,7 @@ interface state {
                                                  
         here            : TS.here               ,
         search_By       : TS.search_By          ,
-        // search_IN       : TS.Source             ,
                                                  
-        fraseInSearch   : string                ,
         cacheBound      : TS.RawBound           ,
         iPanel_ON       : boolean               ,
         search_ON       : boolean               ,

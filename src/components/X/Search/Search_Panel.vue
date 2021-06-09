@@ -3,16 +3,18 @@
 <!---------------------------------------------------------------------------------------->
 
     <Input
+        ref="input"
         row=0 
         :hashTagButton="hashTagButton" 
         :exchangeButton="exchangeButton" 
+        @interact_3="e => $emit( 'orderByParent_3', e )" 
     />
 
 <!---------------------------------------------------------------------------------------->
 
     <StackLayout row=0 horizontalAlignment="left" orientation="horizontal">
 
-        <Search />
+        <Search   />
         <Dismiss  />
         <History  />
         <Favorite />

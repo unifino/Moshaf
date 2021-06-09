@@ -4,10 +4,10 @@
 <!---------------------------------------------------------------------------------------->
 
     <TextField
-        ref="search"
+        ref="textField"
         :hint="hint + appendHint"
-        class="search"
-        @textChange="textChanged( $event.value, false )"
+        class="textField"
+        @textChange="$emit('interact_3', $event.value);textChanged($event.value, false);"
         @returnPress="returnPressed( $event.object.text )"
     />
 
@@ -24,7 +24,6 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
-import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
@@ -65,7 +64,7 @@ mounted () {
     let pad = 140;
     if ( this.exchangeButton ) pad += 23;
     if ( this.hashTagButton  ) pad += 23;
-    try { ( this.$refs.search as any ).nativeView.paddingLeft = pad } catch {}
+    try { ( this.$refs.textField as any ).nativeView.paddingLeft = pad } catch {}
 
 }
 
@@ -76,12 +75,12 @@ textChanged ( phrase: string, force?: boolean ) {
 
     if ( this.textChanged_TO ) clearTimeout( this.textChanged_TO );
 
-    if ( force ) while ( phrase.length < 4 ) phrase = " " + phrase;
     this.textChanged_TO = setTimeout( () => {
-        let str = tools.inFarsiLetters( phrase );
-        let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-        this.SearchPanel.display(  data, "List_1" );
-        store.state.fraseInSearch = str;
+        if ( phrase.length > 3 ) {
+            let str = tools.inFarsiLetters( phrase );
+            let data = tools.getPhrase( this.SearchPanel.activeMode, str );
+            if ( data ) this.SearchPanel.display( data, "List_1" );
+        }
     }, force ? 0 : 500 );
 
 }
@@ -119,7 +118,6 @@ returnPressed ( phrase: string ) {
 // -- =====================================================================================
 
 dismiss () {
-    store.state.fraseInSearch = null;
     try { ( this.$refs.search as any ).nativeView.text = null } catch {}
     try { ( this.$refs.search as any ).nativeView.dismissSoftInput() } catch {}
 }
@@ -137,17 +135,17 @@ dismiss () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .search {
+    .textField {
         padding-left: 140;
         width: 100%;
     }
 
-    .CoolGreen .search {
+    .CoolGreen .textField {
         color: #a8a8a8;
         placeholder-color: #8f875d;
     }
 
-    .Smoky .search {
+    .Smoky .textField {
         color: #a8a8a8;
         placeholder-color: #8f875d;
     }

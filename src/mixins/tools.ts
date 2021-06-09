@@ -151,6 +151,7 @@ export function getFavorite ( src: TS.Source ): TS.ItemFound[] {
 export function getPhrase ( src: TS.Source, str: string ) {  
     if ( src === "Q" ) return search_Q( str );
     if ( src === "H" ) return search_H( str );
+    return null;
 }
 
 // -- =====================================================================================
