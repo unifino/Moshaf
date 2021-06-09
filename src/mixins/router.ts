@@ -1,18 +1,14 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
-import * as TM                          from "@/themes/themeManager"
-import * as storage                     from "@/mixins/storage"
-import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 
 import Welcome                          from "@/components/Welcome.vue"
 import Base_00                          from "@/components/00/_00.vue"
-import Paper                          from "@/components/10/Paper.vue"
+import Paper                            from "@/components/10/Paper.vue"
 import Base_01                          from "@/components/01/_01.vue"
 import Qertas                           from "@/components/00/Qertas.vue"
 import Najwa                            from "@/components/01/Najwa.vue"
-import Lookup                           from "@/components/W/Lookup.vue"
+import Lookup                           from "@/components/X/Dictionary/Lookup.vue"
 import Unity                            from "@/components/U/Unity.vue"
 
 // -- =====================================================================================

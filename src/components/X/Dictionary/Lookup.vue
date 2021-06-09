@@ -11,12 +11,13 @@
     >
         <StackLayout>
 
-            <Meaning
+            <Label
                 :visibility="data_ar ? 'visible' : 'hidden'"
                 v-for="(p,i) in data_ar.split('\n\n')"
                 :key="i"
-                :text="p" 
-                textWrap=true 
+                :text="p"
+                textWrap=true
+                class="meaning"
             />
 
         </StackLayout>
@@ -39,12 +40,13 @@
 
         <StackLayout>
 
-            <Meaning
+            <Label
                 :visibility="data_fa ? 'visible' : 'hidden'"
                 v-for="(p,i) in data_fa.split('\n\n')"
                 :key="i"
-                :text="p" 
-                textWrap=true 
+                :text="p"
+                textWrap=true
+                class="meaning"
             />
 
         </StackLayout>
@@ -69,12 +71,10 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
 
-import Meaning                          from "@/components/W/Meaning.vue"
-
 // -- =====================================================================================
 
 @Component ( {
-    components: { Meaning }
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -247,6 +247,27 @@ destroyed () {}
 /* ------------------------------------------- */
     .divider {
         background-color: #2a4c4e;
+    }
+
+/* ------------------------------------------- */
+    .meaning {
+        font-family: Homa;
+        width: 88%;
+        padding: 14;
+        margin-bottom: 14; 
+        font-size: 14.4;
+        border-radius: 7;
+        border-width: 1;
+    }
+
+    .CoolGreen .meaning {
+        color: #d3d3d3;
+        border-color: #888675;
+    }
+
+    .Smoky .meaning {
+        color: #696868;
+        border-color: #909192;
     }
 
 </style>
