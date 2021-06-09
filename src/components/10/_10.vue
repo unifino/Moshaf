@@ -11,6 +11,7 @@
     <SearchPanel
         row=1
         rowSpan=2
+        ref="searchPanel"
         @orderByParent_1="openItem"
         :randomButton="true"
     />
@@ -52,6 +53,8 @@ export default class Base_10 extends Vue {
 
 mounted () {
     ( this.$refs.paper as Paper ).init( this.id );
+    ( this.$refs.searchPanel as SearchPanel ).activeMode = "H";
+    ( this.$refs.searchPanel as SearchPanel ).defaultActiveMode = "H";
 }
 
 // -- =====================================================================================

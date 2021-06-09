@@ -279,7 +279,7 @@ TagModeToggler () {
 
     if ( this.tagModeActivated ) {
         this.SearchPanel.display( this.tagItems, "Flex_T" );
-        // ! store.state.search_IN = "T";
+        this.SearchPanel.activeMode = "T";
     }
 
     else this.SearchPanel.display( null, null, true );

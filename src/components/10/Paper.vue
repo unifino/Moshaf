@@ -84,6 +84,8 @@ hadith: TS.Hadith = {} as any;
 mounted () {
     this.init( this.id );
     store.state.iPanel_ON = false;
+    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.activeMode = "H";
+    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.defaultActiveMode = "H";
 }
 
 // -- =====================================================================================

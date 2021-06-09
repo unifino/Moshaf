@@ -112,6 +112,8 @@ refresh () {
 
 mounted () {
     this.SearchPanel = this.$refs.searchPanel as SearchPanel;
+    this.SearchPanel.activeMode = "Q";
+    this.SearchPanel.defaultActiveMode = "Q";
 }
 
 // -- =====================================================================================
@@ -119,7 +121,6 @@ mounted () {
 pageLoaded () {
     store.state.here = "Unity";
     this.SearchPanel.display( null, null, true );
-    this.SearchPanel.activeMode = "Q";
     TM.themePatcher( this );
 }
 

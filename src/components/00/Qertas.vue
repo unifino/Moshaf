@@ -92,6 +92,8 @@ taghdir_aID: number;
 
 mounted () {
     this.init( this.id );
+    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.activeMode = "Q";
+    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.defaultActiveMode = "Q";
 }
 
 // -- =====================================================================================

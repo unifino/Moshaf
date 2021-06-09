@@ -44,7 +44,7 @@
     <SearchPanel
         row=1
         rowSpan=2
-        ref="search"
+        ref="searchPanel"
         @orderByParent_1="item => openItem( item.id )"
         :hashTagButton="true"
     />
@@ -87,7 +87,10 @@ asma = asma;
 
 // -- =====================================================================================
 
-mounted () {}
+mounted () {
+    ( this.$refs.searchPanel as SearchPanel ).activeMode = "Q";
+    ( this.$refs.searchPanel as SearchPanel ).defaultActiveMode = "Q";
+}
 
 // -- =====================================================================================
 
@@ -108,12 +111,14 @@ search ( frase: string ) {
 
     // .. reset asma
     this.asma = asma;
+
     // .. filter asma
     if ( frase ) {
         this.asma = this.asma.filter( x => {
             return tools.inFarsiLetters( x[1] ).includes( frase )
         } );
     }
+
 }
 
 // -- =====================================================================================

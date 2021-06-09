@@ -18,7 +18,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <SearchPanel
-        ref="search"
+        ref="searchPanel"
         row=1
         rowSpan=2
     />
@@ -62,6 +62,8 @@ found = [];
 
 mounted () {
     this.najawa = Najawa;
+    ( this.$refs.searchPanel as SearchPanel ).activeMode = "N";
+    ( this.$refs.searchPanel as SearchPanel ).defaultActiveMode = "N";
 }
 
 // -- =====================================================================================
