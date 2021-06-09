@@ -4,73 +4,69 @@ import * as TS                          from "@/../types/myTypes"
 
 // -- =====================================================================================
 
+let state: state = {
+                                                 
+    appConfig       : {                      
+        theme       : "Smoky"               ,
+        darkMode    : false                 ,
+    }                                       ,
+                                             
+    here            : null                  ,
+                                             
+    cacheBound      : []                    ,
+    iPanel_ON       : false                 ,
+    search_ON       : false                 ,
+    search_CH       : null                  ,
+                                             
+    fav             : {                      
+        Q           : []                    ,
+        H           : []                    ,
+    }                                       ,
+    memo            : {                      
+        Q           : []                    ,
+        H           : []                    ,
+    }                                       ,
+                                             
+    cakeBound       : {}                    ,
+    routeStack      : []                    ,
+                                             
+}
+
 Vue.use(Vuex);
-export default new Vuex.Store( {
-
-    state: {
-                                                 
-        appConfig       : {                      
-            theme       : "Smoky"               ,
-            darkMode    : false                 ,
-        }                                       ,
-                                                 
-        here            : null                  ,
-        search_By       : null                  ,
-                                                 
-        cacheBound      : []                    ,
-        iPanel_ON       : false                 ,
-        search_ON       : false                 ,
-        search_CH       : null                  ,
-                                                 
-        fav             : {                      
-            Q           : []                    ,
-            H           : []                    ,
-        }                                       ,
-        memo            : {                      
-            Q           : []                    ,
-            H           : []                    ,
-        }                                       ,
-                                                 
-        cakeBound       : {}                    ,
-        routeStack      : []                    ,
-                                                 
-    } as state,
-
-} ) ;
+export default new Vuex.Store( { state: state } ) ;
 
 // -- =====================================================================================
 
 interface state {
-                                                 
-        appConfig       : appConfig             ,
-                                                 
-        here            : TS.here               ,
-        search_By       : TS.search_By          ,
-                                                 
-        cacheBound      : TS.RawBound           ,
-        iPanel_ON       : boolean               ,
-        search_ON       : boolean               ,
-        search_CH       : TS.search_By          ,
-                                                 
-        fav             : {                      
-            Q           : number[]              ,
-            H           : number[]              ,
-        }                                       ,
-        memo            : {                      
-            Q           : number[]              ,
-            H           : number[]              ,
-        }                                       ,
-        cakeBound       : TS.CakeBound          ,
-                                                 
-        routeStack      : string[]              ,
-                                                 
+                                             
+    appConfig       : appConfig             ,
+                                             
+    here            : TS.here               ,
+                                             
+    cacheBound      : TS.RawBound           ,
+    iPanel_ON       : boolean               ,
+    search_ON       : boolean               ,
+    search_CH       : TS.search_Chanel      ,
+                                             
+    fav             : {                      
+        Q           : number[]              ,
+        H           : number[]              ,
+    }                                       ,
+    memo            : {                      
+        Q           : number[]              ,
+        H           : number[]              ,
+    }                                       ,
+    cakeBound       : TS.CakeBound          ,
+                                             
+    routeStack      : string[]              ,
+                                             
 }
 
 interface appConfig {
-                                                 
-            theme       : TS.ThemeName          ,
-            darkMode    : boolean               ,
-                                                 
+                                             
+        theme       : TS.ThemeName          ,
+        darkMode    : boolean               ,
+                                             
 }
 
 // -- =====================================================================================

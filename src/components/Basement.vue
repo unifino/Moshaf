@@ -62,12 +62,6 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
-    // store.watch(
-    //     state => state.here, 
-    //     (newVal, oldVal) => 
-    //         console.log( "\tFrom:\t" +oldVal +"     \tTo:\t" +newVal +"     \t" ) 
-    // )
-
 }
 
 // -- =====================================================================================
@@ -116,7 +110,7 @@ setup (): Promise<void> {
 
         // .. first actual step! bring-up the Unity
         this.to_Unity( true );
-        // route( "Paper" );
+        route( "Paper" );
         // .. basic steps has been resolved!
         rs();
 
