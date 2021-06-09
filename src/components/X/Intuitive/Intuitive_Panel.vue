@@ -4,7 +4,6 @@
     class="intuitivePanel"
     rows="88,*,auto,*,44"
     columns="60,20,*,20"
-    @tap="tapPassed"
 >
 
 <!---------------------------------------------------------------------------------------->
@@ -126,12 +125,6 @@ init ( source: TS.Source, id: number ) {
 
 favoriteClass ( source: TS.Source, id: number ) {
     this.buttons[0].class = store.state.fav[ source ].includes( id ) ? "favorite" : "";
-}
-
-// -- =====================================================================================
-
-tapPassed ( args ) {
-    // (<any>args.object).isPassThroughParentEnabled = false;
 }
 
 // -- =====================================================================================
