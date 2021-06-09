@@ -61,13 +61,13 @@ activeClass () {
 listRetriever () {
 
     // .. re-tap situation
-    if ( store.state.search_ON && store.state.search_CH === "tag" ) {
+    if ( this.SearchPanel.search_CH === "tag" ) {
         this.SearchPanel.display( null, null, true );
         return;
     }
 
-    // .. register action
-    store.state.search_CH = "tag";
+    // .. register chanel
+    this.SearchPanel.search_CH = "tag";
 
     let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
 
@@ -83,7 +83,7 @@ listRetriever () {
     } );
     this.SearchPanel.display( data, "List_2" );
 
-    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 

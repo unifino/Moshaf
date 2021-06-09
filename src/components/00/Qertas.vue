@@ -194,11 +194,8 @@ async morsal ( message: TS.vahy ) {
 // -- =====================================================================================
 
 kalamehTapped ( text: string, type: TS.Kalameh, aID: number ) {
-
-    if ( type === "number" ) {
+    if ( type === "number" ) 
         ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "Q", aID );
-    }
-
 }
 
 // -- =====================================================================================

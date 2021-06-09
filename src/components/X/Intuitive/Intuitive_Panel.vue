@@ -74,6 +74,7 @@ export default class IntuitivePanel extends Vue {
 
 // -- =====================================================================================
 
+iPanel_ON: boolean = false;
 source: TS.Source;
 id: number;
 SearchPanel: SearchPanel;
@@ -98,7 +99,8 @@ mounted () {
         e => {
             if
             (
-                store.state.iPanel_ON &&
+                this.iPanel_ON &&
+                !this.SearchPanel.activated &&
                 ( store.state.here === "Paper" || store.state.here === "Qertas" )
             )
             {
@@ -166,8 +168,8 @@ async menuCtr ( id: number ) {
 
     this.menuBox_Animation = new NS.Animation( [ x_def, y_def, z_def ], false );
     this.menuBox_Animation.play().then( () => {
-        store.state.search_CH = null;
-        store.state.iPanel_ON = !!~id;
+        this.SearchPanel.search_CH = null;
+        this.iPanel_ON = !!~id;
         this.tagModeActivated = false;
         if ( !~id ) panel.visibility = "collapsed";
     } );

@@ -142,7 +142,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
         case "Base_00": e.cancel = false; break;
         case "Base_01": e.cancel = false; break;
         case "Base_10": e.cancel = false; break;
-        case "Paper"  : e.cancel = store.state.iPanel_ON; break;
+        // case "Paper"  : e.cancel = store.state.iPanel_ON; break;
 
         // .. let do more actions
         default: e.cancel = false; break;

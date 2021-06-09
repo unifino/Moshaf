@@ -93,30 +93,39 @@ export default class SearchBox extends Vue {
 
 // -- =====================================================================================
 
-alive = false;
-IntuitivePanel: IntuitivePanel;
+IntuitivePanel: IntuitivePanel = this.$parent as IntuitivePanel;
 activeMode: TS.Source = "Q";
 defaultActiveMode: TS.Source = "Q";
+search_CH: TS.search_Chanel = null;
+activated = false;
 
 // -- =====================================================================================
 
 mounted() {
 
-    this.alive = true;
-
     // .. listen for Back-Button
     NS.Application.android.on( 
         NS.AndroidApplication.activityBackPressedEvent, 
         e => {
-            if ( this.alive && store.state.search_ON ) {
-                this.clearSearch();
-                ( e as any ).cancel = true;
+            if ( this.activated ) {
+
+                if ( this.IntuitivePanel ) {
+                    if ( this.IntuitivePanel.iPanel_ON ) {
+                        ( e as any ).cancel = true;
+                        this.clearSearch();
+                    }
+                }
+                else {
+                    ( e as any ).cancel = true;
+                    this.clearSearch();
+                }
+
             }
         },
     );
 
-    this.IntuitivePanel = this.$parent as any;
-    if ( !Object.keys( this.IntuitivePanel.$refs ).includes( "intuitivePanel" ) )
+    // .. check if this SearchPanel has been wrapped bt an IntuitivePanel
+    if ( !Object.keys( (<any>this.IntuitivePanel).$refs ).includes( "intuitivePanel" ) )
         this.IntuitivePanel = null;
 
 }
@@ -158,8 +167,8 @@ display ( data: TS.ItemFound[], target: TS.DisplayTypes, reset?:boolean ) {
     if ( !reset ) ( <any>this.$refs[ target ] ).init( data );
 
     // .. register state
-    store.state.search_ON = ( !!data && !!data.length );
-    if ( !store.state.search_ON ) this.activeMode = this.defaultActiveMode;
+    this.activated = ( !!data && !!data.length );
+    if ( !this.activated ) this.activeMode = this.defaultActiveMode;
 
 }
 
@@ -170,14 +179,14 @@ clearSearch () {
     // ..  reset
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state
-    store.state.search_ON = false;
+    this.search_CH = null;
+    this.activated = false;
 }
 
 // -- =====================================================================================
 
 destroyed() {
-    this.alive = false;
-    store.state.search_CH = null;
+    this.search_CH = null;
 }
 
 // -- =====================================================================================

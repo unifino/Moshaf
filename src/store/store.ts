@@ -14,9 +14,6 @@ let state: state = {
     here            : null                  ,
                                              
     cacheBound      : []                    ,
-    iPanel_ON       : false                 ,
-    search_ON       : false                 ,
-    search_CH       : null                  ,
                                              
     fav             : {                      
         Q           : []                    ,
@@ -44,9 +41,6 @@ interface state {
     here            : TS.here               ,
                                              
     cacheBound      : TS.RawBound           ,
-    iPanel_ON       : boolean               ,
-    search_ON       : boolean               ,
-    search_CH       : TS.search_Chanel      ,
                                              
     fav             : {                      
         Q           : number[]              ,

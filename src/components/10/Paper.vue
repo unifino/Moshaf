@@ -1,6 +1,6 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="fx" @tap="panel()">
+<GridLayout class="fx" @tap="paperTapped()">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -8,7 +8,7 @@
         class="paper"
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
-        @tap="panel()"
+        @tap="paperTapped()"
     >
 
         <FlexboxLayout 
@@ -56,6 +56,7 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
+import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
 // -- =====================================================================================
 
@@ -82,10 +83,12 @@ hadith: TS.Hadith = {} as any;
 // -- =====================================================================================
 
 mounted () {
+    let IntuitivePanel = this.$refs.IntuitivePanel as IntuitivePanel;
+    let SearchPanel = IntuitivePanel.$refs.searchPanel as SearchPanel;
     this.init( this.id );
-    store.state.iPanel_ON = false;
-    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.activeMode = "H";
-    ( this.$refs.IntuitivePanel as any ).$refs.searchPanel.defaultActiveMode = "H";
+    IntuitivePanel.iPanel_ON = false;
+    SearchPanel.activeMode = "H";
+    SearchPanel.defaultActiveMode = "H";
 }
 
 // -- =====================================================================================
@@ -93,6 +96,7 @@ mounted () {
 pageLoaded () {
     store.state.here = 'Paper';
     TM.themePatcher( this );
+    this.paperTapped()
 }
 
 // -- =====================================================================================
@@ -121,11 +125,11 @@ show ( id: number ) {
 
 // -- =====================================================================================
 
-panel () {
+paperTapped () {
     let IntuitivePanel = this.$refs.IntuitivePanel as IntuitivePanel;
     // .. prevent action when it has been already activated | Heading to Lookup!
-    if ( !store.state.iPanel_ON && store.state.here === "Paper" ) 
-        IntuitivePanel.init( "H", this.myID );
+    if ( !IntuitivePanel.iPanel_ON && store.state.here === "Paper" ) 
+        ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "H", this.myID );
 }
 
 // -- =====================================================================================

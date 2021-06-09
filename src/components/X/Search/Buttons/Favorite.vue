@@ -65,18 +65,19 @@ activeClass () {
 getFavorite () {
 
     // .. re-tap situation
-    if ( store.state.search_ON && store.state.search_CH === "favorite" ) {
+    if ( this.SearchPanel.search_CH === "favorite" ) {
         this.SearchPanel.display( null, null, true );
         return;
     }
 
     // .. register action
-    store.state.search_CH = "favorite";
+    this.SearchPanel.search_CH = "favorite";
     let source = this.SearchPanel.activeMode;
 
-    this.SearchPanel.display( tools.getFavorite( source ), "List_1" );
+    let data = tools.getFavorite( source );
+    this.SearchPanel.display( data, "List_1" );
 
-    if ( !store.state.search_ON ) tools.toaster( "لم يتم العثور على شيء !" );
+    if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }
 
