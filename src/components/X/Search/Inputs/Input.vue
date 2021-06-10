@@ -24,9 +24,11 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
+import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
 // -- =====================================================================================
 
@@ -75,16 +77,11 @@ textChanged ( phrase: string, force?: boolean ) {
 
     if ( this.textChanged_TO ) clearTimeout( this.textChanged_TO );
 
-    // .. patch for T mode
-    let src = this.SearchPanel.activeMode;
-    if ( src !== "Q" && src !== "H" ) 
-        this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
-
     this.textChanged_TO = setTimeout( () => {
         if ( phrase.length > 3 ) {
             let str = tools.inFarsiLetters( phrase );
             let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-            if ( data ) this.SearchPanel.display( data, "List_1", "phrase" );
+            if ( data ) this.SearchPanel.display_ON( data, "List_1", "phrase" );
         }
     }, force ? 0 : 500 );
 
@@ -94,28 +91,35 @@ textChanged ( phrase: string, force?: boolean ) {
 
 returnPressed ( phrase: string ) {
 
-    // .. Not in Tag-Section!
-    if ( this.SearchPanel.activeMode !== "T" ) {
-        if ( phrase ) this.textChanged( phrase, true );
-        else this.SearchPanel.display( null, null, null, true );
+    // .. Just in Tag-Mode
+    if ( this.SearchPanel.activeMode === "T" ) {
+
+        if ( phrase.trim() ) {
+
+            let text = tools.inFarsiLetters( phrase.trim() ),
+                IntuitivePanel = this.$parent.$parent as IntuitivePanel,
+                code_O = IntuitivePanel.source + "_" + IntuitivePanel.id,
+                code_X = "T_" + text,
+                items: TS.ItemFound[];
+
+            // .. toggle Tag
+            store.state.cakeBound = tools.toggleBound( code_O, code_X );
+            items = tools.getTagItems( IntuitivePanel.source, IntuitivePanel.id );
+            // .. display new items
+            this.SearchPanel.display_ON( items, "Flex_T", "tag" );
+            this.SearchPanel.activeMode = "T";
+
+            // .. hard registration
+            storage.saveDB( storage.bound_File, storage.rawBound );
+
+        }
+
     }
 
-    // .. Just in Tag-Section
+    // .. Other Modes
     else {
-
-        console.log("Code It!");
-
-        // let text = tools.inFarsiLetters( phrase ),
-        //     newTag: TS.ItemFound = { text: text, id: -1, source: "T", flags: {} };
-
-        // if ( text ) {
-        //    // store.state.cakeBound = tools.toggleBound( newTag );
-        //     // this.SearchPanel.display( tools.getTags(), "Flex_T" )
-        // }
-
-        // // .. hard registration
-        // storage.saveDB( storage.bound_File, storage.rawBound );
-
+        if ( phrase ) this.textChanged( phrase, true );
+        else this.SearchPanel.display_RESET();
     }
 
 }

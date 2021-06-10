@@ -96,7 +96,7 @@ export default class SearchBox extends Vue {
 IntuitivePanel: IntuitivePanel = this.$parent as IntuitivePanel;
 activeMode: TS.Source = "Q";
 defaultActiveMode: TS.Source = "Q";
-search_CH: TS.search_Chanel = null;
+search_CH: TS.searchChannels = null;
 activated = false;
 
 // -- =====================================================================================
@@ -104,23 +104,27 @@ activated = false;
 mounted() {
 
     // .. listen for Back-Button
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityBackPressedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityBackPressedEvent,
         e => {
+
             if ( this.activated ) {
 
                 if ( this.IntuitivePanel ) {
                     if ( this.IntuitivePanel.iPanel_ON ) {
                         ( e as any ).cancel = true;
-                        this.clearSearch();
+                        this.display_OFF();
                     }
                 }
                 else {
                     ( e as any ).cancel = true;
-                    this.clearSearch();
+                    this.display_OFF();
                 }
 
             }
+
+            if ( this.activeMode === "T" ) this.display_RESET();
+
         },
     );
 
@@ -132,65 +136,106 @@ mounted() {
 
 // -- =====================================================================================
 
-display ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.search_Chanel, reset?:boolean ) {
+iOI () {
 
-    // .. general reset
-    this.clearSearch();
+    let source = this.IntuitivePanel.source,
+        id = this.IntuitivePanel.id,
+        items = tools.getBounds( source, id ).filter( x => x.source !== "T" );
 
-    // .. special-steps for Intuitive_Panel
-    if ( this.IntuitivePanel ) {
-
-        let source = this.IntuitivePanel.source,
-            id = this.IntuitivePanel.id,
-            items = tools.getBounds( source, id ).filter( x => x.source !== "T" );
-
-        // .. reset mode
-        if ( reset ) this.display( items, "Flex_B", null );
-
-        // .. assign mode
-        else {
-            // .. let out header itself [ not in Flex_B ]
-            if ( target !== "Flex_B" )
-                data = data.filter( x => !( x.source === source && x.id === id ) );
-            // .. update flags
-            for ( let p of data )
-                for ( let q of items )
-                    if ( p.source === q.source && p.id === q.id )
-                        p.flags.isBounded = true;
-            // .. set data
-            ( <any>this.$refs[ target ] ).init( data );
-        }
-
-    }
-
-    // .. not in reset mode
-    if ( !reset ) {
-        ( <any>this.$refs[ target ] ).init( data );
-        // .. register chanel
-        this.search_CH = chanel;
-    }
-
-    // .. register state
-    this.activated = ( !!data && !!data.length );
-    if ( !this.activated ) this.activeMode = this.defaultActiveMode;
-
-    // .. patch for unity
-    try {
-        let unity = this.$parent.$parent as Unity;
-        unity.unity_v( this.activated ? 'hidden' : 'visible' );
-    } catch {}
+    return { source: source, id: id, items: items }
 
 }
 
 // -- =====================================================================================
 
-clearSearch () {
+iPD_Updater ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.searchChannels ) :
+[ TS.ItemFound[], TS.DisplayTypes, TS.searchChannels ] {
+
+    // .. Special Steps for Intuitive_Panel (if detects)
+    if ( !this.IntuitivePanel ) return [ data, target, chanel ]
+
+    // .. get new Data
+    let inf = this.iOI();
+
+    // .. let out header itself [ not in Flex_B ]
+    if ( target !== "Flex_B" )
+        data = data.filter( x => !( x.source === inf.source && x.id === inf.id ) );
+
+    // .. update flags
+    for ( let p of data )
+        for ( let q of inf.items )
+            if ( p.source === q.source && p.id === q.id )
+                p.flags.isBounded = true;
+
+    return [ data, target, chanel ];
+
+}
+
+// -- =====================================================================================
+
+display_ON ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.searchChannels ) {
+
+    // .. general reset
+    this.display_OFF();
+
+    // .. Special Steps for Intuitive_Panel (if detects)
+    [ data, target, chanel ] = this.iPD_Updater( data, target, chanel );
+
+    // .. set Data on Target
+    ( <any>this.$refs[ target ] ).init( data );
+    // .. register chanel
+    this.search_CH = chanel;
+    // .. register state
+    this.activated = ( !!data && !!data.length );
+
+    // .. reset activeMode;
+    if ( !this.activated ) this.activeMode = this.defaultActiveMode;
+
+    // .. patch for unity
+    this.patchUnity();
+
+}
+
+// -- =====================================================================================
+
+display_RESET () {
+
+    // .. general reset
+    this.display_OFF();
+
+    // .. special-step for Intuitive_Panel
+    if ( this.IntuitivePanel ) {
+        this.display_ON( this.iOI().items, "Flex_B", null );
+        let Flex_B = ( this.$refs.Flex_B as Flex_B );
+        if ( Flex_B.newCommentVisible ) Flex_B.addComment( "" );
+    }
+
+    // .. register state
+    this.activated = false;
+    this.activeMode = this.defaultActiveMode;
+
+    // .. patch for unity
+    this.patchUnity();
+
+}
+
+// -- =====================================================================================
+
+display_OFF () {
     let outputs: TS.DisplayTypes[] = [ "List_1", "List_2", "Flex_T", "Flex_B" ];
     // ..  reset
     for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
     // .. register state
     this.search_CH = null;
     this.activated = false;
+    this.patchUnity();
+}
+
+// -- =====================================================================================
+
+patchUnity () {
+    let unity = this.$parent.$parent as Unity;
+    try { unity.unity_v( this.activated ? 'hidden' : 'visible' ) } catch {}
 }
 
 // -- =====================================================================================

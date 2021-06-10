@@ -62,7 +62,7 @@ listRetriever () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "tag" ) {
-        this.SearchPanel.display( null, null, null, true );
+        this.SearchPanel.display_RESET();
         return;
     }
 
@@ -78,7 +78,7 @@ listRetriever () {
             }
         }
     } );
-    this.SearchPanel.display( data, "List_2", "tag" );
+    this.SearchPanel.display_ON( data, "List_2", "tag" );
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 

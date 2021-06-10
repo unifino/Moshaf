@@ -120,7 +120,7 @@ init ( source: TS.Source, id: number ) {
     this.menuCtr( id );
     // .. set initial state of Favorite Button
     this.favoriteClass( this.source, this.id );
-    this.SearchPanel.display( null, null, null, true );
+    this.SearchPanel.display_RESET();
 }
 
 // -- =====================================================================================
@@ -273,34 +273,12 @@ TagModeToggler () {
     this.tagModeActivated = !this.tagModeActivated;
 
     if ( this.tagModeActivated ) {
-        this.SearchPanel.display( this.tagItems, "Flex_T", "tag" );
+        let items = tools.getTagItems( this.source, this.id );
+        this.SearchPanel.display_ON( items, "Flex_T", "tag" );
         this.SearchPanel.activeMode = "T";
     }
 
-    else this.SearchPanel.display( null, null, null, true );
-
-}
-
-// -- =====================================================================================
-
-get tagItems () {
-
-    let t_bounds = tools.getBounds( this.source, this.id ).filter( x => x.source === "T" ),
-        tags: string[],
-        tagItems: TS.ItemFound[] = [],
-        isBounded: boolean;
-
-    tags = Object.keys( store.state.cakeBound ).filter( x => x[0].slice(0,1) === "T" );
-
-    tagItems = tags.map( (x,i) => {
-        // .. get bound status
-        isBounded = false;
-        try { isBounded = t_bounds.find( b => b.text === x ).flags.isBounded } catch {}
-        return { source: "T", id: i, text: x, flags: { isBounded: isBounded } };
-
-    } );
-
-    return tagItems;
+    else this.SearchPanel.display_RESET();
 
 }
 

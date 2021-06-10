@@ -125,7 +125,7 @@ mounted () {
 
 pageLoaded () {
     store.state.here = "Unity";
-    this.SearchPanel.display( null, null, null ,true );
+    this.SearchPanel.display_RESET();
     TM.themePatcher( this );
 }
 
@@ -148,7 +148,7 @@ saheb () {
 openItem ( source: TS.Source, id: number ) {
 
     // .. reset searchPanel;
-    this.SearchPanel.display( null, null, null, true );
+    this.SearchPanel.display_RESET();
 
     switch ( source ) {
         case "Q": route( "Qertas", { id: id } ); break;

@@ -66,7 +66,7 @@ getResult () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "favorite" ) {
-        this.SearchPanel.display( null, null, null, true );
+        this.SearchPanel.display_RESET();
         return;
     }
 
@@ -76,7 +76,7 @@ getResult () {
         this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
 
     let data = tools.getFavorite( this.SearchPanel.activeMode );
-    this.SearchPanel.display( data, "List_1", "favorite" );
+    this.SearchPanel.display_ON( data, "List_1", "favorite" );
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 

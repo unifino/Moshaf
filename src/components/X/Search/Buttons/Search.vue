@@ -67,7 +67,7 @@ getResult ( force?: boolean ) {
 
     // .. re-tap situation
     if ( !force && this.SearchPanel.search_CH === "phrase" ) {
-        this.SearchPanel.display( null, null, null, true );
+        this.SearchPanel.display_RESET();
         return;
     }
 
@@ -79,7 +79,7 @@ getResult ( force?: boolean ) {
     if ( force ) {
         let str = (<any>this.SearchPanel.$refs.input).$refs.textField.nativeView.text || "";
         let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-        this.SearchPanel.display( data, "List_1", "phrase" );
+        this.SearchPanel.display_ON( data, "List_1", "phrase" );
         if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
     }
 
@@ -91,7 +91,7 @@ getResult ( force?: boolean ) {
 
 search_N (): void {
     // this.$emit( 'search', str );
-    this.SearchPanel.display( null, null, null, true );
+    this.SearchPanel.display_RESET();
 }
 
 // -- =====================================================================================

@@ -113,7 +113,7 @@ export type Source = "Q" | "H" | "N" | "T" | "C";
 
 // -- =====================================================================================
 
-export type search_Chanel = "phrase" | "history" | "favorite" | "tag";
+export type searchChannels = "phrase" | "history" | "favorite" | "tag";
 
 // -- =====================================================================================
 

@@ -168,7 +168,7 @@ registerComment ( str: string ) {
     store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );;
 
     // .. re-Display
-    this.SearchPanel.display( null, null, null, true );
+    this.SearchPanel.display_RESET();
 
 }
 

@@ -67,7 +67,7 @@ get visibility () {
 
 async dismiss () {
     // .. regular actions
-    this.SearchPanel.display( null, null, null, true );
+    this.SearchPanel.display_RESET();
 }
 
 // -- =====================================================================================
