@@ -266,6 +266,30 @@ export function getTagItems ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
+export function getTagListItems (): TS.ItemFound[] {
+
+    let rawTags: string[],
+        count: number,
+        data: TS.ItemFound[];
+
+    rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
+
+    data = Object.values( rawTags ).map( (x, i) => {
+        count = store.state.cakeBound[x].length;
+        for ( let p of store.state.cakeBound[x] )
+            for ( let q of store.state.cakeBound[p] )
+                if ( !q.includes( "T_" ) )
+                    count++;
+        count = arabicDigits( count +'' ) as any;
+        return { id: i, text: x.slice(2), source: "T", flags: { count: count } }
+    } );
+
+    return data;
+
+}
+
+// -- =====================================================================================
+
 export function appendCachedBounds ( code_O: string ): TS.ItemFound[] { 
 
     let cache: string[],

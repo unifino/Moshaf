@@ -31,10 +31,11 @@
 
         <SearchPanel
             ref='searchPanel'
-            :exchangeButton="true"
             @orderByParent_1="bind"
             @orderByParent_2="open_item"
             :vividBG=true
+            :commentInput=true
+            :exchangeButton=true
         />
 
     </GridLayout>

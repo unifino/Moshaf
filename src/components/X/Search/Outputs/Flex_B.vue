@@ -21,7 +21,7 @@
 
             </GridLayout>
 
-            <StackLayout>
+            <StackLayout v-if=commentInput>
                 <TextField
                     :visibility="newCommentVisible ? 'visible':'collapsed'"
                     ref="newComment"
@@ -71,17 +71,16 @@ export default class Flex_B extends Vue {
 
 // -- =====================================================================================
 
-SearchPanel: SearchPanel = this.$parent as any; 
-
-// -- =====================================================================================
-
 @Prop() vividBG: boolean;
+@Prop() commentInput: boolean;
 
 // -- =====================================================================================
 
 data = [];
 visibility = "collapsed";
 newCommentVisible = false;
+SearchPanel: SearchPanel = this.$parent as any; 
+IntuitivePanel: IntuitivePanel = this.SearchPanel.$parent as IntuitivePanel;
 
 // -- =====================================================================================
 

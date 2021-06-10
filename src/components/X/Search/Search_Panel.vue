@@ -19,8 +19,8 @@
         <History  ref="history"                     />
         <Favorite ref="favorite"                    />
         <Random   :randomButton="randomButton"      />
+        <HashTag  :hashTagButton="hashTagButton"    />
         <Exchange :exchangeButton="exchangeButton"  />
-        <!-- <HashTag :hashTagButton="hashTagButton"     /> -->
 
     </StackLayout>
 
@@ -34,7 +34,8 @@
         <Flex_B ref="Flex_B" 
             @interact_1="e => $emit( 'orderByParent_1', e )"
             @interact_2="e => $emit( 'orderByParent_2', e )"
-            :vividBG=vividBG 
+            :vividBG=vividBG
+            :commentInput=commentInput
         />
     </GridLayout>
 
@@ -89,6 +90,7 @@ export default class SearchBox extends Vue {
 @Prop() randomButton: boolean;
 @Prop() exchangeButton: boolean;
 @Prop() hashTagButton: boolean;
+@Prop() commentInput: boolean;
 @Prop() vividBG: boolean;
 
 // -- =====================================================================================

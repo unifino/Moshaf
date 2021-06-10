@@ -65,7 +65,8 @@ mounted () {
 
     let pad = 140;
     if ( this.exchangeButton ) pad += 23;
-    if ( this.hashTagButton  ) pad += 23;
+    if ( this.hashTagButton  ) pad += 30;
+    if ( this.exchangeButton && this.hashTagButton ) pad += 7;
     try { ( this.$refs.textField as any ).nativeView.paddingLeft = pad } catch {}
 
 }

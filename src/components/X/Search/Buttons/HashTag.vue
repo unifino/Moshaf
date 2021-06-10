@@ -66,20 +66,8 @@ listRetriever () {
         return;
     }
 
-    let rawTags = Object.keys( store.state.cakeBound ).filter( t => t.slice(0, 1) === "T" );
-
-    let data: TS.ItemFound[] = Object.values( rawTags ).map( (x, i) => { 
-        return {
-            id: i,
-            text: x.slice(2),
-            source: "T",
-            flags: {
-                count: tools.arabicDigits( store.state.cakeBound[x].length +'' ) as any
-            }
-        }
-    } );
+    let data = tools.getTagListItems();
     this.SearchPanel.display_ON( data, "List_2", "tag" );
-
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
 }

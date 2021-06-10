@@ -63,7 +63,14 @@ init ( data: TS.ItemFound[] = [] ) {
 openTag ( tag: TS.ItemFound ) {
 
     let result: TS.ItemFound[] = [],
-        x_codes = store.state.cakeBound[ "T_" + tag.text ] || [];
+        x_codes = [];
+
+    for ( let p of store.state.cakeBound[ "T_" + tag.text ] ) {
+        x_codes.push(p);
+        for ( let q of store.state.cakeBound[p] )
+            if ( !q.includes( "T_" ) )
+                x_codes.push(q);
+    }
 
     // .. convert codes to the content
     for ( let code_X of x_codes ) result.push( tools.getItemPlus( code_X ) );
@@ -86,14 +93,22 @@ openTag ( tag: TS.ItemFound ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .Smoky .tagLine {
-        /* background-color: #c4c2c2; */
-        color: #383838;
+    .tagLine {
         font-size: 16;
         border-radius: 4;
         padding: 4 10;
         margin: 4 0;
         font-family: Amiri-Regular;
+    }
+
+    .CoolGreen .tagLine {
+        /* background-color: #c4c2c2; */
+        color: #9c9a8d;
+    }
+
+    .Smoky .tagLine {
+        /* background-color: #c4c2c2; */
+        color: #383838;
     }
 
 </style>
