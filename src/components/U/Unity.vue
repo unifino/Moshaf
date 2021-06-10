@@ -18,6 +18,7 @@
                 margin=5
             />
             <myButton bClass="button fas" icon="f559" @tap="refresh" margin=5 />
+            <myButton bClass="button fas" icon="f292" @tap="getTagList" margin=5 />
         </StackLayout>
 
         <GridLayout col=1 rows="*,auto,auto,*" orientation="vertical">
@@ -49,7 +50,7 @@
         row=1
         rowSpan=3
         ref="searchPanel"
-        :hashTagButton="true"
+        :hashTagButton="false"
         :exchangeButton="true"
         @orderByParent_1="item => openItem( item.source ,item.id )"
     />
@@ -134,6 +135,22 @@ pageLoaded () {
 darkThemeToggler () {
     let newThem: TS.ThemeName = store.state.appConfig.darkMode ? "Smoky" : "CoolGreen";
     TM.themeApplier( newThem, this );
+}
+
+// -- =====================================================================================
+
+getTagList () {
+
+    // .. re-tap situation
+    if ( this.SearchPanel.search_CH === "tag" ) {
+        this.SearchPanel.display_RESET();
+        return;
+    }
+
+    let data = tools.getTagListItems();
+    this.SearchPanel.display_ON( data, "List_2", "tag" );
+    if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
+
 }
 
 // -- =====================================================================================

@@ -6,6 +6,7 @@
         :class="'fas button ' + myClass"
         :text="String.fromCharCode( '0x' + 'f004' )"
         @tap="getResult()"
+        @longPress="specialFav()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -19,9 +20,12 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
+import { asma, Quran }                  from "@/db/Q/Quran"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
+import { route }                        from "@/mixins/router"
 
 // -- =====================================================================================
 
@@ -80,6 +84,12 @@ getResult () {
 
     if ( !data.length ) tools.toaster( "لم يتم العثور على شيء !" );
 
+}
+
+// -- =====================================================================================
+
+specialFav () {
+    if ( store.state.here === "Unity" ) route( "Qertas", { id: -2 } );
 }
 
 // -- =====================================================================================

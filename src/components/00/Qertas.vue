@@ -108,16 +108,44 @@ pageLoaded () {
 morsal_TO: NodeJS.Timeout | any;
 init ( id?: number ): void {
 
-    this.taghdir_aID = !~id ? tools.saheb( "Q" ) : id;
+    let message: TS.vahy,
+        ayat: number[] = [],
+        aID: number;
 
-    // .. get the name
-    const sura = Quran[ this.taghdir_aID ].sura;
+    // .. Special-Favorite List
+    if ( id === -3 ) ayat = [ 
+        0,261,
+        6225,6226,6227,6228,6229,
+        6230,6231,6232,6233,6234,6235,
+        3788,3789,3790,3791,3792,3793,3794,3795,3796,3797,
+        3960,3961,3962,3963,3964,3965,3966,3967,3968,3969 
+    ];
+    // .. Special-Favorite List
+    else if ( id === -2 ) ayat = [ 0,261,0,3425,3426,3427,0,3967,3968,3969 ];
 
-    tools.setHistory( "Q", this.taghdir_aID );
-    // .. title of sura
-    this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
+    // .. Random & Simple Mode
+    else {
 
-    let message = this.rouh( this.taghdir_aID, sura );
+        // .. Taghdir | Direct
+        this.taghdir_aID = !~id ? tools.saheb( "Q" ) : id;
+        // .. make a copy
+        aID = this.taghdir_aID;
+        // .. get the name
+        const sura = Quran[ this.taghdir_aID ].sura;
+        // .. title of sura
+        this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
+
+        // .. get list
+        while ( Quran[ aID ].sura === sura ) { 
+            ayat.push( aID ); aID++; if ( aID >= Quran.length ) break; 
+        }
+
+        tools.setHistory( "Q", this.taghdir_aID );
+
+    }
+
+    // .. get message
+    message = this.rouh( ayat );
 
     // .. delivering ...
     this.morsalStatus = "running";
@@ -127,12 +155,12 @@ init ( id?: number ): void {
 
 // -- =====================================================================================
 
-rouh ( aID: number, sura: number ) {
+rouh ( ayat: number[] ) {
 
     let vahy: TS.vahy = [];
 
     // .. loop until end of sura
-    while ( Quran[ aID ].sura === sura ) {
+    for ( let aID of ayat ) {
 
         let q = Quran[ aID ];
 
@@ -155,12 +183,6 @@ rouh ( aID: number, sura: number ) {
             vahy.push( { aID: aID, text: q.ayah.toString(), type: "number" } );
 
         }
-
-        // .. next one
-        aID++;
-
-        // .. break
-        if ( aID >= Quran.length ) break;
 
     }
 

@@ -5,7 +5,7 @@
     <Label
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f292' )"
-        @tap="listRetriever()"
+        @tap="getTagList()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -58,7 +58,7 @@ activeClass () {
 
 // -- =====================================================================================
 
-listRetriever () {
+getTagList () {
 
     // .. re-tap situation
     if ( this.SearchPanel.search_CH === "tag" ) {

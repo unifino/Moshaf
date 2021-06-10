@@ -6,7 +6,7 @@
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f1da' )"
         @tap="getResult()"
-        @longPress="purgeHistory()"
+        @longPress="specialFav()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -24,6 +24,7 @@ import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
+import { route }                        from "@/mixins/router"
 
 // -- =====================================================================================
 
@@ -100,6 +101,12 @@ purgeHistory () {
     // .. notify
     tools.toaster( "🗑: History Purged!" );
 
+}
+
+// -- =====================================================================================
+
+specialFav () {
+    if ( store.state.here === "Unity" ) route( "Qertas", { id: -3 } );
 }
 
 // -- =====================================================================================
