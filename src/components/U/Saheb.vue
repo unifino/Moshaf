@@ -5,11 +5,11 @@
 
     <ScrollView row=0 @tap="tapped">
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
-            <Label :text="str" textWrap="true" class="text" />
+            <Label :text="str" class="text" :fontFamily="$store.state.font" />
         </StackLayout>
     </ScrollView>
 
-    <Label row=1 :text=adr class="address" />
+    <Label row=1 :text=adr class="address" :fontFamily="$store.state.font" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -106,9 +106,9 @@ tapped () {
     }
 
     .text {
-        font-family: Amiri-Regular;
         font-size: 14;
         line-height: 14;
+        text-wrap: true;
     }
 
     .CoolGreen .saheb {
@@ -120,10 +120,10 @@ tapped () {
     }
 
     .address {
-        font-family: Amiri-Regular;
         font-size: 7;
         color: #585858;
         padding: -2 3 -1 0;
+        text-wrap: true; 
     }
 
 </style>

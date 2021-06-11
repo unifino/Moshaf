@@ -5,7 +5,8 @@ import * as TS                          from "@/../types/myTypes"
 // -- =====================================================================================
 
 let state: state = {
-                                                 
+                                             
+    font            : "Amiri-Regular"       ,
     appConfig       : {                      
         theme       : "Smoky"               ,
         darkMode    : false                 ,
@@ -37,6 +38,7 @@ export default new Vuex.Store( { state: state } ) ;
 
 interface state {
                                              
+    font            : string                ,
     appConfig       : appConfig             ,
                                              
     here            : TS.here               ,

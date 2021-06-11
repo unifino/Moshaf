@@ -1,30 +1,25 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="unityBox" ref="unityBox" rows="44,88,6*,4*,100">
+<GridLayout class="unityBox" ref="unityBox" rows="44,88,auto,*,100">
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout 
-        row=2 
-        columns="7*,23*" 
-        :visibility="visibility_c"
-    >
+    <GridLayout row=2 columns="7*,23*" :visibility="visibility_c">
 
         <StackLayout col=0 marginLeft=20 verticalAlignment="middle" >
             <myButton 
-                :bClass="'button ' + ( $store.state.appConfig.darkMode ? 'fas' : 'far' )"
-                icon="f0eb"
-                @tap=darkThemeToggler
-                margin=5
+                v-for="(button,i) in side_buttons" 
+                :key="i"
+                :bClass="'button side ' + button.class"
+                :icon="button.icon"
+                @tap="button.f()"
             />
-            <myButton bClass="button fas" icon="f559" @tap="refresh" margin=5 />
-            <myButton bClass="button fas" icon="f292" @tap="getTagList" margin=5 />
         </StackLayout>
 
-        <GridLayout col=1 rows="*,auto,auto,*" orientation="vertical">
-            <Saheb ref="Saheb_Q" row=1 source="Q" />
-            <Saheb ref="Saheb_H" row=2 source="H" />
-        </GridLayout>
+        <StackLayout col=1 orientation="vertical" verticalAlignment="middle">
+            <Saheb ref="Saheb_Q" source="Q" />
+            <Saheb ref="Saheb_H" source="H" />
+        </StackLayout>
 
     </GridLayout>
 
@@ -33,7 +28,7 @@
     <StackLayout row=4 orientation="horizontal" horizontalAlignment="center" >
 
         <myButton 
-            v-for="(button,i) in buttons" 
+            v-for="(button,i) in big_buttons" 
             :key="i"
             :bClass="'button big fas ' + button.class"
             :icon="button.icon"
@@ -90,16 +85,29 @@ export default class Unity extends Vue {
 // -- =====================================================================================
 
 visibility_c: "visible"|"hidden" = "visible";
-SearchPanel: SearchPanel; 
-buttons = [
+SearchPanel: SearchPanel;
+side_buttons = [
+    { 
+        icon: 'f0eb',
+        class: store.state.appConfig.darkMode?'fas':'far',
+        f: () => this.darkThemeToggler()
+    } ,
+    { icon: 'f4d8', class: 'fas', f: () => this.refresh()                   } ,
+    { icon: 'f292', class: 'fas', f: () => this.getTagList()                } ,
+    { icon: 'f683', class: 'fas', f: () => route( "Qertas", { id: -2 } )    } ,
+    { icon: 'f186', class: 'fas', f: () => route( "Qertas", { id: -3 } )    } ,
+    { icon: 'f5ad', class: 'fas', f: () => this.toggleFont()                } ,
+];
+
+big_buttons = [
     { icon: 'f5bb', class: '', f1: () => this.f( 0, "Paper" )  , f2: () => {}           } ,
-    { icon: 'f02d', class: '', f1: () => this.f( 1, "Base_00" ), f2: () => this.saheb() } ,
-    { icon: 'f67f', class: '', f1: () => this.f( 2, "Base_01" ), f2: () => {}           } ,
+    { icon: 'f687', class: '', f1: () => this.f( 1, "Base_00" ), f2: () => this.saheb() } ,
+    { icon: 'f684', class: '', f1: () => this.f( 2, "Base_01" ), f2: () => {}           } ,
 ];
 
 f ( buttonId: number, page: TS.here ) {
-    this.buttons[ buttonId ].class = "pressed";
-    setTimeout( () => this.buttons[ buttonId ].class = "", 300 );
+    this.big_buttons[ buttonId ].class = "pressed";
+    setTimeout( () => this.big_buttons[ buttonId ].class = "", 300 );
     route( page );
 }
 
@@ -176,6 +184,28 @@ openItem ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
+fonts = [
+    { active: false, name: "QUR_STD"              },
+    { active: false, name: "MADDINA"              },
+    { active: false, name: "Scheherazade-Regular" },
+    { active: false, name: "JF Flat"              },
+    { active: true , name: "Amiri-Regular"        },
+    { active: false , name: "Homa"                },
+    { active: false , name: "Terafik"             },
+];
+
+toggleFont () {
+
+    let currentFontID = this.fonts.findIndex( x => x.active );
+    let nextFontID = (currentFontID +1) % (this.fonts.length);
+    console.log(this.fonts[ nextFontID ].name);
+    store.state.font = this.fonts[ nextFontID ].name;
+    for ( let i in this.fonts ) this.fonts[i].active = Number(i) === nextFontID;
+
+}
+
+// -- =====================================================================================
+
 }
 
 // -- =====================================================================================
@@ -239,4 +269,9 @@ openItem ( source: TS.Source, id: number ) {
         background-color: #3d9ca1;
         color: white;
     }
+
+    .side {
+        margin: 5;
+    }
+
 </style>

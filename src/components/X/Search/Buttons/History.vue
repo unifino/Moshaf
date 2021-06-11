@@ -6,7 +6,7 @@
         :class="'fas button ' + myClass" 
         :text="String.fromCharCode( '0x' + 'f1da' )"
         @tap="getResult()"
-        @longPress="specialFav()"
+        @longPress="purgeHistory()"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -101,12 +101,6 @@ purgeHistory () {
     // .. notify
     tools.toaster( "🗑: History Purged!" );
 
-}
-
-// -- =====================================================================================
-
-specialFav () {
-    if ( store.state.here === "Unity" ) route( "Qertas", { id: -3 } );
 }
 
 // -- =====================================================================================
