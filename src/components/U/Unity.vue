@@ -185,20 +185,20 @@ openItem ( source: TS.Source, id: number ) {
 // -- =====================================================================================
 
 fonts = [
-    { active: false, name: "QUR_STD"              },
-    { active: false, name: "MADDINA"              },
-    { active: false, name: "Scheherazade-Regular" },
-    { active: false, name: "JF Flat"              },
-    { active: true , name: "Amiri-Regular"        },
-    { active: false , name: "Homa"                },
-    { active: false , name: "Terafik"             },
+    { active: true , name: "Amiri-Regular"  },
+    { active: false, name: "Terafik"        },
+    // { active: false, name: "JF Flat"        },
+    // { active: false, name: "MADDINA"        },
+    { active: false, name: "Homa"           },
 ];
+
+// -- =====================================================================================
 
 toggleFont () {
 
     let currentFontID = this.fonts.findIndex( x => x.active );
     let nextFontID = (currentFontID +1) % (this.fonts.length);
-    console.log(this.fonts[ nextFontID ].name);
+    // console.log(this.fonts[ nextFontID ].name);
     store.state.font = this.fonts[ nextFontID ].name;
     for ( let i in this.fonts ) this.fonts[i].active = Number(i) === nextFontID;
 

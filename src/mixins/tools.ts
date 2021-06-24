@@ -13,7 +13,13 @@ import { info } from "node:console"
 
 export function saheb ( from: "Q"|"H" ) {
     let saat = new Date();
-    let rand = saat.getTime() % ( from === "Q" ? Quran.length : Hadith.length );
+    let rand: number;
+    if ( from === "Q" ) rand = saat.getTime() % Quran.length;
+    if ( from === "H" ) {
+        let tmp = [];
+        for ( let p of Hadith.filter( x => x ) ) tmp.push( p.n );
+        rand = tmp[ saat.getTime() % tmp.length ];
+    };
     return rand;
 }
 
@@ -362,7 +368,9 @@ export function getHadith ( id: number ) {
     let hadith: TS.Hadith = { obj: Hadith[ id ] } as any;
 
     // .. mini patch
-    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
+    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 )
+        Hadith[ id ].c = 19;
+    if ( !Hadith[ id ].b ) Hadith[ id ].b = "";
 
     // .. assign the from whom
     hadith.from = c_map[ Hadith[ id ].c ][0];

@@ -6,6 +6,7 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/store/store"
 import { asma, Quran }                  from "@/db/Q/Quran"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 
@@ -30,6 +31,8 @@ export let comments_File: NS.File;  // * do not initiate it
 // -- =====================================================================================
 
 export function db_check (): Promise<void> {
+
+    Quran.forEach( x => x.text = corr( x.text ) );
 
     return new Promise ( (rs, rx) => { 
 
@@ -67,6 +70,8 @@ export function db_check (): Promise<void> {
         store.state.memo.H    = trace_h;
         store.state.comments  = comments;
         store.state.cakeBound = rawBoundConvertor( rawBound );
+
+        // bound_transfer( rawBound );
 
         // .. resolve
         rs();
@@ -121,6 +126,65 @@ export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBou
 
     return cake;
 
+}
+
+// -- =====================================================================================
+
+function bound_transfer ( data: TS.RawBound ) {
+
+    let inf = [];
+    let tmp; 
+    let a;
+    let b;
+
+    for ( let p of data ) {
+        tmp = {};
+        if ( p[0].slice(0,1) === "H" || p[1].slice(0,1) === "H"  ) {
+            tmp.ref =  p;
+
+            switch ( p[0].slice(0,1) ) {
+                case "Q": a = Quran[ p[0].slice(2) ].text; break;
+                case "H": 
+                    a = Hadith[ Number( p[0].slice(2) ) ]; 
+                    delete a.aF;
+                    delete a.bF;
+                    a.x = Number( p[0].slice(2) );
+                    break;
+                default: console.log( p[0].slice(0,1) ); break;
+            }
+
+            switch ( p[1].slice(0,1) ) {
+                case "Q": b = Quran[ p[1].slice(2) ].text; break;
+                case "H": 
+                    b = Hadith[ Number( p[1].slice(2) ) ]; 
+                    delete b.aF;
+                    delete b.bF;
+                    b.x = Number( p[1].slice(2) );
+                    break;
+                case "T": break;
+                default: console.log( p[1].slice(0,1) ); break;
+            }
+
+            tmp.a = a;
+            tmp.b = b;
+
+            inf.push( tmp );
+
+        }
+
+    }
+
+    saveTest( "test", "json", JSON.stringify( inf, null, "\t" ) );
+
+}
+
+// -- =====================================================================================
+
+function corr ( str: string ) {
+    // str = str.replace( /ٰ/g, "ٰ" )
+    // str = str.replace( /ٰ/g, "" );
+    str = str.replace( /ۡ/g, "ْ" );
+    return str;
 }
 
 // -- =====================================================================================

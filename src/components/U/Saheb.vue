@@ -59,8 +59,8 @@ mounted () {
 refresh () {
     this.id = tools.saheb( this.source as "Q"|"H" );
     if ( this.source === "H" ) {
-        this.str = tools.getHadith( this.id ).arabi;
         let hadith = tools.getHadith( this.id );
+        this.str = hadith.arabi;
         this.adr = hadith.from + " " + hadith.salam ;
     }
     if ( this.source === "Q" ) {
