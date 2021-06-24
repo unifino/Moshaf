@@ -191,9 +191,12 @@ function search_H ( phrase: string ): TS.ItemFound[] {
         if ( word ) {
             // .. Hadith N index starts from 1!
             for ( let n = 1; n < Hadith.length; n++ ) {
-                // .. search in arabic|farsi text
-                if ( Hadith[n].aF.includes( word ) || Hadith[n].bF.includes( word ) )
-                    tmpRow.push(n);
+                if ( Hadith[n] ) {
+                    // .. search in arabic|farsi text
+                    if ( Hadith[n].aF.includes( word ) || Hadith[n].bF.includes( word ) ) {
+                        tmpRow.push(n);
+                    }
+                }
             }
         }
         matrix.push( tmpRow );
@@ -465,12 +468,16 @@ export function quranAddress ( id: number ) {
 
 }
 
+// -- =====================================================================================
+
 export function textOfHadith ( id: number ) {
 
     let str: string = "";
 
+    // ! reset all Hadith
     // .. mini patch
-    if ( Hadith[ id ].c === null ) Hadith[ id ].c = 19;
+    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 ) 
+        Hadith[ id ].c = 19;
 
     str += c_map[ Hadith[ id ].c ][0];
     str += " )" + c_map[ Hadith[ id ].c ][1] + "(:\n\n";
