@@ -172,11 +172,14 @@ type AndroidTransitionNames =
 // -- =====================================================================================
 
 export type hadithCell = {
+    0: string,
+    9: string,
     a: string,
     b: string,
     c: number,
     d: string,
-    n: number
+    n: number,
+    cDB: number[],
 
     aF?: string,    // a in farsiLetters
     bF?: string,    // b in farsiLetters

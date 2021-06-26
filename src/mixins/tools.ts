@@ -191,7 +191,7 @@ function search_H ( phrase: string ): TS.ItemFound[] {
         if ( word ) {
             // .. Hadith N index starts from 1!
             for ( let n = 1; n < Hadith.length; n++ ) {
-                if ( Hadith[n] ) {
+                if ( Hadith[n] && Hadith[n].cDB ) {
                     // .. search in arabic|farsi text
                     if ( Hadith[n].aF.includes( word ) || Hadith[n].bF.includes( word ) ) {
                         tmpRow.push(n);
