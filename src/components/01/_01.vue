@@ -4,7 +4,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ListView marginTop=20 row=2 for="(najwa, idx) in najawa" >
+    <ListView marginTop=20 row=2 for="(najwa, idx) in najawa.filter( x => x.title )" >
         <v-template>
             <Label
                 :text="najwa.title"
@@ -93,7 +93,7 @@ search ( frase: string ) {
 // -- =====================================================================================
 
 open ( num: number ): void {
-    route ( "Najwa", { najwaID : num } )
+    route ( "Najwa", { id : num } )
 }
 
 // -- =====================================================================================

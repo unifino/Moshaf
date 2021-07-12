@@ -440,6 +440,7 @@ export function getInfo ( source: TS.Source, id: number ) {
     }
 
     if ( source === "H" ) {
+        // ! .. not found ID causes ERROR!
         info.address = Hadith[ id ].d || "";
         info.text = textOfHadith( id );
         tmp = Hadith[ id ].a.replace( /<.?Q>/g, "" );

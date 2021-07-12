@@ -56,7 +56,7 @@ export default class Najwa extends Vue {
 
 // -- =====================================================================================
 
-@Prop() najwaID: number;
+@Prop() id: number;
 
 // -- =====================================================================================
 
@@ -79,7 +79,7 @@ pageLoaded () {
 
 async morsal () {
 
-    let najwa = Najawa[ this.najwaID ].content;
+    let najwa = Najawa[ this.id ].content;
     najwa = najwa.replace( /\n\n/g, " !BIG_BREAKLINE! " );
     najwa = najwa.replace( /\n/g, " !BREAKLINE! " );
 

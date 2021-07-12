@@ -102,7 +102,7 @@ side_buttons = [
 big_buttons = [
     { icon: 'f5bb', class: '', f1: () => this.f( 0, "Paper" )  , f2: () => {}           } ,
     { icon: 'f687', class: '', f1: () => this.f( 1, "Base_00" ), f2: () => this.saheb() } ,
-    { icon: 'f684', class: '', f1: () => this.f( 2, "Base_01" ), f2: () => {}           } ,
+    { icon: 'f684', class: '', f1: () => this.f( 2, "Base_01" ), f2: () => this.sahar() } ,
 ];
 
 f ( buttonId: number, page: TS.here ) {
@@ -166,6 +166,13 @@ getTagList () {
 saheb () {
     tools.toaster( "اللَّـهُمَّ صَلِّ عَلَى مُحَمَّد وآلِ مُحَمَّد", "long" );
     route( "Qertas", { id: tools.saheb( "Q" ) } );
+}
+
+
+// -- =====================================================================================
+
+sahar () {
+    route( "Najwa", { id: 6 } );
 }
 
 // -- =====================================================================================
