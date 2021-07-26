@@ -52,9 +52,17 @@ mounted () {
 
     this.init();
 
-    Hadith.forEach ( h => h.aF = tools.inFarsiLetters( h.a ) );
-    Hadith.forEach ( h => h.bF = tools.inFarsiLetters( h.b ) );
-    Quran.forEach ( q => q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple ) );
+    // .. prepare DBs
+    setTimeout( () => {
+        Hadith.forEach ( h => {
+            h.aF = tools.inFarsiLetters( h.a );
+            h.bF = tools.inFarsiLetters( h.b );
+        } );
+        Quran.forEach ( q => {
+            q.text = q.text.replace( /ۡ/g, "ْ" );
+            q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
+        } );
+    }, 5000 );
 
     // .. back Button Ctl
     NS.Application.android.on( 

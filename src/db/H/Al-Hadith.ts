@@ -13,4 +13,4 @@ let nHadith: TS.hadithCell[] = [];
 // .. create db based on N
 for ( let p of [ ...k,...v,...n, ...f, ...m, ...z, ...a ] ) nHadith[ p.n ] = p;
 // .. register it
-export const Hadith = nHadith;
+export let Hadith = nHadith;

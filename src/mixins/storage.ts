@@ -32,8 +32,6 @@ export let comments_File: NS.File;  // * do not initiate it
 
 export function db_check (): Promise<void> {
 
-    Quran.forEach( x => x.text = corr( x.text ) );
-
     return new Promise ( (rs, rx) => { 
 
         // .. permission policy has been meet, so assign necessarily Folders!
@@ -176,15 +174,6 @@ function bound_transfer ( data: TS.RawBound ) {
 
     saveTest( "test", "json", JSON.stringify( inf, null, "\t" ) );
 
-}
-
-// -- =====================================================================================
-
-function corr ( str: string ) {
-    // str = str.replace( /ٰ/g, "ٰ" )
-    // str = str.replace( /ٰ/g, "" );
-    str = str.replace( /ۡ/g, "ْ" );
-    return str;
 }
 
 // -- =====================================================================================
