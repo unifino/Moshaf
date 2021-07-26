@@ -96,7 +96,7 @@ side_buttons = [
     { icon: 'f292', class: 'fas', f: () => this.getTagList()                } ,
     { icon: 'f683', class: 'fas', f: () => route( "Qertas", { id: -2 } )    } ,
     { icon: 'f186', class: 'fas', f: () => route( "Qertas", { id: -3 } )    } ,
-    { icon: 'f5ad', class: 'fas', f: () => this.toggleFont()                } ,
+    // { icon: 'f5ad', class: 'fas', f: () => this.toggleFont()                } ,
 ];
 
 big_buttons = [
