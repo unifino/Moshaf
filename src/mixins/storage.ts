@@ -14,6 +14,7 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
+let bug_h   : number[];
 let comments: string[];
 export let rawBound: TS.RawBound;
 
@@ -23,6 +24,7 @@ const SDCard: string = exStorage.getAbsolutePath().toString();
 let myFolder : NS.Folder;           // * do not initiate it
 export let trace_q_File : NS.File;  // * do not initiate it
 export let trace_h_File : NS.File;  // * do not initiate it
+export let bug_h_File   : NS.File;  // * do not initiate it
 export let fav_q_File   : NS.File;  // * do not initiate it
 export let fav_h_File   : NS.File;  // * do not initiate it
 export let bound_File   : NS.File;  // * do not initiate it
@@ -41,6 +43,7 @@ export function db_check (): Promise<void> {
         let bp = myFolder.path;
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
+        bug_h_File   = NS.File.fromPath ( NS.path.join( bp, "bug_h.json"    ) );
         fav_q_File   = NS.File.fromPath ( NS.path.join( bp, "fav_q.json"    ) );
         fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"    ) );
         bound_File   = NS.File.fromPath ( NS.path.join( bp, "bind.json"     ) );
@@ -49,6 +52,7 @@ export function db_check (): Promise<void> {
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
+        try { bug_h   = JSON.parse( bug_h_File.readTextSync()   ) } catch { bug_h   = [] }
         try { fav_q   = JSON.parse( fav_q_File.readTextSync()   ) } catch { fav_q   = [] }
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
@@ -59,6 +63,7 @@ export function db_check (): Promise<void> {
         if ( !trace_h ) saveDB( trace_h_File,  [] );
         if ( !fav_q   ) saveDB( fav_q_File,    [] );
         if ( !fav_h   ) saveDB( fav_h_File,    [] );
+        if ( !bug_h   ) saveDB( bug_h_File,    [] );
         if ( !rawBound) saveDB( bound_File,    [] );
         if ( !comments) saveDB( comments_File, [] );
 
@@ -177,3 +182,12 @@ function bound_transfer ( data: TS.RawBound ) {
 }
 
 // -- =====================================================================================
+
+export function saveBug ( id: number ) {
+    // ..  add this id to the bug list if not registered already
+    if ( !bug_h.includes( id ) ) bug_h.push( id );
+    saveDB( bug_h_File, bug_h );
+}
+
+// -- =====================================================================================
+

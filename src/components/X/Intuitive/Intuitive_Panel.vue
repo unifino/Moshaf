@@ -82,6 +82,7 @@ SearchPanel: SearchPanel;
 
 buttons = [
     { icon: 'f004', class: ''     , fnc: () => this.toggleFavorite()    } ,
+    { icon: 'f188', class: 'bug'  , fnc: () => this.bugReporter()       } ,
     { icon: 'f0c5', class: 'copy' , fnc: () => this.copy()              } ,
     { icon: 'f1e0', class: 'share', fnc: r  => this.share(r)            } ,
     { icon: 'f292', class: 'tag'  , fnc: () => this.TagModeToggler()    } ,
@@ -292,6 +293,11 @@ async exitPanel () {
 
 // -- =====================================================================================
 
+bugReporter () {
+    tools.toaster( "error reported!", "short" );
+    storage.saveBug( this.id );
+}
+
 }
 
 // -- =====================================================================================
@@ -365,6 +371,13 @@ async exitPanel () {
 
     .Smoky .favorite {
         color: #f86459;
+    }
+
+    .Smoky .bug {
+        color: #f03535;
+    }
+    .CoolGreens .bug {
+        color: #f03535;
     }
 
 </style>
