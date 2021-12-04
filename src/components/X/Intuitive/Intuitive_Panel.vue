@@ -369,15 +369,10 @@ bugReporter () {
         transform: rotateY(-180);
     }
 
-    .Smoky .favorite {
-        color: #f86459;
-    }
+    .Smoky .favorite { color: #f86459 }
+    .CoolGreens .favorite { color: #f86459 }
 
-    .Smoky .bug {
-        color: #f03535;
-    }
-    .CoolGreens .bug {
-        color: #f03535;
-    }
+    .Smoky .bug { color: #f03535 }
+    .CoolGreens .bug { color: #f03535 }
 
 </style>
