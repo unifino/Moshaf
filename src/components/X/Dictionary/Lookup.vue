@@ -89,7 +89,7 @@ export default class Lookup extends Vue {
 
 data_ar = "";
 data_fa = "";
-userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
+userAgent = "Mozilla/5.0 (Linux; Android 11; SAMSUNG SM-G973U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/14.2 Chrome/87.0.4280.141 Mobile Safari/537.36";
 loadedFrom: TS.here;
 
 // -- =====================================================================================
@@ -116,6 +116,7 @@ translate_ar ( word: string ) {
         url: url + word ,
         method: "GET",
         headers: { "User-Agent": this.userAgent }
+
     } )
     .then(
         res => this.data_ar = this.textExtractor_ar( res.content.toString() ),
@@ -266,6 +267,11 @@ destroyed () {}
     }
 
     .Smoky .meaning {
+        color: #696868;
+        border-color: #909192;
+    }
+
+    .Black .meaning {
         color: #696868;
         border-color: #909192;
     }

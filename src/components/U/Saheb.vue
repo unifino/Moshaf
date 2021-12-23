@@ -97,13 +97,9 @@ tapped () {
         margin: 5;
     }
 
-    .CoolGreen .saheb {
-        background-color: #1a1d1d;
-    }
-
-    .Smoky .saheb {
-        background-color: #dfe2e2;
-    }
+    .CoolGreen  .saheb { background-color: #1a1d1d }
+    .Smoky      .saheb { background-color: #dfe2e2 }
+    /* .Black      .saheb { background-color: #dfe2e2 } */
 
     .text {
         font-size: 14;
@@ -111,19 +107,15 @@ tapped () {
         text-wrap: true;
     }
 
-    .CoolGreen .saheb {
-        color: #9bc0c0;
-    }
-
-    .Smoky .saheb {
-        color: #243333;
-    }
+    .CoolGreen  .saheb { color: #9bc0c0 }
+    .Smoky      .saheb { color: #243333 }
+    .Black      .saheb { color: #979797 }
 
     .address {
         font-size: 7;
         color: #585858;
         padding: -2 3 -1 0;
-        text-wrap: true; 
+        text-wrap: true;
     }
 
 </style>

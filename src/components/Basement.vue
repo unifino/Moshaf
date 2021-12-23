@@ -111,10 +111,10 @@ permissionApplier (): Promise<any> {
 
 setup (): Promise<void> {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         // .. just applying default theme
-        TM.themeApplier( "Smoky", this );
+        TM.themeApplier( "Black", this );
 
         // .. first actual step! bring-up the Unity
         this.to_Unity( true );

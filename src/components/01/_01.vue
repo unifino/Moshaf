@@ -120,12 +120,8 @@ open ( num: number ): void {
         font-size: 14.4;
     }
 
-    .CoolGreen .najwa {
-        color: #d8dfe2;
-    }
-
-    .Smoky .najwa {
-        color: #222324;
-    }
+    .CoolGreen  .najwa { color: #d8dfe2 }
+    .Smoky      .najwa { color: #222324 }
+    .Black      .najwa { color: #757575 }
 
 </style>

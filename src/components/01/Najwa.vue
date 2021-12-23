@@ -131,12 +131,8 @@ destroyed () {}
         height: 63;
     }
 
-    .CoolGreen .najwa {
-        color: #d8d8d8;
-    }
-
-    .Smoky .najwa {
-        color: #1e1e1f;
-    }
+    .CoolGreen  .najwa { color: #d8d8d8 }
+    .Smoky      .najwa { color: #1e1e1f }
+    .Black      .najwa { color: #747474 }
 
 </style>

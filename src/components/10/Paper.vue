@@ -169,21 +169,13 @@ popLastTrace () {
         border-radius: 5;
     }
 
-    .CoolGreen .hadith {
-        color: #d8d8d8;
-    }
+    .CoolGreen  .hadith { color: #d8d8d8 }
+    .Smoky      .hadith { color: #1e2224 }
+    .Black      .hadith { color: #a8a8a8 }
 
-    .Smoky .hadith {
-        color: #1e2224;
-    }
-
-    .CoolGreen .green {
-        color: #498c29;
-    }
-
-    .Smoky .green {
-        color: #3e9217;
-    }
+    .CoolGreen  .green { color: #498c29 }
+    .Smoky      .green { color: #3e9217 }
+    .Black      .green { color: #3e9217 }
 
     .farsi {
         margin: 20;
@@ -192,13 +184,9 @@ popLastTrace () {
         font-size: 13;
     }
 
-    .CoolGreen .farsi {
-        color: #c5c5c5;
-    }
-
-    .Smoky .farsi {
-        color: #333333;
-    }
+    .CoolGreen  .farsi { color: #c5c5c5 }
+    .Smoky      .farsi { color: #333333 }
+    .Black      .farsi { color: #5e5e5e }
 
     .name, .name_e {
         font-family: Amiri-Regular;
@@ -208,13 +196,9 @@ popLastTrace () {
         height: 50;
     }
 
-    .CoolGreen .name {
-        color: #498c29;
-    }
-
-    .Smoky .name {
-        color: #62922b;
-    }
+    .CoolGreen  .name { color: #498c29 }
+    .Smoky      .name { color: #62922b }
+    .Black      .name { color: #62922b }
 
     .name_e {
         height: 20;
@@ -225,13 +209,9 @@ popLastTrace () {
         color: #5b8814;
     }
 
-    .CoolGreen .name_e {
-        color: #498c29;
-    }
-
-    .Smoky .name_e {
-        color: #4e791d;
-    }
+    .CoolGreen  .name_e { color: #498c29 }
+    .Smoky      .name_e { color: #4e791d }
+    .BLack      .name_e { color: #4e791d }
 
     .divider {
         width: 100%;
@@ -257,4 +237,8 @@ popLastTrace () {
         color: #1d80a7;
     }
 
+    .Black .salam,
+    .Black .alaem {
+        color: #1d80a7;
+    }
 </style>

@@ -149,13 +149,9 @@ destroyed () {}
 <style scoped>
 
 /* ------------------------------------------- */
-    .CoolGreen .pressed {
-        background-color: #333636;
-    }
-
-    .Smoky .pressed {
-        background-color: #c2c2c2;
-    }
+    .CoolGreen  .pressed { background-color: #333636 }
+    .Smoky      .pressed { background-color: #c2c2c2 }
+    .Black      .pressed { background-color: #3a3a3a }
 
     .BREAKLINE, .BIG_BREAKLINE {
         width: 100%;

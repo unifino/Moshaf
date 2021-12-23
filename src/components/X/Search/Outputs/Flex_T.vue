@@ -119,13 +119,18 @@ tagToggler ( item: TS.ItemFound ) {
         background-color: #343534;
         color: #e0e0e0;
     }
+    .Black .tag {
+        background-color: #343534;
+        color: #e0e0e0;
+    }
+
     .CoolGreen .bounded,
-    .Smoky .bounded {
+    .Smoky .bounded,
+    .Black .bounded {
         background-color: #0e962b;
         color: white;
     }
-    .transparent {
-        background-color: #332c2c2c;
-    }
+
+    .transparent { background-color: #332c2c2c }
 
 </style>

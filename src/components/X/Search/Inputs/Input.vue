@@ -160,4 +160,9 @@ dismiss () {
         placeholder-color: #8f875d;
     }
 
+    .Black .textField {
+        color: #3f3f3f;
+        placeholder-color: #414040;
+    }
+
 </style>

@@ -99,13 +99,9 @@ itemClassToggler ( item: TS.ItemFound ) {
         padding: 10;
     }
 
-    .CoolGreen .item {
-        color: #e0e0e0;
-    }
-
-    .Smoky .item {
-        color: #575858;
-    }
+    .CoolGreen  .item { color: #e0e0e0 }
+    .Smoky      .item { color: #575858 }
+    .Black      .item { color: #575858 }
 
     .address {
         color: #037269;
@@ -127,6 +123,12 @@ itemClassToggler ( item: TS.ItemFound ) {
     }
 
     .Smoky .bounded {
+        background-color: #488d3f;
+        color: white;
+        border-radius: 4;
+    }
+
+    .Black .bounded {
         background-color: #488d3f;
         color: white;
         border-radius: 4;

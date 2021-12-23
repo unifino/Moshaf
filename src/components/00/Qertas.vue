@@ -305,13 +305,9 @@ scrollTo ( step: 1|-1 ) {
         text-align: center;
     }
 
-    .CoolGreen .suraName {
-        color: #bebebe;
-    }
-
-    .Smoky .suraName {
-        color: #7c7c7c;
-    }
+    .CoolGreen  .suraName { color: #bebebe }
+    .Smoky      .suraName { color: #7c7c7c }
+    .Black      .suraName { color: #444444 }
 
     .ESM {
         font-size: 140;
@@ -323,13 +319,9 @@ scrollTo ( step: 1|-1 ) {
         text-align: center;
     }
 
-    .CoolGreen .ESM {
-        color: #548505;
-    }
-
-    .Smoky .ESM {
-        color: #548505;
-    }
+    .CoolGreen  .ESM { color: #548505 }
+    .Smoky      .ESM { color: #548505 }
+    .Black      .ESM { color: #548505 }
 
     .quran, .sajdeh {
         font-family: Amiri-Regular;
@@ -341,21 +333,13 @@ scrollTo ( step: 1|-1 ) {
         height: 63;
     }
 
-    .CoolGreen .quran {
-        color: #e6e6e6;
-    }
+    .CoolGreen  .quran { color: #e6e6e6 }
+    .Smoky      .quran { color: #696868 }
+    .Black      .quran { color: #9e9e9e }
 
-    .Smoky .quran {
-        color: #696868;
-    }
-
-    .CoolGreen .sajdeh {
-        color: #2b99e2;
-    }
-
-    .Smoky .sajdeh {
-        color: #1a6fa8;
-    }
+    .CoolGreen  .sajdeh { color: #2b99e2 }
+    .Smoky      .sajdeh { color: #1a6fa8 }
+    .Black      .sajdeh { color: #1a6fa8 }
 
     .number {
         font-family: MADDINA;
@@ -374,10 +358,13 @@ scrollTo ( step: 1|-1 ) {
         background-color: #4dbae6;
         color: #031a1d;
     }
-
     .Smoky .number {
         background-color: #3a9ec5;
         color: #e6e6e6;
+    }
+    .Black .number {
+        background-color: #242424;
+        color: #26596d;
     }
 
     .bounded {
@@ -392,8 +379,12 @@ scrollTo ( step: 1|-1 ) {
         border-color: #e48407;
         color: #64645b;
     }
-
     .Smoky .bounded {
+        background-color: #f0b12a;
+        border-color: #e48407;
+        color: #64645b;
+    }
+    .Black .bounded {
         background-color: #f0b12a;
         border-color: #e48407;
         color: #64645b;
@@ -404,8 +395,11 @@ scrollTo ( step: 1|-1 ) {
         background-color: #da0f74;
         color: #e6e6e6;
     }
-
     .Smoky .fav {
+        background-color: #da0f74;
+        color: #e6e6e6;
+    }
+    .Black .fav {
         background-color: #da0f74;
         color: #e6e6e6;
     }

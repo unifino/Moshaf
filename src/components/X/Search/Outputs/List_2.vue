@@ -111,4 +111,9 @@ openTag ( tag: TS.ItemFound ) {
         color: #383838;
     }
 
+    .Black .tagLine {
+        background-color: #c4c2c2;
+        color: #383838;
+    }
+
 </style>

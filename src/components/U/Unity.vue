@@ -224,17 +224,11 @@ toggleFont () {
 <style scoped>
 
 /* ------------------------------------------- */
-    .unityBox {
-        padding: 44 0;
-    }
+    .unityBox { padding: 44 0 }
 
-    .CoolGreen .unityBox {
-        background-color: #08332f;
-    }
-
-    .Smoky .unityBox {
-        background-color: #e6e6e6;
-    }
+    .CoolGreen  .unityBox { background-color: #08332f }
+    .Smoky      .unityBox { background-color: #e6e6e6 }
+    .Black      .unityBox { background-color: #000000 }
 
 /* ------------------------------------------- */
     .button {
@@ -267,12 +261,23 @@ toggleFont () {
         background-color: #cfe9f0;
     }
 
+    /* .Black .button {
+        color:#1a848b;
+        border-color: #89c0c4;
+        background-color: #cfe9f0;
+    } */
+
 /* ------------------------------------------- */
     .CoolGreen .pressed {
         background-color: #333636;
     }
 
     .Smoky .pressed {
+        background-color: #3d9ca1;
+        color: white;
+    }
+
+    .Black .pressed {
         background-color: #3d9ca1;
         color: white;
     }

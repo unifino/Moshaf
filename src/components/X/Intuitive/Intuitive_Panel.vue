@@ -12,7 +12,7 @@
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
-            <myButton 
+            <myButton
                 v-for="(button,i) in buttons" 
                 :key="i"
                 :bClass="'button fas ' + button.class"
@@ -319,16 +319,22 @@ bugReporter () {
         border-radius: 12;
     }
 
+    .CoolGreen .button {
+        color:#919a9c;
+        border-color: #2b5b7a;
+        background-color: #072429;
+    }
+
     .Smoky .button {
         color:#cfe9f0;
         border-color: #9dd0d4;
         background-color: #1a848b;
     }
 
-    .CoolGreen .button {
-        color:#919a9c;
-        border-color: #2b5b7a;
-        background-color: #072429;
+    .Black .button {
+        color:#cfe9f0;
+        /* border-color: #9dd0d4; */
+        /* background-color: #1a848b; */
     }
 
     .intuitivePanel {
@@ -350,29 +356,33 @@ bugReporter () {
         font-size: 14;
     }
 
-    .CoolGreen .cached,
-    .Smoky .cached {
-        text-decoration: line-through;
-        background-color: #222324;
-        color: #8b8b8b;
-    }
-
     .CoolGreen .origin,
-    .Smoky .origin {
+    .Smoky .origin,
+    .Black .origin {
         background-color: #0b2e10;
         border-width: 1;
         border-color: #8b8b8b;
         color: #cacaca;
     }
 
+    .CoolGreen .cached,
+    .Smoky .cached,
+    .Black .cached {
+        text-decoration: line-through;
+        background-color: #222324;
+        color: #8b8b8b;
+    }
+
     .exit {
         transform: rotateY(-180);
     }
 
-    .Smoky .favorite { color: #f86459 }
-    .CoolGreens .favorite { color: #f86459 }
+    .CoolGreen  .favorite { color: #f86459 }
+    .Smoky      .favorite { color: #f86459 }
+    .Black      .favorite { color: #f86459 }
 
-    .Smoky .bug { color: #f03535 }
-    .CoolGreens .bug { color: #f03535 }
+    .CoolGreen  .bug { color: #f03535 }
+    .Smoky      .bug { color: #f03535 }
+    .Black      .bug { color: #f03535 }
 
 </style>

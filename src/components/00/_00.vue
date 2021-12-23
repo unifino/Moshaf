@@ -27,12 +27,6 @@
                 class="sura"
                 @tap="openItem(x[2])"
             />
-            <!-- <Label
-                ref="-1"
-                text="صاحب‌الزمان"
-                class="saat"
-                @tap="openItem(-1)"
-            /> -->
         </FlexboxLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -135,7 +129,7 @@ search ( frase: string ) {
 <style scoped>
 
 /* ------------------------------------------- */
-    .sura, .saat {
+    .sura {
         font-family: Amiri-Regular;
         text-align: center;
         font-size: 14;
@@ -145,28 +139,8 @@ search ( frase: string ) {
         border-radius: 5;
     }
 
-    .CoolGreen .sura {
-        color: #cccccc;
-    }
-
-    .Smoky .sura {
-        color: #222324;
-    }
-
-    .CoolGreen .saat {
-        background-color: #498c29;
-        background-color: #086439;
-        color: #cccccc;
-    }
-
-    .Smoky .saat {
-        background-color: #75aa1f;
-        color: #eeeeee;
-    }
-
-    .DarkGreen .saat {
-        background-color: #2c3007;
-        color: #cccccc;
-    }
+    .CoolGreen  .sura { color: #cccccc }
+    .Smoky      .sura { color: #222324 }
+    .Black      .sura { color: #90918d }
 
 </style>

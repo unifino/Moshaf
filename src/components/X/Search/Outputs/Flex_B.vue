@@ -202,9 +202,15 @@ registerComment ( str: string ) {
         color: #0c85aa;
     }
 
+    .Black .baseClass {
+        background-color: #d8d8d8;
+        color: #0c85aa;
+    }
+
 /* ------------------------------------------- */
     .CoolGreen .header,
-    .Smoky .header {
+    .Smoky .header,
+    .Black .header {
         background-color: #0b2e10;
         border-width: 1;
         border-color: #8b8b8b;
@@ -212,20 +218,17 @@ registerComment ( str: string ) {
     }
 
     .CoolGreen .address,
-    .Smoky .address{
+    .Smoky .address,
+    .Black .address {
         visibility: visible;
         font-size: 8;
         opacity: .8;
         padding: 10 0 0 0;
     }
 
-    .CoolGreen .address {
-        color: #037269;
-    }
-
-    .Smoky .address {
-        color: #037269;
-    }
+    .CoolGreen  .address { color: #037269 }
+    .Smoky      .address { color: #037269 }
+    .Black      .address { color: #037269 }
 
     .CoolGreen .comment {
         background-color: #201d05;
@@ -237,20 +240,23 @@ registerComment ( str: string ) {
         color: #5f6466;
     }
 
+    .Black .comment {
+        background-color: #ece29d;
+        color: #5f6466;
+    }
+
     .newComment {
         margin: 5 0 300 0;
     }
 
 /* ------------------------------------------- */
-    .CoolGreen .cached {
-        background-color: #020202;
-    }
-    .Smoky .cached {
-        background-color: #1f2020;
-    }
+    .CoolGreen  .cached { background-color: #020202 }
+    .Smoky      .cached { background-color: #1f2020 }
+    .Black      .cached { background-color: #1f2020 }
 
     .CoolGreen .cached .mainText,
-    .Smoky .cached .mainText{
+    .Smoky .cached .mainText,
+    .Black .cached .mainText {
         text-decoration: line-through;
         color: #393a3b;
     }
