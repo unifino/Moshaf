@@ -25,6 +25,7 @@ let state: state = {
         H           : []                    ,
     }                                       ,
     comments        : []                    ,
+    temp            : []                    ,
                                              
     cakeBound       : {}                    ,
     routeStack      : []                    ,
@@ -54,6 +55,8 @@ interface state {
         H           : number[]              ,
     }                                       ,
     comments        : string[]              ,
+    temp            : TS.tempRaw[]          ,
+
     cakeBound       : TS.CakeBound          ,
                                              
     routeStack      : string[]              ,

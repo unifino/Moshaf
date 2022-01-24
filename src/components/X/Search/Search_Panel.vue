@@ -74,8 +74,8 @@ import Unity                            from "@/components/U/Unity.vue"
 // -- =====================================================================================
 
 @Component ( {
-    components: { 
-        Input, 
+    components: {
+        Input,
         Search, Dismiss, History, Favorite, HashTag, Exchange, Random,
         List_1, List_2, Flex_T, Flex_B,
     }

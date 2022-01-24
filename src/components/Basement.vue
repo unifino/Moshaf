@@ -1,5 +1,6 @@
 <template>
-<AbsoluteLayout class="fx" ref="root" @swipe="swipeControl">
+<!-- <AbsoluteLayout class="fx" ref="root" @swipe="swipeControl"> -->
+<AbsoluteLayout class="fx" ref="root" @doubleTap="backOne">
 <!---------------------------------------------------------------------------------------->
 
     <Frame class="fx" id="_base_" ref="_base_" >
@@ -65,8 +66,8 @@ mounted () {
     }, 5000 );
 
     // .. back Button Ctl
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityBackPressedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityBackPressedEvent,
         e => this.backButtonCtl(e),
     );
 
@@ -179,6 +180,14 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
         if ( args.direction === NS.SwipeDirection.left  ) this.to_Unity();
     }
 
+}
+
+// -- =====================================================================================
+
+backOne () {
+    let frameModule = require( "ui/frame" );
+    let topmost = frameModule.topmost();
+    topmost.goBack();
 }
 
 // -- =====================================================================================

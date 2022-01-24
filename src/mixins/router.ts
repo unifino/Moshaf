@@ -36,10 +36,10 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
         Paper:   { page: Paper,   duration: 300, transition: "flipLeft",    },
         Qertas:  { page: Qertas , duration: 300, transition: "slideTop",    },
         Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",    },
-        Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  }, 
+        Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  },
 
-        Unity:   { 
-            page: Unity , 
+        Unity:   {
+            page: Unity ,
             transition: init ? "fade" : "flipRight",
             duration: init ? 500 : 300
         },

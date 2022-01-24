@@ -4,6 +4,7 @@
     class="intuitivePanel"
     rows="88,*,auto,*,44"
     columns="60,20,*,20"
+    @doubleTap="backOne"
 >
 
 <!---------------------------------------------------------------------------------------->
@@ -244,7 +245,6 @@ bind ( item: TS.ItemFound ) {
 
 }
 
-
 // -- =====================================================================================
 
 open_item ( item: TS.ItemFound ) {
@@ -295,8 +295,18 @@ async exitPanel () {
 
 bugReporter () {
     tools.toaster( "error reported!", "short" );
-    storage.saveBug( this.id );
+    storage.tempActionREC( "BugReport", [ "H", this.id ] );
 }
+
+// -- =====================================================================================
+
+backOne () {
+    let frameModule = require( "ui/frame" );
+    let topmost = frameModule.topmost();
+    topmost.goBack();
+}
+
+// -- =====================================================================================
 
 }
 

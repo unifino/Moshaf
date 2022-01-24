@@ -200,3 +200,21 @@ export type Hadith = {
 // -- =====================================================================================
 
 export type DisplayTypes = "List_1" | "List_2" | "Flex_T" | "Flex_B";
+
+// -- =====================================================================================
+
+export type tempActions =
+      "BugReport"
+    | "Mark"
+    | "Demark"
+    | "Bound"
+    | "Unbound"
+    | "Comment"
+    ;
+
+export type tempParcel = [ "H"|"Q", number ];
+
+export type tempRaw = [
+    tempActions,
+    tempParcel | [ tempParcel, tempParcel ]
+]

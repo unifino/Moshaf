@@ -87,7 +87,7 @@ export default class Unity extends Vue {
 visibility_c: "visible"|"hidden" = "visible";
 SearchPanel: SearchPanel;
 side_buttons = [
-    { 
+    {
         icon: 'f0eb',
         class: store.state.appConfig.darkMode?'fas':'far',
         f: () => this.darkThemeToggler()

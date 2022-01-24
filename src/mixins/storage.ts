@@ -16,6 +16,7 @@ let fav_q   : number[];
 let fav_h   : number[];
 let bug_h   : number[];
 let comments: string[];
+let temp    : TS.tempRaw[];
 export let rawBound: TS.RawBound;
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
@@ -29,6 +30,7 @@ export let fav_q_File   : NS.File;  // * do not initiate it
 export let fav_h_File   : NS.File;  // * do not initiate it
 export let bound_File   : NS.File;  // * do not initiate it
 export let comments_File: NS.File;  // * do not initiate it
+export let temp_File    : NS.File;  // * do not initiate it
 
 // -- =====================================================================================
 
@@ -48,6 +50,7 @@ export function db_check (): Promise<void> {
         fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"    ) );
         bound_File   = NS.File.fromPath ( NS.path.join( bp, "bind.json"     ) );
         comments_File= NS.File.fromPath ( NS.path.join( bp, "comments.json" ) );
+        temp_File    = NS.File.fromPath ( NS.path.join( bp, "tmp.json"      ) );
 
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
@@ -57,6 +60,7 @@ export function db_check (): Promise<void> {
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
         try { comments= JSON.parse( comments_File.readTextSync()) } catch { comments= [] }
+        try { temp    = JSON.parse( temp_File.readTextSync())     } catch { temp    = [] }
 
         // .. check integrity 
         if ( !trace_q ) saveDB( trace_q_File,  [] );
@@ -66,12 +70,14 @@ export function db_check (): Promise<void> {
         if ( !bug_h   ) saveDB( bug_h_File,    [] );
         if ( !rawBound) saveDB( bound_File,    [] );
         if ( !comments) saveDB( comments_File, [] );
+        if ( !temp    ) saveDB( temp_File,     [] );
 
         store.state.fav.Q     = fav_q;
         store.state.fav.H     = fav_h;
         store.state.memo.Q    = trace_q;
         store.state.memo.H    = trace_h;
         store.state.comments  = comments;
+        store.state.temp      = temp;
         store.state.cakeBound = rawBoundConvertor( rawBound );
 
         // bound_transfer( rawBound );
@@ -183,11 +189,25 @@ function bound_transfer ( data: TS.RawBound ) {
 
 // -- =====================================================================================
 
-export function saveBug ( id: number ) {
-    // ..  add this id to the bug list if not registered already
-    if ( !bug_h.includes( id ) ) bug_h.push( id );
-    saveDB( bug_h_File, bug_h );
+export function tempActionREC ( action: TS.tempActions, value: TS.tempParcel ) {
+
+    switch ( action ) {
+
+        case "BugReport": rec_Bug( value[1] ); break;
+    
+    }
+
+    // ..  hard register the temp file
+    saveDB( temp_File, temp );
+
 }
 
 // -- =====================================================================================
 
+function rec_Bug ( id: number ) {
+    // ..  add this id to the temp if not registered already
+    if ( !temp.find( x => x[0] === "BugReport" && x[1][1] === id ) )
+        temp.push( [ "BugReport", [ "H", id ] ] );
+}
+
+// -- =====================================================================================
