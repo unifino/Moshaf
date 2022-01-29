@@ -82,6 +82,12 @@ export function db_check (): Promise<void> {
 
         // bound_transfer( rawBound );
 
+        setTimeout(() => {
+            temp_generator( bug_h, rawBound );
+            console.log("done");
+            
+        }, 5000);
+
         // .. resolve
         rs();
 
@@ -142,7 +148,7 @@ export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBou
 function bound_transfer ( data: TS.RawBound ) {
 
     let inf = [];
-    let tmp; 
+    let tmp;
     let a;
     let b;
 
@@ -189,12 +195,15 @@ function bound_transfer ( data: TS.RawBound ) {
 
 // -- =====================================================================================
 
-export function tempActionREC ( action: TS.tempActions, value: TS.tempParcel ) {
+export function tempActionREC ( action: TS.tempActions, value: TS.tempParcel | [ TS.tempParcel, TS.tempParcel ] ) {
 
     switch ( action ) {
 
-        case "BugReport": rec_Bug( value[1] ); break;
-    
+        case "BugReport": rec_Bug( <number>value[1] );          break;
+        case "Fav+"     : rec_Fav( <TS.tempParcel>value );      break;
+        case "Comment"  : temp.push( [ "Comment", value ] );    break;
+        case "Bound"    : temp.push( [ "Bound", value ] );      break;
+
     }
 
     // ..  hard register the temp file
@@ -211,3 +220,51 @@ function rec_Bug ( id: number ) {
 }
 
 // -- =====================================================================================
+
+function rec_Fav ( value: TS.tempParcel ) {
+    // ..  add this id to the temp if not registered already
+    if ( !temp.find(
+            x => x[0] === "Fav+" &&
+            x[1][0] === value[0] &&
+            x[1][1] === value[1]
+        )
+    )
+        temp.push( [ "Fav+", value ] );
+}
+
+// -- =====================================================================================
+
+function temp_generator ( bug: number[], bounds:TS.RawBound ) {
+
+    // let temp = {};
+    for( let x of bug ) tempActionREC( "BugReport", [ "H", x ] );
+    for( let x of store.state.fav.H ) tempActionREC( "Fav+", [ "H", x ] );
+    for( let x of store.state.fav.Q ) tempActionREC( "Fav+", [ "Q", x ] );
+    for( let x of bounds ) {
+        if( x[1].includes("C") )
+            tempActionREC(
+                "Comment",
+                [
+                    <"H"|"Q">x[0].slice(0,1),
+                    parseInt(x[0].slice(2)),
+                    store.state.comments[ x[1].slice(2) ]
+                ]
+            );
+        else {
+            tempActionREC(
+                "Bound",
+                [
+                    [
+                        <"H"|"Q">x[0].slice(0,1),
+                        parseInt(x[0].slice(2))
+                    ],
+                    [
+                        <"H"|"Q">x[1].slice(0,1),
+                        <any>x[1].slice(2)
+                    ]
+                ]
+            );
+        }
+    }
+
+}
