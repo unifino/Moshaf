@@ -4,20 +4,20 @@
 
 <!---------------------------------------------------------------------------------------->
 
-     <ScrollView 
+     <ScrollView
         row=2
         verticalAlignment="middle"
         scrollBarIndicatorVisible="true"
     >
 
-        <FlexboxLayout 
+        <FlexboxLayout
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="flex-start"
         >
-            <Kalameh 
+            <Kalameh
                 v-for="(kalameh,i) in najwa"
-                :key=i 
+                :key=i
                 :myText=kalameh
                 myType="najwa"
             />

@@ -213,8 +213,6 @@ export type tempActions =
     ;
 
 export type tempParcel = [ "H"|"Q", number, string? ];
+export type tempValue = tempParcel | [ tempParcel, tempParcel ];
 
-export type tempRaw = [
-    tempActions,
-    tempParcel | [ tempParcel, tempParcel ]
-]
+export type tempRaw = [ tempActions, tempValue ]

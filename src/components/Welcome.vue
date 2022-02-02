@@ -2,10 +2,13 @@
 <Page @navigatedTo="pageLoaded()">
 
 <!---------------------------------------------------------------------------------------->
-    <GridLayout @tap="route( 'Unity', null, false );">
+
+    <GridLayout @tap="route( 'Unity', null, false )">
         <Image src="res://moshaf" width=165 stretch="aspectFit" />
     </GridLayout>
+
 <!---------------------------------------------------------------------------------------->
+
 </Page>
 </template>
 

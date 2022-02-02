@@ -14,23 +14,19 @@ let trace_q : number[];
 let trace_h : number[];
 let fav_q   : number[];
 let fav_h   : number[];
-let bug_h   : number[];
 let comments: string[];
-let temp    : TS.tempRaw[];
+let cloud   : TS.tempRaw[][];
+let earth   : TS.tempRaw[];
 export let rawBound: TS.RawBound;
 
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
 
 let myFolder : NS.Folder;           // * do not initiate it
+export let cloud_File   : NS.File;  // * do not initiate it
 export let trace_q_File : NS.File;  // * do not initiate it
 export let trace_h_File : NS.File;  // * do not initiate it
-export let bug_h_File   : NS.File;  // * do not initiate it
-export let fav_q_File   : NS.File;  // * do not initiate it
-export let fav_h_File   : NS.File;  // * do not initiate it
-export let bound_File   : NS.File;  // * do not initiate it
-export let comments_File: NS.File;  // * do not initiate it
-export let temp_File    : NS.File;  // * do not initiate it
+export let earth_File   : NS.File;  // * do not initiate it
 
 // -- =====================================================================================
 
@@ -45,35 +41,31 @@ export function db_check (): Promise<void> {
         let bp = myFolder.path;
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
-        bug_h_File   = NS.File.fromPath ( NS.path.join( bp, "bug_h.json"    ) );
-        fav_q_File   = NS.File.fromPath ( NS.path.join( bp, "fav_q.json"    ) );
-        fav_h_File   = NS.File.fromPath ( NS.path.join( bp, "fav_h.json"    ) );
-        bound_File   = NS.File.fromPath ( NS.path.join( bp, "bind.json"     ) );
-        comments_File= NS.File.fromPath ( NS.path.join( bp, "comments.json" ) );
-        temp_File    = NS.File.fromPath ( NS.path.join( bp, "tmp.json"      ) );
 
         // .. get Contents
+        fav_q    = [];
+        fav_h    = [];
+        rawBound = [];
+        comments = [];
+
+        try { cloud   = JSON.parse( cloud_File.readTextSync())    } catch { cloud   = [] }
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
-        try { bug_h   = JSON.parse( bug_h_File.readTextSync()   ) } catch { bug_h   = [] }
         try { fav_q   = JSON.parse( fav_q_File.readTextSync()   ) } catch { fav_q   = [] }
         try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
         try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
         try { comments= JSON.parse( comments_File.readTextSync()) } catch { comments= [] }
-        try { temp    = JSON.parse( temp_File.readTextSync())     } catch { temp    = [] }
+        try { earth   = JSON.parse( earth_File.readTextSync())    } catch { earth   = [] }
+
 
         // .. check integrity 
         if ( !trace_q ) saveDB( trace_q_File,  [] );
         if ( !trace_h ) saveDB( trace_h_File,  [] );
-        if ( !fav_q   ) saveDB( fav_q_File,    [] );
-        if ( !fav_h   ) saveDB( fav_h_File,    [] );
-        if ( !bug_h   ) saveDB( bug_h_File,    [] );
-        if ( !rawBound) saveDB( bound_File,    [] );
-        if ( !comments) saveDB( comments_File, [] );
-        if ( !temp    ) saveDB( temp_File,     [] );
+        if ( !cloud   ) saveDB( temp_File,     [] );
+        if ( !earth   ) saveDB( temp_File,     [] );
 
-        store.state.fav.Q     = fav_q;
-        store.state.fav.H     = fav_h;
+        store.state.fav.Q     = []//! ----------------------;
+        store.state.fav.H     = []//! ----------------------;
         store.state.memo.Q    = trace_q;
         store.state.memo.H    = trace_h;
         store.state.comments  = comments;
@@ -81,12 +73,6 @@ export function db_check (): Promise<void> {
         store.state.cakeBound = rawBoundConvertor( rawBound );
 
         // bound_transfer( rawBound );
-
-        setTimeout(() => {
-            temp_generator( bug_h, rawBound );
-            console.log("done");
-            
-        }, 5000);
 
         // .. resolve
         rs();
@@ -195,14 +181,16 @@ function bound_transfer ( data: TS.RawBound ) {
 
 // -- =====================================================================================
 
-export function tempActionREC ( action: TS.tempActions, value: TS.tempParcel | [ TS.tempParcel, TS.tempParcel ] ) {
+export function tempActionREC ( action: TS.tempActions, value: TS.tempValue ) {
 
     switch ( action ) {
 
-        case "BugReport": rec_Bug( <number>value[1] );          break;
-        case "Fav+"     : rec_Fav( <TS.tempParcel>value );      break;
-        case "Comment"  : temp.push( [ "Comment", value ] );    break;
-        case "Bound"    : temp.push( [ "Bound", value ] );      break;
+        case "BugReport": temp.push( [ "BugReport", [ "H", <number>value[1] ] ] );  break;
+        case "Fav+"     :
+        case "Fav-"     : temp.push( [ action, value ] );                           break;
+        
+        case "Comment"  : temp.push( [ "Comment", value ] );                        break;
+        case "Bound"    : temp.push( [ "Bound", value ] );                          break;
 
     }
 
@@ -212,59 +200,3 @@ export function tempActionREC ( action: TS.tempActions, value: TS.tempParcel | [
 }
 
 // -- =====================================================================================
-
-function rec_Bug ( id: number ) {
-    // ..  add this id to the temp if not registered already
-    if ( !temp.find( x => x[0] === "BugReport" && x[1][1] === id ) )
-        temp.push( [ "BugReport", [ "H", id ] ] );
-}
-
-// -- =====================================================================================
-
-function rec_Fav ( value: TS.tempParcel ) {
-    // ..  add this id to the temp if not registered already
-    if ( !temp.find(
-            x => x[0] === "Fav+" &&
-            x[1][0] === value[0] &&
-            x[1][1] === value[1]
-        )
-    )
-        temp.push( [ "Fav+", value ] );
-}
-
-// -- =====================================================================================
-
-function temp_generator ( bug: number[], bounds:TS.RawBound ) {
-
-    // let temp = {};
-    for( let x of bug ) tempActionREC( "BugReport", [ "H", x ] );
-    for( let x of store.state.fav.H ) tempActionREC( "Fav+", [ "H", x ] );
-    for( let x of store.state.fav.Q ) tempActionREC( "Fav+", [ "Q", x ] );
-    for( let x of bounds ) {
-        if( x[1].includes("C") )
-            tempActionREC(
-                "Comment",
-                [
-                    <"H"|"Q">x[0].slice(0,1),
-                    parseInt(x[0].slice(2)),
-                    store.state.comments[ x[1].slice(2) ]
-                ]
-            );
-        else {
-            tempActionREC(
-                "Bound",
-                [
-                    [
-                        <"H"|"Q">x[0].slice(0,1),
-                        parseInt(x[0].slice(2))
-                    ],
-                    [
-                        <"H"|"Q">x[1].slice(0,1),
-                        <any>x[1].slice(2)
-                    ]
-                ]
-            );
-        }
-    }
-
-}

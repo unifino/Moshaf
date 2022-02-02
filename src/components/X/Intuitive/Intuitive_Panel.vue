@@ -184,17 +184,22 @@ async menuCtr ( id: number ) {
 toggleFavorite () {
 
     let trace = store.state.fav[ this.source ].indexOf( this.id );
-    // .. add to Favorite
-    if ( !~trace ) store.state.fav[ this.source ].push( this.id );
-    // .. pop out of Favorite
-    else store.state.fav[ this.source ].splice( trace, 1 );
+
+    // .. add to Favorite && hard registration
+    if ( !~trace ) {
+        store.state.fav[ this.source ].push( this.id );
+        storage.tempActionREC( "Fav+", [ <"Q"|"H">this.source, this.id ] );
+    }
+    // .. pop out of Favorite && hard registration
+    else {
+        store.state.fav[ this.source ].splice( trace, 1 );
+        storage.tempActionREC( "Fav-", [ <"Q"|"H">this.source, this.id ] );
+    }
+
     // .. toggle favButtonClass
     this.favoriteClass( this.source, this.id );
     // .. close panel
     this.menuCtr(-1);
-    // .. hard registration
-    let fileName = "fav_" + this.source.toLocaleLowerCase();
-    storage.saveDB( storage[ fileName + "_File" ], store.state.fav[ this.source ] );
 
 }
 
