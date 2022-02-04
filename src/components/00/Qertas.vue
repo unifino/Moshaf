@@ -6,7 +6,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView 
+    <ScrollView
         row=2
         ref="qertas"
         class="qertas"
@@ -14,7 +14,7 @@
         scrollBarIndicatorVisible="true"
     >
 
-        <FlexboxLayout 
+        <FlexboxLayout
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="space-between"
@@ -137,7 +137,7 @@ init ( id?: number ): void {
 
         // .. get list
         while ( Quran[ aID ].sura === sura ) { 
-            ayat.push( aID ); aID++; if ( aID >= Quran.length ) break; 
+            ayat.push( aID ); aID++; if ( aID >= Quran.length ) break;
         }
 
         tools.setHistory( "Q", this.taghdir_aID );
@@ -169,7 +169,7 @@ rouh ( ayat: number[] ) {
             vahy.push( { aID: aID, text: ";", type: "ESM" } );
 
         // .. handling ...
-        if ( q.sura === 1 && q.ayah === 1 ) 
+        if ( q.sura === 1 && q.ayah === 1 )
             vahy.push( { aID: aID, text: ";", type: "ESM" } );
 
         else {
