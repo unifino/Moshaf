@@ -2,8 +2,6 @@
 <Page @navigatedTo="pageLoaded()">
 <GridLayout class="fx" rows="40,*,auto,*,40">
 
-    <Label :text="name" class="suraName" row=4 @tap="complete()" />
-
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView
@@ -45,6 +43,10 @@
     <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
 
     <IntuitivePanel ref="IntuitivePanel" rowSpan=5 />
+
+<!---------------------------------------------------------------------------------------->
+
+    <Label :text="name" class="suraName" row=4 @tap="complete()" />
 
 <!---------------------------------------------------------------------------------------->
 
