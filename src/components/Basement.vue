@@ -63,7 +63,7 @@ mounted () {
             q.text = q.text.replace( /ۡ/g, "ْ" );
             q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
         } );
-    }, 5000 );
+    }, 7000 );
 
     // .. back Button Ctl
     NS.Application.android.on(

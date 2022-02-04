@@ -24,8 +24,9 @@ let state: state = {
         Q           : []                    ,
         H           : []                    ,
     }                                       ,
+    cloud           : []                    ,
+    earth           : []                    ,
     comments        : []                    ,
-    temp            : []                    ,
                                              
     cakeBound       : {}                    ,
     routeStack      : []                    ,
@@ -54,9 +55,9 @@ interface state {
         Q           : number[]              ,
         H           : number[]              ,
     }                                       ,
+    cloud           : TS.earthRaw[][]       ,
+    earth           : TS.earthRaw[]         ,
     comments        : string[]              ,
-    temp            : TS.tempRaw[]          ,
-
     cakeBound       : TS.CakeBound          ,
                                              
     routeStack      : string[]              ,

@@ -31,7 +31,7 @@
         <List_1 ref="List_1" @interact_1="e => $emit( 'orderByParent_1', e )" />
         <List_2 ref="List_2"  />
         <Flex_T ref="Flex_T"  />
-        <Flex_B ref="Flex_B" 
+        <Flex_B ref="Flex_B"
             @interact_1="e => $emit( 'orderByParent_1', e )"
             @interact_2="e => $emit( 'orderByParent_2', e )"
             :vividBG=vividBG

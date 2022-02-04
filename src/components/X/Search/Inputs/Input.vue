@@ -99,19 +99,22 @@ returnPressed ( phrase: string ) {
 
             let text = tools.inFarsiLetters( phrase.trim() ),
                 IntuitivePanel = this.$parent.$parent as IntuitivePanel,
-                code_O = IntuitivePanel.source + "_" + IntuitivePanel.id,
-                code_X = "T_" + text,
+                // .. build parcels
+                parcel_O: TS.earthParcel = [ IntuitivePanel.source, IntuitivePanel.id ],
+                parcel_X: TS.earthParcel = [ "T", null, text ],
                 items: TS.ItemFound[];
 
             // .. toggle Tag
-            store.state.cakeBound = tools.toggleBound( code_O, code_X );
+            let result = tools.toggleBound( parcel_O, parcel_X );
+            store.state.cakeBound = result.data;
             items = tools.getTagItems( IntuitivePanel.source, IntuitivePanel.id );
+
             // .. display new items
             this.SearchPanel.display_ON( items, "Flex_T", "tag" );
             this.SearchPanel.activeMode = "T";
 
             // .. hard registration
-            storage.saveDB( storage.bound_File, storage.rawBound );
+            storage.earthActionREC( result.action, [ parcel_O, parcel_X ] );
 
         }
 

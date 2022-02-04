@@ -144,12 +144,12 @@ export type CakeBound = {
 
 // -- =====================================================================================
 
-export type Path = { 
-    [ K in here ]?: { 
+export type Path = {
+    [ K in here ]?: {
         page: any,
         transition: TransitionNames,
         duration: number,
-    } 
+    }
 }
 
 export type TransitionNames = AndroidTransitionNames;
@@ -159,7 +159,7 @@ export type TransitionNames = AndroidTransitionNames;
 // }
 // type IOSTransitionNames = "curlUp" | "curlDown";
 type AndroidTransitionNames = 
-      "explode" 
+      "explode"
     | "fade"
     | "flipRight"
     | "flipLeft"
@@ -203,16 +203,19 @@ export type DisplayTypes = "List_1" | "List_2" | "Flex_T" | "Flex_B";
 
 // -- =====================================================================================
 
-export type tempActions =
+export type earthActions =
       "BugReport"
     | "Fav+"
     | "Fav-"
     | "Bound"
     | "Unbound"
     | "Comment"
+    // | "Uncomment"
     ;
 
-export type tempParcel = [ "H"|"Q", number, string? ];
-export type tempValue = tempParcel | [ tempParcel, tempParcel ];
+export type earthParcel = [ Source, number, string? ];
+export type earthValue = earthParcel | [ earthParcel, earthParcel ];
 
-export type tempRaw = [ tempActions, tempValue ]
+export type earthRaw = [ earthActions, earthValue ];
+
+export type rawBound = [ string, string ][];

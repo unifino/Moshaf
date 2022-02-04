@@ -97,8 +97,8 @@ mounted () {
     this.SearchPanel = this.$refs.searchPanel as any;
 
     // .. listen for Back-Button
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityBackPressedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityBackPressedEvent,
         e => {
             if
             (
@@ -188,12 +188,12 @@ toggleFavorite () {
     // .. add to Favorite && hard registration
     if ( !~trace ) {
         store.state.fav[ this.source ].push( this.id );
-        storage.tempActionREC( "Fav+", [ <"Q"|"H">this.source, this.id ] );
+        storage.earthActionREC( "Fav+", [ <"Q"|"H">this.source, this.id ] );
     }
     // .. pop out of Favorite && hard registration
     else {
         store.state.fav[ this.source ].splice( trace, 1 );
-        storage.tempActionREC( "Fav-", [ <"Q"|"H">this.source, this.id ] );
+        storage.earthActionREC( "Fav-", [ <"Q"|"H">this.source, this.id ] );
     }
 
     // .. toggle favButtonClass
@@ -241,12 +241,19 @@ share ( opt: boolean ) {
 bind ( item: TS.ItemFound ) {
 
     if ( item.flags.isHeader ) return;
+
+    // .. build parcels
+    let parcel_O: TS.earthParcel = [ this.source, this.id ];
+    let parcel_X: TS.earthParcel = [ item.source, item.id ];
+
     // .. Toggle Item
-    let code_O = this.source + "_" + this.id;
-    let code_X = item.source + "_" + item.id;
-    store.state.cakeBound = tools.toggleBound( code_O, code_X );
+    let result = tools.toggleBound( parcel_O, parcel_X );
+
+    // .. soft registration
+    store.state.cakeBound = result.data;
+
     // .. hard registration
-    storage.saveDB( storage.bound_File, storage.rawBound );
+    storage.earthActionREC( result.action, [ parcel_O, parcel_X ] );
 
 }
 
@@ -300,7 +307,7 @@ async exitPanel () {
 
 bugReporter () {
     tools.toaster( "error reported!", "short" );
-    storage.tempActionREC( "BugReport", [ "H", this.id ] );
+    storage.earthActionREC( "BugReport", [ "H", this.id ] );
 }
 
 // -- =====================================================================================

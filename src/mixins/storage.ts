@@ -10,29 +10,25 @@ import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 
-let trace_q : number[];
-let trace_h : number[];
-let fav_q   : number[];
-let fav_h   : number[];
-let comments: string[];
-let cloud   : TS.tempRaw[][];
-let earth   : TS.tempRaw[];
-export let rawBound: TS.RawBound;
-
 const exStorage = android.os.Environment.getExternalStorageDirectory();
 const SDCard: string = exStorage.getAbsolutePath().toString();
 
-let myFolder : NS.Folder;           // * do not initiate it
-export let cloud_File   : NS.File;  // * do not initiate it
+let myFolder            : NS.Folder;// * do not initiate it
 export let trace_q_File : NS.File;  // * do not initiate it
 export let trace_h_File : NS.File;  // * do not initiate it
-export let earth_File   : NS.File;  // * do not initiate it
+let cloud_File          : NS.File;  // * do not initiate it
+let earth_File          : NS.File;  // * do not initiate it
+
+let trace_q     : number[];
+let trace_h     : number[];
+export let cloud: TS.earthRaw[][];
+export let earth: TS.earthRaw[];
 
 // -- =====================================================================================
 
 export function db_check (): Promise<void> {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         // .. permission policy has been meet, so assign necessarily Folders!
         myFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Moshaf" ) );
@@ -41,36 +37,30 @@ export function db_check (): Promise<void> {
         let bp = myFolder.path;
         trace_q_File = NS.File.fromPath ( NS.path.join( bp, "trace_q.json"  ) );
         trace_h_File = NS.File.fromPath ( NS.path.join( bp, "trace_h.json"  ) );
+        cloud_File   = NS.File.fromPath ( NS.path.join( bp, "cloud.json"    ) );
+        earth_File   = NS.File.fromPath ( NS.path.join( bp, "earth.json"    ) );
 
         // .. get Contents
-        fav_q    = [];
-        fav_h    = [];
-        rawBound = [];
-        comments = [];
-
-        try { cloud   = JSON.parse( cloud_File.readTextSync())    } catch { cloud   = [] }
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
-        try { fav_q   = JSON.parse( fav_q_File.readTextSync()   ) } catch { fav_q   = [] }
-        try { fav_h   = JSON.parse( fav_h_File.readTextSync()   ) } catch { fav_h   = [] }
-        try { rawBound= JSON.parse( bound_File.readTextSync()   ) } catch { rawBound= [] }
-        try { comments= JSON.parse( comments_File.readTextSync()) } catch { comments= [] }
-        try { earth   = JSON.parse( earth_File.readTextSync())    } catch { earth   = [] }
+        try { cloud   = JSON.parse( cloud_File.readTextSync())    } catch { cloud   = [] }
+        try { earth   = JSON.parse( earth_File.readTextSync() )   } catch { earth   = [] }
 
-
-        // .. check integrity 
+        // .. check integrity
         if ( !trace_q ) saveDB( trace_q_File,  [] );
         if ( !trace_h ) saveDB( trace_h_File,  [] );
-        if ( !cloud   ) saveDB( temp_File,     [] );
-        if ( !earth   ) saveDB( temp_File,     [] );
+        if ( !cloud   ) saveDB( cloud_File,    [] );
+        if ( !earth   ) saveDB( earth_File,    [] );
 
-        store.state.fav.Q     = []//! ----------------------;
-        store.state.fav.H     = []//! ----------------------;
+        // .. convert cloud and earth DBs to the old format
+        let data = db_Parser( [ ...cloud, earth ] );
+
         store.state.memo.Q    = trace_q;
         store.state.memo.H    = trace_h;
-        store.state.comments  = comments;
-        store.state.temp      = temp;
-        store.state.cakeBound = rawBoundConvertor( rawBound );
+        store.state.fav.Q     = data.fav.Q;
+        store.state.fav.H     = data.fav.H;
+        store.state.earth     = earth;
+        store.state.cakeBound = rawBoundConvertor( data.rawBound );
 
         // bound_transfer( rawBound );
 
@@ -102,7 +92,109 @@ export function saveTest ( name: string, ext: "html"|"json"|"ts", text: string )
 
 // -- =====================================================================================
 
-export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBound {
+export function db_Parser ( data: TS.earthRaw[][] ) {
+
+    let fav = { Q: [], H: [] };
+    let rawBound: TS.rawBound = [];
+    let p: TS.earthParcel;
+
+    for ( let row of data ) {
+        for ( let parcel of row ) {
+
+            // ! why we need a declaration over here?!
+            p = <TS.earthParcel>parcel[1];
+
+            // .. parcel[0]: TS.earthActions
+            switch ( parcel[0] ) {
+
+                case "Fav+":
+                case "Fav-": fav = db_PA1( parcel[0], p, fav ); break;
+
+                case "Bound":
+                case "Unbound": rawBound = db_PA2( parcel[0], p, rawBound ); break;
+
+                case "Comment":
+                    // .. add Comment-Text to the store
+                    let id = store.state.comments.push( parcel[1][2] ) -1;
+                    rawBound = db_PA3( parcel[0], [ p, [ "C", id ] ], rawBound );
+                    break;
+
+                case "BugReport":
+                    break;
+
+                default: console.log(parcel); break;
+
+            }
+
+        }
+    }
+
+    fav.Q = [ ...new Set( fav.Q ) ];
+    fav.H = [ ...new Set( fav.H ) ];
+
+    return { fav, rawBound };
+
+}
+
+// -- =====================================================================================
+
+function db_PA1 ( action: TS.earthActions, pcl: TS.earthParcel, fav ) {
+
+    switch ( action ) {
+        case "Fav+": fav[ pcl[0] ].push( pcl[1] ); break;
+        case "Fav-": fav[ pcl[0] ] = fav[ pcl[0] ].filter( x => x !== pcl[1] ); break;
+    }
+
+    return fav;
+
+}
+
+// -- =====================================================================================
+
+function db_PA2 ( action: TS.earthActions, pcl: TS.earthValue, rawBound: TS.rawBound ) {
+
+    let d: [ string, string ] = [
+        (<any>pcl[0]).join( "_" ),
+        (<any>pcl[1]).filter( x => x !== null ).join( "_" )
+    ];
+
+    switch ( action ) {
+        case "Bound": rawBound.push( d ); break;
+        case "Unbound":
+            rawBound = rawBound.filter( x =>
+                !(
+                    ( x[0] === d[0] && x[1] === d[1] ) ||
+                    ( x[0] === d[1] && x[1] === d[0] )
+                )
+            );
+            break;
+    }
+
+    return rawBound;
+
+}
+
+
+// -- =====================================================================================
+
+function db_PA3 (
+    action: TS.earthActions,
+    pcl: [TS.earthParcel, TS.earthParcel], rawBound: TS.rawBound
+) {
+
+    let d: [ string, string ] = [ pcl[0].slice(0,2).join( "_" ), pcl[1].join( "_" ) ];
+
+    switch ( action ) {
+        case "Comment": rawBound.push( d ); break;
+    }
+
+    return rawBound;
+
+}
+
+// -- =====================================================================================
+
+export function rawBoundConvertor ( rawBound: TS.rawBound ): TS.CakeBound {
 
     let cake: TS.CakeBound = {};
 
@@ -114,13 +206,13 @@ export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBou
         a = 0; b = 1;
         // .. Add new Taste into the Cake
         if ( !( r[a] in cake ) ) cake[ r[a] ] = [ r[b] ];
-        // .. Already-Tastes takes new Data ( Unique ) 
+        // .. Already-Tastes takes new Data ( Unique )
         else if ( !cake[ r[a] ].includes( r[b] ) ) cake[ r[a] ].push( r[b] );
 
         a = 1; b = 0;
         // .. Add new Taste into the Cake
         if ( !( r[a] in cake ) ) cake[ r[a] ] = [ r[b] ];
-        // .. Already-Tastes takes new Data ( Unique ) 
+        // .. Already-Tastes takes new Data ( Unique )
         else if ( !cake[ r[a] ].includes( r[b] ) ) cake[ r[a] ].push( r[b] );
 
     }
@@ -131,7 +223,7 @@ export function rawBoundConvertor ( rawBound: [ string, string ][] ): TS.CakeBou
 
 // -- =====================================================================================
 
-function bound_transfer ( data: TS.RawBound ) {
+function bound_transfer ( data: any ) {
 
     let inf = [];
     let tmp;
@@ -181,21 +273,24 @@ function bound_transfer ( data: TS.RawBound ) {
 
 // -- =====================================================================================
 
-export function tempActionREC ( action: TS.tempActions, value: TS.tempValue ) {
+export function earthActionREC ( action: TS.earthActions, value: TS.earthValue ) {
 
     switch ( action ) {
 
-        case "BugReport": temp.push( [ "BugReport", [ "H", <number>value[1] ] ] );  break;
-        case "Fav+"     :
-        case "Fav-"     : temp.push( [ action, value ] );                           break;
-        
-        case "Comment"  : temp.push( [ "Comment", value ] );                        break;
-        case "Bound"    : temp.push( [ "Bound", value ] );                          break;
+        case "BugReport":
+            earth.push( [ "BugReport", [ "H", <number>value[1] ] ] );
+            break;
+
+        case "Fav+": case "Fav-":
+        case "Bound": case "Unbound":
+        case "Comment":
+            earth.push( [ action, value ] );
+            break;
 
     }
 
     // ..  hard register the temp file
-    saveDB( temp_File, temp );
+    saveDB( earth_File, earth );
 
 }
 

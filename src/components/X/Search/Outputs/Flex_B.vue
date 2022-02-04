@@ -7,10 +7,10 @@
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
-            <GridLayout 
+            <GridLayout
                 v-for="(item,i) in data"
                 :key="i"
-                rows="*,auto" 
+                rows="*,auto"
                 @tap="$emit( 'interact_1', item );itemClassToggler(item);"
                 @longPress="$emit( 'interact_2', item )"
                 :class="itemClasser(item)"
@@ -29,7 +29,7 @@
                     @returnPress="addComment( $event.object.text )"
                     textWrap="true"
                 />
-                <Label 
+                <Label
                     :visibility="newCommentVisible ? 'collapsed':'visible'"
                     text="+ أضف تعليق" 
                     @tap="addComment()" 
@@ -152,19 +152,13 @@ addComment ( str?: string ) {
 
 registerComment ( str: string ) {
 
-    let IntuitivePanel = this.SearchPanel.$parent as IntuitivePanel,
-        code_O = IntuitivePanel.source + "_" + IntuitivePanel.id,
-        id: number;
+    let IntuitivePanel = this.SearchPanel.$parent as IntuitivePanel;
 
-    // .. register comment
-    id = store.state.comments.push( str ) -1;
-    storage.rawBound.push( [ code_O, "C_" +id ] );
     // .. hard registrations
-    storage.saveDB( storage.comments_File, store.state.comments );
-    storage.saveDB( storage.bound_File, storage.rawBound );
-
+    storage.earthActionREC( "Comment", [ IntuitivePanel.source, IntuitivePanel.id, str ] );
     // .. re-calculation
-    store.state.cakeBound = storage.rawBoundConvertor( storage.rawBound );;
+    let rawBound = storage.db_Parser( [ ...storage.cloud, storage.earth ] ).rawBound;
+    store.state.cakeBound = storage.rawBoundConvertor( rawBound );
 
     // .. re-Display
     this.SearchPanel.display_RESET();

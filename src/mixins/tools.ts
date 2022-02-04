@@ -226,7 +226,7 @@ function search_H ( phrase: string ): TS.ItemFound[] {
 
 // -- =====================================================================================
 
-export function getBounds ( source: TS.Source, id: number ): TS.ItemFound[] { 
+export function getBounds ( source: TS.Source, id: number ): TS.ItemFound[] {
 
     let items: TS.ItemFound[] = [],
         code_O = source + "_" + id,
@@ -330,25 +330,23 @@ export function setHistory ( source: TS.Source, id: number ) {
 
 // -- =====================================================================================
 
-export function toggleBound ( code_O: string, code_X: string ): TS.CakeBound { 
+export function toggleBound ( parcel_O: TS.earthParcel, parcel_X: TS.earthParcel ):
+{ action: TS.earthActions, data: TS.CakeBound } {
+
+    let code_O: string = parcel_O.join( "_" ),
+        code_X: string = parcel_X.filter( x => x !== null ).join( "_" );
 
     // .. determine current BoundStatus
     let isBounded: boolean;
     isBounded = !!store.state.cakeBound[ code_X ];
     if ( isBounded ) isBounded = store.state.cakeBound[ code_X ].includes( code_O );
 
-    // .. insert New Bound Info!
-    if ( !isBounded ) storage.rawBound.push( [ code_O, code_X ] );
-    // .. remove CrossBound Info
-    else {
-        let r: number;
-        r = storage.rawBound.findIndex( x => x[0] === code_O && x[1] === code_X );
-        if ( ~r ) storage.rawBound.splice( r, 1 );
-        r = storage.rawBound.findIndex( x => x[1] === code_O && x[0] === code_X );
-        if ( ~r ) storage.rawBound.splice( r, 1 );
-        // .. cache Bound Info!
-        store.state.cacheBound.push( [ code_O, code_X ] );
-    }
+    // .. cache Bound Info!
+    if ( isBounded ) store.state.cacheBound.push( [ code_O, code_X ] );
+
+    // .. Hard Registration
+    let action: TS.earthActions = isBounded ? "Unbound" : "Bound";
+    storage.earthActionREC( action, [ parcel_O, parcel_X ] );
 
     // .. trim cacheBound
     if ( !isBounded ) {
@@ -360,7 +358,11 @@ export function toggleBound ( code_O: string, code_X: string ): TS.CakeBound {
     }
 
     // .. re-calculation
-    return storage.rawBoundConvertor( storage.rawBound );
+    let rawBound = storage.db_Parser( [ ...storage.cloud, storage.earth ] ).rawBound;
+    return {
+        action: isBounded ? "Unbound" : "Bound",
+        data: storage.rawBoundConvertor( rawBound )
+    };
 
 }
 
@@ -477,7 +479,7 @@ export function textOfHadith ( id: number ) {
 
     // ! reset all Hadith
     // .. mini patch
-    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 ) 
+    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 )
         Hadith[ id ].c = 19;
 
     str += c_map[ Hadith[ id ].c ][0];

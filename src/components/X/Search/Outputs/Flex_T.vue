@@ -17,7 +17,7 @@
                 :class="itemClasser(item)"
                 :text="item.text.slice(2)"
                 textWrap=true
-                @tap="tagToggler(item)" 
+                @tap="tagToggler(item)"
             />
 
         </FlexboxLayout>
@@ -81,14 +81,22 @@ itemClasser ( item: TS.ItemFound ) {
 // -- =====================================================================================
 
 tagToggler ( item: TS.ItemFound ) {
-    let IntuitivePanel = this.SearchPanel.IntuitivePanel;
-    let code_O = IntuitivePanel.source + "_" + IntuitivePanel.id;
-    let code_X = item.text;
-    store.state.cakeBound = tools.toggleBound( code_O, code_X );
-    try { item.flags.isBounded = store.state.cakeBound[ code_X ].includes( code_O ) } 
+
+    let IntuitivePanel = this.SearchPanel.IntuitivePanel,
+        parcel_O: TS.earthParcel = [ IntuitivePanel.source, IntuitivePanel.id ],
+        parcel_X: TS.earthParcel = [ "T", null, item.text.slice(2) ],
+        code_O = parcel_O.join( "_" ),
+        code_X = parcel_X.filter( x => x !== null ).join( "_" );
+
+    let result = tools.toggleBound( parcel_O, parcel_X );
+
+    store.state.cakeBound = result.data;
+    try { item.flags.isBounded = store.state.cakeBound[ code_X ].includes( code_O ) }
     catch { item.flags.isBounded = false }
+
     // .. hard registration
-    storage.saveDB( storage.bound_File, storage.rawBound );
+    storage.earthActionREC( result.action, [ parcel_O, parcel_X ] );
+
 }
 
 // -- =====================================================================================
