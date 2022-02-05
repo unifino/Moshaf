@@ -157,9 +157,7 @@ registerComment ( str: string ) {
     // .. hard registrations
     storage.earthActionREC( "Comment", [ IntuitivePanel.source, IntuitivePanel.id, str ] );
     // .. re-calculation
-    let rawBound = storage.db_Parser( [ ...storage.cloud, storage.earth ] ).rawBound;
-    store.state.cakeBound = storage.rawBoundConvertor( rawBound );
-
+    storage.re_calculation();
     // .. re-Display
     this.SearchPanel.display_RESET();
 

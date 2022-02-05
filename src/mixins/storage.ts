@@ -16,13 +16,13 @@ const SDCard: string = exStorage.getAbsolutePath().toString();
 let myFolder            : NS.Folder;// * do not initiate it
 export let trace_q_File : NS.File;  // * do not initiate it
 export let trace_h_File : NS.File;  // * do not initiate it
-let cloud_File          : NS.File;  // * do not initiate it
+export let cloud_File   : NS.File;  // * do not initiate it
 let earth_File          : NS.File;  // * do not initiate it
 
 let trace_q     : number[];
 let trace_h     : number[];
-export let cloud: TS.earthRaw[][];
-export let earth: TS.earthRaw[];
+let cloud: TS.earthRaw[][];
+let earth: TS.earthRaw[];
 
 // -- =====================================================================================
 
@@ -43,7 +43,7 @@ export function db_check (): Promise<void> {
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
-        try { cloud   = JSON.parse( cloud_File.readTextSync())    } catch { cloud   = [] }
+        try { cloud   = JSON.parse( cloud_File.readTextSync() )   } catch { cloud   = [] }
         try { earth   = JSON.parse( earth_File.readTextSync() )   } catch { earth   = [] }
 
         // .. check integrity
@@ -59,6 +59,7 @@ export function db_check (): Promise<void> {
         store.state.memo.H    = trace_h;
         store.state.fav.Q     = data.fav.Q;
         store.state.fav.H     = data.fav.H;
+        store.state.cloud     = cloud;
         store.state.earth     = earth;
         store.state.cakeBound = rawBoundConvertor( data.rawBound );
 
@@ -292,6 +293,14 @@ export function earthActionREC ( action: TS.earthActions, value: TS.earthValue )
     // ..  hard register the temp file
     saveDB( earth_File, earth );
 
+}
+
+// -- =====================================================================================
+
+export function re_calculation () {
+    let data = [ ...store.state.cloud, store.state.earth ];
+    let rawBound = db_Parser( data ).rawBound;
+    store.state.cakeBound = rawBoundConvertor( rawBound );
 }
 
 // -- =====================================================================================

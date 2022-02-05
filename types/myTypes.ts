@@ -219,3 +219,17 @@ export type earthValue = earthParcel | [ earthParcel, earthParcel ];
 export type earthRaw = [ earthActions, earthValue ];
 
 export type rawBound = [ string, string ][];
+
+// -- =====================================================================================
+
+export interface Architecture {
+    id      : number    ,
+    patch   : {}        ,
+}
+
+export interface cloud_response {
+    status: number,
+    answer: Architecture[] | "string"
+}
+
+// -- =====================================================================================

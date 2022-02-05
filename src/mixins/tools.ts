@@ -358,10 +358,11 @@ export function toggleBound ( parcel_O: TS.earthParcel, parcel_X: TS.earthParcel
     }
 
     // .. re-calculation
-    let rawBound = storage.db_Parser( [ ...storage.cloud, storage.earth ] ).rawBound;
+    storage.re_calculation();
+
     return {
         action: isBounded ? "Unbound" : "Bound",
-        data: storage.rawBoundConvertor( rawBound )
+        data: store.state.cakeBound
     };
 
 }

@@ -25,6 +25,7 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { route }                        from '@/mixins/router'
 import Welcome                          from "@/components/Welcome.vue"
+import * as Cloud                       from "@/mixins/cloud"
 
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
@@ -113,6 +114,9 @@ permissionApplier (): Promise<any> {
 setup (): Promise<void> {
 
     return new Promise ( (rs, rx) => {
+
+        // .. get cloud => re-calculation
+        Cloud.sync( "down" ).then( () => storage.re_calculation() );
 
         // .. just applying default theme
         TM.themeApplier( "Black", this );
