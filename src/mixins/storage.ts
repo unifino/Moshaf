@@ -17,7 +17,7 @@ let myFolder            : NS.Folder;// * do not initiate it
 export let trace_q_File : NS.File;  // * do not initiate it
 export let trace_h_File : NS.File;  // * do not initiate it
 export let cloud_File   : NS.File;  // * do not initiate it
-let earth_File          : NS.File;  // * do not initiate it
+export let earth_File   : NS.File;  // * do not initiate it
 
 let trace_q     : number[];
 let trace_h     : number[];
@@ -32,6 +32,7 @@ export function db_check (): Promise<void> {
 
         // .. permission policy has been meet, so assign necessarily Folders!
         myFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Moshaf" ) );
+        // let x = NS.knownFolders.documents().getFolder( "internal" );
 
         // .. init
         let bp = myFolder.path;
@@ -62,8 +63,6 @@ export function db_check (): Promise<void> {
         store.state.cloud     = cloud;
         store.state.earth     = earth;
         store.state.cakeBound = rawBoundConvertor( data.rawBound );
-
-        // bound_transfer( rawBound );
 
         // .. resolve
         rs();
@@ -219,56 +218,6 @@ export function rawBoundConvertor ( rawBound: TS.rawBound ): TS.CakeBound {
     }
 
     return cake;
-
-}
-
-// -- =====================================================================================
-
-function bound_transfer ( data: any ) {
-
-    let inf = [];
-    let tmp;
-    let a;
-    let b;
-
-    for ( let p of data ) {
-        tmp = {};
-        if ( p[0].slice(0,1) === "H" || p[1].slice(0,1) === "H"  ) {
-            tmp.ref =  p;
-
-            switch ( p[0].slice(0,1) ) {
-                case "Q": a = Quran[ p[0].slice(2) ].text; break;
-                case "H": 
-                    a = Hadith[ Number( p[0].slice(2) ) ]; 
-                    delete a.aF;
-                    delete a.bF;
-                    a.x = Number( p[0].slice(2) );
-                    break;
-                default: console.log( p[0].slice(0,1) ); break;
-            }
-
-            switch ( p[1].slice(0,1) ) {
-                case "Q": b = Quran[ p[1].slice(2) ].text; break;
-                case "H": 
-                    b = Hadith[ Number( p[1].slice(2) ) ]; 
-                    delete b.aF;
-                    delete b.bF;
-                    b.x = Number( p[1].slice(2) );
-                    break;
-                case "T": break;
-                default: console.log( p[1].slice(0,1) ); break;
-            }
-
-            tmp.a = a;
-            tmp.b = b;
-
-            inf.push( tmp );
-
-        }
-
-    }
-
-    saveTest( "test", "json", JSON.stringify( inf, null, "\t" ) );
 
 }
 

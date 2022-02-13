@@ -116,7 +116,9 @@ setup (): Promise<void> {
     return new Promise ( (rs, rx) => {
 
         // .. get cloud => re-calculation
-        Cloud.sync( "down" ).then( () => storage.re_calculation() );
+        Cloud.sync( "down" )
+        .then( () => storage.re_calculation() )
+        .catch( e => console.log(e) );
 
         // .. just applying default theme
         TM.themeApplier( "Black", this );
@@ -147,9 +149,21 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
         case "Welcome": exit(); break;
 
-        case "Unity": 
-            if ( store.state.routeStack.length>1 ) e.cancel = false; 
-            else route( "Welcome" );
+        case "Unity":
+            if ( store.state.routeStack.length > 1 ) e.cancel = false;
+            else {
+                // .. Go to Page
+                route( "Welcome" );
+                // .. do we need an upload?
+                if ( store.state.earth.length ) {
+                    // .. notify
+                    tools.toaster( "SYNCING ..." );
+                    // .. syncing ...
+                    Cloud.sync( "up" )
+                    .then( () => storage.re_calculation() )
+                    .catch( e => console.log(e) );
+                }
+            }
             break;
 
         case "Base_00": e.cancel = false; break;
