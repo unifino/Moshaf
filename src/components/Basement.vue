@@ -54,18 +54,6 @@ mounted () {
 
     this.init();
 
-    // .. prepare DBs
-    setTimeout( () => {
-        Hadith.forEach ( h => {
-            h.aF = tools.inFarsiLetters( h.a );
-            h.bF = tools.inFarsiLetters( h.b );
-        } );
-        Quran.forEach ( q => {
-            q.text = q.text.replace( /ۡ/g, "ْ" );
-            q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
-        } );
-    }, 7000 );
-
     // .. back Button Ctl
     NS.Application.android.on(
         NS.AndroidApplication.activityBackPressedEvent,
@@ -78,11 +66,8 @@ mounted () {
 
 init (): void {
 
-    // .. after granting storage permission further steps should be taken
-    this.permissionApplier()
     // .. checking existence && structure of mandatory files
-    .then( () => storage.db_check() )
-    .then( () => this.setup() )
+    storage.db_check().then( () => this.setup() )
     // .. not resolvable situation
     .catch( msg => tools.toaster( msg ) );
 
@@ -90,30 +75,12 @@ init (): void {
 
 // -- =====================================================================================
 
-permissionApplier (): Promise<any> {
-
-    return new Promise ( (rs,rx) => { 
-
-        // .. setup the Permissions 
-        permissions.requestPermission ( [
-
-            "android.permission.INTERNET"               ,
-            "android.permission.READ_EXTERNAL_STORAGE"  ,
-            "android.permission.WRITE_EXTERNAL_STORAGE" ,
-
-        ] )
-        .then ( () => rs( "Access has been granted!" ) )
-        .catch( () => rx( "No Access to Storage!") );
-
-    } );
-
-}
-
-// -- =====================================================================================
-
 setup (): Promise<void> {
 
-    return new Promise ( (rs, rx) => {
+    return new Promise ( async (rs, rx) => {
+
+        // .. init DBs
+        await this.db_init();
 
         // .. get cloud => re-calculation
         Cloud.sync( "down" )
@@ -130,6 +97,19 @@ setup (): Promise<void> {
         rs();
 
     } )
+
+}
+
+// -- =====================================================================================
+
+async db_init() {
+
+    for ( let q of Quran ) {
+        q.text = q.text.replace( /ۡ/g, "ْ" );
+        q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
+    }
+
+    // await H_init();
 
 }
 

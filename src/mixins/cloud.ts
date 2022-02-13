@@ -23,7 +23,7 @@ export function sync( mode: "down"|"up" ): Promise<void> {
 
 export function down_Cloud( filter: boolean = true ): Promise<void> {
 
-    // .. for now we just let first row out!
+    // .. get rows!
     let alreadyGotIDs: number[] = [];
 
     // if ( filter ) {
