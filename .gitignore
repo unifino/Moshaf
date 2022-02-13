@@ -1,6 +1,6 @@
 # JetBrains project files
 .idea
-
+src/db/H/hadith.json
 # NPM
 node_modules
 
