@@ -26,13 +26,13 @@ export function down_Cloud( filter: boolean = true ): Promise<void> {
     // .. get rows!
     let alreadyGotIDs: number[] = [];
 
-    // if ( filter ) {
-    //     // .. get IDs of already downloaded rows
-    //     alreadyGotIDs = Object.keys( store.state.cloud ).reduce( (soFar,nxtOne) => {
-    //         if ( store.state.cloud[ nxtOne ].length ) soFar.push( Number(nxtOne) +1 );
-    //         return soFar;
-    //     }, [] );
-    // }
+    if ( filter ) {
+        // .. get IDs of already downloaded rows
+        alreadyGotIDs = Object.keys( store.state.cloud ).reduce( (soFar,nxtOne) => {
+            if ( store.state.cloud[ nxtOne ].length ) soFar.push( Number(nxtOne) +1 );
+            return soFar;
+        }, [] );
+    }
 
     let url = cloudURL + "download?i=" + alreadyGotIDs.join( "," );
 

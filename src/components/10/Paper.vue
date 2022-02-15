@@ -11,7 +11,7 @@
         @tap="paperTapped()"
     >
 
-        <FlexboxLayout 
+        <FlexboxLayout
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="center"
@@ -20,7 +20,7 @@
             <Label :text=hadith.salam textWrap=true class="name_e" />
 
             <Label class="divider" />
-            <Kalameh 
+            <Kalameh
                 v-for="(kalameh, i) in hadith.kalamat"
                 :key=i
                 :myText=kalameh.text
