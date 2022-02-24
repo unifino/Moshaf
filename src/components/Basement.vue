@@ -69,7 +69,7 @@ init (): void {
     // .. checking existence && structure of mandatory files
     storage.db_check().then( () => this.setup() )
     // .. not resolvable situation
-    .catch( msg => tools.toaster( msg ) );
+    .catch( msg => tools.toaster( msg + "" ) );
 
 }
 

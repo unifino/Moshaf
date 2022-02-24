@@ -41,7 +41,7 @@ export function db_check (): Promise<void> {
         if ( !earth   ) saveDB( earth_File,    [] );
 
         // .. convert cloud and earth DBs to the old format
-        let data = db_Parser( [ ...cloud, earth ] );
+        let data = db_Parser( [ ...cloud.filter( x => x ), earth ] );
 
         store.state.memo.Q    = trace_q;
         store.state.memo.H    = trace_h;
@@ -86,6 +86,7 @@ export function db_Parser ( data: TS.earthRaw[][] ) {
     let p: TS.earthParcel;
 
     for ( let row of data ) {
+
         for ( let parcel of row ) {
 
             // ! why we need a declaration over here?!
@@ -114,6 +115,7 @@ export function db_Parser ( data: TS.earthRaw[][] ) {
             }
 
         }
+
     }
 
     fav.Q = [ ...new Set( fav.Q ) ];
@@ -234,9 +236,20 @@ export function earthActionREC ( action: TS.earthActions, value: TS.earthValue )
 // -- =====================================================================================
 
 export function re_calculation () {
-    let data = [ ...store.state.cloud, store.state.earth ];
-    let rawBound = db_Parser( data ).rawBound;
+
+    let pack = [ ...store.state.cloud, store.state.earth ];
+    let rawBound = db_Parser( pack ).rawBound;
     store.state.cakeBound = rawBoundConvertor( rawBound );
+
+    // .. convert cloud and earth DBs to the old format
+    let data = db_Parser( [ ...cloud.filter( x => x ), earth ] );
+
+    // ! it has a bug! why we need to restart the app?!
+    // .. reassign values
+    store.state.fav.Q     = data.fav.Q;
+    store.state.fav.H     = data.fav.H;
+    store.state.cakeBound = rawBoundConvertor( data.rawBound );
+
 }
 
 // -- =====================================================================================
