@@ -10,7 +10,7 @@
                 :text="najwa.title"
                 textWrap=true
                 class="najwa"
-                @tap="open( idx )" 
+                @tap="open( idx )"
             />
         </v-template>
     </ListView>
