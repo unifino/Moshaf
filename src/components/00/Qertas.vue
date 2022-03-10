@@ -138,7 +138,7 @@ init ( id?: number ): void {
         this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 
         // .. get list
-        while ( Quran[ aID ].sura === sura ) { 
+        while ( Quran[ aID ].sura === sura ) {
             ayat.push( aID ); aID++; if ( aID >= Quran.length ) break;
         }
 
