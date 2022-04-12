@@ -14,7 +14,7 @@
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
             <myButton
-                v-for="(button,i) in buttons" 
+                v-for="(button,i) in buttons"
                 :key="i"
                 :bClass="'button fas ' + button.class"
                 :icon="button.icon"

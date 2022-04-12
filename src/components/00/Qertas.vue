@@ -40,7 +40,8 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)" />
+    <Label row=1 @tap="scrollTo(-1)"                            />
+    <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)"  />
 
     <IntuitivePanel ref="IntuitivePanel" rowSpan=5 />
 

@@ -182,9 +182,10 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
 // -- =====================================================================================
 
 backOne () {
-    let frameModule = require( "ui/frame" );
-    let topmost = frameModule.topmost();
-    topmost.goBack();
+    // ! it has conflict with scroll-back function
+    // let frameModule = require( "ui/frame" );
+    // let topmost = frameModule.topmost();
+    // topmost.goBack();
 }
 
 // -- =====================================================================================
