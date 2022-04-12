@@ -7,8 +7,8 @@
     <GridLayout row=2 columns="7*,23*" :visibility="visibility_c">
 
         <StackLayout col=0 marginLeft=20 verticalAlignment="middle" >
-            <myButton 
-                v-for="(button,i) in side_buttons" 
+            <myButton
+                v-for="(button,i) in side_buttons"
                 :key="i"
                 :bClass="'button side ' + button.class"
                 :icon="button.icon"

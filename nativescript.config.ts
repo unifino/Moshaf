@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core'
 
 export default {
-    id: 'moshaf.fitored.ir',
+    id: 'ir.fitored.Moshaf',
     appPath: 'src',
     appResourcesPath: 'App_Resources',
     android: {

@@ -105,7 +105,6 @@ setup (): Promise<void> {
 async db_init() {
 
     for ( let q of Quran ) {
-        q.text = q.text.replace( /ۡ/g, "ْ" );
         q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
     }
 
