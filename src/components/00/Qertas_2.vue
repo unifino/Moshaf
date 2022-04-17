@@ -48,7 +48,6 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label :text="name" class="suraName" row=4 @tap="complete()" />
-    <Label :text="page" class="pageNumber" row=4 />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -67,7 +66,7 @@ import * as TM                          from "@/themes/themeManager"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { asma, Quran, Page }            from "@/db/Q/Quran"
+import { asma, Quran }                  from "@/db/Q/Quran"
 
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
@@ -90,7 +89,6 @@ export default class Qertas extends Vue {
 
 vahy: TS.vahy = [];
 name: string = "";
-page: number = 0;
 taghdir_aID: number;
 
 // -- =====================================================================================
@@ -140,15 +138,10 @@ init ( id?: number ): void {
         // .. title of sura
         this.name = asma[ sura -1 ][1] + "  ( " + sura + " ) ";
 
-        // .. get Page
-        let A, B, I: number;
-        I = Page.findIndex( x => x > aID );
-        A = Page[ I-1 >= 0 ? I-1 : 0 ];
-        B = Page[ I ];
-        for ( let i = A; i<B; i++ ) ayat.push(i);
-
-        // .. add Page number
-        this.page = I;
+        // .. get list
+        while ( Quran[ aID ].sura === sura ) {
+            ayat.push( aID ); aID++; if ( aID >= Quran.length ) break;
+        }
 
         tools.setHistory( "Q", this.taghdir_aID );
 
@@ -249,16 +242,16 @@ async complete () {
 
         case "breaking":
             await new Promise( _ => setTimeout( _, 7 ) );
-            this.complete();
+            this.complete(); 
         break;
 
         case "running":
             this.morsalStatus = "breaking"; 
             await new Promise( _ => setTimeout( _, 7 ) );
-            this.complete();
+            this.complete(); 
         break;
 
-        case "silent":
+        case "silent": 
             this.init( asma[ Quran[ this.taghdir_aID ].sura -1 ][2] ); 
         break;
 
@@ -271,9 +264,22 @@ async complete () {
 scrollStep = 0;
 scrollTo ( step: 1|-1 ) {
 
+    let h = 63;
+    let k_s = Object.keys( this.$refs ).filter( x => x.includes( "kalameh" ) );
+    for ( let k of k_s as string[] ) {
+        let h0 = ( this.$refs[ k ][0] as any ).nativeView.getActualSize().height;
+        if ( h0 < 100 && h0 > 30 ) {
+            h = h0;
+            break;
+        }
+    }
+
+    this.scrollStep += step;
+    if ( this.scrollStep < 0 ) this.scrollStep = 0;
+
     let qertas = ( this.$refs as any ).qertas.nativeView;
-    this.init( Page[ this.page + step -1 ] );
-    qertas.scrollToVerticalOffset( 0, true );
+    qertas.height = h *8;
+    qertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
 
 }
 
@@ -305,19 +311,6 @@ scrollTo ( step: 1|-1 ) {
     .CoolGreen  .suraName { color: #bebebe }
     .Smoky      .suraName { color: #7c7c7c }
     .Black      .suraName { color: #444444 }
-
-    .pageNumber {
-        font-family: MADDINA;
-        font-size: 18;
-        width: 100%;
-        margin-left: 44;
-        margin-top: -3;
-        text-align: left;
-    }
-
-    .CoolGreen  .pageNumber { color: #bebebe }
-    .Smoky      .pageNumber { color: #7c7c7c }
-    .Black      .pageNumber { color: #444444 }
 
     .ESM {
         font-size: 140;
