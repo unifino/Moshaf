@@ -21,6 +21,20 @@
 
             </GridLayout>
 
+            <Label
+                :visibility="translation_Fa ? 'visible' : 'hidden'"
+                :text="translation_Fa"
+                textWrap=true
+                class="translation"
+            />
+
+            <Label
+                :visibility="translation_Ar ? 'visible' : 'hidden'"
+                :text="translation_Ar"
+                textWrap=true
+                class="translation"
+            />
+
             <StackLayout v-if=commentInput>
                 <TextField
                     :visibility="newCommentVisible ? 'visible':'collapsed'"
@@ -31,9 +45,9 @@
                 />
                 <Label
                     :visibility="newCommentVisible ? 'collapsed':'visible'"
-                    text="+ أضف تعليق" 
-                    @tap="addComment()" 
-                    class="baseClass comment" 
+                    text="+ أضف تعليق"
+                    @tap="addComment()"
+                    class="baseClass comment"
                 />
             </StackLayout>
 
@@ -55,7 +69,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
-import store                            from "@/store/store"
+import { Sadeghi_Fa, Sadeghi_Ar }       from "@/db/Q/Translations"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 
@@ -76,17 +90,28 @@ export default class Flex_B extends Vue {
 
 // -- =====================================================================================
 
-data = [];
+data: TS.ItemFound[] = [];
 visibility = "collapsed";
 newCommentVisible = false;
-SearchPanel: SearchPanel = this.$parent as any; 
+SearchPanel: SearchPanel = this.$parent as any;
 IntuitivePanel: IntuitivePanel = this.SearchPanel.$parent as IntuitivePanel;
+translation_Fa: string = "";
+translation_Ar: string = "";
 
 // -- =====================================================================================
 
 init ( data: TS.ItemFound[] = [] ) {
+
     this.data = data;
     this.visibility = this.data.length ? "visible" : "collapsed";
+
+    let header_ID = this.data.findIndex( x => x.flags.isHeader );
+
+    if ( ~header_ID && this.data[ header_ID ].source === "Q" ) {
+        this.translation_Fa = Sadeghi_Fa[ this.data[ header_ID ].id ];
+        this.translation_Ar = Sadeghi_Ar[ this.data[ header_ID ].id ];
+    }
+
 }
 
 // -- =====================================================================================
@@ -207,6 +232,18 @@ registerComment ( str: string ) {
         border-width: 1;
         border-color: #8b8b8b;
         color: #cacaca;
+    }
+
+    .CoolGreen .translation,
+    .Smoky .translation,
+    .Black .translation {
+        margin: 5 0;
+        padding: 12 16;
+        background-color: #181a18;
+        border-radius: 7;
+        border-width: 1;
+        border-color: #000000;
+        color: #9a9ea0;
     }
 
     .CoolGreen .address,
