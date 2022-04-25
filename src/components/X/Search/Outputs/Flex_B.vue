@@ -7,6 +7,8 @@
 
         <StackLayout horizontalAlignment="center" verticalAlignment="center">
 
+<!---------------------------------------------------------------------------------------->
+
             <GridLayout
                 v-for="(item,i) in data"
                 :key="i"
@@ -21,19 +23,23 @@
 
             </GridLayout>
 
+<!---------------------------------------------------------------------------------------->
+
             <Label
-                :visibility="translation_Fa ? 'visible' : 'hidden'"
+                :visibility="translation_Fa ? 'visible':'collapsed'"
                 :text="translation_Fa"
                 textWrap=true
                 class="translation"
             />
 
             <Label
-                :visibility="translation_Ar ? 'visible' : 'hidden'"
+                :visibility="translation_Ar ? 'visible':'collapsed'"
                 :text="translation_Ar"
                 textWrap=true
                 class="translation"
             />
+
+<!---------------------------------------------------------------------------------------->
 
             <StackLayout v-if=commentInput>
                 <TextField
@@ -50,6 +56,8 @@
                     class="baseClass comment"
                 />
             </StackLayout>
+
+<!---------------------------------------------------------------------------------------->
 
         </StackLayout>
 
