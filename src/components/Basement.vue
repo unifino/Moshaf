@@ -32,7 +32,7 @@ import permissions                      from "nativescript-permissions"
 // * npm i nativescript-exit
 import { exit }                         from "nativescript-exit";
 import { Hadith }                       from "@/db/H/Al-Hadith"
-import { asma, Quran }                  from "@/db/Q/Quran"
+import { asma, Quran }                  from "@/../../db/Q/Quran"
 
 // -- =====================================================================================
 
@@ -108,7 +108,8 @@ async db_init() {
         q.simpleInFarsiLetters = tools.inFarsiLetters( q.simple );
     }
 
-    // await H_init();
+    Hadith.forEach ( h => h.aF = tools.inFarsiLetters( h.a ) );
+    Hadith.forEach ( h => h.bF = tools.inFarsiLetters( h.b ) );
 
 }
 

@@ -77,7 +77,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
-import { Sadeghi_Fa, Sadeghi_Ar }       from "@/db/Q/Translations"
+import { Sadeghi_Fa, Sadeghi_Ar }       from "@/../../db/Q/Translations"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 

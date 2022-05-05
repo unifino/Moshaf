@@ -22,7 +22,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { asma, Quran }                  from "@/db/Q/Quran"
+import { asma, Quran }                  from "@/../../db/Q/Quran"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 import { route }                        from "@/mixins/router"
 

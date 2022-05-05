@@ -61,7 +61,7 @@ import * as TM                          from "@/themes/themeManager"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { route }                        from '@/mixins/router'
-import { asma, Quran }                  from "@/db/Q/Quran"
+import { asma, Quran }                  from "@/../../db/Q/Quran"
 
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"

@@ -67,7 +67,7 @@ import * as TM                          from "@/themes/themeManager"
 import * as TS                          from "@/../types/myTypes"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-import { asma, Quran, Page }            from "@/db/Q/Quran"
+import { asma, Quran, Page }            from "@/../../db/Q/Quran"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 
