@@ -41,14 +41,14 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label row=1 @tap="scrollTo(-1)"                            />
-    <Label row=3 @tap="scrollTo(+1)" @doubleTap="scrollTo(-1)"  />
+    <Label row=3 @tap="scrollTo(+1)"  />
 
     <IntuitivePanel ref="IntuitivePanel" rowSpan=5 />
 
 <!---------------------------------------------------------------------------------------->
 
     <Label :text="name" class="suraName" row=4 @tap="complete()" />
-    <Label :text="page" class="pageNumber" row=4 />
+    <Label :text="page" class="pageNumber" row=4 :visibility="page ? 'visible':'hidden'"/>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -270,6 +270,31 @@ async complete () {
 scrollStep = 0;
 scrollTo ( step: 1|-1 ) {
 
+    // .. scrolling part
+    if ( this.page === 0 ) {
+
+        let h = 63;
+        let k_s = Object.keys( this.$refs ).filter( x => x.includes( "kalameh" ) );
+        for ( let k of k_s as string[] ) {
+            let h0 = ( this.$refs[ k ][0] as any ).nativeView.getActualSize().height;
+            if ( h0 < 100 && h0 > 30 ) {
+                h = h0;
+                break;
+            }
+        }
+
+        this.scrollStep += step;
+        if ( this.scrollStep < 0 ) this.scrollStep = 0;
+
+        let qertas = ( this.$refs as any ).qertas.nativeView;
+        qertas.height = h *8;
+        qertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
+        
+        return 0;
+
+    }
+
+    // .. blattering part
     let qertas = ( this.$refs as any ).qertas.nativeView;
     this.init( Page[ this.page + step -1 ] );
     qertas.scrollToVerticalOffset( 0, true );

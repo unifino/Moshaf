@@ -10,10 +10,10 @@ export const cloudURL = "https://serene-falls-03482.herokuapp.com/";
 
 // -- =====================================================================================
 
-export function sync( mode: "down"|"up" ): Promise<void> {
+export async function sync( mode: "down"|"up" ): Promise<void> {
 
     switch ( mode ) {
-        case "down" : return down_Cloud();
+        case "down" : await getVar().then( db_ver => down_Cloud( db_ver ) );
         case "up"   : return up_Cloud();
     }
 
@@ -21,12 +21,35 @@ export function sync( mode: "down"|"up" ): Promise<void> {
 
 // -- =====================================================================================
 
-export function down_Cloud( filter: boolean = true ): Promise<void> {
+function getVar (): Promise<number> {
+
+    let url = cloudURL + "getVer";
+
+    return new Promise( (rs, rx) => {
+
+        NS.Http.getJSON( url ).then(
+            ( res: TS.cloud_response ) => {
+
+                // .. resolve
+                if ( res.status === 200 ) rs( parseInt( res.answer as string ) );
+                else rx( res.status );
+            },
+            e => rx( e + ' : 002 Server Version!' )
+        )
+        .catch( e => rx( e + ' : 001 Server Version!' ) );
+
+    } );
+
+}
+
+// -- =====================================================================================
+
+export function down_Cloud( db_ver: number ): Promise<void> {
 
     // .. get rows!
     let alreadyGotIDs: number[] = [];
 
-    if ( filter ) {
+    if ( db_ver <= store.state.db_ver ) {
         // .. get IDs of already downloaded rows
         alreadyGotIDs = Object.keys( store.state.cloud ).reduce( (soFar,nxtOne) => {
             if ( store.state.cloud[ nxtOne ].length ) soFar.push( Number(nxtOne) +1 );
@@ -42,8 +65,10 @@ export function down_Cloud( filter: boolean = true ): Promise<void> {
             ( res: TS.cloud_response ) => {
 
                 if ( res.status === 200 ) {
+
                     // .. soft registration of data
                     for ( let y of <TS.Architecture[]>res.answer ) {
+
                         // ! test it with a better way
                         try {
                             if ( y.patch ) {
@@ -52,9 +77,23 @@ export function down_Cloud( filter: boolean = true ): Promise<void> {
                             }
                         }
                         catch (e) { console.log(e) }
+
+                        // .. a new DB has been released!
+                        if ( db_ver > store.state.db_ver ) {
+                            // .. replace the current Cloud DB whit new one
+                            store.state.cloud = [ ( res.answer as TS.Architecture[] )[0].patch ];
+                            // .. register the current DB version
+                            store.state.db_ver = db_ver;
+                            // .. hard register the changes
+                            storage.saveDB( storage.cloud_File, store.state.cloud );
+                            storage.db_ver_File.writeText( store.state.db_ver.toString() );
+                        }
+
                     }
+
                     // .. hard registration of data
                     storage.saveDB( storage.cloud_File, store.state.cloud );
+
                     // .. resolve
                     rs();
 

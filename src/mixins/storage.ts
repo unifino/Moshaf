@@ -16,11 +16,13 @@ export let trace_q_File : NS.File = NS.File.fromPath( NS.path.join( bp, "trace_q
 export let trace_h_File : NS.File = NS.File.fromPath( NS.path.join( bp, "trace_h.json" ) );
 export let cloud_File   : NS.File = NS.File.fromPath( NS.path.join( bp, "cloud.json"   ) );
 export let earth_File   : NS.File = NS.File.fromPath( NS.path.join( bp, "earth.json"   ) );
+export let db_ver_File  : NS.File = NS.File.fromPath( NS.path.join( bp, "db_ver.json"  ) );
 
-let trace_q     : number[];
-let trace_h     : number[];
-let cloud: TS.earthRaw[][];
-let earth: TS.earthRaw[];
+let trace_q             : number[];
+let trace_h             : number[];
+let cloud               : TS.earthRaw[][];
+let earth               : TS.earthRaw[];
+let db_ver              : number;
 
 // -- =====================================================================================
 
@@ -33,12 +35,14 @@ export function db_check (): Promise<void> {
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
         try { cloud   = JSON.parse( cloud_File.readTextSync() )   } catch { cloud   = [] }
         try { earth   = JSON.parse( earth_File.readTextSync() )   } catch { earth   = [] }
+        try { db_ver  = JSON.parse( db_ver_File.readTextSync() )  } catch { db_ver  = 0  }
 
         // .. check integrity
         if ( !trace_q ) saveDB( trace_q_File,  [] );
         if ( !trace_h ) saveDB( trace_h_File,  [] );
         if ( !cloud   ) saveDB( cloud_File,    [] );
         if ( !earth   ) saveDB( earth_File,    [] );
+        if ( !db_ver  ) db_ver_File.writeText('0');
 
         // .. convert cloud and earth DBs to the old format
         let data = db_Parser( [ ...cloud.filter( x => x ), earth ] );
@@ -50,6 +54,7 @@ export function db_check (): Promise<void> {
         store.state.cloud     = cloud;
         store.state.earth     = earth;
         store.state.cakeBound = rawBoundConvertor( data.rawBound );
+        store.state.db_ver    = db_ver;
 
         // .. resolve
         rs();

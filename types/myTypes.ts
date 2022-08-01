@@ -1,34 +1,34 @@
 // -- =====================================================================================
 
-export type ThemeName = 
-      'White' 
-    | 'Smoky' 
-    | 'Milky' 
-    | 'Black' 
-    | 'CoolGreen' 
-    | 'DarkGreen' 
-    | 'WarmBlue' 
-    | 'CozyBlue' 
-    | 'AppBlue' 
+export type ThemeName =
+      'White'
+    | 'Smoky'
+    | 'Milky'
+    | 'Black'
+    | 'CoolGreen'
+    | 'DarkGreen'
+    | 'WarmBlue'
+    | 'CozyBlue'
+    | 'AppBlue'
     ;
 
-export type ThemeNameName_Light = 
+export type ThemeNameName_Light =
       'White'
     | 'Smoky'
     | 'Milky'
     ;
 
-export type ThemeName_Dark = 
+export type ThemeName_Dark =
       'Black'
-    | 'CoolGreen' 
-    | 'DarkGreen' 
-    | 'GreatGray' 
-    | 'WarmBlue' 
-    | 'CozyBlue' 
+    | 'CoolGreen'
+    | 'DarkGreen'
+    | 'GreatGray'
+    | 'WarmBlue'
+    | 'CozyBlue'
     | 'AppBlue'
     ;
 
-export enum BGColors { 
+export enum BGColors {
 
     White       = "#FFFFFF" ,
     Smoky       = "#e6e6e6" ,
@@ -49,7 +49,7 @@ export enum B_W {
     White = "dark"
 }
 
-export enum contentColorType { 
+export enum contentColorType {
 
     White       = B_W.Black ,
     Smoky       = B_W.Black ,
@@ -87,7 +87,7 @@ export type here =
 
 export type vahy = {
     aID: number,
-    text: string, 
+    text: string,
     type: Kalameh
 }[];
 
@@ -224,7 +224,7 @@ export type rawBound = [ string, string ][];
 
 export interface Architecture {
     id      : number    ,
-    patch   : {}        ,
+    patch   : earthRaw[]        ,
 }
 
 export interface cloud_response {

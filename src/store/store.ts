@@ -31,6 +31,7 @@ let state: state = {
     cakeBound       : {}                    ,
     routeStack      : []                    ,
                                              
+    db_ver          : 0                     ,
 }
 
 Vue.use(Vuex);
@@ -62,6 +63,7 @@ interface state {
                                              
     routeStack      : string[]              ,
                                              
+    db_ver          : number                ,
 }
 
 interface appConfig {
