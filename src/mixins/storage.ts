@@ -18,6 +18,25 @@ export let cloud_File   : NS.File = NS.File.fromPath( NS.path.join( bp, "cloud.j
 export let earth_File   : NS.File = NS.File.fromPath( NS.path.join( bp, "earth.json"   ) );
 export let db_ver_File  : NS.File = NS.File.fromPath( NS.path.join( bp, "db_ver.json"  ) );
 
+// .. tmp
+import permissions from "nativescript-permissions"
+
+let earth_File_T : NS.File;
+
+permissions.requestPermission ( [
+    "android.permission.INTERNET"               ,
+    "android.permission.READ_EXTERNAL_STORAGE"  ,
+    "android.permission.WRITE_EXTERNAL_STORAGE" 
+] )
+.then ( () => {
+    const exStorage = android.os.Environment.getExternalStorageDirectory();
+    const SDCard: string = exStorage.getAbsolutePath().toString();
+    const MoshafFolder = NS.path.join( SDCard, "Moshaf" );
+    let tmpPath: string = NS.Folder.fromPath( MoshafFolder ).path;
+    earth_File_T = NS.File.fromPath( NS.path.join( tmpPath, "earth.json" ) );
+} )
+.catch( () => console.log( "No Access to Storage!") );
+
 let trace_q             : number[];
 let trace_h             : number[];
 let cloud               : TS.earthRaw[][];
@@ -36,6 +55,9 @@ export function db_check (): Promise<void> {
         try { cloud   = JSON.parse( cloud_File.readTextSync() )   } catch { cloud   = [] }
         try { earth   = JSON.parse( earth_File.readTextSync() )   } catch { earth   = [] }
         try { db_ver  = JSON.parse( db_ver_File.readTextSync() )  } catch { db_ver  = 0  }
+
+        // ..  make a temp-cloud until setting up a new Server
+        tmpFakeCloud();
 
         // .. check integrity
         if ( !trace_q ) saveDB( trace_q_File,  [] );
@@ -235,6 +257,8 @@ export function earthActionREC ( action: TS.earthActions, value: TS.earthValue )
 
     // ..  hard register the temp file
     saveDB( earth_File, earth );
+    // ..  hard register the temp file
+    saveDB( earth_File_T, earth );
 
 }
 
@@ -255,6 +279,13 @@ export function re_calculation () {
     store.state.fav.H     = data.fav.H;
     store.state.cakeBound = rawBoundConvertor( data.rawBound );
 
+}
+
+// -- =====================================================================================
+
+import fc from "../db/FakeCloud.json"
+export function tmpFakeCloud() {
+    for ( let row of fc.answer ) cloud.push( <any>row.patch );
 }
 
 // -- =====================================================================================

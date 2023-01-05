@@ -25,7 +25,7 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import { route }                        from '@/mixins/router'
 import Welcome                          from "@/components/Welcome.vue"
-import * as Cloud                       from "@/mixins/cloud"
+// import * as Cloud                       from "@/mixins/cloud"
 
 // * npm i nativescript-permissions
 import permissions                      from "nativescript-permissions"
@@ -82,10 +82,10 @@ setup (): Promise<void> {
         // .. init DBs
         await this.db_init();
 
-        // .. get cloud => re-calculation
-        Cloud.sync( "down" )
-        .then( () => storage.re_calculation() )
-        .catch( e => console.log(e) );
+        // // .. get cloud => re-calculation
+        // Cloud.sync( "down" )
+        // .then( () => storage.re_calculation() )
+        // .catch( e => console.log(e) );
 
         // .. just applying default theme
         TM.themeApplier( "Black", this );
@@ -136,12 +136,13 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
                 route( "Welcome" );
                 // .. do we need an upload?
                 if ( store.state.earth.length ) {
-                    // .. notify
-                    tools.toaster( "SYNCING ..." );
-                    // .. syncing ...
-                    Cloud.sync( "up" )
-                    .then( () => storage.re_calculation() )
-                    .catch( e => console.log(e) );
+                    // ! NO Upload!
+                    // // .. notify
+                    // tools.toaster( "SYNCING ..." );
+                    // // .. syncing ...
+                    // Cloud.sync( "up" )
+                    // .then( () => storage.re_calculation() )
+                    // .catch( e => console.log(e) );
                 }
             }
             break;

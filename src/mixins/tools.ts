@@ -480,7 +480,7 @@ export function textOfHadith ( id: number ) {
 
     // ! reset all Hadith
     // .. mini patch
-    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 )
+    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 || Hadith[ id ].c < 0 )
         Hadith[ id ].c = 19;
 
     str += c_map[ Hadith[ id ].c ][0];
@@ -489,7 +489,6 @@ export function textOfHadith ( id: number ) {
 
     if ( Hadith[ id ].b ) str += "\n\n" + Hadith[ id ].b;
     if ( Hadith[ id ].d ) str += "\n\n" + Hadith[ id ].d;
-
 
     str = simpleText( str );
 
