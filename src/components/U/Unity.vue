@@ -27,7 +27,7 @@
 
     <StackLayout row=4 orientation="horizontal" horizontalAlignment="center" >
 
-        <myButton 
+        <myButton
             v-for="(button,i) in big_buttons"
             :key="i"
             :bClass="'button big fas ' + button.class"
@@ -89,7 +89,7 @@ SearchPanel: SearchPanel;
 side_buttons = [
     {
         icon: 'f0eb',
-        class: store.state.appConfig.darkMode?'fas':'far',
+        class: store.state.appConfig.theme==="Black"?'fas':'far',
         f: () => this.darkThemeToggler()
     } ,
     { icon: 'f4d8', class: 'fas', f: () => this.refresh()                   } ,
@@ -140,9 +140,12 @@ pageLoaded () {
 
 // -- =====================================================================================
 
+themeMode: TS.ThemeName[] = [ "Black", "Smoky", "CoolGreen" ];
+
 darkThemeToggler () {
-    let newThem: TS.ThemeName = store.state.appConfig.darkMode ? "Smoky" : "CoolGreen";
-    TM.themeApplier( newThem, this );
+    this.themeMode.push( this.themeMode.shift() );
+    let newTheme: TS.ThemeName = this.themeMode[0];
+    TM.themeApplier( newTheme, this );
 }
 
 // -- =====================================================================================

@@ -6,7 +6,6 @@ import { Hadith }                       from "@/db/H/Al-Hadith"
 import { c_map }                        from "@/../../db/H/info"
 // * tns plugin add nativescript-toast
 import * as Toast                       from "nativescript-toast"
-import { info } from "node:console"
 
 
 // -- =====================================================================================
@@ -49,7 +48,19 @@ export function toaster ( msg: string ="" , duration: "short" | "long" = "short"
 
 export function arabicDigits ( str: string ) {
     const base = [ '۰','۱','۲','۳','۴','۵','۶','۷','۸','۹' ];
-    return str.replace( /[0-9]/g, w => base[+w] );
+    // .. bug resolver
+    str = str.toString();
+    str = str.replace( /[0-9]/g, w => base[+w] )
+    return str;
+}
+
+// -- =====================================================================================
+
+export function latinDigits ( str: string ) {
+    // .. bug resolver
+    str = str.toString();
+    str = str.replace( /[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d).toString() );
+    return str;
 }
 
 // -- =====================================================================================
@@ -101,6 +112,7 @@ export function getItem ( source:TS.Source, id: number ): TS.ItemFound {
         id: id,
         source: source,
         text: info.previewText,
+        fullText: info.fullText,
         flags: {
             address: info.address,
             // .. default values
@@ -421,34 +433,42 @@ function simpleText ( str ) {
 
 export function getInfo ( source: TS.Source, id: number ) {
 
-    let tmp: string,
-        limit = 440,
+    let limit = 440,
         info: {
             source: TS.Source,
             id: number,
             text: string,
+            fullText: string,
             previewText: string,
             address: string,
         } = <any>{};
 
     info.source = source;
     info.id = id;
+    info.fullText = "";
 
     if ( source === "Q" ) {
         info.address = quranAddress( id );
-        info.text = Quran[ id ].text + "\n\n" + info.address;
-        tmp = Quran[ id ].text;
-        if ( tmp.length > limit ) tmp = tmp.slice( 0, limit ) + " ...";
-        info.previewText = tmp;
+        info.text = Quran[ id ].text;
+        info.fullText = Quran[ id ].text;
+        info.previewText = Quran[ id ].text;
+        if ( info.previewText.length > limit )
+            info.previewText = info.previewText.slice( 0, limit ) + " ...";
     }
 
     if ( source === "H" ) {
         // ! .. not found ID causes ERROR!
-        info.address = Hadith[ id ].d || "";
+        info.address = arabicDigits( Hadith[ id ].d || " " );
         info.text = textOfHadith( id );
-        tmp = Hadith[ id ].a.replace( /<.?Q>/g, "" );
-        if ( tmp.length > limit ) tmp = tmp.slice( 0, limit ) + " ...( المزيد )";
-        info.previewText = tmp;
+
+        if ( Hadith[ id ][0] ) info.fullText = Hadith[ id ][0] + " ";
+        info.fullText += Hadith[ id ].a;
+        if ( Hadith[ id ][9] ) info.fullText += " " + Hadith[ id ][9];
+        info.fullText = info.fullText.replace( /<.?Q>/g, "" );
+
+        info.previewText = Hadith[ id ].a.replace( /<.?Q>/g, "" );
+        if ( info.previewText.length > limit )
+            info.previewText = info.previewText.slice( 0, limit ) + " ...( المزيد )";
     }
 
     if ( source === "C" ) {

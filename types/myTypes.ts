@@ -124,6 +124,7 @@ export type RawBound = [ string, string ][];
 export type ItemFound = {
     id              : number    ,
     text            : string    ,
+    fullText?       : string    ,
     source          : Source    ,
     flags           : Flags     ,
 };

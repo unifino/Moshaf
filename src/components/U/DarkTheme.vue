@@ -3,7 +3,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <Label
-        :class="'fas button'" 
+        :class="'fas button'"
         :text="String.fromCharCode( '0x' + 'f00d' )"
         @tap="darkThemeToggler()"
     />

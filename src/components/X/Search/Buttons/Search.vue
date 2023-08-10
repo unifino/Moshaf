@@ -73,7 +73,7 @@ getResult ( force?: boolean ) {
 
     // .. patch for T mode
     let src = this.SearchPanel.activeMode;
-    if ( src !== "Q" && src !== "H" ) 
+    if ( src !== "Q" && src !== "H" )
         this.SearchPanel.activeMode = this.SearchPanel.defaultActiveMode;
 
     if ( force ) {

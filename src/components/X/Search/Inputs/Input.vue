@@ -29,6 +29,8 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
+import { isNumber }                     from "@nativescript/core/utils/types"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 
@@ -79,10 +81,23 @@ textChanged ( phrase: string, force?: boolean ) {
     if ( this.textChanged_TO ) clearTimeout( this.textChanged_TO );
 
     this.textChanged_TO = setTimeout( () => {
-        if ( phrase.length > 3 ) {
-            let str = tools.inFarsiLetters( phrase );
-            let data = tools.getPhrase( this.SearchPanel.activeMode, str );
-            if ( data ) this.SearchPanel.display_ON( data, "List_1", "phrase" );
+        // .. jump mode
+        if ( isNumber( Number( tools.latinDigits( phrase ) ) ) ) {
+            if ( !Hadith[ Number( tools.latinDigits( phrase ) ) ] ) {
+                tools.toaster( "لم يتم العثور على شيء !" );
+            }
+            else {
+                let data = [ tools.getItem( "H", Number( tools.latinDigits( phrase ) ) ) ];
+                this.SearchPanel.display_ON( data, "List_1", "phrase" );
+            }
+        }
+        // .. deep mode
+        else {
+            if ( phrase.length > 3 ) {
+                let str = tools.inFarsiLetters( phrase );
+                let data = tools.getPhrase( this.SearchPanel.activeMode, str );
+                if ( data ) this.SearchPanel.display_ON( data, "List_1", "phrase" );
+            }
         }
     }, force ? 0 : 500 );
 

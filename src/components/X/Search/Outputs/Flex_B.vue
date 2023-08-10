@@ -18,8 +18,14 @@
                 :class="itemClasser(item)"
             >
 
-                <Label row=0 :text="item.text" textWrap=true class="mainText" />
+                <Label
+                    row=0
+                    :text="itemClasser(item).includes('header')?item.fullText:item.text"
+                    textWrap=true
+                    class="mainText"
+                />
                 <Label row=1 :text="item.flags.address" :class="isAddressed(item)" />
+                <Label row=1 :text="coder(item.id)" class="code" />
 
             </GridLayout>
 
@@ -77,6 +83,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
+import * as tools                       from "@/mixins/tools"
 import { Sadeghi_Fa, Sadeghi_Ar }       from "@/../../db/Q/Translations"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
@@ -198,6 +205,12 @@ registerComment ( str: string ) {
 
 // -- =====================================================================================
 
+coder ( id: number ) {
+    return tools.arabicDigits( id.toString() );
+}
+
+// -- =====================================================================================
+
 }
 
 // -- =====================================================================================
@@ -297,6 +310,18 @@ registerComment ( str: string ) {
         text-decoration: line-through;
         color: #393a3b;
     }
+
+
+    .code {
+        font-family: Homa;
+        font-size: 7;
+        text-align: left;
+        padding: 10 0 0 0;
+        opacity: .3;
+    }
+    .CoolGreen  .code { color: #f4e8c4; }
+    .Smoky      .code { color: #f4e8c4; }
+    .Black      .code { color: #f4e8c4; }
 
 /* ------------------------------------------- */
     .transparent {
