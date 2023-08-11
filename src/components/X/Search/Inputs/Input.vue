@@ -82,12 +82,13 @@ textChanged ( phrase: string, force?: boolean ) {
 
     this.textChanged_TO = setTimeout( () => {
         // .. jump mode
-        if ( isNumber( Number( tools.latinDigits( phrase ) ) ) ) {
-            if ( !Hadith[ Number( tools.latinDigits( phrase ) ) ] ) {
+        let No1 = Number( tools.latinDigits( phrase ) );
+        if ( isNumber( No1 ) && !Number.isNaN(No1) ) {
+            if ( !Hadith[ No1 ] ) {
                 tools.toaster( "لم يتم العثور على شيء !" );
             }
             else {
-                let data = [ tools.getItem( "H", Number( tools.latinDigits( phrase ) ) ) ];
+                let data = [ tools.getItem( "H", No1 ) ];
                 this.SearchPanel.display_ON( data, "List_1", "phrase" );
             }
         }

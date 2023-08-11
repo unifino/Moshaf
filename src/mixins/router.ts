@@ -23,17 +23,23 @@ declare module "vue-property-decorator" {
 
 export function route ( address: TS.here, props?: {}, init?: boolean ) {
 
+    // .. Paper flipping Mode
+    let flipMode: "flipLeft" | "flipRight";
+    let backstackVisible = true;
+    try { if ( (props as any).noHistory ) backstackVisible = false } catch {}
+    try { flipMode = "flip" + ( (props as any).flipMode || "Left" ) as any } catch {}
+
     // .. register pageStack
     let stack = store.state.routeStack;
-    stack.push( address );
     if ( stack.length > 5 ) stack.shift();
+    stack.push( address );
 
     let paths: TS.Path = {
 
         Welcome: { page: Welcome, duration: 300, transition: "flipLeft",    },
         Base_00: { page: Base_00, duration: 300, transition: "flipLeft",    },
         Base_01: { page: Base_01, duration: 300, transition: "flipLeft",    },
-        Paper:   { page: Paper,   duration: 300, transition: "flipLeft",    },
+        Paper:   { page: Paper,   duration: 300, transition: flipMode,      },
         Qertas:  { page: Qertas , duration: 300, transition: "slideTop",    },
         Najwa:   { page: Najwa  , duration: 300, transition: "slideTop",    },
         Lookup:  { page: Lookup , duration: 300, transition: "slideRight",  },
@@ -49,12 +55,10 @@ export function route ( address: TS.here, props?: {}, init?: boolean ) {
     let myPath = paths[ address ];
 
     Vue.prototype.$navigateTo( myPath.page, {
-
         frame: '_base_',
         props: props,
-        backstackVisible: true,
-        transition: { name: myPath.transition, duration: 300 } 
-
+        backstackVisible: backstackVisible,
+        transition: { name: myPath.transition, duration: 300 }
     } );
 
     store.state.here = address;

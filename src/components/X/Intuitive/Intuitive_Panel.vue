@@ -58,11 +58,10 @@ import * as TS                          from "@/../types/myTypes"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
-
 import myButton                         from "@/components/X/myButton.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue"
 import { setText }                      from "nativescript-clipboard"
-import { route } from "@/mixins/router"
+import { route }                        from "@/mixins/router"
 
 // -- =====================================================================================
 

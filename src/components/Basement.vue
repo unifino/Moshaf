@@ -159,7 +159,7 @@ backButtonCtl ( e: NS.AndroidActivityEventData|any ) {
 
     // .. reduce pageStack
     if ( !e.cancel )
-        if ( store.state.routeStack.length > 1 ) 
+        if ( store.state.routeStack.length > 1 )
             store.state.routeStack.pop();
 
 }

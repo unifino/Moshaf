@@ -1,6 +1,6 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="fx" @tap="paperTapped()">
+<GridLayout class="fx" @tap="paperTapped()" @swipe="swipeControl">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -50,6 +50,7 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as NS                          from "@nativescript/core"
 import * as TM                          from "@/themes/themeManager"
 import * as storage                     from "@/mixins/storage"
 import * as tools                       from "@/mixins/tools"
@@ -57,6 +58,8 @@ import store                            from "@/store/store"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
+import { route }                        from "@/mixins/router"
+import { Hadith }                       from "@/db/H/Al-Hadith"
 
 // -- =====================================================================================
 
@@ -71,6 +74,7 @@ export default class Paper extends Vue {
 // -- =====================================================================================
 
 @Prop() id: number;
+@Prop() noHistory: boolean;
 
 // -- =====================================================================================
 
@@ -119,7 +123,7 @@ init ( id: number = -1 ) {
 
 show ( id: number ) {
     this.hadith = tools.getHadith( id );
-    tools.setHistory( "H", id );
+    if ( !this.noHistory ) tools.setHistory( "H", id );
 }
 
 // -- =====================================================================================
@@ -133,13 +137,23 @@ paperTapped () {
 
 // -- =====================================================================================
 
-popLastTrace () {
-    // .. remove last trace
-    store.state.memo.H.pop();
-    // .. hard registration
-    storage.saveDB( storage.trace_h_File, store.state.memo.H );
-    // .. notify the action
-    tools.toaster( "pop!", "short" );
+swipeControl ( args: NS.SwipeGestureEventData ) {
+
+    let id: number = this.id, flipMode: "Right"|"Left";
+
+    if ( args.direction === NS.SwipeDirection.right ) {
+        do { id++ }
+        while ( !Hadith[id] )
+        flipMode = "Left";
+    }
+    if ( args.direction === NS.SwipeDirection.left  ) {
+        do { id-- }
+        while ( !Hadith[id] )
+        flipMode = "Right";
+    }
+
+    route( "Paper", { id, flipMode, noHistory: true } );
+
 }
 
 // -- =====================================================================================
