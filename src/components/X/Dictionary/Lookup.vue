@@ -32,7 +32,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView 
+    <ScrollView
         row=3
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
@@ -110,13 +110,11 @@ pageLoaded () {
 
 translate_ar ( word: string ) {
 
-
     const url = "https://www.almaany.com/ar/dict/ar-ar/";
     NS.Http.request( {
         url: url + word ,
         method: "GET",
         headers: { "User-Agent": this.userAgent }
-
     } )
     .then(
         res => this.data_ar = this.textExtractor_ar( res.content.toString() ),
@@ -156,7 +154,7 @@ textExtractor_ar ( text: string ) {
     text = text.substring( cut_A_idx );
     // .. end
     let cut_B = '</ol>';
-    let cut_B_idx = text.indexOf( cut_B );
+    let cut_B_idx = text.lastIndexOf( cut_B );
     // .. cut it
     text = text.substring( 0, cut_B_idx );
     // .. remove ads
@@ -216,6 +214,7 @@ trimmer ( text: string ) {
     text = text.replace( /<[^>]+>/ig, '' );
     text = text.replace( /\n\n \n\n/ig, '\n\n' );
     text = text.replace( /\n\n+/ig, '\n\n' );
+    text = text.replace( /&nbsp;/ig, ' ' );
     text = text.trim();
     return text;
 }
