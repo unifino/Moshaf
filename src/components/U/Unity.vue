@@ -12,7 +12,8 @@
                 :key="i"
                 :bClass="'button side ' + button.class"
                 :icon="button.icon"
-                @tap="button.f()"
+                @tap="button.f1()"
+                @longPress="button.f2()"
             />
         </StackLayout>
 
@@ -90,13 +91,14 @@ side_buttons = [
     {
         icon: 'f0eb',
         class: store.state.appConfig.theme==="Black"?'fas':'far',
-        f: () => this.darkThemeToggler()
+        f1: () => this.darkThemeToggler(),
+        f2: () => {}
     } ,
-    { icon: 'f4d8', class: 'fas', f: () => this.refresh()                   } ,
-    { icon: 'f292', class: 'fas', f: () => this.getTagList()                } ,
-    { icon: 'f683', class: 'fas', f: () => route( "Qertas", { id: -2 } )    } ,
-    { icon: 'f186', class: 'fas', f: () => route( "Qertas", { id: -3 } )    } ,
-    // { icon: 'f5ad', class: 'fas', f: () => this.toggleFont()                } ,
+    { icon: 'f4d8', class: 'fas', f1: () => this.refresh(),    f2: () => this.fifty()   } ,
+    { icon: 'f292', class: 'fas', f1: () => this.getTagList(), f2: () => {}             } ,
+    { icon: 'f683', class: 'fas', f1: () => route( "Qertas", { id: -2 } ), f2: () => {} } ,
+    { icon: 'f186', class: 'fas', f1: () => route( "Qertas", { id: -3 } ), f2: () => {} } ,
+    // { icon: 'f5ad', class: 'fas', f1: () => this.toggleFont(), f2: () => {}             } ,
 ];
 
 big_buttons = [
@@ -212,6 +214,12 @@ toggleFont () {
     store.state.font = this.fonts[ nextFontID ].name;
     for ( let i in this.fonts ) this.fonts[i].active = Number(i) === nextFontID;
 
+}
+
+// -- =====================================================================================
+
+fifty () {
+    route( "Qertas", { id: -50 } );
 }
 
 // -- =====================================================================================

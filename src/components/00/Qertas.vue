@@ -116,8 +116,13 @@ init ( id?: number ): void {
         ayat: number[] = [],
         aID: number;
 
+    // .. Special-50 List
+    if ( id === -50 ) {
+        aID = tools.saheb( "Q" );
+        for ( let i=0; i<50; i++ ) ayat.push( aID + i );
+    }
     // .. Special-Favorite List
-    if ( id === -3 ) ayat = [
+    else if ( id === -3 ) ayat = [
         0,261,
         6225,6226,6227,6228,6229,
         6230,6231,6232,6233,6234,6235,
@@ -289,7 +294,7 @@ scrollTo ( step: 1|-1 ) {
         let qertas = ( this.$refs as any ).qertas.nativeView;
         qertas.height = h *8;
         qertas.scrollToVerticalOffset( h *8 *this.scrollStep, true );
-        
+
         return 0;
 
     }
@@ -351,6 +356,7 @@ scrollTo ( step: 1|-1 ) {
         margin-top: -62.9;
         height: 125.8;
         text-align: center;
+        z-index: -1;
     }
 
     .CoolGreen  .ESM { color: #548505 }
