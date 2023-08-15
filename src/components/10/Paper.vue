@@ -152,7 +152,7 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
         flipMode = "Right";
     }
 
-    route( "Paper", { id, flipMode, noHistory: true } );
+    if ( this.id !== id ) route( "Paper", { id, flipMode, noHistory: true } );
 
 }
 

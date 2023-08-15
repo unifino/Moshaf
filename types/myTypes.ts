@@ -180,6 +180,7 @@ export type hadithCell = {
     c: number,
     d: string,
     n: number,
+    idInSection: number,
     cDB: number[],
 
     aF?: string,    // a in farsiLetters

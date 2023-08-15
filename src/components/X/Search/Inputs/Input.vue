@@ -88,7 +88,8 @@ textChanged ( phrase: string, force?: boolean ) {
                 tools.toaster( "لم يتم العثور على شيء !" );
             }
             else {
-                let data = [ tools.getItem( "H", No1 ) ];
+                let data = [ tools.getItem("H",No1) ];
+                try { data.unshift( tools.getItem("Q",No1) ) } catch {}
                 this.SearchPanel.display_ON( data, "List_1", "phrase" );
             }
         }

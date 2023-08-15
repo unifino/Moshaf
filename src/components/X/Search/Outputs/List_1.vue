@@ -14,6 +14,7 @@
 
                 <Label row=0 :text="item.text" textWrap=true />
                 <Label row=1 :text="item.flags.address" :class="isAddressed(item)" />
+                <Label row=1 :text="coder(item.id)" class="code"  />
 
             </GridLayout>
         </v-template>
@@ -32,6 +33,8 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as tools                       from "@/mixins/tools"
+import { StackLayout } from "@nativescript/core";
 
 // -- =====================================================================================
 
@@ -78,6 +81,12 @@ isAddressed ( item: TS.ItemFound) {
 itemClassToggler ( item: TS.ItemFound ) {
     item.flags.isBounded = !item.flags.isBounded;
     this.$forceUpdate();
+}
+
+// -- =====================================================================================
+
+coder ( id: number ) {
+    return tools.arabicDigits( id.toString() );
 }
 
 // -- =====================================================================================
@@ -137,5 +146,16 @@ itemClassToggler ( item: TS.ItemFound ) {
     .bounded .address {
         color: #141414;
     }
+
+    .code {
+        font-family: Homa;
+        font-size: 7;
+        text-align: left;
+        padding: 10 0 0 0;
+        opacity: .3;
+    }
+    .CoolGreen  .code { color: #f4e8c4; }
+    .Smoky      .code { color: #f4e8c4; }
+    .Black      .code { color: #f4e8c4; }
 
 </style>

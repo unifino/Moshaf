@@ -10,6 +10,8 @@
     </ScrollView>
 
     <Label row=1 :text=adr class="address" :fontFamily="$store.state.font" />
+    <Label row=1 :text="coder(id)" class="code" />
+    
 
 <!---------------------------------------------------------------------------------------->
 
@@ -78,6 +80,12 @@ tapped () {
 
 // -- =====================================================================================
 
+coder ( id: number ) {
+    return tools.arabicDigits( id.toString() );
+}
+
+// -- =====================================================================================
+
 }
 
 // -- =====================================================================================
@@ -117,5 +125,16 @@ tapped () {
         padding: -2 3 -1 0;
         text-wrap: true;
     }
+
+    .code {
+        font-family: Homa;
+        font-size: 7;
+        text-align: left;
+        padding: 10 0 0 0;
+        opacity: .3;
+    }
+    .CoolGreen  .code { color: #f4e8c4; }
+    .Smoky      .code { color: #f4e8c4; }
+    .Black      .code { color: #f4e8c4; }
 
 </style>
