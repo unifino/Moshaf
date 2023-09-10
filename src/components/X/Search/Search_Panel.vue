@@ -183,8 +183,11 @@ display_ON ( data: TS.ItemFound[], target: TS.DisplayTypes, chanel: TS.searchCha
     // .. Special Steps for Intuitive_Panel (if detects)
     [ data, target, chanel ] = this.iPD_Updater( data, target, chanel );
 
-    // .. set Data on Target
-    ( <any>this.$refs[ target ] ).init( data );
+    // .. Bug Resolver
+    try {
+        // .. set Data on Target
+        ( <any>this.$refs[ target ] ).init( data );
+    } catch (e) { console.log(e) }
     // .. register chanel
     this.search_CH = chanel;
     // .. register state
@@ -225,8 +228,11 @@ display_RESET () {
 
 display_OFF () {
     let outputs: TS.DisplayTypes[] = [ "List_1", "List_2", "Flex_T", "Flex_B" ];
-    // ..  reset
-    for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
+    // .. Bug Resolver
+    try {
+        // ..  reset
+        for ( let output of outputs ) ( <any>this.$refs[ output ] ).init();
+    } catch (e) { console.log(e) }
     // .. register state
     this.search_CH = null;
     this.activated = false;

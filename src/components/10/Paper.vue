@@ -1,6 +1,11 @@
 <template>
 <Page @navigatedTo="pageLoaded()">
-<GridLayout class="fx" @tap="paperTapped()" @swipe="swipeControl">
+<GridLayout
+    class="fx"
+    @tap="paperTapped()"
+    @longPress="editorToggeler()"
+    @swipe="swipeControl"
+>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -12,6 +17,8 @@
     >
 
         <FlexboxLayout
+            v-if="mode==='normal'"
+            ref="PresentationPanel"
             flexWrap="wrap"
             flexDirection="row-reverse"
             justifyContent="center"
@@ -32,7 +39,15 @@
             <Label :text=hadith.farsi textWrap=true class="farsi" />
         </FlexboxLayout>
 
+        <EditorPanel
+            v-else
+            ref="EditorPanel"
+            :hadith=hadith
+        />
+
     </ScrollView>
+
+<!---------------------------------------------------------------------------------------->
 
     <IntuitivePanel ref="IntuitivePanel" />
 
@@ -57,6 +72,7 @@ import * as tools                       from "@/mixins/tools"
 import store                            from "@/store/store"
 import Kalameh                          from "@/components/X/Kalameh.vue"
 import IntuitivePanel                   from "@/components/X/Intuitive/Intuitive_Panel.vue"
+import EditorPanel                      from "@/components/10/Editor.vue"
 import SearchPanel                      from "@/components/X/Search/Search_Panel.vue";
 import { route }                        from "@/mixins/router"
 import { Hadith }                       from "@/db/H/Al-Hadith"
@@ -64,7 +80,7 @@ import { Hadith }                       from "@/db/H/Al-Hadith"
 // -- =====================================================================================
 
 @Component ( {
-    components: { Kalameh, IntuitivePanel }
+    components: { Kalameh, IntuitivePanel, EditorPanel }
 } )
 
 // -- =====================================================================================
@@ -79,6 +95,7 @@ export default class Paper extends Vue {
 // -- =====================================================================================
 
 myID: number;
+mode: "normal"|"edit" = "normal";
 
 // -- =====================================================================================
 
@@ -129,10 +146,22 @@ show ( id: number ) {
 // -- =====================================================================================
 
 paperTapped () {
+
+    // .. skip Mode
+    if ( this.mode === "edit" ) return;
+
     let IntuitivePanel = this.$refs.IntuitivePanel as IntuitivePanel;
     // .. prevent action when it has been already activated | Heading to Lookup!
     if ( !IntuitivePanel.iPanel_ON && store.state.here === "Paper" ) 
         ( this.$refs.IntuitivePanel as IntuitivePanel ).init( "H", this.myID );
+
+}
+
+// -- =====================================================================================
+
+editorToggeler () {
+    this.mode = this.mode === 'normal' ? 'edit' : 'normal';
+    if ( this.mode === "normal" ) this.init( this.id );
 }
 
 // -- =====================================================================================

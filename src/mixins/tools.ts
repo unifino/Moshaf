@@ -18,6 +18,7 @@ export function saheb ( from: "Q"|"H" ) {
         let tmp = [];
         for ( let p of Hadith.filter( x => x ) ) tmp.push( p.n );
         rand = tmp[ saat.getTime() % tmp.length ];
+        if ( !Hadith[ rand ].a ) return saheb( from );
     };
     return rand;
 }
@@ -385,9 +386,10 @@ export function getHadith ( id: number ) {
 
     let hadith: TS.Hadith = { obj: Hadith[ id ] } as any;
 
-    // .. mini patch
-    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 )
+    // .. mini patch (DUPLICATED)
+    if ( typeof Hadith[ id ].c !== "number" || Hadith[ id ].c > 19 || Hadith[ id ].c < 0 )
         Hadith[ id ].c = 19;
+
     if ( !Hadith[ id ].b ) Hadith[ id ].b = "";
 
     // .. assign the from whom
@@ -499,8 +501,8 @@ export function textOfHadith ( id: number ) {
     let str: string = "";
 
     // ! reset all Hadith
-    // .. mini patch
-    if ( !Hadith[ id ].c || Hadith[ id ].c === null || Hadith[ id ].c > 19 || Hadith[ id ].c < 0 )
+    // .. mini patch (DUPLICATED)
+    if ( typeof Hadith[ id ].c !== "number" || Hadith[ id ].c > 19 || Hadith[ id ].c < 0 )
         Hadith[ id ].c = 19;
 
     str += c_map[ Hadith[ id ].c ][0];
