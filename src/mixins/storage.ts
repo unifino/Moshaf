@@ -22,6 +22,7 @@ export let db_ver_File  : NS.File = NS.File.fromPath( NS.path.join( bp, "db_ver.
 import permissions from "nativescript-permissions"
 
 let earth_File_T : NS.File;
+export let bugPTCD_File : NS.File;
 
 permissions.requestPermission ( [
     "android.permission.INTERNET"               ,
@@ -34,11 +35,13 @@ permissions.requestPermission ( [
     const MoshafFolder = NS.path.join( SDCard, "Moshaf" );
     let tmpPath: string = NS.Folder.fromPath( MoshafFolder ).path;
     earth_File_T = NS.File.fromPath( NS.path.join( tmpPath, "earth.json" ) );
+    bugPTCD_File = NS.File.fromPath( NS.path.join( tmpPath, "bugPTCD.json" ) );
 } )
 .catch( () => console.log( "No Access to Storage!") );
 
 let trace_q             : number[];
 let trace_h             : number[];
+let bugPTCD             : TS.hadithCell[];
 let cloud               : TS.earthRaw[][];
 let earth               : TS.earthRaw[];
 let db_ver              : number;
@@ -52,6 +55,7 @@ export function db_check (): Promise<void> {
         // .. get Contents
         try { trace_q = JSON.parse( trace_q_File.readTextSync() ) } catch { trace_q = [] }
         try { trace_h = JSON.parse( trace_h_File.readTextSync() ) } catch { trace_h = [] }
+        try { bugPTCD = JSON.parse( bugPTCD_File.readTextSync() ) } catch { bugPTCD = [] }
         try { cloud   = JSON.parse( cloud_File.readTextSync() )   } catch { cloud   = [] }
         try { earth   = JSON.parse( earth_File.readTextSync() )   } catch { earth   = [] }
         try { db_ver  = JSON.parse( db_ver_File.readTextSync() )  } catch { db_ver  = 0  }
@@ -60,10 +64,11 @@ export function db_check (): Promise<void> {
         tmpFakeCloud();
 
         // .. check integrity
-        if ( !trace_q ) saveDB( trace_q_File,  [] );
-        if ( !trace_h ) saveDB( trace_h_File,  [] );
-        if ( !cloud   ) saveDB( cloud_File,    [] );
-        if ( !earth   ) saveDB( earth_File,    [] );
+        // if ( !trace_q ) saveDB( trace_q_File,  [] );
+        // if ( !trace_h ) saveDB( trace_h_File,  [] );
+        // if ( !bugPTCD ) saveDB( bugPTCD_File,  [] );
+        // if ( !cloud   ) saveDB( cloud_File,    [] );
+        // if ( !earth   ) saveDB( earth_File,    [] );
         if ( !db_ver  ) db_ver_File.writeText('0');
 
         // .. convert cloud and earth DBs to the old format
@@ -75,6 +80,10 @@ export function db_check (): Promise<void> {
         store.state.fav.H     = data.fav.H;
         store.state.cloud     = cloud;
         store.state.earth     = earth;
+        store.state.bugPTCD   = bugPTCD;
+
+        bugPTCDApplicator();
+
         store.state.cakeBound = rawBoundConvertor( data.rawBound );
         store.state.db_ver    = db_ver;
 
@@ -206,6 +215,14 @@ function db_PA3 (
 
     return rawBound;
 
+}
+
+// -- =====================================================================================
+
+function bugPTCDApplicator () {
+    for ( let b of store.state.bugPTCD ) {
+        Hadith[ b.n ] = b;
+    }
 }
 
 // -- =====================================================================================

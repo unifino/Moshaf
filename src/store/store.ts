@@ -26,6 +26,7 @@ let state: state = {
     }                                       ,
     cloud           : []                    ,
     earth           : []                    ,
+    bugPTCD         : []                    ,
     comments        : []                    ,
                                              
     cakeBound       : {}                    ,
@@ -58,6 +59,7 @@ interface state {
     }                                       ,
     cloud           : TS.earthRaw[][]       ,
     earth           : TS.earthRaw[]         ,
+    bugPTCD         : TS.hadithCell[]       ,
     comments        : string[]              ,
     cakeBound       : TS.CakeBound          ,
                                              

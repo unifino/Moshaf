@@ -1,13 +1,12 @@
 <template>
 <GridLayout>
 
-    <Label class="divider" />
-
     <FlexboxLayout
         flexWrap="wrap"
         flexDirection="row-reverse"
         justifyContent="center"
         ref="EditorPanel"
+        row="1"
     >
 
         <ListPicker

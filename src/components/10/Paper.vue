@@ -5,7 +5,12 @@
     @tap="paperTapped()"
     @longPress="editorToggeler()"
     @swipe="swipeControl"
+    rows="150,*"
 >
+
+    <GridLayout row="0" v-if="mode==='edit'">
+        <Label class="button" text="تثبیت" @tap="register()" />
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -14,6 +19,7 @@
         verticalAlignment="middle"
         scrollBarIndicatorVisible="false"
         @tap="paperTapped()"
+        rowSpan="2"
     >
 
         <FlexboxLayout
@@ -49,7 +55,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <IntuitivePanel ref="IntuitivePanel" />
+    <IntuitivePanel ref="IntuitivePanel" rowSpan="2" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -187,6 +193,28 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
 
 // -- =====================================================================================
 
+async register () {
+
+    // ..  preventing tap action
+    await new Promise( _ => setTimeout( _, 50 ) );
+
+    // .. an neat Copy
+    let shodowCopy: TS.hadithCell = JSON.parse( JSON.stringify( this.hadith.obj ) );
+    delete shodowCopy.aF;
+    delete shodowCopy.bF;
+
+    // .. soft register
+    store.state.bugPTCD.push( shodowCopy );
+    // .. hard register
+    storage.saveDB( storage.bugPTCD_File, store.state.bugPTCD );
+
+    // .. exit
+    this.mode = "normal";
+
+}
+
+// -- =====================================================================================
+
 }
 
 // -- =====================================================================================
@@ -283,5 +311,18 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
     .Black .salam,
     .Black .alaem {
         color: #1d80a7;
+    }
+
+    .button {
+        text-align: center;
+        font-family: Amiri-Regular;
+        font-size: 14;
+        color: whitesmoke;
+        background-color: #053c12;
+        height: 40;
+        width: 85;
+        border-radius: 7;
+        margin-top: 65;
+        padding-top: -1;
     }
 </style>
